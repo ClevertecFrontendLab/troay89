@@ -11,6 +11,6 @@ const ExitBottomSvg = () => (
     </svg>
 );
 
-const ExitBottom = props => <Icon component={ExitBottomSvg} {...props} />;
+const ExitBottom = (props: any)  => <Icon component={ExitBottomSvg} {...props} />;
 
 export default ExitBottom;

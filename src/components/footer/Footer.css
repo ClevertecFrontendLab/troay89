@@ -1,0 +1,11 @@
+.footer-configuration {
+    min-height: 80px;
+    background: transparent;
+}
+
+.footer-review.footer-review{
+    color: #2F54EB;
+    font-size: 16px;
+    padding: 24px 40px;
+    padding: 0px 0px 9px 0px;
+}
