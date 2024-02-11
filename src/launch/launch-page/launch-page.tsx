@@ -13,12 +13,13 @@ export const LaunchPage: React.FC = () => {
 
     return (
         <Layout>
-            <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed} />
+            <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed}/>
             <Layout className='site-layout'>
-                <AppHeader />
-                <MainPage />
-                <FooterComponent />
+                <AppHeader/>
+                <MainPage/>
+                <FooterComponent/>
             </Layout>
+
         </Layout>
     );
 };
