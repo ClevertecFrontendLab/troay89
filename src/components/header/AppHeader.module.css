@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'InterBold';
+    src: url('../../../public/font/Inter-Bold.ttf') format('truetype');
+}
+
+.ant-layout-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-height: 168px;
+    background: #F0F5FF;
+}
+
+h1.title-header {
+    max-width: 920px;
+    font-family: 'InterBold', sans-serif;
+    font-weight: 700;
+    line-height: 49px;
+}
+
+.block-welcome {
+    margin-left: 24px;
+}
+
+div.type-page {
+    margin-bottom: 23px;
+    margin-top: 25px;
+    line-height: 0;
+}
+
+div.header-seating {
+    margin-right: 39px;
+    margin-bottom: 52px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+}

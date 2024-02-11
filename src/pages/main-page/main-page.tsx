@@ -1,34 +1,50 @@
+import {
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+} from '@ant-design/icons';
+import { Layout } from 'antd';
 import React, { useState } from 'react';
 
-import reactLogo from '/react.svg';
-import viteLogo from '/vite.svg';
-import tsLogo from '/ts.svg';
+import 'antd/dist/antd.css';
 import './main-page.css';
+import { AppHeader } from '@components/header/AppHeader.tsx';
+import { SiderComponent } from '@components/sider/SiderComponent.tsx';
+
+const { Footer, Content } = Layout;
 
 export const MainPage: React.FC = () => {
-    const [count, setCount] = useState(0);
+    const [collapsed, setCollapsed] = useState(false);
 
     return (
-        <>
-            <div>
-                <a href='https://vitejs.dev' target='_blank'>
-                    <img src={viteLogo} className='logo' alt='Vite logo' />
-                </a>
-                <a href='https://react.dev' target='_blank'>
-                    <img src={reactLogo} className='logo react' alt='React logo' />
-                </a>
-                <a href='https://www.typescriptlang.org/' target='_blank'>
-                    <img src={tsLogo} className='logo' alt='TS logo' />
-                </a>
-            </div>
-            <h1>Vite + React + TS</h1>
-            <div className='card'>
-                <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-                <p>
-                    Edit <code>src/pages/main-page.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
-        </>
+        <Layout>
+            <SiderComponent isCloseSide={collapsed} />
+            <Layout className='site-layout'>
+                <AppHeader />
+                <Content
+                    className='site-layout-background'
+                    style={{
+                        margin: '24px 16px',
+                        padding: 24,
+                        minHeight: 280,
+                    }}
+                >
+                    {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                        className: 'trigger',
+                        onClick: () => setCollapsed(!collapsed),
+                    })}
+                    Content
+                </Content>
+                <Footer
+                    className='site-layout-background'
+                    style={{
+                        margin: '24px 16px',
+                        padding: 24,
+                        minHeight: 280,
+                    }}
+                >
+                    Footer
+                </Footer>
+            </Layout>
+        </Layout>
     );
 };
