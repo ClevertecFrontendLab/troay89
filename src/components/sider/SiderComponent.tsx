@@ -1,21 +1,21 @@
 import React from 'react';
-import {Calendar, Layout, Menu} from 'antd';
+import { Layout, Menu} from 'antd';
 import {
-    CalendarOutlined,
     CalendarTwoTone,
-    HeartFilled, IdcardFilled,
-    IdcardOutlined, IdcardTwoTone, TrophyFilled,
+    HeartFilled,
+    IdcardOutlined, MenuFoldOutlined, MenuUnfoldOutlined, TrophyFilled,
 } from '@ant-design/icons';
 import logo from '../../../public/img/svg/logo.svg';
 import styles from './Sider.module.css';
 
 interface SiderI {
     isCloseSide: boolean;
+    setIsCloseSide(value: boolean): void;
 }
 
 const { Sider } = Layout;
 
-export const SiderComponent: React.FC = ({ isCloseSide }: SiderI) => {
+export const SiderComponent: React.FC<SiderI> = ({ isCloseSide, setIsCloseSide }) => {
     return (
         <Sider width={208} trigger={false} theme={'light'} collapsible collapsed={isCloseSide} className={styles.sider}>
             <img className={styles.logo} src={logo} alt={'logo company'} />
@@ -33,6 +33,10 @@ export const SiderComponent: React.FC = ({ isCloseSide }: SiderI) => {
                     Профиль
                 </Menu.Item>
             </Menu>
+            {React.createElement(isCloseSide ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                className: 'trigger',
+                onClick: () => setIsCloseSide(!isCloseSide),
+            })}
         </Sider>
     );
 };
