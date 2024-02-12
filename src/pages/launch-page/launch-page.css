@@ -20,6 +20,7 @@
 }
 
 .ant-layout.ant-layout-has-sider {
+    position: relative;
     background: no-repeat center/cover url('/img/png/Main page_light.png')
 }
 
