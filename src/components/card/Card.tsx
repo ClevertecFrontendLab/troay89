@@ -9,7 +9,7 @@ interface CardProps {
 }
 
 export const CardComponent: React.FC<CardProps> = ({title, content, icon}) => (
-    <Card className={'small-card-header'} title={title} style={{width: 240}}>
+    <Card className={'small-card-header'} title={title}>
         <p>{icon} {content}</p>
     </Card>
 );

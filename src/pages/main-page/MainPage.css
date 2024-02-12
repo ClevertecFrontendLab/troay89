@@ -3,22 +3,53 @@
 }
 
 .main-card-about {
+    width: 752px;
+    margin: 24px 0 22px 24px;
     font-size: 16px;
-    color: #061178;
     line-height: 21px;
-    margin: 23px 0 22px 24px;
+    color: #061178;
+
+    @media screen and (max-width: 1000px) {
+        width: auto;
+        max-width: 772px;
+        margin: 24px 24px 22px 24px;
+    }
 }
 
 .main-card-about .ant-card-body {
-    padding: 24px 23px 9px 23px;
+    padding: 23px 50px 9px 23px;
+    @media screen and (max-width: 1000px) {
+        padding: 23px 35px 9px 23px;
+    }
+}
+
+.main-card-tagline .transfer,
+.main-card-about .transfer {
+    margin-right: 35px;
+    @media screen and (max-width: 1000px) {
+        margin-right: 0;
+    }
+}
+
+.main-card-about .transfer-table {
+    margin-right: 0;
+    @media screen and (max-width: 1000px) {
+        margin-right: 30px;
+    }
 }
 
 .main-card-tagline {
-    margin: 0 0 1px 24px;
+    width: 752px;
+    margin: 0 24px 1px 24px;
+
+    @media screen and (max-width: 1000px) {
+        width: auto;
+        max-width: 772px;
+    }
 }
 
 .main-card-tagline .ant-card-body{
-    padding: 23px 22px 12px 23px;
+    padding: 23px 31px 12px 25px;
 }
 
 .main-card-tagline h4 {

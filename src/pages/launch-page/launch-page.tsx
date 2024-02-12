@@ -15,7 +15,7 @@ export const LaunchPage: React.FC = () => {
         <Layout>
             <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed}/>
             <Layout className='site-layout'>
-                <AppHeader/>
+                <AppHeader isCloseSide={collapsed}/>
                 <MainPage />
                 <FooterComponent/>
             </Layout>

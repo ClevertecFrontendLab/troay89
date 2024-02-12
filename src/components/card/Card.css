@@ -1,5 +1,28 @@
+.small-cards {
+    display: flex;
+    gap: 16px;
+    margin: 17px 0 0 24px;
+
+    @media screen and (max-width: 1000px) {
+        column-gap: 16px;
+        margin: 17px 24px 0 24px;
+    }
+}
+
+.small-card-header {
+    width: 240px;
+    @media screen and (max-width: 1000px) {
+        width: auto;
+        max-width: 230px;
+        min-width: 182px;
+    }
+}
+
 .ant-card-head {
     min-height: 45px;
+    @media screen and (max-width: 1000px) {
+        padding: 0;
+    }
 }
 
 .small-card-header .ant-card-head-title {
@@ -10,11 +33,6 @@
     color: #2F54EB;
 }
 
-.small-cards {
-    display: flex;
-    gap: 16px;
-    margin: 17px 0 0 24px;
-}
 
 .small-cards p {
     cursor: pointer;
@@ -24,11 +42,21 @@
     text-align: center;
     min-height: 45px;
     padding: 9px 0 11px;
+    @media screen and (max-width: 1000px) {
+        width: auto;
+        line-height: 23px;
+        text-align: left;
+        padding: 12px 1px 9px 25px;
+        white-space: break-spaces;
+    }
 }
 
 .small-cards .ant-card-body {
     text-align: center;
     padding: 16px 0 2px;
+    @media screen and (max-width: 1000px) {
+        padding: 16px 0 4px;
+    }
 }
 
 .small-cards .anticon {

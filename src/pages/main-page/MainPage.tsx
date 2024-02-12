@@ -11,24 +11,24 @@ import './MainPage.css'
 
 const {Content} = Layout;
 
-export const MainPage: React.FC<MainProps> = () => (
+export const MainPage: React.FC = () => (
     <Content className='site-layout-background'>
-        <Card className={'main-card-about'} style={{width: 752}}>
+        <Card className={'main-card-about'}>
             <p>С CleverFit ты сможешь: <br/>
-                — планировать свои тренировки на календаре, выбирая тип и уровень нагрузки;<br/>
+                — планировать свои тренировки на календаре, выбирая тип <span
+                    className={'transfer-table'}></span> и уровень нагрузки;<br/>
                 — отслеживать свои достижения в разделе статистики, сравнивая свои
-                результаты<br/>
-                с нормами и рекордами;<br/>
+                результаты с нормами и рекордами;<br/>
                 — создавать свой профиль, где ты можешь загружать свои фото, видео и
-                отзывы <br/>
-                о тренировках;<br/>
+                отзывы <span className={'transfer'}></span> о тренировках;<br/>
                 — выполнять расписанные тренировки для разных частей тела, следуя
-                подробным <br/>
-                инструкциям и советам профессиональных тренеров.</p>
+                подробным инструкциям и советам профессиональных тренеров.</p>
         </Card>
-        <Card className={'main-card-tagline'} style={{width: 752}}>
-            <h4>CleverFit — это не просто приложение, а твой личный помощник <br/> в мире
-                фитнеса. Не откладывай на завтра — начни тренироваться уже сегодня!</h4>
+        <Card className={'main-card-tagline'}>
+            <h4>CleverFit — это не просто приложение, а твой <span
+                className={'transfer-table'}></span>
+                личный помощник<span className={'transfer'}></span> в мире фитнеса.
+                Не откладывай на завтра — начни тренироваться уже сегодня!</h4>
         </Card>
         <div className={'small-cards'}>
             <CardComponent title={'Расписать тренировки'} content={'Тренировки'}
