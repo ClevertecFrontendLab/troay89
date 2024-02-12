@@ -1,14 +1,14 @@
 @font-face {
     font-family: 'InterBold';
-    src: url('../../../public/font/Inter-Bold.ttf') format('truetype');
+    src: url('/font/Inter-Bold.ttf') format('truetype');
 }
 @font-face {
     font-family: 'InterMedium';
-    src: url('../../../public/font/Inter-Medium.ttf') format('truetype');
+    src: url('/font/Inter-Medium.ttf') format('truetype');
 }
 @font-face {
     font-family: 'Inter';
-    src: url('../../../public/font/Inter-Regular.ttf') format('truetype');
+    src: url('/font/Inter-Regular.ttf') format('truetype');
 }
 
 .ant-layout {
@@ -20,14 +20,13 @@
 }
 
 .ant-layout.ant-layout-has-sider {
-    background: no-repeat center/cover url('public/img/png/Main page_light.png')
+    background: no-repeat center/cover url('/img/png/Main page_light.png')
 }
 
+.ant-typography,
+h1.ant-typography,
 .ant-typography + h1.ant-typography {
     margin: 0;
-}
-
-.ant-typography, h1.ant-typography {
     color: #262626;
 }
 

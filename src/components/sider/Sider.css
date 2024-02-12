@@ -1,13 +1,6 @@
-@font-face {
-    font-family: 'InterBold';
-    src: url('../../../public/font/Inter-Bold.ttf') format('truetype');
-}
-
 .ant-layout-sider-children {
-    /*position: relative;*/
     overflow: hidden;
 }
-
 
 .logo {
     margin: 44px 0 0 29px;
@@ -18,7 +11,7 @@
 }
 
 .list-menu {
-    margin: 63px 0 0;
+    margin-top: 63px;
 }
 
 .list-menu .ant-menu-item:not(:last-child) {
@@ -26,16 +19,20 @@
 }
 
 .sider .list-menu .ant-menu-item:hover {
-    color: #262626;;
+    color: #262626;
 }
 
 
 .list-menu .ant-menu-item {
     padding: 0 17px;
+    color: #262626;
+}
+
+.ant-menu-vertical {
+    border-right: none;
 }
 
 .ant-menu-item .svg-menu {
-    /*font-size: 14px;*/
     padding-right: 1px;
 
     svg {
@@ -88,7 +85,8 @@
 }
 
 .ant-menu-item.bord-exit {
-    margin: 625px 0 0 0;
+    margin-top: 625px;
+    margin-bottom: 0;
 }
 
 .ant-menu-item.bord-exit .ant-menu-title-content{
@@ -96,5 +94,5 @@
 }
 
 .ant-menu.ant-menu-inline-collapsed > .bord-exit {
-    padding: 0 0 0 16px;
+    padding-left: 16px;
 }

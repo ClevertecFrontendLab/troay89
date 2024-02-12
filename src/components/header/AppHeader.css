@@ -1,11 +1,5 @@
-@font-face {
-    font-family: 'InterBold';
-    src: url('../../../public/font/Inter-Bold.ttf') format('truetype');
-}
-
 .ant-layout-header {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     min-height: 168px;
     background: #F0F5FF;
@@ -23,16 +17,14 @@ h1.title-header {
 }
 
 div.type-page {
-    margin-bottom: 23px;
-    margin-top: 25px;
+    margin: 25px 0 23px;
     line-height: 0;
 }
 
 div.header-seating {
-    margin-right: 39px;
-    margin-bottom: 52px;
+    margin: 0 39px 52px;
     display: flex;
-    flex-direction: row;
     align-items: center;
     column-gap: 10px;
+    cursor: pointer;
 }

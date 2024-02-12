@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import { store } from '@redux/configure-store';
-import { LaunchPage } from './launch/launch-page';
+import { LaunchPage } from '@pages/launch-page';
 
 import 'normalize.css';
 // import './index.css';

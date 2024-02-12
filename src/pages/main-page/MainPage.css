@@ -1,0 +1,90 @@
+.site-layout-background {
+    background: transparent;
+}
+
+.main-card-about {
+    font-size: 16px;
+    color: #061178;
+    line-height: 21px;
+    margin: 23px 0 22px 24px;
+}
+
+.main-card-about .ant-card-body {
+    padding: 24px 23px 9px 23px;
+}
+
+.main-card-tagline {
+    margin: 0 0 1px 24px;
+}
+
+.main-card-tagline .ant-card-body{
+    padding: 23px 22px 12px 23px;
+}
+
+.main-card-tagline h4 {
+    font-family: 'InterMedium', sans-serif;
+    font-size: 20px;
+    line-height: 26px;
+    color: #262626;
+    padding: 0;
+}
+
+.bord-contact-card {;
+    width: 240px;
+    height: 1px;
+    border-top:  solid 1px #F0F0F0;
+}
+
+.contact-card-header {
+    position: relative;
+    top: 179px;
+    left: 968px;
+}
+
+.contact-card-header .ant-card-body {
+    padding: 0;
+}
+
+.contact-card-header .contact-card-header-first-title {
+    padding: 13px 24px 0;
+    font-size: 16px;
+    color: #2F54EB;
+    line-height: 21px;
+    margin: 0;
+}
+
+.contact-card-header .contact-card-header-second-title {
+    padding: 8px 24px 0;
+    color: #8C8C8C;
+    line-height: 18px;
+    margin-bottom: 12px;
+}
+
+.contact-card-header .icon-contact-card {
+    margin: 13px 0;
+    color: #262626;
+    svg {
+        height: 12.5px;
+    }
+}
+
+.contact-card-header .anticon {
+    margin-right: 8px;
+    margin-left: -4px;
+}
+
+.contact-card-header .anticon-apple {
+    margin-left: 29px;
+}
+
+.container-icon-contact-card{
+    display: flex;
+    justify-content: center;
+    padding: 3px 0;
+}
+
+.contact-card-header .icon-contact-card:hover {
+    cursor: pointer;
+    background: #f5f4f1;
+}
+

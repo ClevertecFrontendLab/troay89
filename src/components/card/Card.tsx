@@ -1,14 +1,14 @@
 import React, { ReactNode} from "react";
 import { Card } from 'antd';
-import './Card.css'
+import './Card.css';
 
-interface CardComponentI {
+interface CardProps  {
     title: string;
     content: string;
     icon: ReactNode
 }
 
-export const CardComponent: React.FC<CardComponentI> = ({title, content, icon}) => {
+export const CardComponent: React.FC<CardProps > = ({title, content, icon}) => {
     return (
         <Card className={'small-card-header'} title={ title } style={{ width: 240 }}>
             <p>{ icon } { content }</p>

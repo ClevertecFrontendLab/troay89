@@ -1,6 +1,6 @@
 import React from "react";
 import {Layout} from "antd";
-import './Footer.css'
+import './Footer.css';
 
 
 const { Footer } = Layout;
