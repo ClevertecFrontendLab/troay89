@@ -1,3 +1,11 @@
+.ant-layout-sider.ant-layout-sider-light.sider {
+    @media screen and (max-width: 815px) {
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+    }
+}
+
 .ant-layout-sider-children {
     overflow: hidden;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.15);
@@ -5,12 +13,15 @@
 
 .logo-container {
     @media screen and (max-width: 1000px) {
-        min-height: 78px;
+        min-height: 63px;
     }
 }
 
 .logo {
     margin: 44px 0 0 29px;
+    @media screen and (max-width: 815px) {
+        margin: 16px 0 0 17px;
+    }
 }
 
 .logo.small{
@@ -22,10 +33,16 @@
 
 .list-menu {
     margin-top: 63px;
+    @media screen and (max-width: 815px) {
+        margin-top: 0px;
+    }
 }
 
 .list-menu .ant-menu-item:not(:last-child) {
     margin-bottom: 18px;
+    @media screen and (max-width: 815px) {
+        margin-bottom: 10px;
+    }
 }
 
 .sider .list-menu .ant-menu-item:hover {
@@ -72,6 +89,17 @@
     height: 66px;
     background: white;
     clip-path: polygon(0% 0%, 100% 14%, 100% 50%, 100% 86%, 0% 100%);
+    @media screen and (max-width: 1000px) {
+        top: 563px;
+        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
+    }
+    @media screen and (max-width: 815px) {
+        position: fixed;
+        width: 32px;
+        height: 48px;
+        top: 25px;
+        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
+    }
 }
 
 .wrapper-trigger .trigger {
@@ -80,6 +108,12 @@
 
         path {
             fill: #9b9090;
+        }
+    }
+    @media screen and (max-width: 815px) {
+        svg {
+            height: 16px;
+            width: 16px;
         }
     }
 }
@@ -99,6 +133,18 @@
     margin-bottom: 0;
     @media screen and (max-width: 1000px) {
         margin-top: 795px;
+    }
+    @media screen and (max-width: 815px) {
+        z-index: 1;
+        margin-top: 0;
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+.list-menu .ant-menu-item {
+    @media screen and (max-width: 815px) {
+        padding: 0 2px 0 8px;
     }
 }
 

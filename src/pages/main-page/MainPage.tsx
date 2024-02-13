@@ -8,6 +8,7 @@ import {
     IdcardOutlined
 } from "@ant-design/icons";
 import './MainPage.css'
+import {useMediaQuery} from "react-responsive";
 
 const {Content} = Layout;
 
@@ -18,19 +19,22 @@ interface MainPageProps {
 export const MainPage: React.FC<MainPageProps> = ({isCloseSide}) => {
     const spaceTableSider = isCloseSide ? '' : <span className={'transfer-table'}></span>
     const spaceTableDefault = !isCloseSide ? '' : <span className={'transfer-table'}></span>
+    const isMobile = useMediaQuery({query: '(max-width: 815px)'});
+    const spaceMobile = !isMobile ? '' : <span className={'transfer-mobile'}></span>
 
     return (
         <Content className='site-layout-background'>
             <Card className={'main-card-about'}>
                 <p>С CleverFit ты сможешь: <br/>
-                    — планировать свои тренировки на календаре, выбирая тип {
-                        <span>{spaceTableSider}{spaceTableSider}</span>} и уровень нагрузки;<br/>
-                    — отслеживать свои достижения в разделе статистики, сравнивая свои
-                    результаты с нормами и рекордами;<br/>
-                    — создавать свой профиль, где ты можешь загружать свои фото, видео и
+                    — планировать свои тренировки {spaceMobile} на календаре, выбирая тип
+                    {<span>{spaceTableSider}{spaceTableSider}</span>}{spaceMobile} {spaceMobile} {spaceMobile}
+                    {spaceMobile} и уровень нагрузки;<br/>
+                    — отслеживать свои достижения {spaceMobile}  в разделе статистики, сравнивая свои
+                    результаты с нормами {spaceMobile} {spaceMobile} {spaceMobile} и рекордами;<br/>
+                    — создавать свой профиль, где {spaceMobile} ты можешь загружать свои фото, видео и
                     отзывы {spaceTableDefault} <span className={'transfer'}></span> о тренировках;<br/>
                     — выполнять расписанные тренировки для разных частей тела, следуя
-                    подробным инструкциям и советам профессиональных тренеров.</p>
+                    подробным инструкциям {spaceMobile} и советам профессиональных тренеров.</p>
             </Card>
             <Card className={'main-card-tagline'}>
                 <h4>CleverFit — это не просто приложение, а твой {spaceTableSider}

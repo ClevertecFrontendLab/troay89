@@ -8,6 +8,14 @@
         column-gap: 16px;
         margin: 17px 24px 0 24px;
     }
+    @media screen and (max-width: 815px) {
+        margin: 16px 24px 0 24px;
+        column-gap: 0;
+        row-gap: 0;
+        flex-direction: column;
+        align-items: center;
+        min-height: 319px;
+    }
 }
 
 .small-card-header {
@@ -16,6 +24,11 @@
         width: auto;
         max-width: 230px;
         min-width: 182px;
+    }
+    @media screen and (max-width: 815px) {
+        width: 328px;
+        max-width: 328px;
+        min-height: 101px;
     }
 }
 
@@ -50,6 +63,10 @@
         padding: 11px 1px 9px 25px;
         white-space: break-spaces;
     }
+    @media screen and (max-width: 815px) {
+        text-align: center;
+        padding: 10px 0 0px;
+    }
 }
 
 .small-cards .ant-card-body {
@@ -57,6 +74,9 @@
     padding: 16px 0 2px;
     @media screen and (max-width: 1000px) {
         padding: 16px 0 4px;
+    }
+    @media screen and (max-width: 815px) {
+        padding: 16px 0 0px;
     }
 }
 

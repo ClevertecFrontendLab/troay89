@@ -15,11 +15,11 @@ export const LaunchPage: React.FC = () => {
         <Layout>
             <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed}/>
             <Layout className='site-layout'>
-                <AppHeader isCloseSide={collapsed}/>
+                <AppHeader/>
                 <MainPage isCloseSide={collapsed}/>
                 <FooterComponent/>
             </Layout>
-            <Card className={'contact-card-header'} bordered={false} style={{width: 240}}>
+            <Card className={'contact-card-header'} bordered={false}>
                 <p className={'contact-card-header-first-title'}>Скачать на телефон</p>
                 <p className={'contact-card-header-second-title'}>Доступно в PRO-тарифе</p>
                 <div className={'bord-contact-card'}></div>

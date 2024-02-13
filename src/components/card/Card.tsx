@@ -11,7 +11,6 @@ interface CardProps {
 
 export const CardComponent: React.FC<CardProps> = ({title, content, icon, isCloseSide}) => {
     const minWidthCard = isCloseSide ? 230 : 182
-    console.log(minWidthCard)
     return (
         <Card className={'small-card-header'} title={title} style={{minWidth: minWidthCard}}>
             <p>{icon} {content}</p>

@@ -22,6 +22,10 @@ h1.title-header {
         line-height: 31px;
         font-size: 24px;
     }
+    @media screen and (max-width: 815px) {
+        line-height: 26px;
+        font-size: 20px;
+    }
 }
 
 .block-welcome {
@@ -34,6 +38,9 @@ h1.title-header {
 div.type-page {
     margin: 25px 0 23px;
     line-height: 0;
+    @media screen and (max-width: 815px) {
+        margin: 25px 0 15px;
+    }
 }
 
 div.header-seating {
@@ -48,4 +55,35 @@ div.header-seating {
         margin: 43px 39px 59px 0;
         max-height: 30px;
     }
+    @media screen and (max-width: 815px) {
+        margin: 35px 24px 59px 0;
+        max-height: 30px;
+    }
 }
+
+.transfer-mobile {
+    margin-right: 0;
+    @media screen and (max-width: 380px) {
+        margin-right: 20px;
+    }
+}
+
+.container-setting {
+    display: none;
+}
+
+.container-setting.show {
+    display: flex;
+    justify-content: center;
+    height: 32px;
+    width: 32px;
+    border: solid #eadfdf 1px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.container-setting.show:hover {
+    color: #88b8c7;
+    border: solid #88b8c7 1px;
+}
+

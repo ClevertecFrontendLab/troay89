@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Typography, Layout} from 'antd';
 import {SettingOutlined} from '@ant-design/icons';
 import {useMediaQuery} from "react-responsive";
@@ -7,32 +7,27 @@ import './AppHeader.css';
 const {Title, Paragraph} = Typography;
 const {Header} = Layout;
 
-interface AppHeaderProps {
-    isCloseSide: boolean;
-}
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ isCloseSide }) => {
-const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1000px)' });
-const [showIcon, setShowIcon] = useState(true);
-
-    useEffect(() => {
-        setShowIcon(!(isCloseSide && isTabletOrMobile));
-    }, [isCloseSide, isTabletOrMobile]);
+export const AppHeader: React.FC<AppHeaderProps> = () => {
+    const isTablet = useMediaQuery({query: '(max-width: 1000px)'});
+    const isMobile = useMediaQuery({query: '(max-width: 815px)'});
+    const spaceMobile = !isMobile ? '' : <span className={'transfer-mobile'}></span>
 
     return (
-    <Header className={'ant-layout-header'} style={{padding: 0}}>
-        <div className={'block-welcome'}>
-            <Paragraph className={'type-page'}>Главная</Paragraph>
-            <Title className={'title-header'}>
-                Приветствуем тебя в CleverFit — приложении, <br /> которое поможет тебе добиться своей
-                мечты!
-            </Title>
-        </div>
-        <Paragraph className={'header-seating'}>
-            {showIcon ? '' : <SettingOutlined/>}
-            Настройки
-        </Paragraph>
-    </Header>
+        <Header className={'ant-layout-header'} style={{padding: 0}}>
+            <div className={'block-welcome'}>
+                <Paragraph className={'type-page'}>Главная</Paragraph>
+                <Title className={'title-header'}>
+                    Приветствуем тебя {spaceMobile}{spaceMobile}{spaceMobile}{spaceMobile} в CleverFit — приложении, <br/> которое поможет тебе добиться
+                    своей
+                    мечты!
+                </Title>
+            </div>
+            <Paragraph className={'header-seating'}>
+                {!isMobile && isTablet ? '' : isMobile ? <div className={`container-setting ${isMobile ? 'show' : ''}`}><SettingOutlined/></div> : <SettingOutlined/>}
+                {!isMobile && 'Настройки'}
+            </Paragraph>
+        </Header>
     )
 };
 
