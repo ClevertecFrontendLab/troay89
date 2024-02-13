@@ -19,22 +19,7 @@
 .main-card-about .ant-card-body {
     padding: 23px 50px 9px 23px;
     @media screen and (max-width: 1000px) {
-        padding: 23px 35px 9px 23px;
-    }
-}
-
-.main-card-tagline .transfer,
-.main-card-about .transfer {
-    margin-right: 35px;
-    @media screen and (max-width: 1000px) {
-        margin-right: 0;
-    }
-}
-
-.main-card-about .transfer-table {
-    margin-right: 0;
-    @media screen and (max-width: 1000px) {
-        margin-right: 30px;
+        padding: 23px 25px 9px 23px;
     }
 }
 
@@ -49,7 +34,7 @@
 }
 
 .main-card-tagline .ant-card-body{
-    padding: 23px 31px 12px 25px;
+    padding: 23px 31px 12px 24px;
 }
 
 .main-card-tagline h4 {
@@ -119,3 +104,16 @@
     background: #f5f4f1;
 }
 
+.transfer {
+    margin-right: 35px;
+    @media screen and (max-width: 1000px) {
+        margin-right: 0;
+    }
+}
+
+.transfer-table {
+    margin-right: 0;
+    @media screen and (max-width: 1000px) {
+        margin-right: 20px;
+    }
+}

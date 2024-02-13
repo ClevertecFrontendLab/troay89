@@ -4,6 +4,7 @@
     margin: 17px 0 0 24px;
 
     @media screen and (max-width: 1000px) {
+        justify-content: space-between;
         column-gap: 16px;
         margin: 17px 24px 0 24px;
     }
@@ -46,7 +47,7 @@
         width: auto;
         line-height: 23px;
         text-align: left;
-        padding: 12px 1px 9px 25px;
+        padding: 11px 1px 9px 25px;
         white-space: break-spaces;
     }
 }

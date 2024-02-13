@@ -23,8 +23,10 @@ export const SiderComponent: React.FC<SiderProps> = ({isCloseSide, setIsCloseSid
     return (
         <Sider width={208} collapsedWidth={64} trigger={false} theme={'light'}
                collapsed={isCloseSide} className={'sider'}>
+            <div className={'logo-container'}>
             <img className={`logo ${isCloseSide ? 'small' : ''}`} src={logoSrc}
                  alt={'logo company'}/>
+            </div>
             <Menu selectable={false} theme='light' triggerSubMenuAction={'click'}
                   className={'list-menu'}>
                 <Menu.Item key='1' icon={<CalendarTwoTone className={'svg-menu'}/>}
@@ -42,7 +44,7 @@ export const SiderComponent: React.FC<SiderProps> = ({isCloseSide, setIsCloseSid
                 <Menu.Item key='4' icon={<IdcardOutlined className={'svg-menu-special'}/>}
                            className={'ant-menu-item'}>
                     Профиль
-                </Menu.Item><Menu.Item key='5' icon={<ExitBottom className={'svg-menu-exit'}/>} className={'ant-menu-item bord-exit'}>
+                </Menu.Item><Menu.Item key='5'  icon={<ExitBottom className={'svg-menu-exit'}/>} className={'ant-menu-item bord-exit'} >
                     Выход
                 </Menu.Item>
             </Menu>

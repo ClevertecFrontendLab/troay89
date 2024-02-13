@@ -1,6 +1,12 @@
 .ant-layout-sider-children {
     overflow: hidden;
-    box-shadow: 0px 2px 8px 0px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.15);
+}
+
+.logo-container {
+    @media screen and (max-width: 1000px) {
+        min-height: 78px;
+    }
 }
 
 .logo {
@@ -9,6 +15,9 @@
 
 .logo.small{
     margin: 49px 0 3px 18px;
+    @media screen and (max-width: 1000px) {
+        margin: 49px 0 0 18px;
+    }
 }
 
 .list-menu {

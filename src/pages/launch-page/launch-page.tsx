@@ -16,7 +16,7 @@ export const LaunchPage: React.FC = () => {
             <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed}/>
             <Layout className='site-layout'>
                 <AppHeader isCloseSide={collapsed}/>
-                <MainPage />
+                <MainPage isCloseSide={collapsed}/>
                 <FooterComponent/>
             </Layout>
             <Card className={'contact-card-header'} bordered={false} style={{width: 240}}>

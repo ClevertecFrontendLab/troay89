@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Typography, Layout} from 'antd';
 import {SettingOutlined} from '@ant-design/icons';
-import './AppHeader.css';
 import {useMediaQuery} from "react-responsive";
+import './AppHeader.css';
 
 const {Title, Paragraph} = Typography;
 const {Header} = Layout;
@@ -29,7 +29,7 @@ const [showIcon, setShowIcon] = useState(true);
             </Title>
         </div>
         <Paragraph className={'header-seating'}>
-            {showIcon ? <SettingOutlined/> : ''}
+            {showIcon ? '' : <SettingOutlined/>}
             Настройки
         </Paragraph>
     </Header>
