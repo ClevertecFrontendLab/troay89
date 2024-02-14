@@ -119,6 +119,7 @@
 }
 .wrapper-trigger-second .trigger,
 .wrapper-trigger .trigger {
+    cursor: pointer;
     svg {
         height: 14px;
         path {
