@@ -6,10 +6,10 @@
     @media screen and (max-width: 1000px) {
         justify-content: space-between;
         column-gap: 16px;
-        margin: 17px 24px 0 24px;
+        margin: 17px 24px 0;
     }
     @media screen and (max-width: 815px) {
-        margin: 16px 24px 0 24px;
+        margin: 16px 24px 0;
         column-gap: 0;
         row-gap: 0;
         flex-direction: column;
@@ -65,7 +65,7 @@
     }
     @media screen and (max-width: 815px) {
         text-align: center;
-        padding: 10px 0 0px;
+        padding: 10px 0 0;
     }
 }
 
@@ -76,7 +76,7 @@
         padding: 16px 0 4px;
     }
     @media screen and (max-width: 815px) {
-        padding: 16px 0 0px;
+        padding: 16px 0 0;
     }
 }
 

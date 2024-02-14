@@ -34,7 +34,7 @@
 .list-menu {
     margin-top: 63px;
     @media screen and (max-width: 815px) {
-        margin-top: 0px;
+        margin-top: 0;
     }
 }
 
