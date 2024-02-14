@@ -47,7 +47,7 @@
 .main-card-tagline .ant-card-body{
     padding: 23px 31px 12px 24px;
     @media screen and (max-width: 815px) {
-        padding: 17px 20px 0px 15px;
+        padding: 17px 20px 0 15px;
         min-height: 188px;
     }
 }
@@ -124,7 +124,7 @@
     margin-right: 8px;
     margin-left: -4px;
     @media screen and (max-width: 815px) {
-       margin: 0 8px 0 0px;
+       margin: 0 8px 0 0;
     }
 }
 
@@ -140,7 +140,7 @@
     justify-content: center;
     padding: 3px 0;
     @media screen and (max-width: 815px) {
-        padding: 3px 5px 3px 0px;
+        padding: 3px 5px 3px 0;
     }
 }
 
