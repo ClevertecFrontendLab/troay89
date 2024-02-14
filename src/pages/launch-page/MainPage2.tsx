@@ -16,7 +16,7 @@ interface MainPageProps {
     isCloseSide: boolean;
 }
 
-export const MainPage: React.FC<MainPageProps> = ({isCloseSide}) => {
+export const MainPage2: React.FC<MainPageProps> = ({isCloseSide}) => {
     const spaceTableSider = isCloseSide ? '' : <span className={'transfer-table'}></span>
     const spaceTableDefault = !isCloseSide ? '' : <span className={'transfer-table'}></span>
     const isMobile = useMediaQuery({query: '(max-width: 815px)'});

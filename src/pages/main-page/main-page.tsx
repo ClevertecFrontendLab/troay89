@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import 'antd/dist/antd.css';
 import { AppHeader } from '@components/header/AppHeader.tsx';
 import { SiderComponent } from '@components/sider/SiderComponent.tsx';
-import {MainPage} from "../main-page/MainPage.tsx";
+import {MainPage2} from "@pages/launch-page/MainPage2.tsx";
 import {FooterComponent} from "@components/footer/Footer.tsx";
-import './launch-page.css';
+import './main-page.css';
 import {AndroidFilled, AppleFilled} from "@ant-design/icons";
 
-export const LaunchPage: React.FC = () => {
+export const MainPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
 
     return (
@@ -16,7 +16,7 @@ export const LaunchPage: React.FC = () => {
             <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed}/>
             <Layout className='site-layout'>
                 <AppHeader/>
-                <MainPage isCloseSide={collapsed}/>
+                <MainPage2 isCloseSide={collapsed}/>
                 <FooterComponent/>
             </Layout>
             <Card className={'contact-card-header'} bordered={false}>
