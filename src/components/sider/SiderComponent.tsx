@@ -66,7 +66,16 @@ export const SiderComponent: React.FC<SiderProps> = ({isCloseSide, setIsCloseSid
                 Выход
             </Menu.Item>
             </Menu>
-            <div className={'wrapper-trigger'} style={{
+            <div className={'wrapper-trigger'} data-test-id='sider-switch' style={{
+                left: isCloseSide ? sizeCloseSider : sizeOpenSider,
+                transition: 'left 0.23s cubic-bezier(0.2, 0, 0, 1) 0s'
+            }}>
+                {React.createElement(MenuIcon, {
+                    className: 'trigger',
+                    onClick: () => setIsCloseSide(!isCloseSide),
+                })}
+            </div>
+            <div className={'wrapper-trigger-second'} data-test-id='sider-switch-mobile' style={{
                 left: isCloseSide ? sizeCloseSider : sizeOpenSider,
                 transition: 'left 0.23s cubic-bezier(0.2, 0, 0, 1) 0s'
             }}>

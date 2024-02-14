@@ -94,6 +94,7 @@
         clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
     }
     @media screen and (max-width: 815px) {
+        display: none;
         position: fixed;
         width: 32px;
         height: 48px;
@@ -102,10 +103,24 @@
     }
 }
 
+.wrapper-trigger-second {
+    display: none;
+
+    @media screen and (max-width: 815px) {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        width: 32px;
+        height: 48px;
+        top: 25px;
+        background: white;
+        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
+    }
+}
+.wrapper-trigger-second .trigger,
 .wrapper-trigger .trigger {
     svg {
         height: 14px;
-
         path {
             fill: #9b9090;
         }
