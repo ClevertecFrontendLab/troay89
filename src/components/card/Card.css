@@ -1,0 +1,98 @@
+.small-cards {
+    display: flex;
+    gap: 16px;
+    margin: 17px 0 0 24px;
+
+    @media screen and (max-width: 1000px) {
+        justify-content: space-between;
+        column-gap: 16px;
+        margin: 17px 24px 0 24px;
+    }
+    @media screen and (max-width: 815px) {
+        margin: 16px 24px 0 24px;
+        column-gap: 0;
+        row-gap: 0;
+        flex-direction: column;
+        align-items: center;
+        min-height: 319px;
+    }
+}
+
+.small-card-header {
+    width: 240px;
+    @media screen and (max-width: 1000px) {
+        width: auto;
+        max-width: 230px;
+        min-width: 182px;
+    }
+    @media screen and (max-width: 815px) {
+        width: 328px;
+        max-width: 328px;
+        min-height: 101px;
+    }
+}
+
+.ant-card-head {
+    min-height: 45px;
+    @media screen and (max-width: 1000px) {
+        padding: 0;
+    }
+}
+
+.small-card-header .ant-card-head-title {
+    color: #262626;
+}
+
+.small-card-header .ant-card-body {
+    color: #2F54EB;
+}
+
+
+.small-cards p {
+    cursor: pointer;
+}
+
+.small-cards .ant-card-head-title {
+    text-align: center;
+    min-height: 45px;
+    padding: 9px 0 11px;
+    @media screen and (max-width: 1000px) {
+        width: auto;
+        line-height: 23px;
+        text-align: left;
+        padding: 11px 1px 9px 25px;
+        white-space: break-spaces;
+    }
+    @media screen and (max-width: 815px) {
+        text-align: center;
+        padding: 10px 0 0px;
+    }
+}
+
+.small-cards .ant-card-body {
+    text-align: center;
+    padding: 16px 0 2px;
+    @media screen and (max-width: 1000px) {
+        padding: 16px 0 4px;
+    }
+    @media screen and (max-width: 815px) {
+        padding: 16px 0 0px;
+    }
+}
+
+.small-cards .anticon {
+    margin-right: 5px;
+}
+
+.small-cards .anticon svg {
+    height: 12px;
+}
+
+.small-cards .anticon svg path {
+    fill: #2F54EB;
+    transition: fill 0.5s ease;
+}
+
+.small-cards .ant-card-body:hover .anticon svg path {
+    fill: #85A5FF;
+}

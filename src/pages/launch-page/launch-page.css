@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'InterBold';
+    src: url('/font/Inter-Bold.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'InterMedium';
+    src: url('/font/Inter-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('/font/Inter-Regular.ttf') format('truetype');
+}
+
+.ant-layout {
+    margin: 0 auto;
+    max-width: 1440px;
+    font-family: 'Inter', sans-serif;
+    min-height: 1024px;
+    background: transparent;
+    @media screen and (max-width: 815px) {
+        z-index: 20;
+    }
+    @media screen and (max-width: 815px) {
+        min-height: 1362px;
+    }
+}
+
+.ant-layout.ant-layout-has-sider {
+    position: relative;
+    z-index: 5;
+    background: no-repeat center/cover url('/img/png/Main page_light.png')
+}
+
+.ant-typography,
+h1.ant-typography,
+.ant-typography + h1.ant-typography {
+    margin: 0;
+    color: #262626;
+}
+
