@@ -4,10 +4,11 @@ import { Provider } from 'react-redux';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import { store } from '@redux/configure-store';
-import { LaunchPage } from '@pages/launch-page';
 
 import 'normalize.css';
-// import './index.css';
+import { Auth } from '@pages/auth/Auth.tsx';
+import 'antd/dist/antd.css';
+import './index.css';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -17,7 +18,7 @@ root.render(
         <Provider store={store}>
             <HashRouter>
                 <Routes>
-                    <Route path='/' element={<LaunchPage />} />
+                    <Route path='/' element={<Auth />} />
                 </Routes>
             </HashRouter>
         </Provider>
