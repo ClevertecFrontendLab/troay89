@@ -8,7 +8,7 @@
 
 .ant-layout-sider-children {
     overflow: hidden;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
 .logo-container {
@@ -24,7 +24,7 @@
     }
 }
 
-.logo.small{
+.logo.small {
     margin: 49px 0 3px 18px;
     @media screen and (max-width: 1000px) {
         margin: 49px 0 0 18px;
@@ -94,19 +94,6 @@
         clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
     }
     @media screen and (max-width: 815px) {
-        display: none;
-        position: fixed;
-        width: 32px;
-        height: 48px;
-        top: 25px;
-        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
-    }
-}
-
-.wrapper-trigger-second {
-    display: none;
-
-    @media screen and (max-width: 815px) {
         display: flex;
         justify-content: center;
         position: fixed;
@@ -117,15 +104,18 @@
         clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
     }
 }
-.wrapper-trigger-second .trigger,
+
 .wrapper-trigger .trigger {
     cursor: pointer;
+
     svg {
         height: 14px;
+
         path {
             fill: #9b9090;
         }
     }
+
     @media screen and (max-width: 815px) {
         svg {
             height: 16px;
@@ -141,7 +131,7 @@
 .bord-exit {;
     width: 100%;
     height: 1px;
-    border-top:  solid 1px #F0F0F0;
+    border-top: solid 1px #F0F0F0;
 }
 
 .ant-menu-item.bord-exit {
@@ -164,7 +154,7 @@
     }
 }
 
-.ant-menu-item.bord-exit .ant-menu-title-content{
+.ant-menu-item.bord-exit .ant-menu-title-content {
     margin-left: 25px;
 }
 

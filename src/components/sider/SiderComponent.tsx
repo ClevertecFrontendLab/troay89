@@ -37,7 +37,7 @@ export const SiderComponent: React.FC<SiderProps> = ({isCloseSide, setIsCloseSid
 
     return (
         <Sider width={sizeOpenSider} collapsedWidth={sizeCloseSider} trigger={false} theme={'light'}
-               collapsed={isCloseSide} className={'sider'}>
+               collapsed={isCloseSide} className={'sider'} data-test-id={isMobile ? 'sider-switch-mobile' : 'sider-switch'}>
             <div className={'logo-container'}>
                 <img className={`logo ${isCloseSide ? 'small' : ''}`} src={logoSrc}
                      alt={'logo company'}/>
@@ -66,15 +66,7 @@ export const SiderComponent: React.FC<SiderProps> = ({isCloseSide, setIsCloseSid
                 Выход
             </Menu.Item>
             </Menu>
-            <div onClick={ () => setIsCloseSide(!isCloseSide)} className={'wrapper-trigger'} data-test-id='sider-switch' style={{
-                left: isCloseSide ? sizeCloseSider : sizeOpenSider,
-                transition: 'left 0.23s cubic-bezier(0.2, 0, 0, 1) 0s'
-            }}>
-                {React.createElement(MenuIcon, {
-                    className: 'trigger',
-                })}
-            </div>
-            <div onClick={() => setIsCloseSide(!isCloseSide)} className={'wrapper-trigger-second'} data-test-id='sider-switch-mobile' style={{
+            <div onClick={ () => setIsCloseSide(!isCloseSide)} className={'wrapper-trigger'} style={{
                 left: isCloseSide ? sizeCloseSider : sizeOpenSider,
                 transition: 'left 0.23s cubic-bezier(0.2, 0, 0, 1) 0s'
             }}>
