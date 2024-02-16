@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Button, Card, Checkbox, Image, Input, Layout, Space, Typography } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import logoAuth from '/img/svg/logo-auth.svg';
+import {
+    GooglePlusOutlined
+
+} from "@ant-design/icons";
 import './Auth.css';
-import { SearchOutlined } from '@ant-design/icons';
 
 const tabList = [
     {
@@ -12,7 +15,7 @@ const tabList = [
     },
     {
         key: 'tab2',
-        tab: 'Регестрация',
+        tab: 'Регистрация',
     },
 ];
 
@@ -26,24 +29,30 @@ const contentList: Record<string, React.ReactNode> = {
     tab1: (
         <Space direction='vertical'>
             <Space direction='vertical'>
-                <Input size='large' addonBefore='email' />
-                <Input.Password size='large' placeholder='Пороль' />
+                <Input className={'auth-input auth-input-email'} size={"large"} addonBefore='e-mail:' />
+                <Input.Password className={'auth-input'} placeholder='Пaроль' />
             </Space>
-            <Space>
+            <Space className={'extra-container'}>
                 <Checkbox onChange={onChange}>
-                    Запомнить меня{' '}
-                    <Link href='https://ant.design' target='_blank'>
-                        Забыли пароль?
-                    </Link>
+                    Запомнить меня
                 </Checkbox>
+                <Link className={'forgot-link'} href='https://ant.design' target='_blank'>
+                    Забыли пароль?
+                </Link>
             </Space>
-            <Space direction={'vertical'}>
-                <Button type='primary'>Войти</Button>
-                <Button icon={<SearchOutlined />}>Search</Button>
+            <Space className={'container-auth-buttons'} direction={'vertical'}>
+                <Button className={'auth-enter'} type='primary'>Войти</Button>
+                <Button className={'auth-enter'} icon={<GooglePlusOutlined />}>Войти через Google</Button>
             </Space>
         </Space>
     ),
-    tab2: <p>content2</p>,
+    tab2:<Space direction='vertical'>
+        <Space className={'container-input-reg'} direction='vertical'>
+            <Input className={'auth-input auth-input-email'} size={"large"} addonBefore='e-mail:' />
+            <Input.Password className={'auth-input'} placeholder='Пaроль' />
+        </Space>
+    </Space>
+
 };
 
 export const Auth: React.FC = () => {
@@ -58,6 +67,7 @@ export const Auth: React.FC = () => {
         <Layout className={'auth-layout'}>
             <Content className={'container-auth'}>
                 <Card
+                    bordered={false}
                     className={'auth-card'}
                     title={<Image src={logoAuth} alt={'logo for auth'} className={'logo-auth'} />}
                     tabList={tabList}
@@ -70,3 +80,5 @@ export const Auth: React.FC = () => {
         </Layout>
     );
 };
+
+// maraphon2024front

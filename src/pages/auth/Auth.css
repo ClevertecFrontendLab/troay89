@@ -3,6 +3,7 @@
     min-height: 1024px;
     margin: auto;
     background: no-repeat center/cover url('/img/png/Enter page_light.png');
+    font-family: 'Inter', sans-serif;
 }
 
 .ant-layout-content.container-auth {
@@ -15,7 +16,7 @@
 
 .auth-card.ant-card  {
     min-width: 539px;
-    min-height: 742px;
+    min-height: 686px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,8 +24,9 @@
     margin-left: 1px;
 }
 
+
 .ant-card-head-title {
-    margin: 47px 0 40px 0;
+    margin: 48px 0 42px 0;
 }
 
 .ant-card-head-tabs {
@@ -39,6 +41,10 @@
     padding: 0;
 }
 
+.auth-card .ant-card-body {
+    padding: 25.5px 0;
+}
+
 
 .auth-card .ant-card-head .ant-tabs-nav .ant-tabs-nav-list {
     width: 100%;
@@ -47,17 +53,85 @@
 }
 
 .auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab {
-    padding-bottom: 12px;
+    padding-bottom: 10px;
     font-family: 'Inter', sans-serif;
-    color: #2F54EB;
+    color: #262626;
+    margin: 0;
+    justify-content: center;
     flex: 1;
+}
+
+.auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab-active {
+    color: #2F54EB;
 }
 
 .ant-input-wrapper.ant-input-group {
     width: 368px;
 }
 
-.auth-card .ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar {
-    width: 50%;
+.ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+    width: 50% !important;
 }
 
+.auth-layout .ant-input-group-addon {
+    padding: 0 12px;
+    color: #262626;
+}
+
+.auth-input {
+    min-height: 40px;
+}
+
+.auth-input .ant-input-lg {
+    min-height: 40px;
+}
+
+.auth-input .ant-input-wrapper{
+    min-height: 40px;
+}
+
+.auth-input-email {
+    margin-bottom: 24px;
+}
+
+.extra-container {
+    width: 100%;
+    justify-content: space-between;
+    margin: 45px 0 15px 0;
+}
+
+.extra-container .ant-checkbox-wrapper {
+    color: #262626;
+}
+
+.auth-enter.ant-btn-default {
+    margin-top: 9px;
+    margin-bottom: 148px;
+}
+
+.auth-enter.ant-btn-primary {
+    background: #2F54EB;
+}
+
+.auth-enter.ant-btn-default span {
+    color: #262626;
+}
+
+
+.forgot-link {
+    font-size: 16px;
+}
+
+.auth-layout .auth-enter {
+    width: 100%;
+    min-height: 40px;
+    font-size: 16px;
+}
+
+.container-auth-buttons {
+    width: 100%;
+}
+
+.container-input-reg {
+    margin-top: -4px;
+}
