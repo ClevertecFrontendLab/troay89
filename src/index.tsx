@@ -6,9 +6,10 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { store } from '@redux/configure-store';
 
 import 'normalize.css';
-import { Auth } from '@pages/auth/Auth.tsx';
+import { Auth } from '@pages/auth-page/Auth.tsx';
 import 'antd/dist/antd.css';
 import './index.css';
+import { SuccessReg } from '@pages/auth-page/state/SuccessReg.tsx';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -18,7 +19,7 @@ root.render(
         <Provider store={store}>
             <HashRouter>
                 <Routes>
-                    <Route path='/' element={<Auth />} />
+                    <Route path='/' element={<SuccessReg />} />
                 </Routes>
             </HashRouter>
         </Provider>
