@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { Button, Card, Checkbox, Image, Input, Layout, Space, Typography } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
+import React, { useEffect, useState } from 'react';
+import { Card, Image, Layout } from 'antd';
 import logoAuth from '/img/svg/logo-auth.svg';
-import { GooglePlusOutlined } from '@ant-design/icons';
 import './Auth.css';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { useLocation } from 'react-router-dom';
+import { contentList } from '../../util/auth.tsx';
 
 const tabList = [
     {
@@ -16,69 +17,48 @@ const tabList = [
     },
 ];
 
-const { Link } = Typography;
-
-const onChange = (e: CheckboxChangeEvent) => {
-    console.log(`checked = ${e.target.checked}`);
-};
-
-const contentList: Record<string, React.ReactNode> = {
-    tab1: (
-        <Space direction='vertical'>
-            <Space direction='vertical'>
-                <Input
-                    className={'auth-input auth-input-email'}
-                    size={'large'}
-                    addonBefore='e-mail:'
-                />
-                <Input.Password className={'auth-input'} placeholder='Пaроль' />
-            </Space>
-            <Space className={'extra-container'}>
-                <Checkbox onChange={onChange}>Запомнить меня</Checkbox>
-                <Link className={'forgot-link'} href='https://ant.design' target='_blank'>
-                    Забыли пароль?
-                </Link>
-            </Space>
-            <Space className={'container-auth-buttons'} direction={'vertical'}>
-                <Button className={'auth-enter'} type='primary'>
-                    Войти
-                </Button>
-                <Button className={'auth-enter'} icon={<GooglePlusOutlined />}>
-                    Войти через Google
-                </Button>
-            </Space>
-        </Space>
-    ),
-    tab2: (
-        <Space direction='vertical' style={{ gap: 0 }}>
-            <Space className={'container-input-reg'} direction='vertical'>
-                <Input
-                    className={'reg-input reg-input-email'}
-                    size={'large'}
-                    addonBefore='e-mail:'
-                />
-                <Input.Password className={'reg-input'} placeholder='Пaроль' />
-            </Space>
-            <span className={'password-message'}>
-                Пароль не менее 8 символов, с заглавной буквой и цифрой
-            </span>
-            <Input.Password className={'reg-input repeat-pass'} placeholder='Повторите пaроль' />
-            <Button className={'reg-enter'} type='primary'>
-                Войти
-            </Button>
-            <Button className={'auth-enter'} icon={<GooglePlusOutlined />}>
-                Регистрация через Google
-            </Button>
-        </Space>
-    ),
-};
+const { Content } = Layout;
 
 export const Auth: React.FC = () => {
-    const [activeTabKey1, setActiveTabKey1] = useState<string>('tab1');
-    const { Content } = Layout;
+    const location = useLocation();
+    const [activeTabKey1, setActiveTabKey1] = useState<string>(
+        location.pathname === '/auth/registration' ? 'tab2' : 'tab1',
+    );
+
+    useEffect(() => {
+        setActiveTabKey1(location.pathname === '/auth/registration' ? 'tab2' : 'tab1');
+    }, [location]);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Tab') {
+                setActiveTabKey1((prevKey) => {
+                    const newKey = prevKey === 'tab1' ? 'tab2' : 'tab1';
+                    if (newKey === 'tab1') {
+                        history.push('/auth');
+                    } else if (newKey === 'tab2') {
+                        history.push('/auth/registration');
+                    }
+                    return newKey;
+                });
+                event.preventDefault();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
 
     const onTabChange = (key: string) => {
         setActiveTabKey1(key);
+        if (key === 'tab1') {
+            history.push('/auth');
+        } else if (key === 'tab2') {
+            history.push('/auth/registration');
+        }
     };
 
     return (
