@@ -12,11 +12,12 @@
     justify-content: center;
     backdrop-filter: blur(5px);
     background: rgba(121, 156, 212, 0.5);
+    min-height: 742px;
 }
 
 .auth-card.ant-card  {
     min-width: 539px;
-    min-height: 686px;
+    min-height: 742px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -24,6 +25,9 @@
     margin-left: 1px;
 }
 
+.reg-card.ant-card {
+    min-height: 686px;
+}
 
 .ant-card-head-title {
     margin: 48px 0 42px 0;
@@ -43,6 +47,10 @@
 
 .auth-card .ant-card-body {
     padding: 25.5px 0;
+}
+
+.reg-card .ant-card-body {
+    padding: 32.5px 0;
 }
 
 
@@ -78,18 +86,22 @@
     color: #262626;
 }
 
+.reg-input,
 .auth-input {
     min-height: 40px;
 }
 
+.reg-input .ant-input-lg,
 .auth-input .ant-input-lg {
     min-height: 40px;
 }
 
-.auth-input .ant-input-wrapper{
+.reg-input .ant-input-wrapper,
+.auth-input .ant-input-wrapper {
     min-height: 40px;
 }
 
+.reg-input-email,
 .auth-input-email {
     margin-bottom: 24px;
 }
@@ -97,7 +109,7 @@
 .extra-container {
     width: 100%;
     justify-content: space-between;
-    margin: 45px 0 15px 0;
+    margin: 53px 0 23px 0;
 }
 
 .extra-container .ant-checkbox-wrapper {
@@ -106,9 +118,13 @@
 
 .auth-enter.ant-btn-default {
     margin-top: 9px;
-    margin-bottom: 148px;
 }
 
+.reg-enter {
+    margin: 63px 0 7px 0;
+}
+
+.reg-enter.ant-btn-primary,
 .auth-enter.ant-btn-primary {
     background: #2F54EB;
 }
@@ -122,6 +138,7 @@
     font-size: 16px;
 }
 
+.auth-layout .reg-enter,
 .auth-layout .auth-enter {
     width: 100%;
     min-height: 40px;
@@ -132,6 +149,14 @@
     width: 100%;
 }
 
-.container-input-reg {
-    margin-top: -4px;
+.reg-card .password-message {
+    display: block;
+    font-size: 12px;
+    color: #8C8C8C;
 }
+
+.repeat-pass {
+    margin-top: 27px;
+}
+
+
