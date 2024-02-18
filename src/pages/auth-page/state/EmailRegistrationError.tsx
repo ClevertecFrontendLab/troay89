@@ -8,7 +8,7 @@ const { Content } = Layout;
 
 export const EmailRegistrationError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth/ registration');
+        history.push('/auth/registration');
     };
 
     return (

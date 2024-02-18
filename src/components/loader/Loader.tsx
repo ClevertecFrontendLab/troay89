@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import animationData from 'src/components/custom-svg/load.json';
+import animationData from './load.json';
 import './Loader.css';
 
 const defaultOptions = {

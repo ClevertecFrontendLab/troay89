@@ -7,10 +7,11 @@ import { GooglePlusOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { useRegisterUserMutation } from '@redux/reducers/apiSlice.ts';
 import { User } from '../../type/User.ts';
-import { useDispatch } from 'react-redux';
 import { changeRequest } from '@redux/reducers/isServerRequestSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import './Auth.css';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { saveDataUser } from '@redux/reducers/userSlice.ts';
 
 const tabList = [
     {
@@ -33,15 +34,17 @@ const { Content } = Layout;
 
 export const Auth: React.FC = () => {
     const location = useLocation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [isValid, setIsValid] = useState(true);
     const [activeTabKey1, setActiveTabKey1] = useState<string>(
         location.pathname === '/auth/registration' ? 'tab2' : 'tab1',
     );
+    const userData = useAppSelector((state) => state.saveData.saveDataUser);
     const [form] = Form.useForm();
 
     const onFinish = (values: User) => {
         console.log('Received values of form: ', values);
+        dispatch(saveDataUser(values));
         registerUser({ email: values.email, password: values.password });
     };
 
@@ -163,6 +166,13 @@ export const Auth: React.FC = () => {
     };
 
     const [registerUser, { data, isLoading, error }] = useRegisterUserMutation();
+
+    useEffect(() => {
+        if (history.location.state?.from === '/result/error-user-exist') {
+            console.log(userData, 'I am here');
+            registerUser(userData);
+        }
+    }, [registerUser, userData]);
 
     useEffect(() => {
         if (data) {
