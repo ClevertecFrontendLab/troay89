@@ -21,9 +21,7 @@ root.render(
         </Provider>
     </React.StrictMode>,
 );
-// /auth
-// /auth/registration  по нажатию на tab
-// /main
+
 // /result  useLocation в сочетании с используемым нами HistoryRouter.
-// /result/error-user-exist
-// /result/error
+// statusCode 409 /result/error-user-exist
+// statusCode 409 any /result/error

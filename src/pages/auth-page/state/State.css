@@ -18,7 +18,7 @@
 .wrapper-card-state {
     min-width: 539px;
     min-height: 363px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     margin-left: 1px;
 }
 
@@ -28,13 +28,20 @@
     align-items: center;
 }
 
-.icon-success {
+.icon-state {
     margin: 44px 0 26px 0;
-    color: #52C41A;
     svg {
         height: 70px;
         width: 70px;
     }
+}
+
+.icon-state.status-success {
+    color: #52C41A;
+}
+
+.icon-state.status-error {
+    color: #FF4D4F;
 }
 
 .title-state {
@@ -52,7 +59,7 @@
 
 .button-state {
     width: 368px;
-    margin-top: 25px;
+    margin-top: 24px;
     font-size: 14px;
     background: #2F54EB;
 }

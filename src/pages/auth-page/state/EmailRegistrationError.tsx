@@ -1,25 +1,25 @@
 import React from 'react';
 import { Button, Card, Layout } from 'antd';
-import { CheckCircleFilled } from '@ant-design/icons';
 import './State.css';
+import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
 
 const { Content } = Layout;
 
-export const SuccessReg: React.FC = () => {
+export const EmailRegistrationError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth');
+        history.push('/auth/ registration');
     };
 
     return (
         <Layout className={'wrapper-layout-state'}>
             <Content className={'wrapper-content-state'}>
                 <Card className={'wrapper-card-state'}>
-                    <CheckCircleFilled className={'icon-state status-success'} />
-                    <h3 className={'title-state'}>Регистрация успешна</h3>
+                    <CloseCircleFilled className={'icon-state status-error'} />
+                    <h3 className={'title-state'}>Данные не сохранились</h3>
                     <span className={'message-state'}>
-                        Регистрация прошла успешно. Зайдите <br /> в приложение, используя свои
-                        e-mail и пароль.
+                        Такой e-mail уже записан в системе. Попробуйте <br /> зарегистрироваться по
+                        другому e-mail.
                     </span>
                     <Button
                         className={'button-state'}
@@ -27,7 +27,7 @@ export const SuccessReg: React.FC = () => {
                         size={'large'}
                         onClick={handleClick}
                     >
-                        Войти
+                        Назад к регистрации
                     </Button>
                 </Card>
             </Content>

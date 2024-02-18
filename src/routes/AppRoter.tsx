@@ -1,7 +1,11 @@
-import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
-import React from 'react';
+import { Navigate, RouteObject, useLocation, useRoutes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { Auth } from '@pages/auth-page/Auth.tsx';
 import { LaunchPage } from '@pages/launch-page';
+import { EmailRegistrationError } from '@pages/auth-page/state/EmailRegistrationError.tsx';
+import { GeneralRegistrationError } from '@pages/auth-page/state/GeneralRegistrationError.tsx';
+import { SuccessReg } from '@pages/auth-page/state/SuccessReg.tsx';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 
 const paths = {
     root: {
@@ -16,6 +20,15 @@ const paths = {
     registration: {
         path: '/auth/registration',
     },
+    successRegistration: {
+        path: '/result/success',
+    },
+    errorRegistrationEmail: {
+        path: '/result/error-user-exist',
+    },
+    errorRegistrationGeneral: {
+        path: '/result/error',
+    },
 };
 
 const allRoutes: RouteObject = {
@@ -25,11 +38,29 @@ const allRoutes: RouteObject = {
         { path: paths.main.path, element: <LaunchPage /> },
         { path: paths.auth.path, element: <Auth /> },
         { path: paths.registration.path, element: <Auth /> },
+        { path: paths.successRegistration.path, element: <SuccessReg /> },
+        { path: paths.errorRegistrationEmail.path, element: <EmailRegistrationError /> },
+        { path: paths.errorRegistrationGeneral.path, element: <GeneralRegistrationError /> },
     ],
 };
 
 export const AppRouter = React.memo(() => {
-    return useRoutes([allRoutes]);
+    const location = useLocation();
+    // const [isAuthenticated, setIsAuthenticated] = useState(false); // Замените это на вашу логику аутентификации
+    const [redirectToAuth, setRedirectToAuth] = useState(false);
+    const serverRequestMade = useAppSelector((state) => state.serverRequest.isServerRequest);
+    console.log(serverRequestMade);
+    useEffect(() => {
+        if (location.pathname.startsWith('/result') && !serverRequestMade) {
+            setRedirectToAuth(true);
+        } else {
+            setRedirectToAuth(false);
+        }
+    }, [location, serverRequestMade]);
+
+    const routes = useRoutes([allRoutes]);
+
+    return <>{redirectToAuth ? <Navigate to={paths.auth.path} replace /> : routes}</>;
 });
 
 AppRouter.displayName = 'AppRouter';

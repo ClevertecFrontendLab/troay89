@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Card, Checkbox, Form, Image, Input, Layout, Space, Typography } from 'antd';
 import logoAuth from '/img/svg/logo-auth.svg';
-import './Auth.css';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useLocation } from 'react-router-dom';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { useRegisterUserMutation } from '@redux/reducers/apiSlice.ts';
+import { User } from '../../type/User.ts';
+import { useDispatch } from 'react-redux';
+import { changeRequest } from '@redux/reducers/isServerRequestSlice.ts';
+import { Loader } from '@components/loader/Loader.tsx';
+import './Auth.css';
 
 const tabList = [
     {
@@ -29,15 +33,16 @@ const { Content } = Layout;
 
 export const Auth: React.FC = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
     const [isValid, setIsValid] = useState(true);
     const [activeTabKey1, setActiveTabKey1] = useState<string>(
         location.pathname === '/auth/registration' ? 'tab2' : 'tab1',
     );
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: User) => {
         console.log('Received values of form: ', values);
-        registerUser({ email: 'dwadwa', password: 'dwfdew' });
+        registerUser({ email: values.email, password: values.password });
     };
 
     const contentList: Record<string, React.ReactNode> = {
@@ -123,9 +128,6 @@ export const Auth: React.FC = () => {
                             <Input.Password className={'reg-input'} placeholder='Пaроль' />
                         </Form.Item>
                     </Space>
-                    {/*<span className={'password-message'}>*/}
-                    {/*    Пароль не менее 8 символов, с заглавной буквой и цифрой*/}
-                    {/*</span>*/}
                     <Form.Item
                         name='confirm'
                         dependencies={['password']}
@@ -164,11 +166,18 @@ export const Auth: React.FC = () => {
 
     useEffect(() => {
         if (data) {
-            console.log(data, ' succeeded');
+            dispatch(changeRequest(true));
+            history.push('/result/success');
         } else if (error) {
+            dispatch(changeRequest(true));
             console.log(error, ' error');
+            if (error.status === 409) {
+                history.push('/result/error-user-exist');
+            } else {
+                history.push('/result/error');
+            }
         }
-    }, [data, error]);
+    }, [data, dispatch, error, isLoading]);
 
     useEffect(() => {
         setActiveTabKey1(location.pathname === '/auth/registration' ? 'tab2' : 'tab1');
@@ -208,6 +217,7 @@ export const Auth: React.FC = () => {
 
     return (
         <Layout className={'auth-layout'}>
+            {isLoading && <Loader />}
             <Content className={'container-auth'}>
                 <Card
                     bordered={false}

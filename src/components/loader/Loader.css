@@ -1,0 +1,9 @@
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(12px);
+    background: rgba(121, 156, 212, 0.5);
+}

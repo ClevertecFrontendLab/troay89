@@ -5,11 +5,14 @@ export const apiSlices = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'https://marathon-api.clevertec.ru/' }),
     endpoints: (builder) => ({
-        registerUser: builder.mutation<User, Partial<User>>({
+        registerUser: builder.mutation<{ statusCode: number }, Partial<User>>({
             query: (userData) => ({
                 url: 'auth/registration',
                 method: 'POST',
                 body: userData,
+            }),
+            transformResponse: () => ({
+                statusCode: 201,
             }),
         }),
     }),
