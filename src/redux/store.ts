@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { routerMiddlewareSlice, routerReducerSlice } from '@redux/reducers/routerSlice.ts';
+import { apiSlices } from '@redux/reducers/apiSlice.ts';
 
 export const store = configureStore({
     reducer: {
         router: routerReducerSlice,
+        [apiSlices.reducerPath]: apiSlices.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddlewareSlice),
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(routerMiddlewareSlice).concat(apiSlices.middleware),
 });
-
-console.log(store.getState);
-console.log(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

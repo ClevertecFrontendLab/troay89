@@ -101,9 +101,12 @@
     min-height: 40px;
 }
 
-.reg-input-email,
 .auth-input-email {
     margin-bottom: 24px;
+}
+
+.reg-input-email {
+    margin-bottom: 0;
 }
 
 .extra-container {
@@ -117,11 +120,11 @@
 }
 
 .auth-enter.ant-btn-default {
-    margin-top: 9px;
+    margin-top: 0;
 }
 
 .reg-enter {
-    margin: 63px 0 7px 0;
+    margin: 30px 0 9px 0;
 }
 
 .reg-enter.ant-btn-primary,
@@ -156,7 +159,11 @@
 }
 
 .repeat-pass {
-    margin-top: 27px;
+    margin-top: 14px;
 }
 
-
+.reg-card .ant-form-item-explain-error,
+.reg-card .ant-form-item-explain,
+.reg-card .ant-form-item-explain-success {
+    font-size: 12px;
+}
