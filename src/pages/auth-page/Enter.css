@@ -5,6 +5,12 @@
     margin: auto;
     background: no-repeat center/cover url('/img/png/Enter page_light.png');
     font-family: 'Inter', sans-serif;
+    @media screen and (max-width: 835px) {
+        min-height: 1195px;
+    }
+    @media screen and (max-width: 440px) {
+        min-height: 800px;
+    }
 }
 
 .ant-layout-content.container-auth {
@@ -23,6 +29,15 @@
     align-items: center;
     margin-bottom: 2px;
     margin-left: 1px;
+    @media screen and (max-width: 835px) {
+        margin: 0 0 53px;
+    }
+    @media screen and (max-width: 600px) {
+        min-height: 612px;
+        margin: 0 16px 9px;
+        width: 100%;
+        min-width: auto;
+    }
 }
 
 .reg-card.ant-card {
@@ -35,6 +50,9 @@
 
 .ant-card-head-tabs {
     width: 368px;
+    @media screen and (max-width: 440px) {
+        width: 100%;
+    }
 }
 
 .auth-card .ant-card-head-wrapper .ant-card-head-title{
@@ -47,6 +65,12 @@
 
 .auth-card .ant-card-body {
     padding: 25.5px 0;
+}
+
+.auth-card .ant-card-body .ant-form-horizontal {
+    @media screen and (max-width: 440px) {
+        margin: 0 15px;
+    }
 }
 
 .reg-card .ant-card-body {
@@ -75,6 +99,9 @@
 
 .ant-input-wrapper.ant-input-group {
     width: 368px;
+    @media screen and (max-width: 440px) {
+        width: 100%;
+    }
 }
 
 .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
@@ -101,10 +128,8 @@
     min-height: 40px;
 }
 
-.auth-input-email {
-    margin-bottom: 24px;
-}
 
+.auth-input-email,
 .reg-input-email {
     margin-bottom: 0;
 }
@@ -116,15 +141,15 @@
 .extra-container {
     width: 100%;
     justify-content: space-between;
-    margin: 53px 0 23px 0;
+    margin: 18px 0 12px 0;
 }
 
 .extra-container .ant-checkbox-wrapper {
     color: #262626;
 }
 
-.auth-enter.ant-btn-default {
-    margin-top: 0;
+.auth-enter.ant-btn-primary {
+    margin-bottom: 8px;
 }
 
 .reg-enter {
@@ -178,4 +203,6 @@
     color: #8C8C8C;
 }
 
-
+.auth-check {
+    margin: 0;
+}

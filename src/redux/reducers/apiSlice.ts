@@ -15,6 +15,16 @@ export const apiSlices = createApi({
                 statusCode: 201,
             }),
         }),
+        authUser: builder.mutation<{ statusCode: number }, Partial<User>>({
+            query: (userData) => ({
+                url: 'auth/login',
+                method: 'POST',
+                body: userData,
+            }),
+            // transformResponse: () => ({
+            //     statusCode: 201,
+            // }),
+        }),
     }),
 });
 

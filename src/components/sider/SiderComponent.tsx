@@ -15,7 +15,6 @@ import {useMediaQuery} from "react-responsive";
 
 interface SiderProps {
     isCloseSide: boolean;
-
     setIsCloseSide(value: boolean): void;
 }
 

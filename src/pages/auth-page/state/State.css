@@ -22,6 +22,10 @@
     margin-left: 1px;
 }
 
+.wrapper-card-state.wrapper-warning {
+    min-height: 345px;
+}
+
 .wrapper-card-state .ant-card-body {
     display: flex;
     flex-direction: column;
@@ -42,6 +46,10 @@
 
 .icon-state.status-error {
     color: #FF4D4F;
+}
+
+.icon-state.status-warning {
+    color: #FAAD14;
 }
 
 .title-state {

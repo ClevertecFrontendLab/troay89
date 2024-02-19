@@ -1,6 +1,6 @@
 import { Navigate, RouteObject, useLocation, useRoutes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { Auth } from '@pages/auth-page/Auth.tsx';
+import { Enter } from '@pages/auth-page/Enter.tsx';
 import { LaunchPage } from '@pages/launch-page';
 import { EmailRegistrationError } from '@pages/auth-page/state/EmailRegistrationError.tsx';
 import { GeneralRegistrationError } from '@pages/auth-page/state/GeneralRegistrationError.tsx';
@@ -29,6 +29,9 @@ const paths = {
     errorRegistrationGeneral: {
         path: '/result/error',
     },
+    errorAuthGeneral: {
+        path: '/result/error-login',
+    },
 };
 
 const allRoutes: RouteObject = {
@@ -36,8 +39,8 @@ const allRoutes: RouteObject = {
     children: [
         { index: true, element: <Navigate to={paths.main.path} replace /> },
         { path: paths.main.path, element: <LaunchPage /> },
-        { path: paths.auth.path, element: <Auth /> },
-        { path: paths.registration.path, element: <Auth /> },
+        { path: paths.auth.path, element: <Enter /> },
+        { path: paths.registration.path, element: <Enter /> },
         { path: paths.successRegistration.path, element: <SuccessReg /> },
         { path: paths.errorRegistrationEmail.path, element: <EmailRegistrationError /> },
         { path: paths.errorRegistrationGeneral.path, element: <GeneralRegistrationError /> },
@@ -49,7 +52,6 @@ export const AppRouter = React.memo(() => {
     // const [isAuthenticated, setIsAuthenticated] = useState(false); // Замените это на вашу логику аутентификации
     const [redirectToAuth, setRedirectToAuth] = useState(false);
     const serverRequestMade = useAppSelector((state) => state.serverRequest.isServerRequest);
-    console.log(serverRequestMade);
     useEffect(() => {
         if (location.pathname.startsWith('/result') && !serverRequestMade) {
             setRedirectToAuth(true);
