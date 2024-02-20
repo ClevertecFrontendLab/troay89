@@ -1,12 +1,12 @@
-import { Navigate, RouteObject, useLocation, useRoutes } from 'react-router-dom';
+import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Enter } from '@pages/auth-page/Enter.tsx';
 import { LaunchPage } from '@pages/launch-page';
 import { EmailRegistrationError } from '@pages/auth-page/state/EmailRegistrationError.tsx';
 import { GeneralRegistrationError } from '@pages/auth-page/state/GeneralRegistrationError.tsx';
 import { SuccessReg } from '@pages/auth-page/state/SuccessReg.tsx';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { GeneralAuthError } from '@pages/auth-page/state/GeneralAuthError.tsx';
+import { history } from '@redux/reducers/routerSlice.ts';
 
 const paths = {
     root: {
@@ -50,17 +50,24 @@ const allRoutes: RouteObject = {
 };
 
 export const AppRouter = React.memo(() => {
-    const location = useLocation();
-    // const [isAuthenticated, setIsAuthenticated] = useState(false); // Замените это на вашу логику аутентификации
     const [redirectToAuth, setRedirectToAuth] = useState(false);
-    const serverRequestMade = useAppSelector((state) => state.serverRequest.isServerRequest);
+
     useEffect(() => {
-        if (location.pathname.startsWith('/result') && !serverRequestMade) {
+        const isAuthUser = sessionStorage.getItem('jwtToken') || localStorage.getItem('jwtToken');
+        if (
+            location.pathname.startsWith('/result') &&
+            !history.location.state?.from.startsWith('/auth')
+        ) {
             setRedirectToAuth(true);
+        } else if (!isAuthUser && location.pathname.startsWith('/main')) {
+            setRedirectToAuth(true);
+        } else if (isAuthUser && location.pathname.startsWith('/auth')) {
+            setRedirectToAuth(false);
+            history.push(paths.main.path);
         } else {
             setRedirectToAuth(false);
         }
-    }, [location, serverRequestMade]);
+    }, [redirectToAuth]);
 
     const routes = useRoutes([allRoutes]);
 

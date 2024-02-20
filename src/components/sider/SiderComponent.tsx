@@ -39,6 +39,8 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
     }
 
     const handleClickExit = () => {
+        localStorage.removeItem('jwtToken');
+        sessionStorage.removeItem('jwtToken');
         history.push('/auth');
     };
 

@@ -5,7 +5,6 @@ import { User } from '../../../type/User.ts';
 import { useAuthUserMutation } from '@redux/reducers/apiSlice.ts';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { useMediaQuery } from 'react-responsive';
-import { changeRequest } from '@redux/reducers/isServerRequestSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 
 const { Link } = Typography;
@@ -32,12 +31,10 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             isSaveData
                 ? localStorage.setItem('jwtToken', data.accessToken)
                 : sessionStorage.setItem('jwtToken', data.accessToken);
-            dispatch(changeRequest(true));
             history.push('/main');
         } else if (error) {
             setIsLoading(isLoading);
-            dispatch(changeRequest(true));
-            history.push('/result/error-login');
+            history.push('/result/error-login', { from: '/auth' });
         } else if (isLoading) {
             setIsLoading(isLoading);
         }

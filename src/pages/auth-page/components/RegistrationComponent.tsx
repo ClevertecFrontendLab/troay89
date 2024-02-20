@@ -6,7 +6,6 @@ import { saveDataUser } from '@redux/reducers/userSlice.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { useRegisterUserMutation } from '@redux/reducers/apiSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
-import { changeRequest } from '@redux/reducers/isServerRequestSlice.ts';
 import { useMediaQuery } from 'react-responsive';
 
 interface RegistrationComponentProps {
@@ -28,16 +27,14 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
 
     useEffect(() => {
         if (data) {
-            dispatch(changeRequest(true));
-            history.push('/result/success');
+            history.push('/result/success', { from: '/auth/registration' });
             setIsLoading(isLoading);
         } else if (error) {
             setIsLoading(isLoading);
-            dispatch(changeRequest(true));
             if ('status' in error && error.status === 409) {
-                history.push('/result/error-user-exist');
+                history.push('/result/error-user-exist', { from: '/auth/registration' });
             } else {
-                history.push('/result/error');
+                history.push('/result/error', { from: '/auth/registration' });
             }
         } else if (isLoading) {
             setIsLoading(isLoading);
