@@ -21,11 +21,12 @@ export const apiSlices = createApi({
                 method: 'POST',
                 body: userData,
             }),
-            // transformResponse: () => ({
-            //     statusCode: 201,
-            // }),
+            transformResponse: () => ({
+                statusCode: 201,
+            }),
         }),
     }),
 });
 
 export const { useRegisterUserMutation } = apiSlices;
+export const { useAuthUserMutation } = apiSlices;

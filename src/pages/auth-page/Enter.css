@@ -34,7 +34,7 @@
     }
     @media screen and (max-width: 600px) {
         min-height: 612px;
-        margin: 0 16px 9px;
+        margin: 0 17px 9px;
         width: 100%;
         min-width: auto;
     }
@@ -42,15 +42,22 @@
 
 .reg-card.ant-card {
     min-height: 686px;
+    @media screen and (max-width: 600px) {
+        min-height: 564px;
+
+    }
 }
 
 .ant-card-head-title {
     margin: 48px 0 42px 0;
+    @media screen and (max-width: 600px) {
+        margin: 16px 0 28px 0;
+    }
 }
 
 .ant-card-head-tabs {
     width: 368px;
-    @media screen and (max-width: 440px) {
+    @media screen and (max-width: 600px) {
         width: 100%;
     }
 }
@@ -61,20 +68,31 @@
 
 .auth-card .ant-card-head {
     padding: 0;
+    @media screen and (max-width: 600px) {
+        width: 100%;
+        margin: 0 15px;
+        padding: 0 15px;
+    }
 }
 
 .auth-card .ant-card-body {
-    padding: 25.5px 0;
+    padding: 25px 0;
+    @media screen and (max-width: 600px) {
+        padding: 24px 0;
+    }
 }
 
 .auth-card .ant-card-body .ant-form-horizontal {
-    @media screen and (max-width: 440px) {
+    @media screen and (max-width: 600px) {
         margin: 0 15px;
     }
 }
 
 .reg-card .ant-card-body {
     padding: 32.5px 0;
+    @media screen and (max-width: 600px) {
+        padding: 24px 0;
+    }
 }
 
 
@@ -91,9 +109,13 @@
     margin: 0;
     justify-content: center;
     flex: 1;
+    @media screen and (max-width: 600px) {
+        font-size: 14px;
+        padding: 15px 0 12px;
+    }
 }
 
-.auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab-active {
+.auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab-active .ant-tabs-tab-btn {
     color: #2F54EB;
 }
 
@@ -105,6 +127,7 @@
 }
 
 .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+    background: #2F54EB;
     width: 50% !important;
 }
 
@@ -142,6 +165,9 @@
     width: 100%;
     justify-content: space-between;
     margin: 18px 0 12px 0;
+    @media screen and (max-width: 600px) {
+        margin: 15px 0 9px 0;
+    }
 }
 
 .extra-container .ant-checkbox-wrapper {
@@ -154,6 +180,9 @@
 
 .reg-enter {
     margin: 30px 0 9px 0;
+    @media screen and (max-width: 600px) {
+        margin: 23px 0 8px 0;
+    }
 }
 
 .reg-enter.ant-btn-primary,
@@ -168,6 +197,10 @@
 
 .forgot-link {
     font-size: 16px;
+    @media screen and (max-width: 600px) {
+        font-size: 14px;
+        padding-right: 8px;
+    }
 }
 
 .auth-layout .reg-enter,
@@ -175,6 +208,9 @@
     width: 100%;
     min-height: 40px;
     font-size: 16px;
+    @media screen and (max-width: 600px) {
+        font-size: 14px;
+    }
 }
 
 .container-auth-buttons {
@@ -189,6 +225,9 @@
 
 .repeat-pass {
     margin-top: 14px;
+    @media screen and (max-width: 600px) {
+        margin-top: 0;
+    }
 }
 
 .reg-card .ant-form-item-explain-error,

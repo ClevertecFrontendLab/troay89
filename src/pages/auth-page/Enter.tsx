@@ -1,11 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {Card, Image, Layout,} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Image, Layout } from 'antd';
 import logoAuth from '/img/svg/logo-auth.svg';
-import {history} from '@redux/reducers/routerSlice.ts';
-import {useLocation} from 'react-router-dom';
-import {AuthComponent} from "@pages/auth-page/components/AuthComponent.tsx";
-import {RegistrationComponent} from "@pages/auth-page/components/RegistrationComponent.tsx";
-import {Loader} from "@components/loader/Loader.tsx";
+import logoAuthMobile from '/img/svg/logo_auth_mobile.svg';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { useLocation } from 'react-router-dom';
+import { AuthComponent } from '@pages/auth-page/components/AuthComponent.tsx';
+import { RegistrationComponent } from '@pages/auth-page/components/RegistrationComponent.tsx';
+import { Loader } from '@components/loader/Loader.tsx';
+import { useMediaQuery } from 'react-responsive';
 import './Enter.css';
 
 const tabList = [
@@ -19,8 +21,7 @@ const tabList = [
     },
 ];
 
-
-const {Content} = Layout;
+const { Content } = Layout;
 
 export const Enter: React.FC = () => {
     const location = useLocation();
@@ -28,12 +29,14 @@ export const Enter: React.FC = () => {
     const [activeTabKey1, setActiveTabKey1] = useState<string>(
         location.pathname === '/auth/registration' ? 'tab2' : 'tab1',
     );
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+
+    const logo = isMobile ? logoAuthMobile : logoAuth;
 
     const contentList: Record<string, React.ReactNode> = {
-        tab1: (<AuthComponent/>),
-        tab2: (<RegistrationComponent setIsLoading={setIsLoading}/>),
+        tab1: <AuthComponent />,
+        tab2: <RegistrationComponent setIsLoading={setIsLoading} />,
     };
-
 
     useEffect(() => {
         setActiveTabKey1(location.pathname === '/auth/registration' ? 'tab2' : 'tab1');
@@ -73,12 +76,12 @@ export const Enter: React.FC = () => {
 
     return (
         <Layout className={'auth-layout'}>
-            {isLoading && <Loader/>}
+            {isLoading && <Loader />}
             <Content className={'container-auth'}>
                 <Card
                     bordered={false}
                     className={`auth-card ${activeTabKey1 === 'tab2' ? 'reg-card' : ''}`}
-                    title={<Image src={logoAuth} alt={'logo for auth'} className={'logo-auth'}/>}
+                    title={<Image src={logo} alt={'logo for auth'} className={'logo-auth'} />}
                     tabList={tabList}
                     activeTabKey={activeTabKey1}
                     onTabChange={onTabChange}

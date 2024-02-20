@@ -1,22 +1,24 @@
-import React, {useEffect} from "react";
-import {Button, Form, Input, Space} from "antd";
-import {GooglePlusOutlined} from "@ant-design/icons";
-import {User} from "../../../type/User.ts";
-import {saveDataUser} from "@redux/reducers/userSlice.ts";
-import {useAppDispatch, useAppSelector} from "@hooks/typed-react-redux-hooks.ts";
-import {useRegisterUserMutation} from "@redux/reducers/apiSlice.ts";
-import {history} from "@redux/reducers/routerSlice.ts";
-import {changeRequest} from "@redux/reducers/isServerRequestSlice.ts";
+import React, { useEffect } from 'react';
+import { Button, Form, Input, Space } from 'antd';
+import { GooglePlusOutlined } from '@ant-design/icons';
+import { User } from '../../../type/User.ts';
+import { saveDataUser } from '@redux/reducers/userSlice.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { useRegisterUserMutation } from '@redux/reducers/apiSlice.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { changeRequest } from '@redux/reducers/isServerRequestSlice.ts';
+import { useMediaQuery } from 'react-responsive';
 
 interface RegistrationComponentProps {
     setIsLoading(value: boolean): void;
 }
 
-export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({setIsLoading}) => {
+export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ setIsLoading }) => {
     const dispatch = useAppDispatch();
     const userData = useAppSelector((state) => state.saveData.saveDataUser);
     const [form] = Form.useForm();
     const [registerUser, { data, isLoading, error }] = useRegisterUserMutation();
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
     useEffect(() => {
         if (history.location.state?.from === '/result/error-user-exist') {
@@ -28,18 +30,18 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({set
         if (data) {
             dispatch(changeRequest(true));
             history.push('/result/success');
-            setIsLoading(isLoading)
+            setIsLoading(isLoading);
         } else if (error) {
-            setIsLoading(isLoading)
+            setIsLoading(isLoading);
             dispatch(changeRequest(true));
             console.log(error, ' error');
-            if (error.status === 409) {
+            if ('status' in error && error.status === 409) {
                 history.push('/result/error-user-exist');
             } else {
                 history.push('/result/error');
             }
-         } else if (isLoading) {
-            setIsLoading(isLoading)
+        } else if (isLoading) {
+            setIsLoading(isLoading);
         }
     }, [data, dispatch, error, isLoading, setIsLoading]);
 
@@ -126,10 +128,10 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({set
                 <Button className={'reg-enter'} type='primary' htmlType='submit'>
                     Войти
                 </Button>
-                <Button className={'auth-enter'} icon={<GooglePlusOutlined />}>
+                <Button className={'auth-enter'} icon={!isMobile ? <GooglePlusOutlined /> : ''}>
                     Регистрация через Google
                 </Button>
             </Space>
         </Form>
-    )
-}
+    );
+};
