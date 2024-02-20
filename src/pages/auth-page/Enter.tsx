@@ -34,7 +34,7 @@ export const Enter: React.FC = () => {
     const logo = isMobile ? logoAuthMobile : logoAuth;
 
     const contentList: Record<string, React.ReactNode> = {
-        tab1: <AuthComponent />,
+        tab1: <AuthComponent setIsLoading={setIsLoading} />,
         tab2: <RegistrationComponent setIsLoading={setIsLoading} />,
     };
 

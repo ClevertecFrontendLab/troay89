@@ -6,6 +6,7 @@ import { EmailRegistrationError } from '@pages/auth-page/state/EmailRegistration
 import { GeneralRegistrationError } from '@pages/auth-page/state/GeneralRegistrationError.tsx';
 import { SuccessReg } from '@pages/auth-page/state/SuccessReg.tsx';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { GeneralAuthError } from '@pages/auth-page/state/GeneralAuthError.tsx';
 
 const paths = {
     root: {
@@ -44,6 +45,7 @@ const allRoutes: RouteObject = {
         { path: paths.successRegistration.path, element: <SuccessReg /> },
         { path: paths.errorRegistrationEmail.path, element: <EmailRegistrationError /> },
         { path: paths.errorRegistrationGeneral.path, element: <GeneralRegistrationError /> },
+        { path: paths.errorAuthGeneral.path, element: <GeneralAuthError /> },
     ],
 };
 

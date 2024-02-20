@@ -1,23 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, Space, Typography } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { User } from '../../../type/User.ts';
 import { useAuthUserMutation } from '@redux/reducers/apiSlice.ts';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { useMediaQuery } from 'react-responsive';
+import { changeRequest } from '@redux/reducers/isServerRequestSlice.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
 
 const { Link } = Typography;
 
-export const AuthComponent: React.FC = () => {
+interface AuthComponentProps {
+    setIsLoading(value: boolean): void;
+}
+
+export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) => {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
+    const [isSaveData, setIsSaveData] = useState<boolean>(false);
     const [authUser, { data, isLoading, error }] = useAuthUserMutation();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
     const onFinish = (values: User) => {
-        console.log('auth values of form: ', values);
-        authUser({ email: values.email, password: values.password, isSave: values.isSave });
+        values.isSave ? setIsSaveData(values.isSave) : null;
+        authUser({ email: values.email, password: values.password });
     };
+
+    useEffect(() => {
+        if (data) {
+            setIsLoading(isLoading);
+            isSaveData
+                ? localStorage.setItem('jwtToken', data.accessToken)
+                : sessionStorage.setItem('jwtToken', data.accessToken);
+            dispatch(changeRequest(true));
+            history.push('/main');
+        } else if (error) {
+            setIsLoading(isLoading);
+            dispatch(changeRequest(true));
+            history.push('/result/error-login');
+        } else if (isLoading) {
+            setIsLoading(isLoading);
+        }
+    }, [data, dispatch, error, isLoading, isSaveData, setIsLoading]);
+
     return (
         <Form form={form} name='auth' onFinish={onFinish}>
             <Space direction='vertical'>

@@ -48,14 +48,14 @@
     }
 }
 
-.ant-card-head-title {
+.container-auth .ant-card-head-title {
     margin: 48px 0 42px 0;
     @media screen and (max-width: 600px) {
         margin: 16px 0 28px 0;
     }
 }
 
-.ant-card-head-tabs {
+.container-auth .ant-card-head-tabs {
     width: 368px;
     @media screen and (max-width: 600px) {
         width: 100%;

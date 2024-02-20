@@ -34,7 +34,6 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
         } else if (error) {
             setIsLoading(isLoading);
             dispatch(changeRequest(true));
-            console.log(error, ' error');
             if ('status' in error && error.status === 409) {
                 history.push('/result/error-user-exist');
             } else {

@@ -1,6 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User } from '../../type/User.ts';
 
+interface ServerResponse {
+    accessToken: string;
+}
+
 export const apiSlices = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({ baseUrl: 'https://marathon-api.clevertec.ru/' }),
@@ -15,14 +19,15 @@ export const apiSlices = createApi({
                 statusCode: 201,
             }),
         }),
-        authUser: builder.mutation<{ statusCode: number }, Partial<User>>({
+        authUser: builder.mutation<{ statusCode: number; accessToken: string }, Partial<User>>({
             query: (userData) => ({
                 url: 'auth/login',
                 method: 'POST',
                 body: userData,
             }),
-            transformResponse: () => ({
+            transformResponse: (response: ServerResponse) => ({
                 statusCode: 201,
+                accessToken: response.accessToken,
             }),
         }),
     }),
