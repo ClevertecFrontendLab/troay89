@@ -10,6 +10,9 @@ import { history } from '@redux/reducers/routerSlice.ts';
 import { EmailResetPasswordError } from '@pages/auth-page/state/EmailResetPasswordError.tsx';
 import { GeneralResetPasswordError } from '@pages/auth-page/state/GeneralResetPasswordError.tsx';
 import { CheckCodeEmail } from '@pages/auth-page/state/CheckCodeEmail.tsx';
+import { ChangePassword } from '@pages/change-password/ChangePassword.tsx';
+import { SuccessChangePassword } from '@pages/auth-page/state/SuccessChangePassword.tsx';
+import { GeneralChangePasswordError } from '@pages/auth-page/state/GeneralChangePasswordError.tsx';
 
 const paths = {
     root: {
@@ -27,8 +30,14 @@ const paths = {
     confirmEmail: {
         path: '/auth/confirm-email',
     },
+    changePassport: {
+        path: '/auth/change-password',
+    },
     successRegistration: {
         path: '/result/success',
+    },
+    successChangePassport: {
+        path: '/result/success-change-password',
     },
     errorRegistrationEmail: {
         path: '/result/error-user-exist',
@@ -45,6 +54,9 @@ const paths = {
     errorCheckEmailGeneral: {
         path: '/result/error-check-email',
     },
+    errorChangePasswordGeneral: {
+        path: '/result/error-change-password',
+    },
 };
 
 const allRoutes: RouteObject = {
@@ -55,12 +67,15 @@ const allRoutes: RouteObject = {
         { path: paths.auth.path, element: <Enter /> },
         { path: paths.registration.path, element: <Enter /> },
         { path: paths.successRegistration.path, element: <SuccessReg /> },
+        { path: paths.successChangePassport.path, element: <SuccessChangePassword /> },
         { path: paths.confirmEmail.path, element: <CheckCodeEmail /> },
+        { path: paths.changePassport.path, element: <ChangePassword /> },
         { path: paths.errorRegistrationEmail.path, element: <EmailRegistrationError /> },
         { path: paths.errorResetEmail.path, element: <EmailResetPasswordError /> },
         { path: paths.errorRegistrationGeneral.path, element: <GeneralRegistrationError /> },
         { path: paths.errorAuthGeneral.path, element: <GeneralAuthError /> },
         { path: paths.errorCheckEmailGeneral.path, element: <GeneralResetPasswordError /> },
+        { path: paths.errorChangePasswordGeneral.path, element: <GeneralChangePasswordError /> },
     ],
 };
 

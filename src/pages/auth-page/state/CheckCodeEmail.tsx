@@ -18,7 +18,8 @@ export const CheckCodeEmail: React.FC = () => {
 
     const handleInputChange = (value: string) => {
         if (value.length === 6) {
-            authConfirmEmail({ email: '', code: '' });
+            console.log({ email: userEmail.email, code: value });
+            authConfirmEmail({ email: userEmail.email, code: value });
         }
     };
 
@@ -52,8 +53,8 @@ export const CheckCodeEmail: React.FC = () => {
                         </h3>
                     )}
                     <span className={'message-state message-attention'}>
-                        Мы отправили вам на e-mail {userEmail.email} victorbyden@gmail.com <br />{' '}
-                        шестизначный код. Введите его в поле ниже.
+                        Мы отправили вам на e-mail {userEmail.email}
+                        <br /> шестизначный код. Введите его в поле ниже.
                     </span>
                     <VerificationInput
                         onChange={handleInputChange}

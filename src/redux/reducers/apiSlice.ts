@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
+import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
 
 interface ServerResponseAuth {
     accessToken: string;
@@ -12,7 +12,10 @@ interface ServerResponseCheckEmail {
 
 export const apiSlices = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({ baseUrl: 'https://marathon-api.clevertec.ru/' }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: 'https://marathon-api.clevertec.ru/',
+        credentials: 'include',
+    }),
     endpoints: (builder) => ({
         registerUser: builder.mutation<{ statusCode: number }, Partial<User>>({
             query: (userData) => ({
@@ -57,6 +60,18 @@ export const apiSlices = createApi({
                 statusCode: 200,
                 email: response.email,
                 message: response.message,
+                credentials: 'include',
+            }),
+        }),
+        authChangePassword: builder.mutation<{ statusCode: number }, Partial<UserChangePassword>>({
+            query: (userData) => ({
+                url: 'auth/change-password',
+                method: 'POST',
+                body: userData,
+            }),
+            transformResponse: (response: ServerResponseCheckEmail) => ({
+                statusCode: 201,
+                message: response.message,
             }),
         }),
     }),
@@ -66,3 +81,4 @@ export const { useRegisterUserMutation } = apiSlices;
 export const { useAuthUserMutation } = apiSlices;
 export const { useAuthCheckEmailMutation } = apiSlices;
 export const { useAuthConfirmEmailMutation } = apiSlices;
+export const { useAuthChangePasswordMutation } = apiSlices;

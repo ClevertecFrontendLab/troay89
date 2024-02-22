@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.t
 import { useMediaQuery } from 'react-responsive';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { saveDataEmail } from '@redux/reducers/userEmailSlice.ts';
+import { FieldData } from 'rc-field-form/lib/interface';
 
 interface AuthComponentProps {
     setIsLoading(value: boolean): void;
@@ -24,6 +25,12 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
         { data: checkEmailData, isLoading: checkEmailIsLoading, error: checkEmailError },
     ] = useAuthCheckEmailMutation();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+    const [isValid, setIsValid] = useState(true);
+
+    const onFieldsChange = (_: FieldData[], allFields: FieldData[]) => {
+        const isValidNow = allFields.every((field) => field.errors && !field.errors.length);
+        setIsValid(isValidNow);
+    };
 
     const onFinish = (values: User) => {
         values.isSave ? setIsSaveData(values.isSave) : null;
@@ -79,7 +86,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     }, [checkEmailData, checkEmailError, checkEmailIsLoading, setIsLoading]);
 
     return (
-        <Form form={form} name='auth' onFinish={onFinish}>
+        <Form form={form} name='auth' onFinish={onFinish} onFieldsChange={onFieldsChange}>
             <Space direction='vertical'>
                 <Space direction='vertical'>
                     <Form.Item
@@ -127,7 +134,12 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                     </Button>
                 </Space>
                 <Space className={'container-auth-buttons'} direction={'vertical'}>
-                    <Button className={'auth-enter'} type='primary' htmlType='submit'>
+                    <Button
+                        className={'auth-enter'}
+                        type='primary'
+                        htmlType='submit'
+                        disabled={!isValid}
+                    >
                         Войти
                     </Button>
                     <Button

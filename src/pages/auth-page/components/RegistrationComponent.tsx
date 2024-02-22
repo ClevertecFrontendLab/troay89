@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { User } from '../../../type/User.ts';
+import { FieldData } from 'rc-field-form/lib/interface';
 import { saveDataUser } from '@redux/reducers/userSlice.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { useRegisterUserMutation } from '@redux/reducers/apiSlice.ts';
@@ -19,6 +20,12 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
     const [registerUser, { data, isLoading, error }] = useRegisterUserMutation();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const [isTextPass, setIsTextPass] = useState(true);
+    const [isValid, setIsValid] = useState(true);
+
+    const onFieldsChange = (_: FieldData[], allFields: FieldData[]) => {
+        const isValidNow = allFields.every((field) => field.errors && !field.errors.length);
+        setIsValid(isValidNow);
+    };
 
     useEffect(() => {
         if (history.location.state?.from === '/result/error-user-exist') {
@@ -43,13 +50,12 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
     }, [data, dispatch, error, isLoading, setIsLoading]);
 
     const onFinish = (values: User) => {
-        console.log('Received values of form: ', values);
         dispatch(saveDataUser(values));
         registerUser({ email: values.email, password: values.password });
     };
 
     return (
-        <Form form={form} name='register' onFinish={onFinish}>
+        <Form form={form} name='register' onFinish={onFinish} onFieldsChange={onFieldsChange}>
             <Space direction='vertical' style={{ columnGap: 0 }}>
                 <Space className={'container-input-reg'} direction='vertical'>
                     <Form.Item
@@ -130,7 +136,12 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                         autoComplete={'new-password'}
                     />
                 </Form.Item>
-                <Button className={'reg-enter'} type='primary' htmlType='submit'>
+                <Button
+                    className={'reg-enter'}
+                    type='primary'
+                    htmlType='submit'
+                    disabled={!isValid}
+                >
                     Войти
                 </Button>
                 <Button
