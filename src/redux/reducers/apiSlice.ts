@@ -1,8 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User } from '../../type/User.ts';
+import { User, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
 
-interface ServerResponse {
+interface ServerResponseAuth {
     accessToken: string;
+}
+
+interface ServerResponseCheckEmail {
+    email: string;
+    message: string;
 }
 
 export const apiSlices = createApi({
@@ -25,9 +30,33 @@ export const apiSlices = createApi({
                 method: 'POST',
                 body: userData,
             }),
-            transformResponse: (response: ServerResponse) => ({
+            transformResponse: (response: ServerResponseAuth) => ({
                 statusCode: 201,
                 accessToken: response.accessToken,
+            }),
+        }),
+        authCheckEmail: builder.mutation<{ statusCode: number }, Partial<UserCheckEmail>>({
+            query: (userData) => ({
+                url: 'auth/check-email',
+                method: 'POST',
+                body: userData,
+            }),
+            transformResponse: (response: ServerResponseCheckEmail) => ({
+                statusCode: 200,
+                email: response.email,
+                message: response.message,
+            }),
+        }),
+        authConfirmEmail: builder.mutation<{ statusCode: number }, Partial<UserConfirmEmail>>({
+            query: (userData) => ({
+                url: 'auth/confirm-email',
+                method: 'POST',
+                body: userData,
+            }),
+            transformResponse: (response: ServerResponseCheckEmail) => ({
+                statusCode: 200,
+                email: response.email,
+                message: response.message,
             }),
         }),
     }),
@@ -35,3 +64,5 @@ export const apiSlices = createApi({
 
 export const { useRegisterUserMutation } = apiSlices;
 export const { useAuthUserMutation } = apiSlices;
+export const { useAuthCheckEmailMutation } = apiSlices;
+export const { useAuthConfirmEmailMutation } = apiSlices;

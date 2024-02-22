@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { User } from '../../../type/User.ts';
@@ -18,6 +18,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
     const [form] = Form.useForm();
     const [registerUser, { data, isLoading, error }] = useRegisterUserMutation();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+    const [isTextPass, setIsTextPass] = useState(true);
 
     useEffect(() => {
         if (history.location.state?.from === '/result/error-user-exist') {
@@ -67,6 +68,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                         <Input
                             className={'reg-input reg-input-email'}
                             size={'large'}
+                            autoComplete={'email'}
                             addonBefore='e-mail:'
                         />
                     </Form.Item>
@@ -80,22 +82,28 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                             () => ({
                                 validator(_, value) {
                                     if (
-                                        !value ||
-                                        value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
+                                        value &&
+                                        !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
                                     ) {
-                                        return Promise.resolve();
+                                        setIsTextPass(false);
+                                        return Promise.reject(
+                                            Error(
+                                                'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                                            ),
+                                        );
                                     }
-                                    return Promise.reject(
-                                        new Error(
-                                            'Пароль не менее 8 символов, с заглавной буквой и цифрой',
-                                        ),
-                                    );
+                                    setIsTextPass(true);
+                                    return Promise.resolve();
                                 },
                             }),
                         ]}
                         help={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
                     >
-                        <Input.Password className={'reg-input'} placeholder='Пaроль' />
+                        <Input.Password
+                            className={`reg-input ${isTextPass ? 'another-color' : ''}`}
+                            placeholder='Пaроль'
+                            autoComplete={'new-password'}
+                        />
                     </Form.Item>
                 </Space>
                 <Form.Item
@@ -119,12 +127,16 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                     <Input.Password
                         className={'reg-input repeat-pass'}
                         placeholder='Повторите пaроль'
+                        autoComplete={'new-password'}
                     />
                 </Form.Item>
                 <Button className={'reg-enter'} type='primary' htmlType='submit'>
                     Войти
                 </Button>
-                <Button className={'auth-enter'} icon={!isMobile ? <GooglePlusOutlined /> : ''}>
+                <Button
+                    className={'auth-enter auth-google'}
+                    icon={!isMobile ? <GooglePlusOutlined /> : ''}
+                >
                     Регистрация через Google
                 </Button>
             </Space>

@@ -34,7 +34,7 @@
     }
     @media screen and (max-width: 600px) {
         min-height: 612px;
-        margin: 0 17px 9px;
+        margin: 0 16px 9px;
         width: 100%;
         min-width: auto;
     }
@@ -70,7 +70,7 @@
     padding: 0;
     @media screen and (max-width: 600px) {
         width: 100%;
-        margin: 0 15px;
+        margin: 0 16px;
         padding: 0 15px;
     }
 }
@@ -84,7 +84,7 @@
 
 .auth-card .ant-card-body .ant-form-horizontal {
     @media screen and (max-width: 600px) {
-        margin: 0 15px;
+        margin: 0 16px;
     }
 }
 
@@ -141,6 +141,52 @@
     min-height: 40px;
 }
 
+.reg-input-email:hover .ant-input.ant-input-lg,
+.auth-input-email:hover .ant-input.ant-input-lg,
+.reg-input-email .ant-input.ant-input-lg:focus,
+.auth-input-email .ant-input.ant-input-lg:focus {
+    border-color: #597EF7;
+    box-shadow: 0 0 0 2px rgba(47, 84, 235, 0.2);
+}
+
+.ant-form-item-has-error .reg-input-email:hover .ant-input.ant-input-lg,
+.ant-form-item-has-error .auth-input-email:hover .ant-input.ant-input-lg,
+.ant-form-item-has-error .reg-input-email .ant-input.ant-input-lg:focus,
+.ant-form-item-has-error .auth-input-email .ant-input.ant-input-lg:focus {
+    border-color: #ff4d4f;
+    box-shadow: none;
+}
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused,
+.ant-input-password.reg-input:hover,
+.ant-input-password.auth-input:hover {
+    border-color: #597EF7;
+    box-shadow: 0 0 0 2px rgba(47, 84, 235, 0.2);
+}
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused .ant-input-password-icon,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused .ant-input-password-icon,
+.ant-input-password.reg-input:hover .ant-input-password-icon,
+.ant-input-password.auth-input:hover .ant-input-password-icon{
+    color: #2F54EB;
+}
+
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error,
+.ant-input-password.reg-input.ant-input-affix-wrapper-status-error,
+.ant-input-password.auth-input.ant-input-affix-wrapper-status-error {
+    box-shadow: none;
+}
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error .ant-input-password-icon,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error .ant-input-password-icon,
+.ant-input-password.reg-input.ant-input-affix-wrapper-status-error .ant-input-password-icon,
+.ant-input-password.auth-input.ant-input-affix-wrapper-status-error .ant-input-password-icon{
+    color: #8C8C8C;
+}
+
 .reg-input .ant-input-lg,
 .auth-input .ant-input-lg {
     min-height: 40px;
@@ -178,6 +224,20 @@
     margin-bottom: 8px;
 }
 
+.reg-enter.ant-btn-primary:hover,
+.auth-enter.ant-btn-primary:hover {
+    background: #597EF7;
+}
+
+.auth-enter.auth-google:hover {
+    border-color: #2F54EB;
+    color: #2F54EB;
+}
+
+.auth-enter.auth-google:hover .anticon-google-plus {
+    color: #85A5FF;
+}
+
 .reg-enter {
     margin: 30px 0 9px 0;
     @media screen and (max-width: 600px) {
@@ -190,16 +250,17 @@
     background: #2F54EB;
 }
 
-.auth-enter.ant-btn-default span {
+.auth-enter.ant-btn-default {
     color: #262626;
 }
 
 
 .forgot-link {
     font-size: 16px;
+    padding: 0;
     @media screen and (max-width: 600px) {
         font-size: 14px;
-        padding-right: 8px;
+        padding-right: 6px;
     }
 }
 
@@ -235,6 +296,10 @@
 .reg-card .ant-form-item-explain-success {
     font-size: 12px;
 
+}
+
+.ant-form-item-control:has(.another-color) .ant-form-item-explain-error {
+    color: #262626;
 }
 
 .reg-card .ant-form-item-explain,

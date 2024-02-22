@@ -3,3 +3,12 @@ export interface User {
     password: string;
     isSave?: boolean;
 }
+
+export interface UserCheckEmail {
+    email: string;
+}
+
+export interface UserConfirmEmail {
+    email: string;
+    code: string;
+}

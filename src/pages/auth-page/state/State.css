@@ -26,6 +26,20 @@
     min-height: 345px;
 }
 
+.wrapper-card-state.wrapper-error-reset-email{
+    margin: 1px 0 0 0;
+    min-height: 355px;
+}
+
+.wrapper-card-state.wrapper-general-email {
+    min-height: 550px;
+}
+
+.wrapper-card-state.wrapper-attention {
+    min-height: 428px;
+}
+
+
 .wrapper-card-state .ant-card-body {
     display: flex;
     flex-direction: column;
@@ -40,6 +54,10 @@
     }
 }
 
+.icon-state.large {
+    margin: 39px 0 20px 0;
+}
+
 .icon-state.status-success {
     color: #52C41A;
 }
@@ -48,14 +66,29 @@
     color: #FF4D4F;
 }
 
+.icon-state.status-error-code {
+    color: #FF4D4F;
+    margin: 44px 0 29px 0;
+}
+
 .icon-state.status-warning {
     color: #FAAD14;
+}
+
+.icon-state.status-attention {
+    color: #2F54EB;
+    margin: 44px 0 29px 0;
 }
 
 .title-state {
     font-size: 24px;
     font-family: 'InterMedium', sans-serif;
     margin: 0;
+}
+
+.title-state.title-attention {
+    text-align: center;
+    line-height: 31px;
 }
 
 .message-state {
@@ -65,9 +98,52 @@
     line-height: 18px;
 }
 
+.message-state.message-attention {
+    margin: 0 0 24px;
+}
+
 .button-state {
     width: 368px;
     margin-top: 24px;
     font-size: 14px;
     background: #2F54EB;
+}
+
+.button-state.small {
+    width: 73px;
+}
+
+.button-state.middle {
+    width: 167px;
+}
+
+.button-state:hover {
+    background: #597EF7;
+}
+
+.vi__container {
+    height: 40px;
+    margin-bottom: 28px;
+    justify-content: space-between;
+}
+
+.vi__character {
+    color: #262626;
+    font-size: 14px;
+    line-height: 39px;
+    max-height: 40px;
+    max-width: 40px;
+    border: 1px solid #D9D9D9;
+}
+
+.vi__character.error {
+    border: 1px solid #FF4D4F;
+}
+
+.vi__character.vi__character--selected {
+    outline: none;
+}
+
+.vi__character--inactive {
+    background-color: white;
 }

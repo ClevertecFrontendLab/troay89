@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import saveDataReducer from './reducers/userSlice.ts';
+import saveEmailReducer from './reducers/userEmailSlice.ts';
 import { routerMiddlewareSlice, routerReducerSlice } from '@redux/reducers/routerSlice.ts';
 import { apiSlices } from '@redux/reducers/apiSlice.ts';
 
@@ -7,6 +8,7 @@ export const store = configureStore({
     reducer: {
         router: routerReducerSlice,
         saveData: saveDataReducer,
+        saveEmail: saveEmailReducer,
         [apiSlices.reducerPath]: apiSlices.reducer,
     },
     middleware: (getDefaultMiddleware) =>
