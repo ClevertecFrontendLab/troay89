@@ -25,6 +25,7 @@ export const GeneralAuthError: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='login-retry-button'
                     >
                         Повторить
                     </Button>

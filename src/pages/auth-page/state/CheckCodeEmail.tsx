@@ -72,6 +72,7 @@ export const CheckCodeEmail: React.FC = () => {
                         classNames={{ character: isError ? 'error' : '' }}
                         validChars={'0-9'}
                         placeholder={''}
+                        data-test-id='verification-input'
                     />
                     <span className={'message-state'}>
                         Не пришло письмо? Проверьте{spaceMobile} {newLineMobile} папку Спам.

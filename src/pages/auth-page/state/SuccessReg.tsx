@@ -26,6 +26,7 @@ export const SuccessReg: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='registration-enter-button'
                     >
                         Войти
                     </Button>

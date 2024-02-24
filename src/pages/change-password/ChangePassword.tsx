@@ -88,6 +88,7 @@ export const ChangePassword: React.FC = () => {
                                 placeholder='Новый пaроль'
                                 autoComplete={'new-password'}
                                 size={'large'}
+                                data-test-id='change-password'
                             ></Input.Password>
                         </Form.Item>
                         <Form.Item
@@ -114,6 +115,7 @@ export const ChangePassword: React.FC = () => {
                                 placeholder='Повторите пaроль'
                                 size={'large'}
                                 autoComplete={'new-password'}
+                                data-test-id='change-confirm-password'
                             ></Input.Password>
                         </Form.Item>
                         <Button
@@ -121,6 +123,7 @@ export const ChangePassword: React.FC = () => {
                             type='primary'
                             htmlType='submit'
                             size={'large'}
+                            data-test-id='change-submit-button'
                         >
                             Сохранить
                         </Button>

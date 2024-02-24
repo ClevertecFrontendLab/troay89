@@ -31,6 +31,7 @@ export const GeneralResetPasswordError: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='check-back-button'
                     >
                         Назад
                     </Button>

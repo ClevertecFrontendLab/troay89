@@ -125,6 +125,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                             size={'large'}
                             autoComplete={'email'}
                             addonBefore='e-mail:'
+                            data-test-id='login-email'
                         />
                     </Form.Item>
                     <Form.Item
@@ -140,19 +141,30 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                             className={'auth-input'}
                             placeholder='Пaроль'
                             autoComplete={'current-password'}
+                            data-test-id='login-password'
                         />
                     </Form.Item>
                 </Space>
                 <Space className={'extra-container'}>
                     <Form.Item className={'auth-check'} name='isSave' valuePropName={'checked'}>
-                        <Checkbox>Запомнить меня</Checkbox>
+                        <Checkbox data-test-id='login-remember'>Запомнить меня</Checkbox>
                     </Form.Item>
-                    <Button type='link' className={'forgot-link'} onClick={handleForgotClick}>
+                    <Button
+                        type='link'
+                        className={'forgot-link'}
+                        onClick={handleForgotClick}
+                        data-test-id='login-forgot-button'
+                    >
                         Забыли пароль?
                     </Button>
                 </Space>
                 <Space className={'container-auth-buttons'} direction={'vertical'}>
-                    <Button className={'auth-enter'} type='primary' htmlType='submit'>
+                    <Button
+                        className={'auth-enter'}
+                        type='primary'
+                        htmlType='submit'
+                        data-test-id='login-submit-button'
+                    >
                         Войти
                     </Button>
                     <Button

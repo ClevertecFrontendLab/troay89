@@ -29,6 +29,7 @@ export const SuccessChangePassword: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='change-entry-button'
                     >
                         Вход
                     </Button>

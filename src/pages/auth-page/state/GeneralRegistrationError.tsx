@@ -26,6 +26,7 @@ export const GeneralRegistrationError: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='registration-retry-button'
                     >
                         Повторить
                     </Button>

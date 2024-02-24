@@ -81,6 +81,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                             size={'large'}
                             autoComplete={'email'}
                             addonBefore='e-mail:'
+                            data-test-id='registration-email'
                         />
                     </Form.Item>
                     <Form.Item
@@ -114,6 +115,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                             className={`reg-input ${isTextPass ? 'another-color' : ''}`}
                             placeholder='Пaроль'
                             autoComplete={'new-password'}
+                            data-test-id='registration-password'
                         />
                     </Form.Item>
                 </Space>
@@ -139,6 +141,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                         className={'reg-input repeat-pass'}
                         placeholder='Повторите пaроль'
                         autoComplete={'new-password'}
+                        data-test-id='registration-confirm-password'
                     />
                 </Form.Item>
                 <Button
@@ -151,6 +154,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                 </Button>
                 <Button
                     className={'auth-enter auth-google'}
+                    data-test-id='registration-submit-button'
                     icon={!isMobile ? <GooglePlusOutlined /> : ''}
                 >
                     Регистрация через Google

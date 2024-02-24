@@ -29,6 +29,7 @@ export const EmailRegistrationError: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='registration-back-button'
                     >
                         Назад к регистрации
                     </Button>

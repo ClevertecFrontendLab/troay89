@@ -13,7 +13,7 @@ const defaultOptions = {
 };
 
 export const Loader: React.FC = () => (
-    <div className={'loader'}>
+    <div className={'loader'} data-test-id='loader'>
         <Lottie options={defaultOptions} height={150} width={150} />
     </div>
 );

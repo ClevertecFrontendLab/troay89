@@ -32,6 +32,7 @@ export const EmailResetPasswordError: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='check-retry-button'
                     >
                         Попробовать снова
                     </Button>

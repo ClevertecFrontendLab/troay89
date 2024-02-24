@@ -23,6 +23,7 @@ export const GeneralChangePasswordError: React.FC = () => {
                         type='primary'
                         size={'large'}
                         onClick={handleClick}
+                        data-test-id='change-retry-button'
                     >
                         Повторить
                     </Button>
