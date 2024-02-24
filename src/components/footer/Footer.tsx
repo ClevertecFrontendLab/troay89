@@ -3,7 +3,7 @@ import {Layout} from "antd";
 import './Footer.css';
 
 
-const {Footer} = Layout;
+const { Footer } = Layout;
 
 export const FooterComponent: React.FC = () => (
     <Footer className={'footer-configuration'}>

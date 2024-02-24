@@ -16,20 +16,25 @@ interface AuthComponentProps {
 export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) => {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
-    const userEmail: UserCheckEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const [isSaveData, setIsSaveData] = useState<boolean>(false);
+    const [isEmailValid, setIsEmailValid] = useState(true);
+    const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+    const [isRedColor, setIsRedColor] = useState(false);
+    const userEmail: UserCheckEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
     const [authUser, { data: authData, isLoading: authIsLoading, error: authError }] =
         useAuthUserMutation();
     const [
         authCheckEmail,
         { data: checkEmailData, isLoading: checkEmailIsLoading, error: checkEmailError },
     ] = useAuthCheckEmailMutation();
-    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
-    const [isValid, setIsValid] = useState(true);
 
     const onFieldsChange = (_: FieldData[], allFields: FieldData[]) => {
-        const isValidNow = allFields.every((field) => field.errors && !field.errors.length);
-        setIsValid(isValidNow);
+        const emailField = allFields.find((field) => field.name[0] === 'email') as FieldData;
+        setIsEmailEmpty(Boolean(emailField.value));
+        setIsRedColor(!emailField.value);
+        const isValidNow = (emailField.errors && !emailField.errors.length) as boolean;
+        setIsEmailValid(isValidNow);
     };
 
     const onFinish = (values: User) => {
@@ -38,14 +43,23 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     };
 
     const handleForgotClick = () => {
-        const emailValue = form.getFieldValue('email');
-        const userCheckEmail: UserCheckEmail = { email: emailValue };
-        dispatch(saveDataEmail(userCheckEmail));
-        authCheckEmail({ email: emailValue });
+        setIsRedColor(true);
+        if (isEmailEmpty && isEmailValid) {
+            setIsRedColor(false);
+            const emailValue = form.getFieldValue('email');
+            const userCheckEmail: UserCheckEmail = { email: emailValue };
+            dispatch(saveDataEmail(userCheckEmail));
+            authCheckEmail({ email: emailValue });
+        }
     };
 
     useEffect(() => {
-        if (history.location.state?.from === '/auth/confirm-email') {
+        if (
+            history.location.state &&
+            typeof history.location.state === 'object' &&
+            'from' in history.location.state &&
+            history.location.state?.from === '/auth/confirm-email'
+        ) {
             authCheckEmail(userEmail);
         }
     }, [authCheckEmail, userEmail]);
@@ -74,6 +88,9 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             if (
                 'status' in checkEmailError &&
                 checkEmailError.status === 404 &&
+                typeof checkEmailError.data === 'object' &&
+                checkEmailError.data !== null &&
+                'message' in checkEmailError.data &&
                 checkEmailError.data.message === 'Email не найден'
             ) {
                 history.push('/result/error-check-email-no-exist', { from: '/auth' });
@@ -91,6 +108,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                 <Space direction='vertical'>
                     <Form.Item
                         name='email'
+                        validateStatus={isRedColor || !isEmailValid ? 'error' : 'success'}
                         rules={[
                             {
                                 type: 'email',
@@ -134,12 +152,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                     </Button>
                 </Space>
                 <Space className={'container-auth-buttons'} direction={'vertical'}>
-                    <Button
-                        className={'auth-enter'}
-                        type='primary'
-                        htmlType='submit'
-                        disabled={!isValid}
-                    >
+                    <Button className={'auth-enter'} type='primary' htmlType='submit'>
                         Войти
                     </Button>
                     <Button

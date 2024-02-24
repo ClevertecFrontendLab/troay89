@@ -18,8 +18,8 @@ export const SuccessReg: React.FC = () => {
                     <CheckCircleFilled className={'icon-state status-success'} />
                     <h3 className={'title-state'}>Регистрация успешна</h3>
                     <span className={'message-state'}>
-                        Регистрация прошла успешно. Зайдите <br /> в приложение, используя свои
-                        e-mail и пароль.
+                        Регистрация прошла успешно. Зайдите&nbsp; <br /> в приложение, используя
+                        свои e-mail и пароль.
                     </span>
                     <Button
                         className={'button-state'}

@@ -28,7 +28,12 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
     };
 
     useEffect(() => {
-        if (history.location.state?.from === '/result/error-user-exist') {
+        if (
+            history.location.state &&
+            typeof history.location.state === 'object' &&
+            'from' in history.location.state &&
+            history.location.state?.from === '/result/error-user-exist'
+        ) {
             registerUser(userData);
         }
     }, [registerUser, userData]);
@@ -47,7 +52,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
         } else if (isLoading) {
             setIsLoading(isLoading);
         }
-    }, [data, dispatch, error, isLoading, setIsLoading]);
+    }, [data, error, isLoading, setIsLoading]);
 
     const onFinish = (values: User) => {
         dispatch(saveDataUser(values));

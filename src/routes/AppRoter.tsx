@@ -86,6 +86,10 @@ export const AppRouter = React.memo(() => {
         const isAuthUser = sessionStorage.getItem('jwtToken') || localStorage.getItem('jwtToken');
         if (
             location.pathname.startsWith('/result') &&
+            history.location.state &&
+            typeof history.location.state === 'object' &&
+            'from' in history.location.state &&
+            typeof history.location.state.from === 'string' &&
             !history.location.state?.from.startsWith('/auth')
         ) {
             setRedirectToAuth(true);

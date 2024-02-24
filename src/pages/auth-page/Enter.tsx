@@ -92,5 +92,3 @@ export const Enter: React.FC = () => {
         </Layout>
     );
 };
-
-// maraphon2024front

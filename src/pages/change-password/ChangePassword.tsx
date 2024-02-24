@@ -2,7 +2,7 @@ import { Button, Card, Form, Input, Layout } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { history } from '@redux/reducers/routerSlice.ts';
 import './ChangePassword.css';
-import { User } from '../../type/User.ts';
+import { UserChangePassword } from '../../type/User.ts';
 import { useAuthChangePasswordMutation } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
@@ -18,10 +18,15 @@ export const ChangePassword: React.FC = () => {
     const userData = useAppSelector((state) => state.saveNewPassword.saveUserNewPassword);
 
     useEffect(() => {
-        if (history.location.state?.from === '/result/error-change-password') {
+        if (
+            history.location.state &&
+            typeof history.location.state === 'object' &&
+            'from' in history.location.state &&
+            history.location.state?.from === '/result/error-change-password'
+        ) {
             changePassword({ password: userData.password, confirmPassword: userData.password });
         }
-    }, [changePassword]);
+    }, [changePassword, userData.password]);
 
     useEffect(() => {
         if (data) {
@@ -31,7 +36,7 @@ export const ChangePassword: React.FC = () => {
         }
     }, [data, error]);
 
-    const onFinish = (values: User) => {
+    const onFinish = (values: UserChangePassword) => {
         dispatch(saveDataNewPassword({ password: values.password }));
         changePassword({ password: values.password, confirmPassword: values.confirmPassword });
     };

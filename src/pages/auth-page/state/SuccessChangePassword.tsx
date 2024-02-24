@@ -3,10 +3,13 @@ import { Button, Card, Layout } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
 import './State.css';
 import { history } from '@redux/reducers/routerSlice.ts';
+import { useMediaQuery } from 'react-responsive';
 
 const { Content } = Layout;
 
 export const SuccessChangePassword: React.FC = () => {
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+    const spaceMobile = isMobile ? <>&nbsp;</> : '';
     const handleClick = () => {
         history.push('/auth');
     };
@@ -16,9 +19,9 @@ export const SuccessChangePassword: React.FC = () => {
             <Content className={'wrapper-content-state'}>
                 <Card className={'wrapper-card-state change-passport'}>
                     <CheckCircleFilled className={'icon-state status-success'} />
-                    <h3 className={'title-state'}>Пароль успешно изменен</h3>
+                    <h3 className={'title-state title-success-pass'}>Пароль успешно изменен</h3>
                     <span className={'message-state'}>
-                        Теперь можно войти в аккаунт, используя <br />
+                        Теперь можно войти в аккаунт, используя{spaceMobile} <br />
                         свой логин и новый пароль
                     </span>
                     <Button

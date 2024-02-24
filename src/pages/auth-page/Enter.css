@@ -49,9 +49,9 @@
 }
 
 .container-auth .ant-card-head-title {
-    margin: 48px 0 42px 0;
+    margin: 48px 0 42px;
     @media screen and (max-width: 600px) {
-        margin: 16px 0 28px 0;
+        margin: 16px 0 28px;
     }
 }
 
@@ -210,9 +210,9 @@
 .extra-container {
     width: 100%;
     justify-content: space-between;
-    margin: 18px 0 12px 0;
+    margin: 18px 0 12px;
     @media screen and (max-width: 600px) {
-        margin: 15px 0 9px 0;
+        margin: 15px 0 9px;
     }
 }
 
@@ -239,15 +239,20 @@
 }
 
 .reg-enter {
-    margin: 30px 0 9px 0;
+    margin: 30px 0 9px;
     @media screen and (max-width: 600px) {
-        margin: 23px 0 8px 0;
+        margin: 23px 0 8px;
     }
 }
 
 .reg-enter.ant-btn-primary,
 .auth-enter.ant-btn-primary {
     background: #2F54EB;
+}
+
+.reg-enter.ant-btn-primary:disabled {
+    background: #D9D9D9;
+    color: #BFBFBF;
 }
 
 .auth-enter.ant-btn-default {

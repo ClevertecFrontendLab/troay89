@@ -4,6 +4,12 @@
     margin: auto;
     background: no-repeat center/cover url('/img/png/Enter page_light.png');
     font-family: 'Inter', sans-serif;
+    @media screen and (max-width: 835px) {
+        min-height: 1195px;
+    }
+    @media screen and (max-width: 600px) {
+        min-height: 800px;
+    }
 }
 
 .wrapper-content-state {
@@ -20,27 +26,60 @@
     min-height: 363px;
     margin-bottom: 1px;
     margin-left: 1px;
+    @media screen and (max-width: 600px) {
+        min-width: auto;
+        width: 100%;
+        margin: 0 16px 1px;
+        min-height: 317px;
+    }
+}
+
+.wrapper-card-state.wrapper-general-reg {
+    @media screen and (max-width: 600px) {
+        min-height: 299px;
+    }
 }
 
 .wrapper-card-state.wrapper-warning {
     min-height: 345px;
+    @media screen and (max-width: 835px) {
+        margin-bottom: 2px;
+    }
+
+    @media screen and (max-width: 600px) {
+        min-height: 281px;
+    }
 }
 
-.wrapper-card-state.wrapper-error-reset-email{
-    margin: 1px 0 0 0;
+.wrapper-card-state.wrapper-error-reset-email {
+    margin: 1px 0 0;
     min-height: 355px;
+    @media screen and (max-width: 600px) {
+        margin: 0 16px 1px;
+        min-height: 386px;
+    }
 }
 
 .wrapper-card-state.wrapper-general-email {
     min-height: 550px;
+    @media screen and (max-width: 600px) {
+        min-height: 568px;
+    }
 }
 
 .wrapper-card-state.wrapper-attention {
     min-height: 428px;
+    @media screen and (max-width: 600px) {
+        min-height: 457px;
+        margin-top: 2px;
+    }
 }
 
 .wrapper-card-state.wrapper-error-change-passport {
     min-height: 337px;
+    @media screen and (max-width: 600px) {
+        min-height: 281px;
+    }
 }
 
 
@@ -48,45 +87,63 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media screen and (max-width: 600px) {
+        padding: 24px 13px;
+    }
 }
 
 .wrapper-card-state.change-passport {
     min-height: 355px;
     margin-bottom: 0;
+    @media screen and (max-width: 600px) {
+        min-height: 330px;
+    }
 }
 
 .icon-state {
-    margin: 44px 0 26px 0;
+    margin: 44px 0 26px;
+
     svg {
         height: 70px;
         width: 70px;
     }
+
+    @media screen and (max-width: 600px) {
+        margin: 12px 0 26px;
+    }
 }
 
 .icon-state.large {
-    margin: 39px 0 20px 0;
+    margin: 39px 0 20px;
 }
 
 .icon-state.status-success {
     color: #52C41A;
+    @media screen and (max-width: 600px) {
+        margin: 12px 0 29px;
+    }
 }
 
-.icon-state.status-error {
+.icon-state.status-error,
+.status-error-code.color {
     color: #FF4D4F;
 }
 
+.status-attention.color {
+    color: #2F54EB;
+
+}
+
+.icon-state.status-attention,
 .icon-state.status-error-code {
-    color: #FF4D4F;
-    margin: 44px 0 29px 0;
+    margin: 44px 0 29px;
+    @media screen and (max-width: 600px) {
+        margin: 12px 0 29px;
+    }
 }
 
 .icon-state.status-warning {
     color: #FAAD14;
-}
-
-.icon-state.status-attention {
-    color: #2F54EB;
-    margin: 44px 0 29px 0;
 }
 
 .title-state {
@@ -101,6 +158,14 @@
     line-height: 31px;
 }
 
+.title-state.title-success-pass {
+    @media screen and (max-width: 600px) {
+        text-align: center;
+        line-height: 31px;
+        margin-bottom: 4px;
+    }
+}
+
 .message-state {
     text-align: center;
     display: block;
@@ -113,11 +178,18 @@
     margin: 0 0 24px;
 }
 
+.message-attention .email-style {
+    font-family: 'InterBold', sans-serif;
+}
+
 .button-state {
     width: 368px;
     margin-top: 24px;
     font-size: 14px;
     background: #2F54EB;
+    @media screen and (max-width: 600px) {
+        width: 296px;
+    }
 }
 
 .button-state.small {
@@ -136,6 +208,9 @@
     height: 40px;
     margin-bottom: 28px;
     justify-content: space-between;
+    @media screen and (max-width: 600px) {
+        width: 280px;
+    }
 }
 
 .vi__character {
@@ -157,4 +232,18 @@
 
 .vi__character--inactive {
     background-color: white;
+}
+
+.wrapper-error-reset-email .status-error {
+    @media screen and (max-width: 600px) {
+        margin: 42px 0 31px;
+    }
+}
+
+.title-state.title-email-reset {
+    @media screen and (max-width: 600px) {
+        text-align: center;
+        line-height: 31px;
+        margin-bottom: 5px;
+    }
 }
