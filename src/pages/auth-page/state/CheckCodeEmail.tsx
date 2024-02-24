@@ -70,9 +70,9 @@ export const CheckCodeEmail: React.FC = () => {
                         value={inputValue}
                         onChange={handleInputChange}
                         classNames={{ character: isError ? 'error' : '' }}
-                        validChars={'0-9'}
+                        // validChars={'0-9'}
                         placeholder={''}
-                        data-test-id='verification-input'
+                        inputProps={{ 'data-test-id': 'verification-input', autoFocus: true }}
                     />
                     <span className={'message-state'}>
                         Не пришло письмо? Проверьте{spaceMobile} {newLineMobile} папку Спам.

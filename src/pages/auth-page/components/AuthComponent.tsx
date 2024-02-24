@@ -47,8 +47,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
         if (isEmailEmpty && isEmailValid) {
             setIsRedColor(false);
             const emailValue = form.getFieldValue('email');
-            const userCheckEmail: UserCheckEmail = { email: emailValue };
-            dispatch(saveDataEmail(userCheckEmail));
+            dispatch(saveDataEmail({ email: emailValue }));
             authCheckEmail({ email: emailValue });
         }
     };
@@ -58,9 +57,9 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             history.location.state &&
             typeof history.location.state === 'object' &&
             'from' in history.location.state &&
-            history.location.state?.from === '/auth/confirm-email'
+            history.location.state?.from === '/result/error-check-email'
         ) {
-            authCheckEmail(userEmail);
+            authCheckEmail({ email: userEmail.email });
         }
     }, [authCheckEmail, userEmail]);
 
@@ -82,7 +81,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     useEffect(() => {
         if (checkEmailData) {
             setIsLoading(checkEmailIsLoading);
-            history.push('/auth/confirm-email');
+            history.push('/auth/confirm-email', { from: '/auth' });
         } else if (checkEmailError) {
             setIsLoading(checkEmailIsLoading);
             if (
@@ -135,6 +134,17 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                                 required: true,
                                 message: '',
                             },
+                            () => ({
+                                validator(_, value) {
+                                    if (
+                                        value &&
+                                        !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
+                                    ) {
+                                        return Promise.reject(Error(''));
+                                    }
+                                    return Promise.resolve();
+                                },
+                            }),
                         ]}
                     >
                         <Input.Password

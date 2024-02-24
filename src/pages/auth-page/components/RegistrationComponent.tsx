@@ -149,12 +149,12 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                     type='primary'
                     htmlType='submit'
                     disabled={!isValid}
+                    data-test-id='registration-submit-button'
                 >
                     Войти
                 </Button>
                 <Button
                     className={'auth-enter auth-google'}
-                    data-test-id='registration-submit-button'
                     icon={!isMobile ? <GooglePlusOutlined /> : ''}
                 >
                     Регистрация через Google

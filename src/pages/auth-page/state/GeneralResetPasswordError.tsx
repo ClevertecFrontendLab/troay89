@@ -8,7 +8,7 @@ const { Content } = Layout;
 
 export const GeneralResetPasswordError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth', { from: '/auth/confirm-email' });
+        history.push('/auth', { from: '/result/error-check-email' });
     };
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const newLine = isMobile ? <br /> : '';
