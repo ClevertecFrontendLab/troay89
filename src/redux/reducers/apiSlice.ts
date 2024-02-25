@@ -5,11 +5,6 @@ interface ServerResponseAuth {
     accessToken: string;
 }
 
-interface ServerResponseCheckEmail {
-    email: string;
-    message: string;
-}
-
 export const apiSlices = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
@@ -44,10 +39,8 @@ export const apiSlices = createApi({
                 method: 'POST',
                 body: userData,
             }),
-            transformResponse: (response: ServerResponseCheckEmail) => ({
+            transformResponse: () => ({
                 statusCode: 200,
-                email: response.email,
-                message: response.message,
             }),
         }),
         authConfirmEmail: builder.mutation<{ statusCode: number }, Partial<UserConfirmEmail>>({
@@ -56,11 +49,8 @@ export const apiSlices = createApi({
                 method: 'POST',
                 body: userData,
             }),
-            transformResponse: (response: ServerResponseCheckEmail) => ({
+            transformResponse: () => ({
                 statusCode: 200,
-                email: response.email,
-                message: response.message,
-                credentials: 'include',
             }),
         }),
         authChangePassword: builder.mutation<{ statusCode: number }, Partial<UserChangePassword>>({
@@ -69,9 +59,8 @@ export const apiSlices = createApi({
                 method: 'POST',
                 body: userData,
             }),
-            transformResponse: (response: ServerResponseCheckEmail) => ({
+            transformResponse: () => ({
                 statusCode: 201,
-                message: response.message,
             }),
         }),
     }),

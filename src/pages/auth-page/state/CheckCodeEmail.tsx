@@ -4,7 +4,6 @@ import { CloseCircleFilled, ExclamationCircleFilled } from '@ant-design/icons';
 import './State.css';
 import { history } from '@redux/reducers/routerSlice.ts';
 import VerificationInput from 'react-verification-input';
-import { UserCheckEmail } from '../../../type/User.ts';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { useAuthConfirmEmailMutation } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
@@ -15,7 +14,7 @@ const { Content } = Layout;
 export const CheckCodeEmail: React.FC = () => {
     const [isError, setIsError] = useState(false);
     const [inputValue, setInputValue] = useState('');
-    const userEmail: UserCheckEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
+    const userEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
     const [authConfirmEmail, { data, isLoading, error }] = useAuthConfirmEmailMutation();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const newLineMobile = isMobile ? <br /> : '';
@@ -26,7 +25,7 @@ export const CheckCodeEmail: React.FC = () => {
     const handleInputChange = (value: string) => {
         setInputValue(value);
         if (value.length === 6) {
-            authConfirmEmail({ email: userEmail.email, code: value });
+            authConfirmEmail({ email: userEmail, code: value });
             setInputValue('');
         }
     };
@@ -63,7 +62,7 @@ export const CheckCodeEmail: React.FC = () => {
                     )}
                     <span className={'message-state message-attention'}>
                         Мы отправили вам на e-mail{' '}
-                        <span className={'email-style'}>{userEmail.email}</span>
+                        <span className={'email-style'}>{userEmail}</span>
                         <br /> шестизначный код. Введите его в поле ниже.
                     </span>
                     <VerificationInput

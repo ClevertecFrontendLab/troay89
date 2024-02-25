@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
-import { User, UserCheckEmail } from '../../../type/User.ts';
+import { User } from '../../../type/User.ts';
 import { useAuthCheckEmailMutation, useAuthUserMutation } from '@redux/reducers/apiSlice.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { useMediaQuery } from 'react-responsive';
@@ -21,7 +21,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isEmailEmpty, setIsEmailEmpty] = useState(false);
     const [isRedColor, setIsRedColor] = useState(false);
-    const userEmail: UserCheckEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
+    const userEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
     const [authUser, { data: authData, isLoading: authIsLoading, error: authError }] =
         useAuthUserMutation();
     const [
@@ -47,7 +47,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
         if (isEmailEmpty && isEmailValid) {
             setIsRedColor(false);
             const emailValue = form.getFieldValue('email');
-            dispatch(saveDataEmail({ email: emailValue }));
+            dispatch(saveDataEmail(emailValue));
             authCheckEmail({ email: emailValue });
         }
     };
@@ -59,7 +59,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             'from' in history.location.state &&
             history.location.state?.from === '/result/error-check-email'
         ) {
-            authCheckEmail({ email: userEmail.email });
+            authCheckEmail({email: userEmail});
         }
     }, [authCheckEmail, userEmail]);
 

@@ -1,19 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserCheckEmail } from '../../type/User.ts';
 
 type InitialState = {
-    saveUserEmail: UserCheckEmail;
+    saveUserEmail: string;
 };
 
 const initialState: InitialState = {
-    saveUserEmail: { email: '' },
+    saveUserEmail: '',
 };
 
 const saveDataUserEmail = createSlice({
     name: 'saveDataUserEmail',
     initialState,
     reducers: {
-        saveDataEmail: (state, action: PayloadAction<UserCheckEmail>) => {
+        saveDataEmail: (state, action: PayloadAction<string>) => {
             state.saveUserEmail = action.payload;
         },
     },
