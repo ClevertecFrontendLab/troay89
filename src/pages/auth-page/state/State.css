@@ -102,11 +102,7 @@
 
 .icon-state {
     margin: 44px 0 26px;
-
-    svg {
-        height: 70px;
-        width: 70px;
-    }
+    font-size: 70px;
 
     @media screen and (max-width: 600px) {
         margin: 12px 0 26px;
