@@ -1,0 +1,245 @@
+.wrapper-layout-state {
+    max-width: 1440px;
+    min-height: 1024px;
+    margin: auto;
+    background: no-repeat center/cover url('/img/png/Enter page_light.png');
+    font-family: 'Inter', sans-serif;
+    @media screen and (max-width: 835px) {
+        min-height: 1195px;
+    }
+    @media screen and (max-width: 600px) {
+        min-height: 800px;
+    }
+}
+
+.wrapper-content-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(12px);
+    background: rgba(121, 156, 212, 0.5);
+    min-height: 742px;
+}
+
+.wrapper-card-state {
+    min-width: 539px;
+    min-height: 363px;
+    margin-bottom: 1px;
+    margin-left: 1px;
+    @media screen and (max-width: 600px) {
+        min-width: auto;
+        width: 100%;
+        margin: 0 16px 1px;
+        min-height: 317px;
+    }
+}
+
+.wrapper-card-state.wrapper-general-reg {
+    @media screen and (max-width: 600px) {
+        min-height: 299px;
+    }
+}
+
+.wrapper-card-state.wrapper-warning {
+    min-height: 345px;
+    @media screen and (max-width: 835px) {
+        margin-bottom: 2px;
+    }
+
+    @media screen and (max-width: 600px) {
+        min-height: 281px;
+    }
+}
+
+.wrapper-card-state.wrapper-error-reset-email {
+    margin: 1px 0 0;
+    min-height: 355px;
+    @media screen and (max-width: 600px) {
+        margin: 0 16px 1px;
+        min-height: 386px;
+    }
+}
+
+.wrapper-card-state.wrapper-general-email {
+    min-height: 550px;
+    @media screen and (max-width: 600px) {
+        min-height: 568px;
+    }
+}
+
+.wrapper-card-state.wrapper-attention {
+    min-height: 428px;
+    @media screen and (max-width: 600px) {
+        min-height: 457px;
+        margin-top: 2px;
+    }
+}
+
+.wrapper-card-state.wrapper-error-change-passport {
+    min-height: 337px;
+    @media screen and (max-width: 600px) {
+        min-height: 281px;
+    }
+}
+
+
+.wrapper-card-state .ant-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media screen and (max-width: 600px) {
+        padding: 24px 13px;
+    }
+}
+
+.wrapper-card-state.change-passport {
+    min-height: 355px;
+    margin-bottom: 0;
+    @media screen and (max-width: 600px) {
+        min-height: 330px;
+    }
+}
+
+.icon-state {
+    margin: 44px 0 26px;
+    font-size: 70px;
+
+    @media screen and (max-width: 600px) {
+        margin: 12px 0 26px;
+    }
+}
+
+.icon-state.large {
+    margin: 39px 0 20px;
+}
+
+.icon-state.status-success {
+    color: #52C41A;
+    @media screen and (max-width: 600px) {
+        margin: 12px 0 29px;
+    }
+}
+
+.icon-state.status-error,
+.status-error-code.color {
+    color: #FF4D4F;
+}
+
+.status-attention.color {
+    color: #2F54EB;
+
+}
+
+.icon-state.status-attention,
+.icon-state.status-error-code {
+    margin: 44px 0 29px;
+    @media screen and (max-width: 600px) {
+        margin: 12px 0 29px;
+    }
+}
+
+.icon-state.status-warning {
+    color: #FAAD14;
+}
+
+.title-state {
+    font-size: 24px;
+    font-family: 'InterMedium', sans-serif;
+    margin: 0;
+    color: #262626;
+}
+
+.title-state.title-attention {
+    text-align: center;
+    line-height: 31px;
+}
+
+.title-state.title-success-pass {
+    @media screen and (max-width: 600px) {
+        text-align: center;
+        line-height: 31px;
+        margin-bottom: 4px;
+    }
+}
+
+.message-state {
+    text-align: center;
+    display: block;
+    margin-top: -4px;
+    line-height: 18px;
+    color: #8C8C8C;
+}
+
+.message-state.message-attention {
+    margin: 0 0 24px;
+}
+
+.message-attention .email-style {
+    font-family: 'InterBold', sans-serif;
+}
+
+.button-state {
+    width: 368px;
+    margin-top: 24px;
+    font-size: 14px;
+    background: #2F54EB;
+    @media screen and (max-width: 600px) {
+        width: 296px;
+    }
+}
+
+.button-state.small {
+    width: 73px;
+}
+
+.button-state.middle {
+    width: 167px;
+}
+
+.button-state:hover {
+    background: #597EF7;
+}
+
+.vi__container {
+    height: 40px;
+    margin-bottom: 28px;
+    justify-content: space-between;
+    @media screen and (max-width: 600px) {
+        width: 280px;
+    }
+}
+
+.vi__character {
+    color: #262626;
+    font-size: 14px;
+    line-height: 39px;
+    max-height: 40px;
+    max-width: 40px;
+    border: 1px solid #D9D9D9;
+}
+
+.vi__character.error {
+    border: 1px solid #FF4D4F;
+}
+
+.vi__character.vi__character--selected {
+    outline: none;
+}
+
+.vi__character--inactive {
+    background-color: white;
+}
+
+.wrapper-error-reset-email .status-error {
+    @media screen and (max-width: 600px) {
+        margin: 42px 0 31px;
+    }
+}
+
+.title-state.title-email-reset {
+    @media screen and (max-width: 600px) {
+        text-align: center;
+        line-height: 31px;
+        margin-bottom: 5px;
+    }
+}

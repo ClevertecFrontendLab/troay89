@@ -10,8 +10,3 @@
     font-family: 'Inter';
     src: url('/font/Inter-Regular.ttf') format('truetype');
 }
-
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}

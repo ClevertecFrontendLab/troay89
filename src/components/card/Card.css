@@ -32,7 +32,7 @@
     }
 }
 
-.ant-card-head {
+.small-cards .ant-card-head {
     min-height: 45px;
     @media screen and (max-width: 1000px) {
         padding: 0;
@@ -96,3 +96,4 @@
 .small-cards .ant-card-body:hover .anticon svg path {
     fill: #85A5FF;
 }
+

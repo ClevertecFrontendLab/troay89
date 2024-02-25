@@ -1,0 +1,334 @@
+.auth-layout.ant-layout{
+    position: relative;
+    max-width: 1440px;
+    min-height: 1024px;
+    margin: auto;
+    background: no-repeat center/cover url('/img/png/Enter page_light.png');
+    font-family: 'Inter', sans-serif;
+}
+
+.ant-layout-content.container-auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(12px);
+    background: rgba(121, 156, 212, 0.5);
+}
+
+.auth-card.ant-card  {
+    width: 539px;
+    min-height: 742px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2px;
+    margin-left: 1px;
+}
+
+.reg-card.ant-card {
+    min-height: 686px;
+}
+
+.container-auth .ant-card-head-title {
+    margin: 48px 0 42px;
+}
+
+.container-auth .ant-card-head-tabs {
+    width: 368px;
+}
+
+.auth-card .ant-card-head-wrapper .ant-card-head-title{
+    text-align: center;
+}
+
+.auth-card .ant-card-head {
+    padding: 0;
+}
+
+.auth-card .ant-card-body {
+    padding: 25px 0;
+}
+
+.reg-card .ant-card-body {
+    padding: 32.5px 0;
+}
+
+
+.auth-card .ant-card-head .ant-tabs-nav .ant-tabs-nav-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab {
+    padding-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+    color: #262626;
+    margin: 0;
+    justify-content: center;
+    flex: 1;
+}
+
+.auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #2F54EB;
+}
+
+.ant-input-wrapper.ant-input-group {
+    width: 368px;
+}
+
+.ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
+    background: #2F54EB;
+    width: 50% !important;
+}
+
+.auth-layout .ant-input-group-addon {
+    padding: 0 12px;
+    color: #262626;
+}
+
+.reg-input,
+.auth-input {
+    min-height: 40px;
+}
+
+.reg-input-email:hover .ant-input.ant-input-lg,
+.auth-input-email:hover .ant-input.ant-input-lg,
+.reg-input-email .ant-input.ant-input-lg:focus,
+.auth-input-email .ant-input.ant-input-lg:focus {
+    border-color: #597EF7;
+    box-shadow: 0 0 0 2px rgba(47, 84, 235, 0.2);
+}
+
+.ant-form-item-has-error .reg-input-email:hover .ant-input.ant-input-lg,
+.ant-form-item-has-error .auth-input-email:hover .ant-input.ant-input-lg,
+.ant-form-item-has-error .reg-input-email .ant-input.ant-input-lg:focus,
+.ant-form-item-has-error .auth-input-email .ant-input.ant-input-lg:focus {
+    border-color: #ff4d4f;
+    box-shadow: none;
+}
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused,
+.ant-input-password.reg-input:hover,
+.ant-input-password.auth-input:hover {
+    border-color: #597EF7;
+    box-shadow: 0 0 0 2px rgba(47, 84, 235, 0.2);
+}
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused .ant-input-password-icon,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused .ant-input-password-icon,
+.ant-input-password.reg-input:hover .ant-input-password-icon,
+.ant-input-password.auth-input:hover .ant-input-password-icon{
+    color: #2F54EB;
+}
+
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error,
+.ant-input-password.reg-input.ant-input-affix-wrapper-status-error,
+.ant-input-password.auth-input.ant-input-affix-wrapper-status-error {
+    box-shadow: none;
+}
+
+.ant-input-password.reg-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error .ant-input-password-icon,
+.ant-input-password.auth-input.ant-input-affix-wrapper-focused.ant-input-affix-wrapper-status-error .ant-input-password-icon,
+.ant-input-password.reg-input.ant-input-affix-wrapper-status-error .ant-input-password-icon,
+.ant-input-password.auth-input.ant-input-affix-wrapper-status-error .ant-input-password-icon{
+    color: #8C8C8C;
+}
+
+.reg-input .ant-input-lg,
+.auth-input .ant-input-lg {
+    min-height: 40px;
+}
+
+.reg-input .ant-input-wrapper,
+.auth-input .ant-input-wrapper {
+    min-height: 40px;
+}
+
+
+.auth-input-email,
+.reg-input-email {
+    margin-bottom: 0;
+}
+
+.reg-input-email .ant-input-lg {
+    color: #262626;
+}
+
+.extra-container {
+    width: 100%;
+    justify-content: space-between;
+    margin: 18px 0 12px;
+}
+
+.extra-container .ant-checkbox-wrapper {
+    color: #262626;
+}
+
+.auth-enter.ant-btn-primary {
+    margin-bottom: 8px;
+}
+
+.reg-enter.ant-btn-primary:hover,
+.auth-enter.ant-btn-primary:hover {
+    background: #597EF7;
+}
+
+.auth-enter.auth-google:hover {
+    border-color: #2F54EB;
+    color: #2F54EB;
+}
+
+.auth-enter.auth-google:hover .anticon-google-plus {
+    color: #85A5FF;
+}
+
+.reg-enter {
+    margin: 30px 0 9px;
+}
+
+.reg-enter.ant-btn-primary,
+.auth-enter.ant-btn-primary {
+    background: #2F54EB;
+}
+
+.reg-enter.ant-btn-primary:disabled {
+    background: #D9D9D9;
+    color: #BFBFBF;
+}
+
+.auth-enter.ant-btn-default {
+    color: #262626;
+}
+
+
+.forgot-link {
+    font-size: 16px;
+    padding: 0;
+}
+
+.auth-layout .reg-enter,
+.auth-layout .auth-enter {
+    width: 100%;
+    min-height: 40px;
+    font-size: 16px;
+}
+
+.container-auth-buttons {
+    width: 100%;
+}
+
+.reg-card .password-message {
+    display: block;
+    font-size: 12px;
+    color: #8C8C8C;
+}
+
+.repeat-pass {
+    margin-top: 14px;
+}
+
+.reg-card .ant-form-item-explain-error,
+.reg-card .ant-form-item-explain,
+.reg-card .ant-form-item-explain-success {
+    font-size: 12px;
+
+}
+
+.ant-form-item-control:has(.another-color) .ant-form-item-explain-error {
+    color: #262626;
+}
+
+.reg-card .ant-form-item-explain,
+.reg-card .ant-form-item-explain-success {
+    color: #8C8C8C;
+}
+
+.auth-check {
+    margin: 0;
+}
+
+@media (max-width: 835px) {
+    .auth-layout.ant-layout {
+        min-height: 1195px;
+    }
+    .auth-card.ant-card {
+        margin: 0 0 53px;
+    }
+}
+
+@media (max-width: 600px) {
+    .auth-card.ant-card  {
+        min-height: 612px;
+        margin: 0 16px 9px;
+        width: 100%;
+    }
+    .reg-card.ant-card {
+        min-height: 564px;
+    }
+
+    .container-auth .ant-card-head-title {
+        margin: 16px 0 28px;
+    }
+
+    .container-auth .ant-card-head-tabs {
+        width: 100%;
+    }
+
+    .auth-card .ant-card-head {
+        width: 100%;
+        margin: 0 16px;
+        padding: 0 15px;
+    }
+
+    .auth-card .ant-card-body {
+        padding: 24px 0;
+    }
+
+    .auth-card .ant-card-body .ant-form-horizontal {
+        margin: 0 16px;
+    }
+
+    .reg-card .ant-card-body {
+        padding: 24px 0;
+    }
+
+    .auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab {
+        font-size: 14px;
+        padding: 15px 0 12px;
+    }
+
+    .extra-container {
+        margin: 15px 0 9px;
+    }
+
+    .reg-enter {
+        margin: 23px 0 8px;
+    }
+
+    .forgot-link {
+        font-size: 14px;
+        padding-right: 6px;
+    }
+
+    .auth-layout .reg-enter,
+    .auth-layout .auth-enter {
+        font-size: 14px;
+    }
+
+    .repeat-pass {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 440px) {
+    .auth-layout.ant-layout {
+        min-height: 800px;
+    }
+    .ant-input-wrapper.ant-input-group {
+        width: 100%;
+    }
+}
