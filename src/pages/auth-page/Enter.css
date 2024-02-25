@@ -5,12 +5,6 @@
     margin: auto;
     background: no-repeat center/cover url('/img/png/Enter page_light.png');
     font-family: 'Inter', sans-serif;
-    @media (max-width: 835px) {
-        min-height: 1195px;
-    }
-    @media (max-width: 440px) {
-        min-height: 800px;
-    }
 }
 
 .ant-layout-content.container-auth {
@@ -29,36 +23,18 @@
     align-items: center;
     margin-bottom: 2px;
     margin-left: 1px;
-    @media (max-width: 835px) {
-        margin: 0 0 53px;
-    }
-    @media (max-width: 600px) {
-        min-height: 612px;
-        margin: 0 16px 9px;
-        width: 100%;
-    }
 }
 
 .reg-card.ant-card {
     min-height: 686px;
-    @media (max-width: 600px) {
-        min-height: 564px;
-
-    }
 }
 
 .container-auth .ant-card-head-title {
     margin: 48px 0 42px;
-    @media (max-width: 600px) {
-        margin: 16px 0 28px;
-    }
 }
 
 .container-auth .ant-card-head-tabs {
     width: 368px;
-    @media (max-width: 600px) {
-        width: 100%;
-    }
 }
 
 .auth-card .ant-card-head-wrapper .ant-card-head-title{
@@ -67,31 +43,14 @@
 
 .auth-card .ant-card-head {
     padding: 0;
-    @media (max-width: 600px) {
-        width: 100%;
-        margin: 0 16px;
-        padding: 0 15px;
-    }
 }
 
 .auth-card .ant-card-body {
     padding: 25px 0;
-    @media (max-width: 600px) {
-        padding: 24px 0;
-    }
-}
-
-.auth-card .ant-card-body .ant-form-horizontal {
-    @media (max-width: 600px) {
-        margin: 0 16px;
-    }
 }
 
 .reg-card .ant-card-body {
     padding: 32.5px 0;
-    @media (max-width: 600px) {
-        padding: 24px 0;
-    }
 }
 
 
@@ -108,10 +67,6 @@
     margin: 0;
     justify-content: center;
     flex: 1;
-    @media (max-width: 600px) {
-        font-size: 14px;
-        padding: 15px 0 12px;
-    }
 }
 
 .auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab-active .ant-tabs-tab-btn {
@@ -120,9 +75,6 @@
 
 .ant-input-wrapper.ant-input-group {
     width: 368px;
-    @media (max-width: 440px) {
-        width: 100%;
-    }
 }
 
 .ant-tabs-ink-bar.ant-tabs-ink-bar-animated {
@@ -210,9 +162,6 @@
     width: 100%;
     justify-content: space-between;
     margin: 18px 0 12px;
-    @media (max-width: 600px) {
-        margin: 15px 0 9px;
-    }
 }
 
 .extra-container .ant-checkbox-wrapper {
@@ -239,9 +188,6 @@
 
 .reg-enter {
     margin: 30px 0 9px;
-    @media (max-width: 600px) {
-        margin: 23px 0 8px;
-    }
 }
 
 .reg-enter.ant-btn-primary,
@@ -262,10 +208,6 @@
 .forgot-link {
     font-size: 16px;
     padding: 0;
-    @media (max-width: 600px) {
-        font-size: 14px;
-        padding-right: 6px;
-    }
 }
 
 .auth-layout .reg-enter,
@@ -273,9 +215,6 @@
     width: 100%;
     min-height: 40px;
     font-size: 16px;
-    @media (max-width: 600px) {
-        font-size: 14px;
-    }
 }
 
 .container-auth-buttons {
@@ -290,9 +229,6 @@
 
 .repeat-pass {
     margin-top: 14px;
-    @media (max-width: 600px) {
-        margin-top: 0;
-    }
 }
 
 .reg-card .ant-form-item-explain-error,
@@ -313,4 +249,86 @@
 
 .auth-check {
     margin: 0;
+}
+
+@media (max-width: 835px) {
+    .auth-layout.ant-layout {
+        min-height: 1195px;
+    }
+    .auth-card.ant-card {
+        margin: 0 0 53px;
+    }
+}
+
+@media (max-width: 600px) {
+    .auth-card.ant-card  {
+        min-height: 612px;
+        margin: 0 16px 9px;
+        width: 100%;
+    }
+    .reg-card.ant-card {
+        min-height: 564px;
+    }
+
+    .container-auth .ant-card-head-title {
+        margin: 16px 0 28px;
+    }
+
+    .container-auth .ant-card-head-tabs {
+        width: 100%;
+    }
+
+    .auth-card .ant-card-head {
+        width: 100%;
+        margin: 0 16px;
+        padding: 0 15px;
+    }
+
+    .auth-card .ant-card-body {
+        padding: 24px 0;
+    }
+
+    .auth-card .ant-card-body .ant-form-horizontal {
+        margin: 0 16px;
+    }
+
+    .reg-card .ant-card-body {
+        padding: 24px 0;
+    }
+
+    .auth-card .ant-card-head .ant-tabs-large .ant-tabs-tab {
+        font-size: 14px;
+        padding: 15px 0 12px;
+    }
+
+    .extra-container {
+        margin: 15px 0 9px;
+    }
+
+    .reg-enter {
+        margin: 23px 0 8px;
+    }
+
+    .forgot-link {
+        font-size: 14px;
+        padding-right: 6px;
+    }
+
+    .auth-layout .reg-enter,
+    .auth-layout .auth-enter {
+        font-size: 14px;
+    }
+
+    .repeat-pass {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 440px) {
+    .auth-layout.ant-layout {
+        min-height: 800px;
+    }
+    .ant-input-wrapper.ant-input-group {
+        width: 100%;
+    }
 }
