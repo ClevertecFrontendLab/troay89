@@ -22,7 +22,7 @@
 }
 
 .auth-card.ant-card  {
-    min-width: 539px;
+    width: 539px;
     min-height: 742px;
     display: flex;
     flex-direction: column;
@@ -36,7 +36,6 @@
         min-height: 612px;
         margin: 0 16px 9px;
         width: 100%;
-        min-width: auto;
     }
 }
 
