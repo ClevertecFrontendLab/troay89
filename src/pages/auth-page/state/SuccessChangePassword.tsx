@@ -18,7 +18,7 @@ export const SuccessChangePassword: React.FC = () => {
         <Layout className={'wrapper-layout-state'}>
             <Content className={'wrapper-content-state'}>
                 <Card className={'wrapper-card-state change-passport'}>
-                    <CheckCircleFilled className={'icon-state status-success'} />
+                    <CheckCircleFilled className={'icon-state status-success status-success-pass'} />
                     <h3 className={'title-state title-success-pass'}>Пароль успешно изменен</h3>
                     <span className={'message-state'}>
                         Теперь можно войти в аккаунт, используя{spaceMobile} <br />

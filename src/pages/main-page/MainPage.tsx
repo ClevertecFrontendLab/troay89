@@ -17,35 +17,40 @@ interface MainPageProps {
 }
 
 export const MainPage: React.FC<MainPageProps> = ({isCloseSide}) => {
-    const spaceTableSider = isCloseSide ? '' : <span className={'transfer-table'}></span>
-    const spaceTableDefault = !isCloseSide ? '' : <span className={'transfer-table'}></span>
     const isMobile = useMediaQuery({query: '(max-width: 815px)'});
-    const spaceMobile = !isMobile ? '' : <span className={'transfer-mobile'}></span>
-
+    const isTable = useMediaQuery({query: '(max-width: 1000px)'});
+    const spaceDesktop = (!isTable && !isMobile && !isCloseSide) ? <br/> : '';
+    const spaceTableSider = (!isCloseSide && isTable && !isMobile) ? <br/> : '';
+    const spaceTableDefault = (!isCloseSide || isMobile) ? '' : <br/>;
+    const spaceMobile = !isMobile ? '' : < br/>
+    const spaceMobileSiderClose = isMobile && isCloseSide ? < br/> : ''
+    const changeMargin = (isCloseSide && isMobile) ? 'change-margin' : '';
+    const MobilePadding = (isCloseSide && isMobile) ? '17px 20px 0 15px' : '17px 10px 0 15px'
     return (
         <Content className='site-layout-background'>
-            <Card className={'main-card-about'}>
+            <Card className={`main-card-about ${changeMargin}`}>
                 <p>С CleverFit ты сможешь: <br/>
                     — планировать свои тренировки {spaceMobile} на календаре, выбирая тип
-                    {<span>{spaceTableSider}{spaceTableSider}</span>}{spaceMobile} {spaceMobile} {spaceMobile}
-                    {spaceMobile} и уровень нагрузки;<br/>
-                    — отслеживать свои достижения {spaceMobile}  в разделе статистики, сравнивая свои
-                    результаты с нормами {spaceMobile} {spaceMobile} {spaceMobile} и рекордами;<br/>
-                    — создавать свой профиль, где {spaceMobile} ты можешь загружать свои фото, видео и
-                    отзывы {spaceTableDefault} <span className={'transfer'}></span> о тренировках;<br/>
+                    {spaceTableSider}{spaceMobile} и уровень нагрузки;<br/>
+                    — отслеживать свои достижения {spaceMobile} в разделе статистики, сравнивая свои
+                    результаты с нормами {spaceMobile} и рекордами;<br/>
+                    — создавать свой профиль, где {spaceMobile} ты можешь загружать свои фото, видео
+                    и
+                    отзывы {spaceTableDefault} {spaceDesktop} о тренировках;<br/>
                     — выполнять расписанные тренировки для разных частей тела, следуя
-                    подробным инструкциям {spaceMobile} и советам профессиональных тренеров.</p>
+                    подробным инструкциям {spaceMobileSiderClose} и советам профессиональных тренеров.</p>
             </Card>
-            <Card className={'main-card-tagline'}>
-                <h4>CleverFit — это не просто приложение, а твой {spaceTableSider}
-                    личный помощник<span className={'transfer'}></span> {spaceTableDefault}в мире фитнеса.
+            <Card className={`main-card-tagline ${changeMargin}`}>
+                <h4 style={isMobile ? { padding: MobilePadding}: undefined}>CleverFit — это не просто приложение, а твой {spaceTableSider}
+                    личный помощник {spaceTableDefault} {spaceDesktop} в мире фитнеса.
                     Не откладывай на завтра — начни тренироваться уже сегодня!</h4>
             </Card>
-            <div className={'small-cards'}>
+            <div className={`small-cards ${changeMargin}`}>
                 <CardComponent title={'Расписать тренировки'} content={'Тренировки'}
                                icon={<HeartFilled/>} isCloseSide={isCloseSide}/>
                 <CardComponent title={'Назначить календарь'} content={'Календарь'}
-                               icon={<CalendarTwoTone twoToneColor={'#2F54EB'}/>} isCloseSide={isCloseSide}/>
+                               icon={<CalendarTwoTone twoToneColor={'#2F54EB'}/>}
+                               isCloseSide={isCloseSide}/>
                 <CardComponent title={'Заполнить профиль'} content={'Профиль'}
                                icon={<IdcardOutlined/>} isCloseSide={isCloseSide}/>
             </div>

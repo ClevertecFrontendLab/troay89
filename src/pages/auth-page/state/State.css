@@ -4,12 +4,6 @@
     margin: auto;
     background: no-repeat center/cover url('/img/png/Enter page_light.png');
     font-family: 'Inter', sans-serif;
-    @media screen and (max-width: 835px) {
-        min-height: 1195px;
-    }
-    @media screen and (max-width: 600px) {
-        min-height: 800px;
-    }
 }
 
 .wrapper-content-state {
@@ -26,60 +20,27 @@
     min-height: 363px;
     margin-bottom: 1px;
     margin-left: 1px;
-    @media screen and (max-width: 600px) {
-        min-width: auto;
-        width: 100%;
-        margin: 0 16px 1px;
-        min-height: 317px;
-    }
-}
-
-.wrapper-card-state.wrapper-general-reg {
-    @media screen and (max-width: 600px) {
-        min-height: 299px;
-    }
 }
 
 .wrapper-card-state.wrapper-warning {
     min-height: 345px;
-    @media screen and (max-width: 835px) {
-        margin-bottom: 2px;
-    }
-
-    @media screen and (max-width: 600px) {
-        min-height: 281px;
-    }
 }
 
 .wrapper-card-state.wrapper-error-reset-email {
     margin: 1px 0 0;
     min-height: 355px;
-    @media screen and (max-width: 600px) {
-        margin: 0 16px 1px;
-        min-height: 386px;
-    }
 }
 
 .wrapper-card-state.wrapper-general-email {
     min-height: 550px;
-    @media screen and (max-width: 600px) {
-        min-height: 568px;
-    }
 }
 
 .wrapper-card-state.wrapper-attention {
     min-height: 428px;
-    @media screen and (max-width: 600px) {
-        min-height: 457px;
-        margin-top: 2px;
-    }
 }
 
 .wrapper-card-state.wrapper-error-change-passport {
     min-height: 337px;
-    @media screen and (max-width: 600px) {
-        min-height: 281px;
-    }
 }
 
 
@@ -87,26 +48,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    @media screen and (max-width: 600px) {
-        padding: 24px 13px;
-    }
 }
 
 .wrapper-card-state.change-passport {
     min-height: 355px;
     margin-bottom: 0;
-    @media screen and (max-width: 600px) {
-        min-height: 330px;
-    }
 }
 
 .icon-state {
     margin: 44px 0 26px;
     font-size: 70px;
-
-    @media screen and (max-width: 600px) {
-        margin: 12px 0 26px;
-    }
 }
 
 .icon-state.large {
@@ -115,9 +66,6 @@
 
 .icon-state.status-success {
     color: #52C41A;
-    @media screen and (max-width: 600px) {
-        margin: 12px 0 29px;
-    }
 }
 
 .icon-state.status-error,
@@ -133,9 +81,6 @@
 .icon-state.status-attention,
 .icon-state.status-error-code {
     margin: 44px 0 29px;
-    @media screen and (max-width: 600px) {
-        margin: 12px 0 29px;
-    }
 }
 
 .icon-state.status-warning {
@@ -154,20 +99,16 @@
     line-height: 31px;
 }
 
-.title-state.title-success-pass {
-    @media screen and (max-width: 600px) {
-        text-align: center;
-        line-height: 31px;
-        margin-bottom: 4px;
-    }
-}
-
 .message-state {
     text-align: center;
     display: block;
     margin-top: -4px;
     line-height: 18px;
     color: #8C8C8C;
+}
+
+.message-state.general-change-pass {
+    margin-top: -2px
 }
 
 .message-state.message-attention {
@@ -183,9 +124,6 @@
     margin-top: 24px;
     font-size: 14px;
     background: #2F54EB;
-    @media screen and (max-width: 600px) {
-        width: 296px;
-    }
 }
 
 .button-state.small {
@@ -204,9 +142,6 @@
     height: 40px;
     margin-bottom: 28px;
     justify-content: space-between;
-    @media screen and (max-width: 600px) {
-        width: 280px;
-    }
 }
 
 .vi__character {
@@ -230,14 +165,94 @@
     background-color: white;
 }
 
-.wrapper-error-reset-email .status-error {
-    @media screen and (max-width: 600px) {
-        margin: 42px 0 31px;
+@media (max-width: 835px) {
+    .wrapper-layout-state {
+        min-height: 1195px;
+    }
+
+    .wrapper-card-state.wrapper-warning {
+        margin-bottom: 2px;
     }
 }
 
-.title-state.title-email-reset {
-    @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
+    .wrapper-layout-state {
+        min-height: 800px;
+    }
+
+    .wrapper-card-state {
+        min-width: auto;
+        width: 100%;
+        margin: 0 16px 1px;
+        min-height: 317px;
+    }
+
+    .wrapper-card-state.wrapper-general-reg {
+        min-height: 299px;
+    }
+
+    .wrapper-card-state.wrapper-warning {
+        min-height: 281px;
+    }
+
+    .wrapper-card-state.wrapper-error-reset-email {
+        margin: 0 16px 1px;
+        min-height: 386px;
+    }
+
+    .wrapper-card-state.wrapper-general-email {
+        min-height: 568px;
+    }
+
+    .wrapper-card-state.wrapper-attention {
+        min-height: 457px;
+        margin-top: 2px;
+    }
+
+    .wrapper-card-state.wrapper-error-change-passport {
+        min-height: 281px;
+    }
+
+    .wrapper-card-state .ant-card-body {
+        padding: 24px 13px;
+    }
+
+    .wrapper-card-state.change-passport {
+        min-height: 330px;
+    }
+
+    .icon-state {
+        margin: 12px 0 26px;
+    }
+
+    .icon-state.status-success-pass {
+        margin: 12px 0 29px;
+    }
+
+    .icon-state.status-attention,
+    .icon-state.status-error-code {
+        margin: 12px 0 29px;
+    }
+
+    .title-state.title-success-pass {
+        text-align: center;
+        line-height: 31px;
+        margin-bottom: 4px;
+    }
+
+    .button-state {
+        width: 296px;
+    }
+
+    .vi__container {
+        width: 280px;
+    }
+
+    .wrapper-error-reset-email .status-error {
+        margin: 42px 0 31px;
+    }
+
+    .title-state.title-email-reset {
         text-align: center;
         line-height: 31px;
         margin-bottom: 5px;

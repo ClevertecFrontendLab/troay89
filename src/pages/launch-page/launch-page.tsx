@@ -11,7 +11,7 @@ export const LaunchPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
 
     return (
-        <Layout>
+        <Layout className={'.ant-layout-has-sider'}>
             <SiderComponent isCloseSide={collapsed} setIsCloseSide={setCollapsed} />
             <Layout className='site-layout'>
                 <AppHeader />

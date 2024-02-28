@@ -19,17 +19,12 @@
     font-family: 'Inter', sans-serif;
     min-height: 1024px;
     background: transparent;
-    @media screen and (max-width: 815px) {
-        z-index: 20;
-    }
-    @media screen and (max-width: 815px) {
-        min-height: 1362px;
-    }
 }
 
-.ant-layout.ant-layout-has-sider {
+.ant-layout.ant-layout-has-sider{
     position: relative;
     z-index: 5;
+    flex-direction: row;
     background: no-repeat center/cover url('/img/png/Main page_light.png')
 }
 
@@ -40,3 +35,9 @@ h1.ant-typography,
     color: #262626;
 }
 
+@media screen and (max-width: 815px) {
+    .ant-layout {
+        z-index: 20;
+        min-height: 1362px;
+    }
+}

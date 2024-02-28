@@ -10,14 +10,17 @@
     padding: 0 0 9px;
     width: 150px;
     transition: transform 0.5s ease, color 0.3s ease;
-    @media screen and (max-width: 815px) {
-        text-align: center;
-        padding: 0 0 10px;
-        width: auto;
-    }
 }
 
 .footer-review:hover {
     color: #85A5FF;
     transform: translateY(5px);
+}
+
+@media screen and (max-width: 815px) {
+    .footer-review {
+        text-align: center;
+        padding: 0 0 10px;
+        width: auto;
+    }
 }

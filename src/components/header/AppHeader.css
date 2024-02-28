@@ -4,10 +4,6 @@
     min-height: 168px;
     background: #F0F5FF;
     height: auto;
-
-    @media screen and (max-width: 1000px) {
-        min-height: 132px;
-    }
 }
 
 h1.title-header {
@@ -15,32 +11,15 @@ h1.title-header {
     font-family: 'InterBold', sans-serif;
     font-weight: 700;
     line-height: 49px;
-
-    @media screen and (max-width: 1000px) {
-        font-family: 'InterMedium', sans-serif;
-        font-weight: 500;
-        line-height: 31px;
-        font-size: 24px;
-    }
-    @media screen and (max-width: 815px) {
-        line-height: 26px;
-        font-size: 20px;
-    }
 }
 
 .block-welcome {
     margin-left: 24px;
-    @media screen and (max-width: 1000px) {
-        margin-bottom: 22px;
-    }
 }
 
 div.type-page {
     margin: 25px 0 23px;
     line-height: 0;
-    @media screen and (max-width: 815px) {
-        margin: 25px 0 15px;
-    }
 }
 
 div.header-seating {
@@ -51,21 +30,6 @@ div.header-seating {
     margin: 0 39px 52px;
     white-space: nowrap;
     cursor: pointer;
-    @media screen and (max-width: 1000px) {
-        margin: 43px 39px 59px 0;
-        max-height: 30px;
-    }
-    @media screen and (max-width: 815px) {
-        margin: 35px 24px 59px 0;
-        max-height: 30px;
-    }
-}
-
-.transfer-mobile {
-    margin-right: 0;
-    @media screen and (max-width: 380px) {
-        margin-right: 20px;
-    }
 }
 
 .container-setting {
@@ -87,3 +51,40 @@ div.header-seating {
     border: solid #88b8c7 1px;
 }
 
+@media screen and (max-width: 1000px) {
+    .ant-layout-header {
+        min-height: 132px;
+    }
+
+    h1.title-header {
+        font-family: 'InterMedium', sans-serif;
+        font-weight: 500;
+        line-height: 31px;
+        font-size: 24px;
+    }
+
+    .block-welcome {
+        margin-bottom: 22px;
+    }
+
+    div.header-seating {
+        margin: 43px 39px 59px 0;
+        max-height: 30px;
+    }
+}
+
+@media screen and (max-width: 815px) {
+    h1.title-header {
+        line-height: 26px;
+        font-size: 20px;
+    }
+
+    div.type-page {
+        margin: 25px 0 15px;
+    }
+
+    div.header-seating {
+        margin: 35px 24px 59px 0;
+        max-height: 30px;
+    }
+}
