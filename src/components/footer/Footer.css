@@ -10,6 +10,7 @@
     padding: 0 0 9px;
     width: 150px;
     transition: transform 0.5s ease, color 0.3s ease;
+    cursor: pointer;
 }
 
 .footer-review:hover {

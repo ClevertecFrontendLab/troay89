@@ -1,33 +1,36 @@
 .ant-layout-header {
-    display: flex;
-    justify-content: space-between;
-    min-height: 168px;
     background: #F0F5FF;
+    height: auto;
+    min-height: 50px;
+}
+
+.ant-layout-header .main-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     height: auto;
 }
 
 h1.title-header {
+    color: #262626;
     max-width: 920px;
     font-family: 'InterBold', sans-serif;
     font-weight: 700;
     line-height: 49px;
+    margin-top: 12px;
 }
 
 .block-welcome {
-    margin-left: 24px;
-}
-
-div.type-page {
-    margin: 25px 0 23px;
-    line-height: 0;
+    margin: 0 0 3px 24px;
 }
 
 div.header-seating {
+    height: 20px;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     column-gap: 10px;
-    margin: 0 39px 52px;
+    margin: 12px 39px;
     white-space: nowrap;
     cursor: pointer;
 }
@@ -64,11 +67,11 @@ div.header-seating {
     }
 
     .block-welcome {
-        margin-bottom: 22px;
+        margin: 0 0 10px 24px;
     }
 
     div.header-seating {
-        margin: 43px 39px 59px 0;
+        margin: 12px 39px 12px 0;
         max-height: 30px;
     }
 }
@@ -79,12 +82,15 @@ div.header-seating {
         font-size: 20px;
     }
 
-    div.type-page {
-        margin: 25px 0 15px;
+    div.header-seating {
+        margin: 4px 24px 12px 0;
     }
 
-    div.header-seating {
-        margin: 35px 24px 59px 0;
-        max-height: 30px;
+    .block-welcome {
+        margin: 0 0 12px 24px;
+    }
+
+    h1.title-header {
+        margin-top: 4px;
     }
 }

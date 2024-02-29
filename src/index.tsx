@@ -21,7 +21,3 @@ root.render(
         </Provider>
     </React.StrictMode>,
 );
-
-// /result  useLocation в сочетании с используемым нами HistoryRouter.
-// statusCode 409 /result/error-user-exist
-// statusCode 409 any /result/error

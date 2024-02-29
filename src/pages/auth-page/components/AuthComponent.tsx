@@ -88,7 +88,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             setIsLoading(checkEmailIsLoading);
             if (
                 'status' in checkEmailError &&
-                checkEmailError.status === 405 &&
+                checkEmailError.status === 404 &&
                 typeof checkEmailError.data === 'object' &&
                 checkEmailError.data !== null &&
                 'message' in checkEmailError.data &&

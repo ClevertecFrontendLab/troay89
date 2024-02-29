@@ -1,0 +1,13 @@
+.ant-layout {
+    margin: 0 auto;
+    max-width: 1440px;
+    font-family: 'Inter', sans-serif;
+    min-height: 1024px;
+    background: transparent;
+}
+
+.ant-layout.ant-layout-has-sider{
+    position: relative;
+    z-index: 5;
+    background: no-repeat center/cover url('/img/png/Main page_light.png')
+}

@@ -24,15 +24,7 @@
 .ant-layout.ant-layout-has-sider{
     position: relative;
     z-index: 5;
-    flex-direction: row;
     background: no-repeat center/cover url('/img/png/Main page_light.png')
-}
-
-.ant-typography,
-h1.ant-typography,
-.ant-typography + h1.ant-typography {
-    margin: 0;
-    color: #262626;
 }
 
 @media screen and (max-width: 815px) {
