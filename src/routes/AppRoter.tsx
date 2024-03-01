@@ -1,7 +1,6 @@
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { Enter } from '@pages/auth-page/Enter.tsx';
-import { MainPage } from '@pages/main-page';
 import { EmailRegistrationError } from '@pages/auth-page/state/EmailRegistrationError.tsx';
 import { GeneralRegistrationError } from '@pages/auth-page/state/GeneralRegistrationError.tsx';
 import { SuccessReg } from '@pages/auth-page/state/SuccessReg.tsx';
@@ -13,7 +12,8 @@ import { CheckCodeEmail } from '@pages/auth-page/state/CheckCodeEmail.tsx';
 import { ChangePassword } from '@pages/change-password/ChangePassword.tsx';
 import { SuccessChangePassword } from '@pages/auth-page/state/SuccessChangePassword.tsx';
 import { GeneralChangePasswordError } from '@pages/auth-page/state/GeneralChangePasswordError.tsx';
-import { Feedbacks } from '@pages/feedbacks-page/Feedbacks.tsx';
+import { FeedbacksPage } from '@pages/feedbacks-page/FeedbacksPage.tsx';
+import { MainPage } from '@pages/main-page/MainPage.tsx';
 
 const paths = {
     root: {
@@ -70,7 +70,7 @@ const allRoutes: RouteObject = {
         { path: paths.main.path, element: <MainPage /> },
         { path: paths.auth.path, element: <Enter /> },
         { path: paths.registration.path, element: <Enter /> },
-        { path: paths.feedbacks.path, element: <Feedbacks /> },
+        { path: paths.feedbacks.path, element: <FeedbacksPage /> },
         { path: paths.successRegistration.path, element: <SuccessReg /> },
         { path: paths.successChangePassport.path, element: <SuccessChangePassword /> },
         { path: paths.confirmEmail.path, element: <CheckCodeEmail /> },

@@ -20,7 +20,11 @@ export const BreadcrumbComponent = () => {
         );
     });
 
-    const breadcrumbItems = [<Breadcrumb.Item key='home' />].concat(extraBreadcrumbItems);
+    const breadcrumbItems = [
+        <Breadcrumb.Item key='home'>
+            {extraBreadcrumbItems[0].key !== '/main' ? <Link to='/main'>Главная</Link> : null}
+        </Breadcrumb.Item>,
+    ].concat(extraBreadcrumbItems);
 
     return (
         <div className='breadcrumbHeader-path'>

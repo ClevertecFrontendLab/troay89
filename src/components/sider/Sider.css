@@ -59,6 +59,7 @@
     height: 66px;
     background: white;
     clip-path: polygon(0% 0%, 100% 14%, 100% 50%, 100% 86%, 0% 100%);
+    z-index: 100;
 }
 
 .wrapper-trigger .trigger {
