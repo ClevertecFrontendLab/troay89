@@ -89,16 +89,12 @@ export const AppRouter = React.memo(() => {
 
     useEffect(() => {
         const isAuthUser = sessionStorage.getItem('jwtToken') || localStorage.getItem('jwtToken');
-        if (
-            location.pathname.startsWith('/result') &&
-            history.location.state &&
-            typeof history.location.state === 'object' &&
-            'from' in history.location.state &&
-            typeof history.location.state.from === 'string' &&
-            !history.location.state?.from.startsWith('/auth')
-        ) {
+        if (location.pathname.startsWith('/result')) {
             setRedirectToAuth(true);
-        } else if (!isAuthUser && location.pathname.startsWith('/main')) {
+        } else if (
+            !isAuthUser &&
+            (location.pathname.startsWith('/main') || location.pathname.startsWith('/feedbacks'))
+        ) {
             setRedirectToAuth(true);
         } else if (isAuthUser && location.pathname.startsWith('/auth')) {
             setRedirectToAuth(false);

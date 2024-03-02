@@ -10,18 +10,18 @@ const { Footer } = Layout;
 
 export const FooterComponent: React.FC = () => {
     const dispatch = useAppDispatch();
-    const [getFeedbacks, { data, isLoading, error }] = useLazyGetFeedbacksQuery();
+    const [getFeedbacks, { data, error }] = useLazyGetFeedbacksQuery();
 
     useEffect(() => {
         if (data) {
             dispatch(saveComments(data));
             history.push('/feedbacks');
         } else if (error) {
-            console.log(error, 2222);
-        } else if (isLoading) {
-            console.log(isLoading, 33333);
+            if ('status' in error && error.status === 403) {
+                history.push('/auth');
+            }
         }
-    }, [data, dispatch, error, isLoading]);
+    }, [data, dispatch, error]);
 
     return (
         <Footer className={'footer-configuration'}>

@@ -19,7 +19,7 @@ export const ConfirmPasswordInput: React.FC<PasswordInputProps> = ({
     dependence,
 }) => (
     <Form.Item
-        name='confirm'
+        name='confirmPassword'
         className={classNameForm}
         dependencies={[dependence]}
         rules={[

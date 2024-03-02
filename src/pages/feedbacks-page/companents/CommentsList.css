@@ -38,6 +38,7 @@
 .comment .ant-list-item-meta {
     flex-direction: column;
     height: 96px;
+    min-width: 174px;
     max-width: 174px;
     text-align: center;
     align-items: center;
@@ -101,4 +102,49 @@
     font-size: 16px;
 }
 
+.wrapper-empty-list {
+    display: flex;
+    flex-direction: column;
+    margin: 325px 24px 0;
+    transition: all  0.3s ease;
+}
 
+.wrapper-empty-list:has( .sider-close){
+    margin: 306px 24px 0;
+    transition: all 0.3s ease;
+}
+
+.wrapper-empty-list .message {
+    min-height: 245px;
+    margin-bottom: 20px;
+
+}
+
+.wrapper-empty-list .sider-close.message {
+    min-height: 284px;
+}
+
+.wrapper-empty-list .title {
+    margin-top: 28px;
+    margin-bottom: 44px;
+    font-size: 24px;
+    color: #061178;
+    font-family: 'InterMedium', sans-serif;
+    text-align: center;
+}
+
+.sider-close .title {
+    margin-top: 48px
+}
+
+.wrapper-empty-list .text {
+    color: #8C8C8C;
+    text-align: center;
+    line-height: 18px;
+}
+
+.first-comment-primary {
+    background-color: #2F54EB;
+    margin: auto;
+    font-size: 14px;
+}

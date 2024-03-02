@@ -15,9 +15,9 @@ import { LayoutComponent } from '@components/layout';
 
 const { Content } = Layout;
 
-interface MainPageProps {
+type MainPageProps = {
     isCloseSide: boolean;
-}
+};
 
 const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const isMobile = useMediaQuery({ query: '(max-width: 815px)' });

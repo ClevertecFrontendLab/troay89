@@ -1,55 +1,85 @@
 import { StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, List } from 'antd';
+import { Avatar, Button, Card, List } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
 import { useGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
 import './CommentsList.css';
 import { Comments } from '../../../type/Data.ts';
+import { CommentModal } from '@components/modal/CommentModal.tsx';
 
-export const CommentsList: React.FC = () => {
+type CommentsListProps = {
+    isCloseSide: boolean;
+};
+
+export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     const commentsList = useAppSelector((state) => state.saveComments.comments);
     const { data, isLoading, error } = useGetFeedbacksQuery();
     const dispatch = useAppDispatch();
     const [showAll, setShowAll] = useState(false);
-
-    let ddata;
-    if (commentsList.length > 0) {
-        console.log(commentsList);
-        const sortedCommentsList = [...commentsList].sort(
-            (a: Comments, b: Comments) =>
-                new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-        );
-        const commentsToShow = showAll ? sortedCommentsList.length : 4;
-        ddata = Array.from({ length: commentsToShow }).map((_, i) => ({
-            id: sortedCommentsList[i].id,
-            title: sortedCommentsList[i]?.fullName ?? 'Анонимный пользавотель',
-            avatar: <UserOutlined />,
-            content: sortedCommentsList[i].message ?? '',
-            createdAt: new Date(sortedCommentsList[i].createdAt).toLocaleTimeString(),
-            rating: sortedCommentsList[i].rating,
-        }));
-    }
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (data) {
             dispatch(saveComments(data));
         } else if (error) {
             console.log(error, 2222);
-        } else if (isLoading) {
-            console.log(isLoading, 33333);
         }
     }, [commentsList, data, dispatch, error, isLoading]);
+
+    const handleShowComment = () => {
+        setIsModalOpen(true);
+    };
+
+    if (!commentsList.length) {
+        return (
+            <>
+                <CommentModal isModal={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+                <div className={'wrapper-empty-list'}>
+                    <Card className={`message ${isCloseSide ? 'sider-close' : ''}`}>
+                        <h3 className={'title'}>Оставьте свой отзыв первым</h3>
+                        <div className={'text'}>
+                            Вы можете быть первым, кто оставит отзыв об этом фитнесс
+                            приложении.&nbsp;
+                            <br />
+                            Поделитесь своим мнением и опытом с другими пользователями,&nbsp; <br />
+                            и помогите им сделать правильный выбор.
+                        </div>
+                    </Card>
+                    <Button
+                        className={'first-comment-primary'}
+                        type='primary'
+                        size={'large'}
+                        onClick={handleShowComment}
+                    >
+                        Написать отзыв
+                    </Button>
+                </div>
+            </>
+        );
+    }
+
+    const sortedCommentsList = [...commentsList].sort(
+        (a: Comments, b: Comments) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+    const commentsToShow = showAll ? sortedCommentsList : sortedCommentsList.slice(0, 4);
+
     return (
         <>
+            <CommentModal isModal={isModalOpen} closeModal={() => setIsModalOpen(false)} />
             <List
                 className={'comments-list-user'}
                 itemLayout='vertical'
                 size='large'
-                dataSource={ddata}
+                dataSource={commentsToShow}
                 renderItem={(item) => (
-                    <List.Item className={'comment'} key={item.title}>
-                        <List.Item.Meta avatar={<Avatar src={item.avatar} />} title={item.title} />
+                    <List.Item className={'comment'} key={item.id}>
+                        <List.Item.Meta
+                            avatar={<Avatar src={item.imageSrc ?? <UserOutlined />} />}
+                            title={item.fullName ?? 'Анонимный пользователь'}
+                        />
                         <span className={'wrapper-comment'}>
                             <span className={'wrapper-comment-data '}>
                                 <span className={'rating-comment'}>
@@ -63,15 +93,22 @@ export const CommentsList: React.FC = () => {
                                             ),
                                         )}
                                 </span>
-                                <span className={'date-create-comment'}>{item.createdAt}</span>
+                                <span className={'date-create-comment'}>
+                                    {new Date(item.createdAt).toLocaleDateString()}
+                                </span>
                             </span>
-                            <span className={'text-comment'}>{item.content}</span>
+                            <span className={'text-comment'}>{item.message}</span>
                         </span>
                     </List.Item>
                 )}
             />
             <div className={'wrapper-button'}>
-                <Button className={'comment-primary'} type='primary' size={'large'}>
+                <Button
+                    className={'comment-primary'}
+                    type='primary'
+                    size={'large'}
+                    onClick={handleShowComment}
+                >
                     Написать отзыв
                 </Button>
                 <Button

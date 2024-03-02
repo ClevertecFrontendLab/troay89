@@ -1,0 +1,62 @@
+.modal-create-comment {
+    max-width: 539px;
+    font-family: 'InterMedium' , sans-serif;
+}
+
+.modal-create-comment .ant-modal-header {
+    padding: 16px 24px 14px;
+}
+
+.modal-create-comment.ant-modal {
+    top: 387px;
+}
+
+.modal-create-comment .ant-modal-content {
+    min-height: 247px;
+}
+
+.modal-create-comment .ant-modal-title {
+    color: #262626;
+    font-family: 'InterMedium', sans-serif;
+}
+
+.modal-create-comment .ant-modal-close-x {
+    color: black;
+    font-size: 14px;
+    width: 62px;
+    height: 55px;
+}
+
+.modal-create-comment .rating-comment {
+    display: flex;
+    justify-content: space-between;
+    color: #FAAD14;
+    font-size: 24px;
+    height: 24px;
+    max-width: 135px;
+    margin-left: 2px;
+}
+
+.modal-create-comment .rating-comment .full {
+    font-size: 21px;
+}
+
+.modal-create-comment .area-comment {
+    color: #262626;
+    margin-top: 15px;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.modal-create-comment .ant-btn-primary {
+    font-size: 14px;
+    background-color: #2F54EB;
+    min-width: 130px;
+    margin-right: 8px;
+}
+
+.modal-create-comment .ant-btn-primary:disabled {
+    background-color: #F5F5F5;
+    color: #BFBFBF;
+    border: none;
+}

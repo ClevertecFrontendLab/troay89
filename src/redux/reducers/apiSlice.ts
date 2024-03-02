@@ -1,17 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
-    DataUser,
-    User,
-    UserChangePassword,
-    UserCheckEmail,
-    UserConfirmEmail,
-} from '../../type/User.ts';
+import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
 import { Comments, ServerResponseAuth } from '../../type/Data.ts';
 export const apiSlices = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
         baseUrl: 'https://marathon-api.clevertec.ru/',
-        // credentials: 'include',
+        credentials: 'include',
     }),
     endpoints: (builder) => ({
         registerUser: builder.mutation<{ statusCode: number }, Partial<User>>({
@@ -65,23 +59,15 @@ export const apiSlices = createApi({
                 statusCode: 201,
             }),
         }),
-        getDataUser: builder.query<DataUser, void>({
-            query: () => ({
-                url: 'user/me',
-                headers: {
-                    Authorization:
-                        'Bearer ' + localStorage.getItem('jwtToken') ??
-                        sessionStorage.getItem('jwtToken'),
-                },
-            }),
-        }),
         getFeedbacks: builder.query<Array<Comments>, void>({
             query: () => ({
                 url: 'feedback',
                 headers: {
                     Authorization:
-                        'Bearer ' + localStorage.getItem('jwtToken') ??
-                        sessionStorage.getItem('jwtToken'),
+                        'Bearer ' +
+                        (localStorage.getItem('jwtToken')
+                            ? localStorage.getItem('jwtToken')
+                            : sessionStorage.getItem('jwtToken')),
                 },
                 transformResponse: () => ({
                     statusCode: 201,
@@ -98,4 +84,3 @@ export const { useAuthConfirmEmailMutation } = apiSlices;
 export const { useAuthChangePasswordMutation } = apiSlices;
 export const { useLazyGetFeedbacksQuery } = apiSlices;
 export const { useGetFeedbacksQuery } = apiSlices;
-export const { useLazyGetDataUserQuery } = apiSlices;
