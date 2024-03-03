@@ -4,7 +4,7 @@ import { Avatar, Button, Card, List } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
-import { useGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
+import { useLazyGetFeedbacksQuery} from '@redux/reducers/apiSlice.ts';
 import './CommentsList.css';
 import { Comments } from '../../../type/Data.ts';
 import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
@@ -19,13 +19,13 @@ type CommentsListProps = {
 
 export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     const commentsList = useAppSelector((state) => state.saveComments.comments);
-    const { data, isLoading, error } = useGetFeedbacksQuery();
     const dispatch = useAppDispatch();
     const [showAll, setShowAll] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalErrorOpen, setIsModalErrorOpen] = useState(false);
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isModalCommentError, setIsModalCommentError] = useState(false);
+    const [ getFeedbacks , {data, isLoading,error }] = useLazyGetFeedbacksQuery();
 
     useEffect(() => {
         if (data) {
@@ -38,6 +38,12 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
             }
         }
     }, [commentsList, data, dispatch, error]);
+
+    useEffect(() => {
+        if(!isModalSuccess) {
+            getFeedbacks()
+        }
+    }, [getFeedbacks, isModalSuccess]);
 
     const handleShowComment = () => {
         setIsModalOpen(true);
@@ -67,6 +73,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                 <ErrorCommentModal
                     isModal={isModalCommentError}
                     closeModal={() => setIsModalCommentError(false)}
+                    setIsModalOpen={setIsModalOpen}
                 />
                 <div className={'wrapper-empty-list'}>
                     <Card className={`message ${isCloseSide ? 'sider-close' : ''}`}>
@@ -111,6 +118,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
             <ErrorCommentModal
                 isModal={isModalCommentError}
                 closeModal={() => setIsModalCommentError(false)}
+                setIsModalOpen={setIsModalOpen}
             />
             <List
                 className={'comments-list-user'}

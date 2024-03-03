@@ -5,19 +5,20 @@ import './ErrorCommentModal.css';
 type ErrorModalProps = {
     isModal: boolean;
     closeModal: () => void;
+    setIsModalOpen(value: boolean): void;
 };
 
-export const ErrorCommentModal: React.FC<ErrorModalProps> = ({ isModal, closeModal }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+export const ErrorCommentModal: React.FC<ErrorModalProps> = ({ isModal, closeModal, setIsModalOpen }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        setIsModalOpen(isModal);
+        setIsOpen(isModal);
     }, [isModal]);
 
     return (
         <Modal
             className={'error-comment-modal'}
-            open={isModalOpen}
+            open={isOpen}
             footer={null}
             closeIcon={null}
             width={'100%'}
@@ -31,13 +32,15 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({ isModal, closeMod
                     <Button
                         type='primary'
                         size={'large'}
+                        key={'rep'}
                         onClick={() => {
+                            setIsModalOpen(true);
                             closeModal();
                         }}
                     >
                         Написать отзыв
                     </Button>,
-                    <Button key='buy' size={'large'}>
+                    <Button key='close' size={'large'} onClick={() => {closeModal()}}>
                         Закрыть
                     </Button>,
                 ]}

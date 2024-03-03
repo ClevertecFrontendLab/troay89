@@ -66,7 +66,6 @@ const paths = {
 const allRoutes: RouteObject = {
     path: paths.root.path,
     children: [
-        { index: true, element: <Navigate to={paths.main.path} replace /> },
         { path: paths.main.path, element: <MainPage /> },
         { path: paths.auth.path, element: <Enter /> },
         { path: paths.registration.path, element: <Enter /> },
@@ -98,6 +97,15 @@ export const AppRouter = React.memo(() => {
             setRedirectToAuth(true);
         } else if (isAuthUser && location.pathname.startsWith('/auth')) {
             setRedirectToAuth(false);
+            history.push(paths.main.path);
+        }else if (location.pathname === '/') {
+            const url = new URL(window.location.href);
+            const accessToken = url.searchParams.get('accessToken');
+            console.log(accessToken)
+            if(accessToken) {
+                localStorage.setItem('jwtToken', accessToken);
+                window.location.href = '/main';
+            }
             history.push(paths.main.path);
         } else {
             setRedirectToAuth(false);

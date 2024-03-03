@@ -24,13 +24,14 @@ export const CommentModal: React.FC<CommentsListProps> = ({
 
     useEffect(() => {
         if (data) {
+            form.resetFields()
+            setRating(0)
             setSuccess(true);
             // setFailed(true);
         } else if (error) {
             setFailed(true);
-            console.log(error);
         }
-    }, [data, error, setFailed, setSuccess]);
+    }, [data, error, form, setFailed, setSuccess]);
 
     const handleStarClick = (i: number) => {
         setRating(i + 1);

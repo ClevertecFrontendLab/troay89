@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Space } from 'antd';
-import { GooglePlusOutlined } from '@ant-design/icons';
-import { User } from '../../../type/User.ts';
-import { useAuthCheckEmailMutation, useAuthUserMutation } from '@redux/reducers/apiSlice.ts';
-import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
-import { useMediaQuery } from 'react-responsive';
-import { history } from '@redux/reducers/routerSlice.ts';
-import { saveDataEmail } from '@redux/reducers/userEmailSlice.ts';
-import { FieldData } from 'rc-field-form/lib/interface';
-import { EmailInput } from '@components/input/EmailInput.tsx';
-import { PasswordInput } from '@components/input/PasswordInput.tsx';
+import React, {useEffect, useState} from 'react';
+import {Button, Checkbox, Form, Space} from 'antd';
+import {GooglePlusOutlined} from '@ant-design/icons';
+import {User} from '../../../type/User.ts';
+import {useAuthCheckEmailMutation, useAuthUserMutation} from '@redux/reducers/apiSlice.ts';
+import {useAppDispatch, useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
+import {useMediaQuery} from 'react-responsive';
+import {history} from '@redux/reducers/routerSlice.ts';
+import {saveDataEmail} from '@redux/reducers/userEmailSlice.ts';
+import {FieldData} from 'rc-field-form/lib/interface';
+import {EmailInput} from '@components/input/EmailInput.tsx';
+import {PasswordInput} from '@components/input/PasswordInput.tsx';
 
 interface AuthComponentProps {
     setIsLoading(value: boolean): void;
 }
 
-export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) => {
+export const AuthComponent: React.FC<AuthComponentProps> = ({setIsLoading}) => {
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
-    const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
+    const isMobile = useMediaQuery({query: '(max-width: 600px)'});
     const [isSaveData, setIsSaveData] = useState<boolean>(false);
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isEmailEmpty, setIsEmailEmpty] = useState(false);
     const [isRedColor, setIsRedColor] = useState(false);
     const userEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
-    const [authUser, { data: authData, isLoading: authIsLoading, error: authError }] =
+    const [authUser, {data: authData, isLoading: authIsLoading, error: authError}] =
         useAuthUserMutation();
     const [
         authCheckEmail,
-        { data: checkEmailData, isLoading: checkEmailIsLoading, error: checkEmailError },
+        {data: checkEmailData, isLoading: checkEmailIsLoading, error: checkEmailError},
     ] = useAuthCheckEmailMutation();
 
     const onFieldsChange = (_: FieldData[], allFields: FieldData[]) => {
@@ -41,7 +41,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
 
     const onFinish = (values: User) => {
         values.isSave ? setIsSaveData(values.isSave) : null;
-        authUser({ email: values.email, password: values.password });
+        authUser({email: values.email, password: values.password});
     };
 
     const handleForgotClick = () => {
@@ -50,7 +50,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             setIsRedColor(false);
             const emailValue = form.getFieldValue('email');
             dispatch(saveDataEmail(emailValue));
-            authCheckEmail({ email: emailValue });
+            authCheckEmail({email: emailValue});
         }
     };
 
@@ -61,7 +61,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             'from' in history.location.state &&
             history.location.state?.from === '/result/error-check-email'
         ) {
-            authCheckEmail({ email: userEmail });
+            authCheckEmail({email: userEmail});
         }
     }, [authCheckEmail, userEmail]);
 
@@ -74,7 +74,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             history.push('/main');
         } else if (authError) {
             setIsLoading(authIsLoading);
-            history.push('/result/error-login', { from: '/auth' });
+            history.push('/result/error-login', {from: '/auth'});
         } else if (authIsLoading) {
             setIsLoading(authIsLoading);
         }
@@ -83,7 +83,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     useEffect(() => {
         if (checkEmailData) {
             setIsLoading(checkEmailIsLoading);
-            history.push('/auth/confirm-email', { from: '/auth' });
+            history.push('/auth/confirm-email', {from: '/auth'});
         } else if (checkEmailError) {
             setIsLoading(checkEmailIsLoading);
             if (
@@ -94,9 +94,9 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                 'message' in checkEmailError.data &&
                 checkEmailError.data.message === 'Email не найден'
             ) {
-                history.push('/result/error-check-email-no-exist', { from: '/auth' });
+                history.push('/result/error-check-email-no-exist', {from: '/auth'});
             } else {
-                history.push('/result/error-check-email', { from: '/auth' });
+                history.push('/result/error-check-email', {from: '/auth'});
             }
         } else if (checkEmailIsLoading) {
             setIsLoading(checkEmailIsLoading);
@@ -144,7 +144,8 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                     </Button>
                     <Button
                         className={'auth-enter auth-google'}
-                        icon={!isMobile ? <GooglePlusOutlined /> : ''}
+                        icon={!isMobile ? <GooglePlusOutlined/> : ''}
+                        onClick={() => window.location.href='https://marathon-api.clevertec.ru/auth/google'}
                     >
                         Войти через Google
                     </Button>
