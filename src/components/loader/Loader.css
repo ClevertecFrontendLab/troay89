@@ -1,12 +1,16 @@
 .loader {
-    position: absolute;
+    position: fixed;
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    outline: 0;
     margin: auto;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(5px);
     background: rgba(121, 156, 212, 0.5);
 }

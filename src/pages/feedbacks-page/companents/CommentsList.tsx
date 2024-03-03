@@ -1,4 +1,5 @@
 import { StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
+import { history } from '@redux/reducers/routerSlice.ts';
 import { Avatar, Button, Card, List } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
@@ -6,7 +7,9 @@ import { saveComments } from '@redux/reducers/commentsSlice.ts';
 import { useGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
 import './CommentsList.css';
 import { Comments } from '../../../type/Data.ts';
-import { CommentModal } from '@components/modal/CommentModal.tsx';
+import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
+import { Loader } from '@components/loader/Loader.tsx';
+import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
 
 type CommentsListProps = {
     isCloseSide: boolean;
@@ -18,23 +21,36 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     const dispatch = useAppDispatch();
     const [showAll, setShowAll] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalErrorOpen, setIsModalErrorOpen] = useState(false);
 
     useEffect(() => {
         if (data) {
             dispatch(saveComments(data));
         } else if (error) {
-            console.log(error, 2222);
+            if ('status' in error && error.status === 403) {
+                history.push('/auth');
+            } else {
+                setIsModalErrorOpen(true);
+            }
         }
-    }, [commentsList, data, dispatch, error, isLoading]);
+    }, [commentsList, data, dispatch, error]);
 
     const handleShowComment = () => {
         setIsModalOpen(true);
     };
 
+    if (isLoading) {
+        return <Loader />;
+    }
+
     if (!commentsList.length) {
         return (
             <>
                 <CommentModal isModal={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+                <ErrorModal
+                    isModal={isModalErrorOpen}
+                    closeModal={() => setIsModalErrorOpen(false)}
+                />
                 <div className={'wrapper-empty-list'}>
                     <Card className={`message ${isCloseSide ? 'sider-close' : ''}`}>
                         <h3 className={'title'}>Оставьте свой отзыв первым</h3>
@@ -78,7 +94,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                     <List.Item className={'comment'} key={item.id}>
                         <List.Item.Meta
                             avatar={<Avatar src={item.imageSrc ?? <UserOutlined />} />}
-                            title={item.fullName ?? 'Анонимный пользователь'}
+                            title={item.fullName ?? 'Пользователь'}
                         />
                         <span className={'wrapper-comment'}>
                             <span className={'wrapper-comment-data '}>
