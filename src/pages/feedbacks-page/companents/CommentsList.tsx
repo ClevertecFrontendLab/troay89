@@ -10,6 +10,8 @@ import { Comments } from '../../../type/Data.ts';
 import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
 import { Loader } from '@components/loader/Loader.tsx';
 import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
+import { SuccessModal } from '@components/modal/success-modal/SuccessModal.tsx';
+import { ErrorCommentModal } from '@components/modal/error-comment-modal/ErrorCommentModal.tsx';
 
 type CommentsListProps = {
     isCloseSide: boolean;
@@ -22,6 +24,8 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     const [showAll, setShowAll] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalErrorOpen, setIsModalErrorOpen] = useState(false);
+    const [isModalSuccess, setIsModalSuccess] = useState(false);
+    const [isModalCommentError, setIsModalCommentError] = useState(false);
 
     useEffect(() => {
         if (data) {
@@ -46,10 +50,23 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     if (!commentsList.length) {
         return (
             <>
-                <CommentModal isModal={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+                <CommentModal
+                    isModal={isModalOpen}
+                    closeModal={() => setIsModalOpen(false)}
+                    setSuccess={setIsModalSuccess}
+                    setFailed={setIsModalCommentError}
+                />
                 <ErrorModal
                     isModal={isModalErrorOpen}
                     closeModal={() => setIsModalErrorOpen(false)}
+                />
+                <SuccessModal
+                    isModal={isModalSuccess}
+                    closeModal={() => setIsModalSuccess(false)}
+                />
+                <ErrorCommentModal
+                    isModal={isModalCommentError}
+                    closeModal={() => setIsModalCommentError(false)}
                 />
                 <div className={'wrapper-empty-list'}>
                     <Card className={`message ${isCloseSide ? 'sider-close' : ''}`}>
@@ -84,7 +101,17 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
 
     return (
         <>
-            <CommentModal isModal={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+            <CommentModal
+                isModal={isModalOpen}
+                closeModal={() => setIsModalOpen(false)}
+                setSuccess={setIsModalSuccess}
+                setFailed={setIsModalCommentError}
+            />
+            <SuccessModal isModal={isModalSuccess} closeModal={() => setIsModalSuccess(false)} />
+            <ErrorCommentModal
+                isModal={isModalCommentError}
+                closeModal={() => setIsModalCommentError(false)}
+            />
             <List
                 className={'comments-list-user'}
                 itemLayout='vertical'

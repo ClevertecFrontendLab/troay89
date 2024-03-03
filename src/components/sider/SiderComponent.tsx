@@ -17,11 +17,10 @@ import './Sider.css';
 import { useMediaQuery } from 'react-responsive';
 import { history } from '@redux/reducers/routerSlice.ts';
 
-interface SiderProps {
+type SiderProps = {
     isCloseSide: boolean;
-
     setIsCloseSide(value: boolean): void;
-}
+};
 
 const { Sider } = Layout;
 

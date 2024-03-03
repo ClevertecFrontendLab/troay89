@@ -1,0 +1,48 @@
+.ant-modal-mask {
+    backdrop-filter: blur(5px);
+    background: rgba(121, 156, 212, 0.5);
+}
+
+.success-modal.ant-modal {
+    margin-bottom: 55px;
+}
+
+.success-modal {
+    max-width: 539px;
+    width: 100%;
+}
+
+.success-modal .ant-modal-close-x {
+    display: none;
+}
+
+.success-modal .ant-result-success {
+    padding: 43px 36px 20px 38px
+}
+
+.success-modal .ant-modal-body {
+    min-height: 327px;
+}
+
+.success-modal .ant-result-title {
+    color: #262626;
+    font-size: 24px;
+    font-family: 'InterMedium', sans-serif;
+    line-height: 26px;
+}
+
+.success-modal .ant-result-icon {
+    margin-bottom: 31px;
+}
+
+.success-modal .ant-result-subtitle {
+    font-family: 'Inter', sans-serif;
+}
+
+.success-modal .ant-btn-primary {
+    max-width: 368px;
+    width: 100%;
+    background-color: #2F54EB;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}

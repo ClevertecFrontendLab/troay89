@@ -8,7 +8,7 @@
 }
 
 .modal-create-comment.ant-modal {
-    top: 387px;
+    margin-top: 56px;
 }
 
 .modal-create-comment .ant-modal-content {
@@ -46,6 +46,7 @@
     margin-top: 15px;
     font-size: 14px;
     line-height: 18px;
+    font-family: 'Inter', sans-serif;
 }
 
 .modal-create-comment .ant-btn-primary {
@@ -59,4 +60,8 @@
     background-color: #F5F5F5;
     color: #BFBFBF;
     border: none;
+}
+
+.modal-create-comment .ant-modal-body {
+    padding: 24px 24px 0;
 }

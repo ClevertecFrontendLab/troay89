@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
-import { Comments, ServerResponseAuth } from '../../type/Data.ts';
+import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
+
 export const apiSlices = createApi({
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
@@ -59,6 +60,23 @@ export const apiSlices = createApi({
                 statusCode: 201,
             }),
         }),
+        sendFeedback: builder.mutation<{ statusCode: number }, Partial<SendComment>>({
+            query: (messageData) => ({
+                url: 'feedback',
+                method: 'POST',
+                body: messageData,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem('jwtToken')
+                            ? localStorage.getItem('jwtToken')
+                            : sessionStorage.getItem('jwtToken')),
+                },
+            }),
+            transformResponse: () => ({
+                statusCode: 201,
+            }),
+        }),
         getFeedbacks: builder.query<Array<Comments>, void>({
             query: () => ({
                 url: 'feedback',
@@ -82,5 +100,5 @@ export const { useAuthUserMutation } = apiSlices;
 export const { useAuthCheckEmailMutation } = apiSlices;
 export const { useAuthConfirmEmailMutation } = apiSlices;
 export const { useAuthChangePasswordMutation } = apiSlices;
-export const { useLazyGetFeedbacksQuery } = apiSlices;
 export const { useGetFeedbacksQuery } = apiSlices;
+export const { useSendFeedbackMutation } = apiSlices;

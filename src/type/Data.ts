@@ -10,3 +10,8 @@ export type Comments = {
     rating: number;
     createdAt: string;
 };
+
+export type SendComment = {
+    message: string;
+    rating: number;
+};
