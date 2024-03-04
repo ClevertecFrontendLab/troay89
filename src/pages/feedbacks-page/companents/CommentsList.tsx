@@ -4,7 +4,7 @@ import { Avatar, Button, Card, List } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
-import { useLazyGetFeedbacksQuery} from '@redux/reducers/apiSlice.ts';
+import { useLazyGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
 import './CommentsList.css';
 import { Comments } from '../../../type/Data.ts';
 import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
@@ -25,7 +25,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     const [isModalErrorOpen, setIsModalErrorOpen] = useState(false);
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isModalCommentError, setIsModalCommentError] = useState(false);
-    const [ getFeedbacks , {data, isLoading,error }] = useLazyGetFeedbacksQuery();
+    const [getFeedbacks, { data, isLoading, error }] = useLazyGetFeedbacksQuery();
 
     useEffect(() => {
         if (data) {
@@ -40,8 +40,8 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     }, [commentsList, data, dispatch, error]);
 
     useEffect(() => {
-        if(!isModalSuccess) {
-            getFeedbacks()
+        if (!isModalSuccess) {
+            getFeedbacks();
         }
     }, [getFeedbacks, isModalSuccess]);
 
@@ -53,7 +53,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
         return <Loader />;
     }
 
-    if (!commentsList.length) {
+    if (commentsList.length) {
         return (
             <>
                 <CommentModal
@@ -129,10 +129,10 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                     <List.Item className={'comment'} key={item.id}>
                         <List.Item.Meta
                             avatar={<Avatar src={item.imageSrc ?? <UserOutlined />} />}
-                            title={item.fullName ?? 'Пользователь'}
+                            title={item.fullName ?? 'Анонимный Пользователь'}
                         />
                         <span className={'wrapper-comment'}>
-                            <span className={'wrapper-comment-data '}>
+                            <span className={'wrapper-comment-data'}>
                                 <span className={'rating-comment'}>
                                     {Array(5)
                                         .fill(null)
@@ -140,7 +140,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                                             i < item.rating ? (
                                                 <StarFilled key={i} />
                                             ) : (
-                                                <StarOutlined key={i} />
+                                                <StarOutlined key={i} className={'empty'} />
                                             ),
                                         )}
                                 </span>
@@ -153,7 +153,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                     </List.Item>
                 )}
             />
-            <div className={'wrapper-button'}>
+            <div className={'wrapper-comment-button'}>
                 <Button
                     className={'comment-primary'}
                     type='primary'

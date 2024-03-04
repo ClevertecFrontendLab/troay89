@@ -52,6 +52,7 @@
 .comment .ant-list-item-meta-title {
     margin: 13px 0 0 0;
     line-height: 21px;
+    white-space: pre-wrap;
 }
 
 .wrapper-comment {
@@ -66,6 +67,10 @@
     display: flex;
     flex-direction: row;
     column-gap: 7px;
+}
+
+.comment .rating-comment .empty{
+    font-size: 15px;
 }
 
 .comment .date-create-comment{
@@ -84,7 +89,7 @@
     column-gap: 8px;
 }
 
-.wrapper-button {
+.wrapper-comment-button {
     margin: 20px 24px 48px;
     height: 152px;
     display: flex;
@@ -92,12 +97,12 @@
     column-gap: 8px;
 }
 
-.wrapper-button .comment-primary {
+.wrapper-comment-button .comment-primary {
     background-color: #2F54EB;
     font-size: 14px;
 }
 
-.wrapper-button .comment-link {
+.wrapper-comment-button .comment-link {
     color: #2F54EB;
     font-size: 16px;
 }
@@ -147,4 +152,103 @@
     background-color: #2F54EB;
     margin: auto;
     font-size: 14px;
+}
+
+@media(max-width: 500px) {
+
+    .ant-layout {
+        min-height: min-content;
+    }
+
+    .ant-list-split .comment{
+        margin: 0 16px;
+        flex-direction: column;
+        align-items: flex-end;
+        padding: 13px 16px;
+    }
+
+    .comment .ant-list-item-meta {
+        flex-direction: row;
+        text-align: center;
+        align-items: center;
+        max-width: 70px;
+        min-width: 70px;
+    }
+
+    .wrapper-comment-button {
+        height: 128px;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-end;
+        margin: 16px 16px 42px;
+        row-gap: 16px;
+    }
+    .comment .ant-list-item-meta-content {
+        width: auto;
+        text-align: left;
+    }
+    .comment .ant-list-item-meta-title {
+        margin: 3px 0 0 15px;
+    }
+    .wrapper-comment {
+        margin-top: 13px;
+        margin-left: 0;
+    }
+
+    .wrapper-comment-data {
+        column-gap: 15px;
+    }
+
+    .comment .date-create-comment{
+        color: #BFBFBF;
+        letter-spacing: -0.6px;
+    }
+
+    .comment .text-comment {
+        margin-top: 14px;
+        line-height: 18px;
+    }
+
+
+    .wrapper-comment-button .comment-primary,
+    .wrapper-comment-button .comment-link {
+        width: 100%;
+    }
+
+    .wrapper-empty-list {
+        margin: 24px 16px 0;
+    }
+
+    .wrapper-empty-list:has( .sider-close){
+        margin: 24px 16px 0;
+    }
+
+    .wrapper-empty-list .title {
+        margin-bottom: 48px;
+        margin-top: 23px;
+        line-height: 31px;
+    }
+
+    .sider-close .title {
+        margin-top: 23px;
+        line-height: 31px;
+    }
+
+    .first-comment-primary {
+        font-size: 14px;
+        width: 100%;
+    }
+
+    .wrapper-empty-list .first-comment-primary {
+        margin-bottom: 164px;
+    }
+
+    .wrapper-empty-list .message {
+        margin-bottom: 46px;
+    }
+
+    .wrapper-empty-list .ant-card-body {
+        padding: 24px 31px;
+        min-height: 314px;
+    }
 }

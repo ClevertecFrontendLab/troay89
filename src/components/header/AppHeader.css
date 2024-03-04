@@ -56,7 +56,7 @@ div.header-seating {
 
 @media screen and (max-width: 1000px) {
     .ant-layout-header {
-        min-height: 132px;
+        min-height: 50px;
     }
 
     h1.title-header {
