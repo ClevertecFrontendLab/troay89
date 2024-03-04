@@ -57,3 +57,22 @@
 .error-comment-modal .ant-result-extra {
     margin-top: 22px;
 }
+
+@media(max-width: 500px) {
+    .error-comment-modal .ant-result-error {
+        padding: 0;
+    }
+
+    .error-comment-modal .ant-result-extra {
+        display: flex;
+    }
+
+    .error-comment-modal .ant-modal-body {
+        min-height: 281px;
+        padding: 35px 16px 29px;
+    }
+
+    .error-comment-modal .ant-modal-content {
+        margin: 0 16px;
+    }
+}

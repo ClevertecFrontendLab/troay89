@@ -25,7 +25,7 @@ export const SuccessModal: React.FC<ErrorModalProps> = ({ isModal, closeModal })
         >
             <Result
                 status='success'
-                title='&nbsp;Отзыв успешно опубликован&nbsp;'
+                title='Отзыв успешно опубликован'
                 extra={
                     <Button
                         type='primary'

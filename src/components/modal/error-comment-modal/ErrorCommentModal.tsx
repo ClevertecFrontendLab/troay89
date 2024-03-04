@@ -8,7 +8,11 @@ type ErrorModalProps = {
     setIsModalOpen(value: boolean): void;
 };
 
-export const ErrorCommentModal: React.FC<ErrorModalProps> = ({ isModal, closeModal, setIsModalOpen }) => {
+export const ErrorCommentModal: React.FC<ErrorModalProps> = ({
+    isModal,
+    closeModal,
+    setIsModalOpen,
+}) => {
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
@@ -26,7 +30,7 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({ isModal, closeMod
         >
             <Result
                 status='error'
-                title='&nbsp;Данные не сохранились&nbsp;'
+                title='Данные не сохранились'
                 subTitle='Что-то пошло не так. Попробуйте ещё раз.'
                 extra={[
                     <Button
@@ -40,7 +44,13 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({ isModal, closeMod
                     >
                         Написать отзыв
                     </Button>,
-                    <Button key='close' size={'large'} onClick={() => {closeModal()}}>
+                    <Button
+                        key='close'
+                        size={'large'}
+                        onClick={() => {
+                            closeModal();
+                        }}
+                    >
                         Закрыть
                     </Button>,
                 ]}

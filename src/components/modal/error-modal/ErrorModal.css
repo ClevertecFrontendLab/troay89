@@ -40,3 +40,23 @@
 .error-modal .ant-btn-primary {
     background-color: #2F54EB;
 }
+
+@media(max-width: 500px) {
+    .error-modal {
+        max-width: 568px;
+    }
+
+    .error-modal .ant-result-500 {
+        padding: 39px 4px 32px 0;
+    }
+
+    .error-modal .ant-result-subtitle {
+        font-family: 'Inter', sans-serif;
+        margin: 3px 30px 0;
+        line-height: 18px;
+    }
+
+    .error-modal .ant-result-icon {
+        margin-bottom: 26px;
+    }
+}

@@ -65,3 +65,25 @@
 .modal-create-comment .ant-modal-body {
     padding: 24px 24px 0;
 }
+
+@media(max-width: 500px) {
+
+    .modal-create-comment .ant-modal-content {
+        margin: 0 16px;
+    }
+
+    .modal-create-comment .ant-modal-header {
+        padding: 16px 0 14px 16px;
+    }
+    .modal-create-comment .ant-modal-close-x {
+        width: 48px;
+    }
+
+    .modal-create-comment .ant-modal-body {
+        padding: 24px 16px 0;
+    }
+    .modal-create-comment .ant-modal-footer .ant-btn-primary.ant-btn-lg {
+        width: 100%;
+        margin: 0;
+    }
+}

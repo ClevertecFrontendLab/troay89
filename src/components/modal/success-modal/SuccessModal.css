@@ -46,3 +46,27 @@
     font-family: 'Inter', sans-serif;
     font-size: 14px;
 }
+
+@media(max-width: 500px) {
+
+    .success-modal .ant-modal-content {
+        margin: 0 16px;
+    }
+
+    .success-modal .ant-modal-body {
+        min-height: 294px;
+        padding: 24px 16px;
+    }
+
+    .success-modal .ant-result-success {
+        padding: 12px 0 0 0
+    }
+
+    .success-modal .ant-result-title {
+        line-height: 31px;
+    }
+
+    .success-modal .ant-result-icon {
+        margin-bottom: 29px;
+    }
+}

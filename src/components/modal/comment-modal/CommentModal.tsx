@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StarFilled, StarOutlined } from '@ant-design/icons';
 import './Commnet.css';
 import { useSendFeedbackMutation } from '@redux/reducers/apiSlice.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
 
 type CommentsListProps = {
     isModal: boolean;
@@ -24,12 +25,16 @@ export const CommentModal: React.FC<CommentsListProps> = ({
 
     useEffect(() => {
         if (data) {
-            form.resetFields()
-            setRating(0)
+            form.resetFields();
+            setRating(0);
             setSuccess(true);
             // setFailed(true);
         } else if (error) {
-            setFailed(true);
+            if ('status' in error && error.status === 403) {
+                history.push('/auth');
+            } else {
+                setFailed(true);
+            }
         }
     }, [data, error, form, setFailed, setSuccess]);
 
