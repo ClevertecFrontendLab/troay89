@@ -12,6 +12,9 @@ import { store } from '@redux/store.ts';
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
+window.onload = function () {
+    sessionStorage.removeItem('jwtToken');
+};
 root.render(
     <React.StrictMode>
         <Provider store={store}>

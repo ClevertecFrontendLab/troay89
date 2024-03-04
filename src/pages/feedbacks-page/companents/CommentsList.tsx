@@ -4,7 +4,7 @@ import { Avatar, Button, Card, List } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
-import { useLazyGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
+import { useGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
 import './CommentsList.css';
 import { Comments } from '../../../type/Data.ts';
 import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
@@ -25,25 +25,21 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
     const [isModalErrorOpen, setIsModalErrorOpen] = useState(false);
     const [isModalSuccess, setIsModalSuccess] = useState(false);
     const [isModalCommentError, setIsModalCommentError] = useState(false);
-    const [getFeedbacks, { data, isLoading, error }] = useLazyGetFeedbacksQuery();
+    const { data, isLoading, error } = useGetFeedbacksQuery();
 
     useEffect(() => {
         if (data) {
             dispatch(saveComments(data));
         } else if (error) {
             if ('status' in error && error.status === 403) {
+                localStorage.removeItem('jwtToken');
+                sessionStorage.removeItem('jwtToken');
                 history.push('/auth');
             } else {
                 setIsModalErrorOpen(true);
             }
         }
     }, [commentsList, data, dispatch, error]);
-
-    useEffect(() => {
-        if (!isModalSuccess) {
-            getFeedbacks();
-        }
-    }, [getFeedbacks, isModalSuccess]);
 
     const handleShowComment = () => {
         setIsModalOpen(true);
@@ -53,7 +49,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
         return <Loader />;
     }
 
-    if (commentsList.length) {
+    if (!commentsList.length) {
         return (
             <>
                 <CommentModal
@@ -91,6 +87,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                         type='primary'
                         size={'large'}
                         onClick={handleShowComment}
+                        data-test-id='write-review'
                     >
                         Написать отзыв
                     </Button>
@@ -159,6 +156,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                     type='primary'
                     size={'large'}
                     onClick={handleShowComment}
+                    data-test-id='write-review'
                 >
                     Написать отзыв
                 </Button>
@@ -167,6 +165,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                     type='link'
                     size={'large'}
                     onClick={() => setShowAll(!showAll)}
+                    data-test-id='all-reviews-button'
                 >
                     {showAll ? 'Свернуть все отзывы' : 'Развернуть все отзывы'}
                 </Button>

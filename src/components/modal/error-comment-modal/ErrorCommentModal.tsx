@@ -34,6 +34,7 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({
                 subTitle='Что-то пошло не так. Попробуйте ещё раз.'
                 extra={[
                     <Button
+                        data-test-id='write-review-not-saved-modal'
                         type='primary'
                         size={'large'}
                         key={'rep'}

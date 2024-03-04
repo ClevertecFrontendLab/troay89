@@ -34,7 +34,6 @@ export const ChangePassword: React.FC = () => {
         if (data) {
             history.push('/result/success-change-password');
         } else if (error) {
-            console.log(error);
             history.push('/result/error-change-password');
         }
     }, [data, error]);

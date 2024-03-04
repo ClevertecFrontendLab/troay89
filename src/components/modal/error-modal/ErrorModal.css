@@ -44,6 +44,8 @@
 @media(max-width: 500px) {
     .error-modal {
         max-width: 568px;
+        top: 0;
+        padding: 36px 16px 35px;
     }
 
     .error-modal .ant-result-500 {

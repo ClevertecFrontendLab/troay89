@@ -9,6 +9,7 @@ export const FooterComponent: React.FC = () => {
     return (
         <Footer className={'footer-configuration'}>
             <p
+                data-test-id='see-reviews'
                 className={'footer-review'}
                 onClick={() => {
                     history.push('/feedbacks');

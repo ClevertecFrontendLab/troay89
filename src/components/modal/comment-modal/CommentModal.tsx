@@ -1,4 +1,4 @@
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, Rate } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { StarFilled, StarOutlined } from '@ant-design/icons';
 import './Commnet.css';
@@ -28,19 +28,16 @@ export const CommentModal: React.FC<CommentsListProps> = ({
             form.resetFields();
             setRating(0);
             setSuccess(true);
-            // setFailed(true);
         } else if (error) {
             if ('status' in error && error.status === 403) {
+                localStorage.removeItem('jwtToken');
+                sessionStorage.removeItem('jwtToken');
                 history.push('/auth');
             } else {
                 setFailed(true);
             }
         }
     }, [data, error, form, setFailed, setSuccess]);
-
-    const handleStarClick = (i: number) => {
-        setRating(i + 1);
-    };
 
     useEffect(() => {
         setIsModalOpen(isModal);
@@ -59,8 +56,9 @@ export const CommentModal: React.FC<CommentsListProps> = ({
     };
 
     return (
-        <>
+        <span className={'wrapper-create-comment'}>
             <Modal
+                maskStyle={{ backgroundColor: 'rgba(121, 156, 212, 0)' }}
                 className={'modal-create-comment'}
                 title='Ваш отзыв'
                 open={isModalOpen}
@@ -69,30 +67,29 @@ export const CommentModal: React.FC<CommentsListProps> = ({
                 okText='Опубликовать'
                 width={'100%'}
                 cancelButtonProps={{ style: { display: 'none' } }}
-                okButtonProps={{ size: 'large', disabled: rating === 0 }}
+                okButtonProps={{
+                    size: 'large',
+                    disabled: rating === 0,
+                    ['data-test-id']: 'new-review-submit-button',
+                }}
                 centered={true}
             >
                 <Form form={form}>
-                    <span className={'rating-comment'}>
-                        {Array(5)
-                            .fill(null)
-                            .map((_, i) =>
-                                i < rating ? (
-                                    <StarFilled
-                                        key={i}
-                                        className={'full'}
-                                        onClick={() => handleStarClick(i)}
-                                    />
-                                ) : (
-                                    <StarOutlined key={i} onClick={() => handleStarClick(i)} />
-                                ),
-                            )}
-                    </span>
+                    <Rate
+                        character={({ index }) => {
+                            return index < rating ? (
+                                <StarFilled />
+                            ) : (
+                                <StarOutlined className={'empty'} />
+                            );
+                        }}
+                        onChange={setRating}
+                    />
                     <Form.Item name='comment'>
                         <TextArea className={'area-comment'} autoSize={{ minRows: 2 }} />
                     </Form.Item>
                 </Form>
             </Modal>
-        </>
+        </span>
     );
 };

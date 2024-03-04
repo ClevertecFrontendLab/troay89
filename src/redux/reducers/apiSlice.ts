@@ -101,4 +101,5 @@ export const { useAuthCheckEmailMutation } = apiSlices;
 export const { useAuthConfirmEmailMutation } = apiSlices;
 export const { useAuthChangePasswordMutation } = apiSlices;
 export const { useSendFeedbackMutation } = apiSlices;
-export const { useLazyGetFeedbacksQuery } = apiSlices
+export const { useGetFeedbacksQuery } = apiSlices;
+export const { useLazyGetFeedbacksQuery } = apiSlices;

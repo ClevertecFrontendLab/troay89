@@ -1,3 +1,8 @@
+.wrapper-create-comment .ant-modal-mask  {
+    backdrop-filter: blur(5px);
+    background: rgba(121, 156, 212, 0);
+}
+
 .modal-create-comment {
     max-width: 539px;
     font-family: 'InterMedium' , sans-serif;
@@ -11,8 +16,12 @@
     margin-top: 56px;
 }
 
+
+
+
 .modal-create-comment .ant-modal-content {
     min-height: 247px;
+    margin: 0;
 }
 
 .modal-create-comment .ant-modal-title {
@@ -27,26 +36,25 @@
     height: 55px;
 }
 
-.modal-create-comment .rating-comment {
-    display: flex;
-    justify-content: space-between;
-    color: #FAAD14;
-    font-size: 24px;
-    height: 24px;
-    max-width: 135px;
-    margin-left: 2px;
-}
-
-.modal-create-comment .rating-comment .full {
-    font-size: 21px;
-}
-
 .modal-create-comment .area-comment {
     color: #262626;
     margin-top: 15px;
     font-size: 14px;
     line-height: 18px;
     font-family: 'Inter', sans-serif;
+}
+
+.modal-create-comment .ant-rate-star {
+    color: #FAAD14;
+}
+
+.modal-create-comment .ant-rate-star .empty {
+    color: #FAAD14;
+    font-size: 23px;
+}
+
+.ant-form-item {
+    margin-bottom: 22px;
 }
 
 .modal-create-comment .ant-btn-primary {
@@ -63,7 +71,17 @@
 }
 
 .modal-create-comment .ant-modal-body {
-    padding: 24px 24px 0;
+    padding: 19px 24px 0;
+}
+
+.ant-rate-star.ant-rate-star-full .anticon,
+.ant-rate-star.ant-rate-star-zero .anticon {
+    color: #ffc107 !important;
+}
+
+.ant-rate-star.ant-rate-star-full:hover .anticon,
+.ant-rate-star.ant-rate-star-zero:hover .anticon {
+    color: #ffc107 !important;
 }
 
 @media(max-width: 500px) {
@@ -80,7 +98,7 @@
     }
 
     .modal-create-comment .ant-modal-body {
-        padding: 24px 16px 0;
+        padding: 19px 16px 0;
     }
     .modal-create-comment .ant-modal-footer .ant-btn-primary.ant-btn-lg {
         width: 100%;

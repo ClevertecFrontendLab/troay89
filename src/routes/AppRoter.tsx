@@ -101,7 +101,6 @@ export const AppRouter = React.memo(() => {
         } else if (location.pathname === '/') {
             const url = new URL(window.location.href);
             const accessToken = url.searchParams.get('accessToken');
-            console.log(accessToken);
             if (accessToken) {
                 localStorage.setItem('jwtToken', accessToken);
                 window.location.href = '/main';
