@@ -7,7 +7,7 @@
     margin: 24px 0 22px 24px;
     font-size: 16px;
     line-height: 21px;
-    color: #061178;
+    color: var(--second-title);
 }
 
 
@@ -25,10 +25,10 @@
 }
 
 .main-card-tagline h4 {
-    font-family: 'InterMedium', sans-serif;
+    font-family: var(--medium-title-font);
     font-size: 20px;
     line-height: 26px;
-    color: #262626;
+    color: var(--first-color);
     padding: 0;
 }
 
@@ -52,21 +52,21 @@
 .contact-card-header .contact-card-header-first-title {
     padding: 13px 24px 0;
     font-size: 16px;
-    color: #2F54EB;
+    color: var(--app-main-collor);
     line-height: 21px;
     margin: 0;
 }
 
 .contact-card-header .contact-card-header-second-title {
     padding: 8px 24px 0;
-    color: #8C8C8C;
+    color: var(--second-color);
     line-height: 18px;
     margin-bottom: 12px;
 }
 
 .contact-card-header .icon-contact-card {
     margin: 13px 0;
-    color: #262626;
+    color: var(--first-color);
 }
 
 .contact-card-header .icon-contact-card svg {

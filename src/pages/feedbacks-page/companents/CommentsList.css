@@ -32,7 +32,7 @@
     font-size: 20px;
     height: 42px;
     width: 42px;
-    background-color: #ccc;
+    background-color: var(--avatar-back-color);
 }
 
 .comment .ant-list-item-meta {
@@ -53,6 +53,7 @@
     margin: 13px 0 0;
     line-height: 21px;
     white-space: pre-wrap;
+    color: var(--first-color);
 }
 
 .wrapper-comment {
@@ -62,7 +63,7 @@
 }
 
 .comment .rating-comment {
-    color: #FAAD14;
+    color: var(--rating-color);
     font-size: 13px;
     display: flex;
     flex-direction: row;
@@ -74,12 +75,12 @@
 }
 
 .comment .date-create-comment{
-    color: #BFBFBF;
+    color: var(--third-color);
     font-size: 12px;
 }
 
 .comment .text-comment {
-    color: #8C8C8C;
+    color: var(--second-color);
     margin-top: 9px;
 }
 
@@ -98,12 +99,12 @@
 }
 
 .wrapper-comment-button .comment-primary {
-    background-color: #2F54EB;
+    background-color: var(--app-main-collor);
     font-size: 14px;
 }
 
 .wrapper-comment-button .comment-link {
-    color: #2F54EB;
+    color: var(--app-main-collor);
     font-size: 16px;
 }
 
@@ -133,8 +134,8 @@
     margin-top: 28px;
     margin-bottom: 44px;
     font-size: 24px;
-    color: #061178;
-    font-family: 'InterMedium', sans-serif;
+    color: var(--second-title);
+    font-family: var(--medium-title-font);
     text-align: center;
 }
 
@@ -143,13 +144,13 @@
 }
 
 .wrapper-empty-list .text {
-    color: #8C8C8C;
+    color: var(--second-color);
     text-align: center;
     line-height: 18px;
 }
 
 .first-comment-primary {
-    background-color: #2F54EB;
+    background-color: var(--app-main-collor);
     margin: auto;
     font-size: 14px;
 }
@@ -200,7 +201,7 @@
     }
 
     .comment .date-create-comment{
-        color: #BFBFBF;
+        color: var(--third-color);
         letter-spacing: -0.6px;
     }
 

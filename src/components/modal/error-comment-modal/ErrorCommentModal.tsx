@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Result } from 'antd';
 import './ErrorCommentModal.css';
+import { ResultStatusType } from '@constants/constants.ts';
 
 type ErrorModalProps = {
     isModal: boolean;
@@ -29,7 +30,7 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({
             centered={true}
         >
             <Result
-                status='error'
+                status={ResultStatusType.ERROR}
                 title='Данные не сохранились'
                 subTitle='Что-то пошло не так. Попробуйте ещё раз.'
                 extra={[

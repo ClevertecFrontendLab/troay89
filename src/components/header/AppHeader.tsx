@@ -9,6 +9,27 @@ import { useLocation } from 'react-router-dom';
 const { Title, Paragraph } = Typography;
 const { Header } = Layout;
 
+type SettingsProps = {
+    isMobile: boolean;
+    isTablet: boolean;
+};
+
+const Settings: React.FC<SettingsProps> = ({ isMobile, isTablet }) => {
+    if (isMobile) {
+        return (
+            <div className={`container-setting ${isMobile ? 'show' : ''}`}>
+                <SettingOutlined />
+            </div>
+        );
+    }
+
+    if (!isMobile && !isTablet) {
+        return <SettingOutlined />;
+    }
+
+    return null;
+};
+
 export const AppHeader: React.FC = () => {
     const isTablet = useMediaQuery({ query: '(max-width: 1000px)' });
     const isMobile = useMediaQuery({ query: '(max-width: 815px)' });
@@ -27,15 +48,7 @@ export const AppHeader: React.FC = () => {
                         </Title>
                     </div>
                     <Paragraph className={'header-seating'}>
-                        {!isMobile && isTablet ? (
-                            ''
-                        ) : isMobile ? (
-                            <div className={`container-setting ${isMobile ? 'show' : ''}`}>
-                                <SettingOutlined />
-                            </div>
-                        ) : (
-                            <SettingOutlined />
-                        )}
+                        <Settings isMobile={isMobile} isTablet={isTablet} />
                         {!isMobile && 'Настройки'}
                     </Paragraph>
                 </div>

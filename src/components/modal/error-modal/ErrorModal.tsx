@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, Result } from 'antd';
 import { history } from '@redux/reducers/routerSlice.ts';
 import './ErrorModal.css';
+import { paths, ResultStatusType } from '@constants/constants.ts';
 
 type ErrorModalProps = {
     isModal: boolean;
@@ -24,7 +25,7 @@ export const ErrorModal: React.FC<ErrorModalProps> = ({ isModal, closeModal }) =
             width={'100%'}
         >
             <Result
-                status='500'
+                status={ResultStatusType.ERROR_500}
                 title='&nbsp;&nbsp;Что-то пошло не так&nbsp;'
                 subTitle='&nbsp;Произошла ошибка, попробуйте ещё раз.'
                 extra={
@@ -33,7 +34,7 @@ export const ErrorModal: React.FC<ErrorModalProps> = ({ isModal, closeModal }) =
                         size={'large'}
                         onClick={() => {
                             closeModal();
-                            history.push('/main');
+                            history.push(paths.main.path);
                         }}
                     >
                         Назад

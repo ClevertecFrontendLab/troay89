@@ -5,7 +5,7 @@
 }
 
 .footer-review {
-    color: #2F54EB;
+    color: var(--app-main-collor);
     font-size: 16px;
     padding: 0 0 9px;
     width: 150px;
@@ -14,7 +14,7 @@
 }
 
 .footer-review:hover {
-    color: #85A5FF;
+    color: var(--hover-second-color);
     transform: translateY(5px);
 }
 

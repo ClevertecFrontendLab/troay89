@@ -18,9 +18,9 @@
 }
 
 .error-modal .ant-result-title {
-    color: #262626;
+    color: var(--first-color);
     font-size: 24px;
-    font-family: 'InterMedium', sans-serif;
+    font-family: var(--medium-title-font);
     line-height: 26px;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .error-modal .ant-result-subtitle {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--main-text-font);
 }
 
 .error-modal .ant-result-extra {
@@ -38,7 +38,7 @@
 }
 
 .error-modal .ant-btn-primary {
-    background-color: #2F54EB;
+    background-color: var(--app-main-collor);
 }
 
 @media(max-width: 500px) {
@@ -53,7 +53,7 @@
     }
 
     .error-modal .ant-result-subtitle {
-        font-family: 'Inter', sans-serif;
+        font-family: var(--main-text-font);
         margin: 3px 30px 0;
         line-height: 18px;
     }

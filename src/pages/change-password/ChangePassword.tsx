@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.t
 import { saveDataNewPassword } from '@redux/reducers/userNewPassword.ts';
 import { PasswordInput } from '@components/input/PasswordInput.tsx';
 import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
@@ -24,7 +25,7 @@ export const ChangePassword: React.FC = () => {
             history.location.state &&
             typeof history.location.state === 'object' &&
             'from' in history.location.state &&
-            history.location.state?.from === '/result/error-change-password'
+            history.location.state?.from === paths.errorChangePasswordGeneral.path
         ) {
             changePassword({ password: userData.password, confirmPassword: userData.password });
         }
@@ -32,9 +33,9 @@ export const ChangePassword: React.FC = () => {
 
     useEffect(() => {
         if (data) {
-            history.push('/result/success-change-password');
+            history.push(paths.successChangePassport.path);
         } else if (error) {
-            history.push('/result/error-change-password');
+            history.push(paths.errorChangePasswordGeneral.path);
         }
     }, [data, error]);
 

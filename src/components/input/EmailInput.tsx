@@ -1,14 +1,18 @@
-import {Form, Input} from "antd";
-import React from "react";
+import { Form, Input } from 'antd';
+import React from 'react';
 
-type ValidateStatus = "" | "error" | "validating" | "success" | "warning" | undefined;
-interface EmailInputProps {
+type ValidateStatus = '' | 'error' | 'validating' | 'success' | 'warning' | undefined;
+type EmailInputProps = {
     className: string;
+    dataTestId: string;
     validateStatus?: ValidateStatus;
-    dataTestId: string
-}
+};
 
-export const EmailInput: React.FC<EmailInputProps> = ({ className, validateStatus, dataTestId }) => (
+export const EmailInput: React.FC<EmailInputProps> = ({
+    className,
+    validateStatus,
+    dataTestId,
+}) => (
     <Form.Item
         name='email'
         rules={[

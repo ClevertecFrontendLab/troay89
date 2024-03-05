@@ -12,6 +12,7 @@ import { Loader } from '@components/loader/Loader.tsx';
 import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
 import { SuccessModal } from '@components/modal/success-modal/SuccessModal.tsx';
 import { ErrorCommentModal } from '@components/modal/error-comment-modal/ErrorCommentModal.tsx';
+import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 
 type CommentsListProps = {
     isCloseSide: boolean;
@@ -31,10 +32,10 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
         if (data) {
             dispatch(saveComments(data));
         } else if (error) {
-            if ('status' in error && error.status === 403) {
-                localStorage.removeItem('jwtToken');
-                sessionStorage.removeItem('jwtToken');
-                history.push('/auth');
+            if ('status' in error && error.status === statusCodes.ERROR_403) {
+                localStorage.removeItem(JVT_TOKEN);
+                sessionStorage.removeItem(JVT_TOKEN);
+                history.push(paths.auth.path);
             } else {
                 setIsModalErrorOpen(true);
             }
@@ -126,7 +127,7 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                     <List.Item className={'comment'} key={item.id}>
                         <List.Item.Meta
                             avatar={<Avatar src={item.imageSrc ?? <UserOutlined />} />}
-                            title={item.fullName ?? 'Анонимный Пользователь'}
+                            title={item.fullName ?? 'Пользователь'}
                         />
                         <span className={'wrapper-comment'}>
                             <span className={'wrapper-comment-data'}>

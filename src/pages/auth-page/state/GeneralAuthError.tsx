@@ -3,12 +3,13 @@ import { Button, Card, Layout } from 'antd';
 import './State.css';
 import { WarningFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
 export const GeneralAuthError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth');
+        history.push(paths.auth.path);
     };
 
     return (

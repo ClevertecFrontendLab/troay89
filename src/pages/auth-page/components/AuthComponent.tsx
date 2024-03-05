@@ -10,10 +10,11 @@ import { saveDataEmail } from '@redux/reducers/userEmailSlice.ts';
 import { FieldData } from 'rc-field-form/lib/interface';
 import { EmailInput } from '@components/input/EmailInput.tsx';
 import { PasswordInput } from '@components/input/PasswordInput.tsx';
+import { JVT_TOKEN, paths, ResultStatusType, statusCodes } from '@constants/constants.ts';
 
-interface AuthComponentProps {
+type AuthComponentProps = {
     setIsLoading(value: boolean): void;
-}
+};
 
 export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) => {
     const [form] = Form.useForm();
@@ -59,7 +60,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             history.location.state &&
             typeof history.location.state === 'object' &&
             'from' in history.location.state &&
-            history.location.state?.from === '/result/error-check-email'
+            history.location.state?.from === paths.errorResetEmail.path
         ) {
             authCheckEmail({ email: userEmail });
         }
@@ -69,12 +70,12 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
         if (authData) {
             setIsLoading(authIsLoading);
             isSaveData
-                ? localStorage.setItem('jwtToken', authData.accessToken)
-                : sessionStorage.setItem('jwtToken', authData.accessToken);
-            history.push('/main');
+                ? localStorage.setItem(JVT_TOKEN, authData.accessToken)
+                : sessionStorage.setItem(JVT_TOKEN, authData.accessToken);
+            history.push(paths.main.path);
         } else if (authError) {
             setIsLoading(authIsLoading);
-            history.push('/result/error-login', { from: '/auth' });
+            history.push(paths.errorAuthGeneral.path, { from: paths.auth.path });
         } else if (authIsLoading) {
             setIsLoading(authIsLoading);
         }
@@ -83,20 +84,20 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     useEffect(() => {
         if (checkEmailData) {
             setIsLoading(checkEmailIsLoading);
-            history.push('/auth/confirm-email', { from: '/auth' });
+            history.push(paths.confirmEmail.path, { from: paths.auth.path });
         } else if (checkEmailError) {
             setIsLoading(checkEmailIsLoading);
             if (
                 'status' in checkEmailError &&
-                checkEmailError.status === 404 &&
+                checkEmailError.status === statusCodes.ERROR_404 &&
                 typeof checkEmailError.data === 'object' &&
                 checkEmailError.data !== null &&
                 'message' in checkEmailError.data &&
                 checkEmailError.data.message === 'Email не найден'
             ) {
-                history.push('/result/error-check-email-no-exist', { from: '/auth' });
+                history.push(paths.errorResetEmail.path, { from: paths.auth.path });
             } else {
-                history.push('/result/error-check-email', { from: '/auth' });
+                history.push(paths.errorCheckEmailGeneral.path, { from: paths.auth.path });
             }
         } else if (checkEmailIsLoading) {
             setIsLoading(checkEmailIsLoading);
@@ -109,7 +110,11 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                 <Space direction='vertical'>
                     <EmailInput
                         className={'auth-input auth-input-email'}
-                        validateStatus={isRedColor || !isEmailValid ? 'error' : 'success'}
+                        validateStatus={
+                            isRedColor || !isEmailValid
+                                ? ResultStatusType.ERROR
+                                : ResultStatusType.SUCCESS
+                        }
                         dataTestId='login-email'
                     />
                     <PasswordInput

@@ -4,12 +4,13 @@ import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useMediaQuery } from 'react-responsive';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
 export const EmailRegistrationError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth/registration');
+        history.push(paths.registration.path);
     };
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const newLine = isMobile ? '' : <br />;

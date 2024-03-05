@@ -4,6 +4,7 @@ import { StarFilled, StarOutlined } from '@ant-design/icons';
 import './Commnet.css';
 import { useSendFeedbackMutation } from '@redux/reducers/apiSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
+import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 
 type CommentsListProps = {
     isModal: boolean;
@@ -29,10 +30,10 @@ export const CommentModal: React.FC<CommentsListProps> = ({
             setRating(0);
             setSuccess(true);
         } else if (error) {
-            if ('status' in error && error.status === 403) {
-                localStorage.removeItem('jwtToken');
-                sessionStorage.removeItem('jwtToken');
-                history.push('/auth');
+            if ('status' in error && error.status === statusCodes.ERROR_403) {
+                localStorage.removeItem(JVT_TOKEN);
+                sessionStorage.removeItem(JVT_TOKEN);
+                history.push(paths.auth.path);
             } else {
                 setFailed(true);
             }
@@ -77,6 +78,9 @@ export const CommentModal: React.FC<CommentsListProps> = ({
                 <Form form={form}>
                     <Rate
                         character={({ index }) => {
+                            if (index === undefined) {
+                                return null;
+                            }
                             return index < rating ? (
                                 <StarFilled />
                             ) : (

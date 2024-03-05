@@ -14,54 +14,7 @@ import { SuccessChangePassword } from '@pages/auth-page/state/SuccessChangePassw
 import { GeneralChangePasswordError } from '@pages/auth-page/state/GeneralChangePasswordError.tsx';
 import { FeedbacksPage } from '@pages/feedbacks-page/FeedbacksPage.tsx';
 import { MainPage } from '@pages/main-page/MainPage.tsx';
-
-const paths = {
-    root: {
-        path: '/',
-    },
-    main: {
-        path: '/main',
-    },
-    auth: {
-        path: '/auth',
-    },
-    registration: {
-        path: '/auth/registration',
-    },
-    feedbacks: {
-        path: '/feedbacks',
-    },
-    confirmEmail: {
-        path: '/auth/confirm-email',
-    },
-    changePassport: {
-        path: '/auth/change-password',
-    },
-    successRegistration: {
-        path: '/result/success',
-    },
-    successChangePassport: {
-        path: '/result/success-change-password',
-    },
-    errorRegistrationEmail: {
-        path: '/result/error-user-exist',
-    },
-    errorResetEmail: {
-        path: '/result/error-check-email-no-exist',
-    },
-    errorRegistrationGeneral: {
-        path: '/result/error',
-    },
-    errorAuthGeneral: {
-        path: '/result/error-login',
-    },
-    errorCheckEmailGeneral: {
-        path: '/result/error-check-email',
-    },
-    errorChangePasswordGeneral: {
-        path: '/result/error-change-password',
-    },
-};
+import { paths } from '@constants/constants.ts';
 
 const allRoutes: RouteObject = {
     path: paths.root.path,

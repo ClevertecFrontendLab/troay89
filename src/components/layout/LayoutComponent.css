@@ -16,7 +16,7 @@
 .ant-layout {
     margin: 0 auto;
     max-width: 1440px;
-    font-family: 'Inter', sans-serif;
+    font-family: var(--main-text-font);
     min-height: 1024px;
     background: transparent;
 }

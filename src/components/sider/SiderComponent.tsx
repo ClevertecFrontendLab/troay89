@@ -16,6 +16,7 @@ import ExitBottom from '@components/custom-svg/ExitSVG.tsx';
 import './Sider.css';
 import { useMediaQuery } from 'react-responsive';
 import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
 
 type SiderProps = {
     isCloseSide: boolean;
@@ -40,7 +41,7 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
     const handleClickExit = () => {
         localStorage.removeItem('jwtToken');
         sessionStorage.removeItem('jwtToken');
-        history.push('/auth');
+        history.push(paths.auth.path);
     };
 
     return (

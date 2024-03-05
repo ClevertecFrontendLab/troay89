@@ -5,6 +5,7 @@ import { useLazyGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
+import { JVT_TOKEN, paths, ResultStatusType, statusCodes } from '@constants/constants.ts';
 
 type ErrorModalProps = {
     isModal: boolean;
@@ -20,10 +21,10 @@ export const SuccessModal: React.FC<ErrorModalProps> = ({ isModal, closeModal })
         if (data) {
             dispatch(saveComments(data));
         } else if (error) {
-            if ('status' in error && error.status === 403) {
-                localStorage.removeItem('jwtToken');
-                sessionStorage.removeItem('jwtToken');
-                history.push('/auth');
+            if ('status' in error && error.status === statusCodes.ERROR_403) {
+                localStorage.removeItem(JVT_TOKEN);
+                sessionStorage.removeItem(JVT_TOKEN);
+                history.push(paths.auth.path);
             }
         }
     }, [data, dispatch, error]);
@@ -45,16 +46,10 @@ export const SuccessModal: React.FC<ErrorModalProps> = ({ isModal, closeModal })
             centered={true}
         >
             <Result
-                status='success'
+                status={ResultStatusType.SUCCESS}
                 title='Отзыв успешно опубликован'
                 extra={
-                    <Button
-                        type='primary'
-                        size={'large'}
-                        onClick={() => {
-                            closeModal();
-                        }}
-                    >
+                    <Button type='primary' size={'large'} onClick={closeModal}>
                         Отлично
                     </Button>
                 }

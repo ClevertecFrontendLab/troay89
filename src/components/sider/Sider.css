@@ -20,13 +20,13 @@
 }
 
 .sider .list-menu .ant-menu-item:hover {
-    color: #262626;
+    color: var(--first-color);
 }
 
 
 .list-menu .ant-menu-item {
     padding: 0 17px;
-    color: #262626;
+    color: var(--first-color);
 }
 
 .ant-menu-vertical {
@@ -38,7 +38,7 @@
 }
 
 .ant-menu-item .svg-menu svg path {
-    fill: #061178;
+    fill: var(--second-title)
 }
 
 .ant-menu-item .svg-menu-special {
@@ -46,7 +46,7 @@
 }
 
 .ant-menu-item .svg-menu-special svg path {
-    fill: #061178;
+    fill: var(--second-title);
 }
 
 .wrapper-trigger {

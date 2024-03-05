@@ -13,11 +13,11 @@
 }
 
 .small-card-header .ant-card-head-title {
-    color: #262626;
+    color: var(--first-color);
 }
 
 .small-card-header .ant-card-body {
-    color: #2F54EB;
+    color: var(--app-main-collor);
 }
 
 
@@ -45,12 +45,12 @@
 }
 
 .small-cards .anticon svg path {
-    fill: #2F54EB;
+    fill: var(--app-main-collor);
     transition: fill 0.5s ease;
 }
 
 .small-cards .ant-card-body:hover .anticon svg path {
-    fill: #85A5FF;
+    fill: var(--hover-second-color);
 }
 
 @media (max-width: 1000px) {

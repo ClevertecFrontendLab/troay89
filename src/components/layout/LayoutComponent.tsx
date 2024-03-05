@@ -6,9 +6,9 @@ import { FooterComponent } from '@components/footer/Footer.tsx';
 import './LayoutComponent.css';
 import { useLocation } from 'react-router-dom';
 
-interface LayoutComponentProps {
+type LayoutComponentProps = {
     children: (collapsed: boolean) => ReactNode;
-}
+};
 
 export const LayoutComponent: React.FC<LayoutComponentProps> = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);

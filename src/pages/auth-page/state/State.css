@@ -1,9 +1,9 @@
-.wrapper-layout-state {
+.ant-layout.wrapper-layout-state{
     max-width: 1440px;
     min-height: 1024px;
     margin: auto;
     background: no-repeat center/cover url('/img/png/Enter page_light.png');
-    font-family: 'Inter', sans-serif;
+    font-family: var(--main-text-font);
 }
 
 .wrapper-content-state {
@@ -65,17 +65,16 @@
 }
 
 .icon-state.status-success {
-    color: #52C41A;
+    color: var(--success-color);
 }
 
 .icon-state.status-error,
 .status-error-code.color {
-    color: #FF4D4F;
+    color: var(--error-color);
 }
 
 .status-attention.color {
-    color: #2F54EB;
-
+    color: var(--app-main-collor);
 }
 
 .icon-state.status-attention,
@@ -84,14 +83,14 @@
 }
 
 .icon-state.status-warning {
-    color: #FAAD14;
+    color: var(--rating-color);
 }
 
 .title-state {
     font-size: 24px;
-    font-family: 'InterMedium', sans-serif;
+    font-family: var(--medium-title-font);
     margin: 0;
-    color: #262626;
+    color: var(--first-color);
 }
 
 .title-state.title-attention {
@@ -104,7 +103,7 @@
     display: block;
     margin-top: -4px;
     line-height: 18px;
-    color: #8C8C8C;
+    color: var(--second-color);
 }
 
 .message-state.general-change-pass {
@@ -116,14 +115,14 @@
 }
 
 .message-attention .email-style {
-    font-family: 'InterBold', sans-serif;
+    font-family: var(--main-title-font);
 }
 
 .button-state {
     width: 368px;
     margin-top: 24px;
     font-size: 14px;
-    background: #2F54EB;
+    background: var(--app-main-collor)
 }
 
 .button-state.small {
@@ -135,7 +134,7 @@
 }
 
 .button-state:hover {
-    background: #597EF7;
+    background: var(--hover-first-color);
 }
 
 .vi__container {
@@ -145,16 +144,16 @@
 }
 
 .vi__character {
-    color: #262626;
+    color: var(--first-color);
     font-size: 14px;
     line-height: 39px;
     max-height: 40px;
     max-width: 40px;
-    border: 1px solid #D9D9D9;
+    border: 1px solid var(--disabled-second-color);
 }
 
 .vi__character.error {
-    border: 1px solid #FF4D4F;
+    border: 1px solid var(--error-color);
 }
 
 .vi__character.vi__character--selected {

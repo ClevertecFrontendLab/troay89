@@ -3,12 +3,13 @@ import React from 'react';
 import { history } from '@redux/reducers/routerSlice.ts';
 import somethingWrong from '/img/svg/something-wrong.svg';
 import { useMediaQuery } from 'react-responsive';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
 export const GeneralResetPasswordError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth', { from: '/result/error-check-email' });
+        history.push(paths.auth.path, { from: paths.errorResetEmail.path });
     };
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const newLine = isMobile ? <br /> : '';

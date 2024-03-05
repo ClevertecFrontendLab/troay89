@@ -1,22 +1,22 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 
-interface PasswordInputProps {
+type PasswordInputProps = {
     className: string;
-    classNameForm?: string;
     placeholder: string;
     autoComplete: string;
     dataTestId: string;
     dependence: string;
-}
+    classNameForm?: string;
+};
 
 export const ConfirmPasswordInput: React.FC<PasswordInputProps> = ({
     className,
-    classNameForm,
     placeholder,
     autoComplete,
     dataTestId,
     dependence,
+    classNameForm,
 }) => (
     <Form.Item
         name='confirmPassword'

@@ -1,5 +1,5 @@
 .ant-layout-header {
-    background: #F0F5FF;
+    background: var(--header-backgraund);
     height: auto;
     min-height: 50px;
 }
@@ -12,9 +12,9 @@
 }
 
 h1.title-header {
-    color: #262626;
+    color: var(--first-color);
     max-width: 920px;
-    font-family: 'InterBold', sans-serif;
+    font-family: var(--main-title-font);
     font-weight: 700;
     line-height: 49px;
     margin-top: 12px;
@@ -46,12 +46,12 @@ div.header-seating {
     width: 32px;
     border: solid #eadfdf 1px;
     border-radius: 50%;
-    background: #fff;
+    background: white;
 }
 
 .container-setting.show:hover {
-    color: #88b8c7;
-    border: solid #88b8c7 1px;
+    color: var(--setting-backgraund);
+    border: solid var(--setting-backgraund) 1px;
 }
 
 @media screen and (max-width: 1000px) {
@@ -60,7 +60,7 @@ div.header-seating {
     }
 
     h1.title-header {
-        font-family: 'InterMedium', sans-serif;
+        font-family: var(--medium-title-font);
         font-weight: 500;
         line-height: 31px;
         font-size: 24px;

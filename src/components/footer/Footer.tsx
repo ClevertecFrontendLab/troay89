@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { history } from '@redux/reducers/routerSlice.ts';
 import './Footer.css';
+import { paths } from '@constants/constants.ts';
 
 const { Footer } = Layout;
 
@@ -12,7 +13,7 @@ export const FooterComponent: React.FC = () => {
                 data-test-id='see-reviews'
                 className={'footer-review'}
                 onClick={() => {
-                    history.push('/feedbacks');
+                    history.push(paths.feedbacks.path);
                 }}
             >
                 Смотреть отзывы{' '}

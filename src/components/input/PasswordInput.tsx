@@ -1,23 +1,23 @@
 import React from 'react';
 import { Form, Input } from 'antd';
 
-interface PasswordInputProps {
+type PasswordInputProps = {
     className: string;
-    classNameForm?: string;
     placeholder: string;
     autoComplete: string;
     dataTestId: string;
     helpText: string;
+    classNameForm?: string;
     setIsTextPass?: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 export const PasswordInput: React.FC<PasswordInputProps> = ({
     className,
-    classNameForm,
     placeholder,
     autoComplete,
     dataTestId,
     helpText,
+    classNameForm,
     setIsTextPass,
 }) => (
     <Form.Item
