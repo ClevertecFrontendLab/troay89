@@ -1,9 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
-
-interface ServerResponseAuth {
-    accessToken: string;
-}
+import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
 
 export const apiSlices = createApi({
     reducerPath: 'api',
@@ -63,6 +60,38 @@ export const apiSlices = createApi({
                 statusCode: 201,
             }),
         }),
+        sendFeedback: builder.mutation<{ statusCode: number }, Partial<SendComment>>({
+            query: (messageData) => ({
+                url: 'feedback',
+                method: 'POST',
+                body: messageData,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem('jwtToken')
+                            ? localStorage.getItem('jwtToken')
+                            : sessionStorage.getItem('jwtToken')),
+                },
+            }),
+            transformResponse: () => ({
+                statusCode: 201,
+            }),
+        }),
+        getFeedbacks: builder.query<Array<Comments>, void>({
+            query: () => ({
+                url: 'feedback',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem('jwtToken')
+                            ? localStorage.getItem('jwtToken')
+                            : sessionStorage.getItem('jwtToken')),
+                },
+                transformResponse: () => ({
+                    statusCode: 201,
+                }),
+            }),
+        }),
     }),
 });
 
@@ -71,3 +100,6 @@ export const { useAuthUserMutation } = apiSlices;
 export const { useAuthCheckEmailMutation } = apiSlices;
 export const { useAuthConfirmEmailMutation } = apiSlices;
 export const { useAuthChangePasswordMutation } = apiSlices;
+export const { useSendFeedbackMutation } = apiSlices;
+export const { useGetFeedbacksQuery } = apiSlices;
+export const { useLazyGetFeedbacksQuery } = apiSlices;

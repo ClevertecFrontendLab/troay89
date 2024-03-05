@@ -3,12 +3,13 @@ import { Button, Card, Layout } from 'antd';
 import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
 export const GeneralChangePasswordError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth/change-password', { from: '/result/error-change-password' });
+        history.push(paths.changePassport.path, { from: paths.errorChangePasswordGeneral });
     };
 
     return (

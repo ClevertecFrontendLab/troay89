@@ -9,6 +9,7 @@ import { RegistrationComponent } from '@pages/auth-page/components/RegistrationC
 import { Loader } from '@components/loader/Loader.tsx';
 import { useMediaQuery } from 'react-responsive';
 import './Enter.css';
+import { paths } from '@constants/constants.ts';
 
 const tabList = [
     {
@@ -27,7 +28,7 @@ export const Enter: React.FC = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
     const [activeTabKey1, setActiveTabKey1] = useState<string>(
-        location.pathname === '/auth/registration' ? 'tab2' : 'tab1',
+        location.pathname === paths.registration.path ? 'tab2' : 'tab1',
     );
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
@@ -39,7 +40,7 @@ export const Enter: React.FC = () => {
     };
 
     useEffect(() => {
-        setActiveTabKey1(location.pathname === '/auth/registration' ? 'tab2' : 'tab1');
+        setActiveTabKey1(location.pathname === paths.registration.path ? 'tab2' : 'tab1');
     }, [location]);
 
     useEffect(() => {
@@ -48,9 +49,9 @@ export const Enter: React.FC = () => {
                 setActiveTabKey1((prevKey) => {
                     const newKey = prevKey === 'tab1' ? 'tab2' : 'tab1';
                     if (newKey === 'tab1') {
-                        history.push('/auth');
+                        history.push(paths.auth.path);
                     } else if (newKey === 'tab2') {
-                        history.push('/auth/registration');
+                        history.push(paths.registration.path);
                     }
                     return newKey;
                 });
@@ -68,9 +69,9 @@ export const Enter: React.FC = () => {
     const onTabChange = (key: string) => {
         setActiveTabKey1(key);
         if (key === 'tab1') {
-            history.push('/auth');
+            history.push(paths.auth.path);
         } else if (key === 'tab2') {
-            history.push('/auth/registration');
+            history.push(paths.registration.path);
         }
     };
 

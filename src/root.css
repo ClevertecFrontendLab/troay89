@@ -1,0 +1,20 @@
+:root {
+    --first-color: #262626;
+    --second-title: #061178;
+    --second-color: #8C8C8C;
+    --third-color:  #BFBFBF;
+    --app-main-collor: #2F54EB;
+    --rating-color: #FAAD14;
+    --hover-first-color: #597EF7;
+    --hover-second-color: #85A5FF;
+    --setting-backgraund: #88B8C7;
+    --header-backgraund: #F0F5FF;
+    --error-color: #FF4D4F;
+    --success-color: #52C41A;
+    --disabled-color: #F5F5F5;
+    --disabled-second-color: #D9D9D9;
+    --avatar-back-color: #CCC;
+    --main-title-font: 'InterBold', sans-serif;
+    --medium-title-font: 'InterMedium', sans-serif;
+    --main-text-font: 'Inter', sans-serif;
+}

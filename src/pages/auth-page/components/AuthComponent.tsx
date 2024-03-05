@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Input, Space } from 'antd';
+import { Button, Checkbox, Form, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { User } from '../../../type/User.ts';
 import { useAuthCheckEmailMutation, useAuthUserMutation } from '@redux/reducers/apiSlice.ts';
@@ -8,10 +8,13 @@ import { useMediaQuery } from 'react-responsive';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { saveDataEmail } from '@redux/reducers/userEmailSlice.ts';
 import { FieldData } from 'rc-field-form/lib/interface';
+import { EmailInput } from '@components/input/EmailInput.tsx';
+import { PasswordInput } from '@components/input/PasswordInput.tsx';
+import { JVT_TOKEN, paths, ResultStatusType, statusCodes } from '@constants/constants.ts';
 
-interface AuthComponentProps {
+type AuthComponentProps = {
     setIsLoading(value: boolean): void;
-}
+};
 
 export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) => {
     const [form] = Form.useForm();
@@ -57,9 +60,9 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             history.location.state &&
             typeof history.location.state === 'object' &&
             'from' in history.location.state &&
-            history.location.state?.from === '/result/error-check-email'
+            history.location.state?.from === paths.errorResetEmail.path
         ) {
-            authCheckEmail({email: userEmail});
+            authCheckEmail({ email: userEmail });
         }
     }, [authCheckEmail, userEmail]);
 
@@ -67,12 +70,12 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
         if (authData) {
             setIsLoading(authIsLoading);
             isSaveData
-                ? localStorage.setItem('jwtToken', authData.accessToken)
-                : sessionStorage.setItem('jwtToken', authData.accessToken);
-            history.push('/main');
+                ? localStorage.setItem(JVT_TOKEN, authData.accessToken)
+                : sessionStorage.setItem(JVT_TOKEN, authData.accessToken);
+            history.push(paths.main.path);
         } else if (authError) {
             setIsLoading(authIsLoading);
-            history.push('/result/error-login', { from: '/auth' });
+            history.push(paths.errorAuthGeneral.path, { from: paths.auth.path });
         } else if (authIsLoading) {
             setIsLoading(authIsLoading);
         }
@@ -81,20 +84,20 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     useEffect(() => {
         if (checkEmailData) {
             setIsLoading(checkEmailIsLoading);
-            history.push('/auth/confirm-email', { from: '/auth' });
+            history.push(paths.confirmEmail.path, { from: paths.auth.path });
         } else if (checkEmailError) {
             setIsLoading(checkEmailIsLoading);
             if (
                 'status' in checkEmailError &&
-                checkEmailError.status === 404 &&
+                checkEmailError.status === statusCodes.ERROR_404 &&
                 typeof checkEmailError.data === 'object' &&
                 checkEmailError.data !== null &&
                 'message' in checkEmailError.data &&
                 checkEmailError.data.message === 'Email не найден'
             ) {
-                history.push('/result/error-check-email-no-exist', { from: '/auth' });
+                history.push(paths.errorResetEmail.path, { from: paths.auth.path });
             } else {
-                history.push('/result/error-check-email', { from: '/auth' });
+                history.push(paths.errorCheckEmailGeneral.path, { from: paths.auth.path });
             }
         } else if (checkEmailIsLoading) {
             setIsLoading(checkEmailIsLoading);
@@ -105,55 +108,22 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
         <Form form={form} name='auth' onFinish={onFinish} onFieldsChange={onFieldsChange}>
             <Space direction='vertical'>
                 <Space direction='vertical'>
-                    <Form.Item
-                        name='email'
-                        validateStatus={isRedColor || !isEmailValid ? 'error' : 'success'}
-                        rules={[
-                            {
-                                type: 'email',
-                                message: '',
-                            },
-                            {
-                                required: true,
-                                message: '',
-                            },
-                        ]}
-                    >
-                        <Input
-                            className={'auth-input auth-input-email'}
-                            size={'large'}
-                            autoComplete={'email'}
-                            addonBefore='e-mail:'
-                            data-test-id='login-email'
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name='password'
-                        rules={[
-                            {
-                                required: true,
-                                message: '',
-                            },
-                            () => ({
-                                validator(_, value) {
-                                    if (
-                                        value &&
-                                        !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
-                                    ) {
-                                        return Promise.reject(Error(''));
-                                    }
-                                    return Promise.resolve();
-                                },
-                            }),
-                        ]}
-                    >
-                        <Input.Password
-                            className={'auth-input'}
-                            placeholder='Пaроль'
-                            autoComplete={'current-password'}
-                            data-test-id='login-password'
-                        />
-                    </Form.Item>
+                    <EmailInput
+                        className={'auth-input auth-input-email'}
+                        validateStatus={
+                            isRedColor || !isEmailValid
+                                ? ResultStatusType.ERROR
+                                : ResultStatusType.SUCCESS
+                        }
+                        dataTestId='login-email'
+                    />
+                    <PasswordInput
+                        className={'auth-input'}
+                        placeholder={'Пароль'}
+                        dataTestId={'login-password'}
+                        autoComplete={'current-password'}
+                        helpText={''}
+                    />
                 </Space>
                 <Space className={'extra-container'}>
                     <Form.Item className={'auth-check'} name='isSave' valuePropName={'checked'}>
@@ -180,6 +150,9 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                     <Button
                         className={'auth-enter auth-google'}
                         icon={!isMobile ? <GooglePlusOutlined /> : ''}
+                        onClick={() =>
+                            (window.location.href = 'https://marathon-api.clevertec.ru/auth/google')
+                        }
                     >
                         Войти через Google
                     </Button>

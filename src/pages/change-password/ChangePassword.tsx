@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Layout } from 'antd';
+import { Button, Card, Form, Layout } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { history } from '@redux/reducers/routerSlice.ts';
 import './ChangePassword.css';
@@ -7,6 +7,9 @@ import { useAuthChangePasswordMutation } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveDataNewPassword } from '@redux/reducers/userNewPassword.ts';
+import { PasswordInput } from '@components/input/PasswordInput.tsx';
+import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
@@ -22,7 +25,7 @@ export const ChangePassword: React.FC = () => {
             history.location.state &&
             typeof history.location.state === 'object' &&
             'from' in history.location.state &&
-            history.location.state?.from === '/result/error-change-password'
+            history.location.state?.from === paths.errorChangePasswordGeneral.path
         ) {
             changePassword({ password: userData.password, confirmPassword: userData.password });
         }
@@ -30,9 +33,9 @@ export const ChangePassword: React.FC = () => {
 
     useEffect(() => {
         if (data) {
-            history.push('/result/success-change-password');
+            history.push(paths.successChangePassport.path);
         } else if (error) {
-            history.push('/result/error-change-password');
+            history.push(paths.errorChangePasswordGeneral.path);
         }
     }, [data, error]);
 
@@ -53,71 +56,23 @@ export const ChangePassword: React.FC = () => {
                         name='password'
                         onFinish={onFinish}
                     >
-                        <Form.Item
-                            className={'wrapper-change-passport-input'}
-                            name='password'
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '',
-                                },
-                                () => ({
-                                    validator(_, value) {
-                                        if (
-                                            value &&
-                                            !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
-                                        ) {
-                                            setIsTextPass(false);
-                                            return Promise.reject(
-                                                Error(
-                                                    'Пароль не менее 8 символов, с заглавной буквой и цифрой',
-                                                ),
-                                            );
-                                        }
-                                        setIsTextPass(true);
-                                        return Promise.resolve();
-                                    },
-                                }),
-                            ]}
-                            help={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
-                        >
-                            <Input.Password
-                                className={`change-passport-input ${
-                                    isTextPass ? 'another-color' : ''
-                                }`}
-                                placeholder='Новый пaроль'
-                                autoComplete={'new-password'}
-                                size={'large'}
-                                data-test-id='change-password'
-                            ></Input.Password>
-                        </Form.Item>
-                        <Form.Item
-                            className={'wrapper-change-passport-input'}
-                            name='confirmPassword'
-                            dependencies={['password']}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '',
-                                },
-                                ({ getFieldValue }) => ({
-                                    validator(_, value) {
-                                        if (!value || getFieldValue('password') === value) {
-                                            return Promise.resolve();
-                                        }
-                                        return Promise.reject(new Error('Пароли не совпадают'));
-                                    },
-                                }),
-                            ]}
-                        >
-                            <Input.Password
-                                className={'change-passport-input'}
-                                placeholder='Повторите пaроль'
-                                size={'large'}
-                                autoComplete={'new-password'}
-                                data-test-id='change-confirm-password'
-                            ></Input.Password>
-                        </Form.Item>
+                        <PasswordInput
+                            className={`change-passport-input ${isTextPass ? 'another-color' : ''}`}
+                            classNameForm={'wrapper-change-passport-input'}
+                            placeholder={'Новый пароль'}
+                            autoComplete={'new-password'}
+                            dataTestId={'change-password'}
+                            helpText={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
+                            setIsTextPass={setIsTextPass}
+                        />
+                        <ConfirmPasswordInput
+                            className={'change-passport-input'}
+                            classNameForm={'wrapper-change-passport-input'}
+                            placeholder={'Повторите пароль'}
+                            autoComplete={'new-password'}
+                            dataTestId={'change-confirm-password'}
+                            dependence={'password'}
+                        />
                         <Button
                             className={'button-change-passport'}
                             type='primary'

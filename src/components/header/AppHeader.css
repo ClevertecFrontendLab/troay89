@@ -1,71 +1,38 @@
 .ant-layout-header {
-    display: flex;
-    justify-content: space-between;
-    min-height: 168px;
-    background: #F0F5FF;
+    background: var(--header-backgraund);
     height: auto;
+    min-height: 50px;
+}
 
-    @media screen and (max-width: 1000px) {
-        min-height: 132px;
-    }
+.ant-layout-header .main-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: auto;
 }
 
 h1.title-header {
+    color: var(--first-color);
     max-width: 920px;
-    font-family: 'InterBold', sans-serif;
+    font-family: var(--main-title-font);
     font-weight: 700;
     line-height: 49px;
-
-    @media screen and (max-width: 1000px) {
-        font-family: 'InterMedium', sans-serif;
-        font-weight: 500;
-        line-height: 31px;
-        font-size: 24px;
-    }
-    @media screen and (max-width: 815px) {
-        line-height: 26px;
-        font-size: 20px;
-    }
+    margin-top: 12px;
 }
 
 .block-welcome {
-    margin-left: 24px;
-    @media screen and (max-width: 1000px) {
-        margin-bottom: 22px;
-    }
-}
-
-div.type-page {
-    margin: 25px 0 23px;
-    line-height: 0;
-    @media screen and (max-width: 815px) {
-        margin: 25px 0 15px;
-    }
+    margin: 0 0 3px 24px;
 }
 
 div.header-seating {
+    height: 20px;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
     column-gap: 10px;
-    margin: 0 39px 52px;
+    margin: 12px 39px;
     white-space: nowrap;
     cursor: pointer;
-    @media screen and (max-width: 1000px) {
-        margin: 43px 39px 59px 0;
-        max-height: 30px;
-    }
-    @media screen and (max-width: 815px) {
-        margin: 35px 24px 59px 0;
-        max-height: 30px;
-    }
-}
-
-.transfer-mobile {
-    margin-right: 0;
-    @media screen and (max-width: 380px) {
-        margin-right: 20px;
-    }
 }
 
 .container-setting {
@@ -79,11 +46,51 @@ div.header-seating {
     width: 32px;
     border: solid #eadfdf 1px;
     border-radius: 50%;
-    background: #fff;
+    background: white;
 }
 
 .container-setting.show:hover {
-    color: #88b8c7;
-    border: solid #88b8c7 1px;
+    color: var(--setting-backgraund);
+    border: solid var(--setting-backgraund) 1px;
 }
 
+@media screen and (max-width: 1000px) {
+    .ant-layout-header {
+        min-height: 50px;
+    }
+
+    h1.title-header {
+        font-family: var(--medium-title-font);
+        font-weight: 500;
+        line-height: 31px;
+        font-size: 24px;
+    }
+
+    .block-welcome {
+        margin: 0 0 10px 24px;
+    }
+
+    div.header-seating {
+        margin: 12px 39px 12px 0;
+        max-height: 30px;
+    }
+}
+
+@media screen and (max-width: 815px) {
+    h1.title-header {
+        line-height: 26px;
+        font-size: 20px;
+    }
+
+    div.header-seating {
+        margin: 4px 24px 12px 0;
+    }
+
+    .block-welcome {
+        margin: 0 0 12px 24px;
+    }
+
+    h1.title-header {
+        margin-top: 4px;
+    }
+}

@@ -3,12 +3,13 @@ import React from 'react';
 import { history } from '@redux/reducers/routerSlice.ts';
 import somethingWrong from '/img/svg/something-wrong.svg';
 import { useMediaQuery } from 'react-responsive';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
 export const GeneralResetPasswordError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth', { from: '/result/error-check-email' });
+        history.push(paths.auth.path, { from: paths.errorResetEmail.path });
     };
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const newLine = isMobile ? <br /> : '';
@@ -23,8 +24,8 @@ export const GeneralResetPasswordError: React.FC = () => {
                         alt={'something wrong'}
                     />
                     <h3 className={'title-state'}>Что-то пошло не так</h3>
-                    <span className={'message-state'}>
-                        Произошла ошибка, попробуйте {newLine} отправить форму ещё раз
+                    <span className={'message-state general-change-pass'}>
+                        Произошла ошибка, попробуйте {newLine} отправить форму ещё раз&nbsp;
                     </span>
                     <Button
                         className={'button-state small'}

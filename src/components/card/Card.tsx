@@ -2,12 +2,12 @@ import React, { ReactNode } from 'react';
 import { Card } from 'antd';
 import './Card.css';
 
-interface CardProps {
+type CardProps = {
     title: string;
     content: string;
     icon: ReactNode;
     isCloseSide: boolean;
-}
+};
 
 export const CardComponent: React.FC<CardProps> = ({ title, content, icon, isCloseSide }) => {
     const minWidthCard = isCloseSide ? 230 : 182;

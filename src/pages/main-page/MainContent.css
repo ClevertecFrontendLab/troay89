@@ -1,0 +1,176 @@
+.site-layout-background {
+    background: transparent;
+}
+
+.main-card-about {
+    width: 752px;
+    margin: 24px 0 22px 24px;
+    font-size: 16px;
+    line-height: 21px;
+    color: var(--second-title);
+}
+
+
+.main-card-about .ant-card-body {
+    padding: 23px 50px 9px 23px;
+}
+
+.main-card-tagline {
+    width: 752px;
+    margin: 0 24px 1px;
+}
+
+.main-card-tagline .ant-card-body {
+    padding: 23px 31px 12px 24px;
+}
+
+.main-card-tagline h4 {
+    font-family: var(--medium-title-font);
+    font-size: 20px;
+    line-height: 26px;
+    color: var(--first-color);
+    padding: 0;
+}
+
+.bord-contact-card {
+    width: 240px;
+    height: 1px;
+    border-top: solid 1px #F0F0F0;
+}
+
+.contact-card-header {
+    position: absolute;
+    width: 240px;
+    bottom: 43px;
+    right: 24px;
+}
+
+.contact-card-header .ant-card-body {
+    padding: 0;
+}
+
+.contact-card-header .contact-card-header-first-title {
+    padding: 13px 24px 0;
+    font-size: 16px;
+    color: var(--app-main-collor);
+    line-height: 21px;
+    margin: 0;
+}
+
+.contact-card-header .contact-card-header-second-title {
+    padding: 8px 24px 0;
+    color: var(--second-color);
+    line-height: 18px;
+    margin-bottom: 12px;
+}
+
+.contact-card-header .icon-contact-card {
+    margin: 13px 0;
+    color: var(--first-color);
+}
+
+.contact-card-header .icon-contact-card svg {
+    height: 12.5px;
+}
+
+.contact-card-header .anticon {
+    margin-right: 8px;
+    margin-left: -4px;
+}
+
+.contact-card-header .anticon-apple {
+    margin-left: 29px;
+}
+
+.container-icon-contact-card {
+    display: flex;
+    justify-content: center;
+    padding: 3px 0;
+}
+
+.contact-card-header .icon-contact-card:hover {
+    cursor: pointer;
+    background: #f5f4f1;
+}
+
+@media (max-width: 1000px) {
+    .main-card-about {
+        width: auto;
+        max-width: 772px;
+        margin: 24px 24px 22px;
+    }
+
+    .main-card-about .ant-card-body {
+        padding: 23px 25px 9px 23px;
+    }
+
+    .main-card-tagline {
+        width: auto;
+        max-width: 772px;
+    }
+}
+
+@media (max-width: 815px) {
+    .main-card-about {
+        width: auto;
+        max-height: 368px;
+        margin: 24px 24px 22px;
+    }
+
+    .main-card-about.change-margin {
+        margin: 24px 16px 22px
+    }
+
+    .main-card-about .ant-card-body {
+        padding: 15px 18px 9px 15px;
+    }
+
+    .main-card-tagline {
+        margin: 24px 24px 15px;
+    }
+
+    .main-card-tagline.change-margin {
+        margin: 24px 16px 15px
+    }
+
+    .main-card-tagline .ant-card-body {
+        padding: 0;
+        min-height: 188px;
+    }
+
+    .bord-contact-card {
+        width: auto;
+    }
+
+    .contact-card-header {
+        width: 328px;
+        height: 127px;
+        bottom: 105px;
+        right: 16px;
+    }
+
+    .contact-card-header .contact-card-header-first-title {
+        text-align: center;
+        padding: 11px 0 0;
+    }
+
+    .contact-card-header .contact-card-header-second-title {
+        text-align: center;
+        padding: 8px 0 0;
+    }
+
+    .contact-card-header .icon-contact-card {
+        margin: 13px 0;
+    }
+
+    .contact-card-header .anticon {
+        margin: 0 8px 0 0;
+    }
+    .contact-card-header .anticon-apple {
+        margin: 0 8px 0 70px;
+    }
+
+    .container-icon-contact-card {
+        padding: 3px 5px 3px 0;
+    }
+}

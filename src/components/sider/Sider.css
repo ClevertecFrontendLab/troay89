@@ -1,58 +1,32 @@
-.ant-layout-sider.ant-layout-sider-light.sider {
-    @media screen and (max-width: 815px) {
-        position: fixed;
-        height: 100vh;
-        z-index: 100;
-    }
-}
-
 .ant-layout-sider-children {
     overflow: hidden;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
 }
 
-.logo-container {
-    @media screen and (max-width: 1000px) {
-        min-height: 63px;
-    }
-}
-
 .logo {
     margin: 44px 0 0 29px;
-    @media screen and (max-width: 815px) {
-        margin: 16px 0 0 17px;
-    }
 }
 
 .logo.small {
     margin: 49px 0 3px 18px;
-    @media screen and (max-width: 1000px) {
-        margin: 49px 0 0 18px;
-    }
 }
 
 .list-menu {
     margin-top: 63px;
-    @media screen and (max-width: 815px) {
-        margin-top: 0;
-    }
 }
 
 .list-menu .ant-menu-item:not(:last-child) {
     margin-bottom: 18px;
-    @media screen and (max-width: 815px) {
-        margin-bottom: 10px;
-    }
 }
 
 .sider .list-menu .ant-menu-item:hover {
-    color: #262626;
+    color: var(--first-color);
 }
 
 
 .list-menu .ant-menu-item {
     padding: 0 17px;
-    color: #262626;
+    color: var(--first-color);
 }
 
 .ant-menu-vertical {
@@ -61,22 +35,18 @@
 
 .ant-menu-item .svg-menu {
     padding-right: 1px;
+}
 
-    svg {
-        path {
-            fill: #061178;
-        }
-    }
+.ant-menu-item .svg-menu svg path {
+    fill: var(--second-title)
 }
 
 .ant-menu-item .svg-menu-special {
     padding-right: 2px;
+}
 
-    svg {
-        path {
-            fill: #061178;
-        }
-    }
+.ant-menu-item .svg-menu-special svg path {
+    fill: var(--second-title);
 }
 
 .wrapper-trigger {
@@ -89,39 +59,19 @@
     height: 66px;
     background: white;
     clip-path: polygon(0% 0%, 100% 14%, 100% 50%, 100% 86%, 0% 100%);
-    @media screen and (max-width: 1000px) {
-        top: 563px;
-        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
-    }
-    @media screen and (max-width: 815px) {
-        display: flex;
-        justify-content: center;
-        position: fixed;
-        width: 32px;
-        height: 48px;
-        top: 25px;
-        background: white;
-        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
-    }
+    z-index: 99;
 }
 
 .wrapper-trigger .trigger {
     cursor: pointer;
+}
 
-    svg {
-        height: 14px;
+.wrapper-trigger .trigger svg {
+    height: 14px;
+}
 
-        path {
-            fill: #9b9090;
-        }
-    }
-
-    @media screen and (max-width: 815px) {
-        svg {
-            height: 16px;
-            width: 16px;
-        }
-    }
+.wrapper-trigger .trigger svg path {
+    fill: #9b9090;
 }
 
 .card-sider-exit p {
@@ -137,21 +87,6 @@
 .ant-menu-item.bord-exit {
     margin-top: 623px;
     margin-bottom: 0;
-    @media screen and (max-width: 1000px) {
-        margin-top: 795px;
-    }
-    @media screen and (max-width: 815px) {
-        z-index: 1;
-        margin-top: 0;
-        position: absolute;
-        bottom: 0;
-    }
-}
-
-.list-menu .ant-menu-item {
-    @media screen and (max-width: 815px) {
-        padding: 0 2px 0 8px;
-    }
 }
 
 .ant-menu-item.bord-exit .ant-menu-title-content {
@@ -160,4 +95,71 @@
 
 .ant-menu.ant-menu-inline-collapsed > .bord-exit {
     padding-left: 16px;
+}
+
+@media (max-width: 1000px) {
+    .logo-container {
+        min-height: 63px;
+    }
+
+    .logo.small {
+        margin: 49px 0 0 18px;
+    }
+
+    .wrapper-trigger {
+        top: 563px;
+        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
+    }
+
+    .ant-menu-item.bord-exit {
+        margin-top: 795px;
+    }
+}
+
+@media (max-width: 815px) {
+    .ant-layout-sider.ant-layout-sider-light.sider {
+        position: fixed;
+        height: 100vh;
+        z-index: 100;
+    }
+
+    .logo {
+        margin: 16px 0 0 17px;
+    }
+
+    .list-menu {
+        margin-top: 0;
+    }
+
+    .list-menu .ant-menu-item:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .wrapper-trigger {
+        display: flex;
+        justify-content: center;
+        position: fixed;
+        width: 32px;
+        height: 48px;
+        top: 25px;
+        background: white;
+        clip-path: polygon(0% 0%, 100% 10%, 100% 50%, 100% 90%, 0% 100%);
+    }
+
+    .wrapper-trigger .trigger svg {
+        height: 16px;
+        width: 16px;
+
+    }
+
+    .ant-menu-item.bord-exit {
+        z-index: 1;
+        margin-top: 0;
+        position: absolute;
+        bottom: 0;
+    }
+
+    .list-menu .ant-menu-item {
+        padding: 0 2px 0 8px;
+    }
 }

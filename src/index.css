@@ -10,3 +10,8 @@
     font-family: 'Inter';
     src: url('/font/Inter-Regular.ttf') format('truetype');
 }
+
+#root {
+    max-width: 1440px;
+    margin: 0 auto;
+}

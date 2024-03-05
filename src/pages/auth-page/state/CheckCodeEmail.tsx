@@ -8,6 +8,7 @@ import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { useAuthConfirmEmailMutation } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { useMediaQuery } from 'react-responsive';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
@@ -32,7 +33,7 @@ export const CheckCodeEmail: React.FC = () => {
 
     useEffect(() => {
         if (data) {
-            history.push('/auth/change-password');
+            history.push(paths.changePassport.path);
         } else if (error) {
             setIsError(true);
         }
@@ -69,7 +70,6 @@ export const CheckCodeEmail: React.FC = () => {
                         value={inputValue}
                         onChange={handleInputChange}
                         classNames={{ character: isError ? 'error' : '' }}
-                        // validChars={'0-9'}
                         placeholder={''}
                         inputProps={{ 'data-test-id': 'verification-input', autoFocus: true }}
                     />

@@ -3,12 +3,13 @@ import { Button, Card, Layout } from 'antd';
 import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
 export const GeneralRegistrationError: React.FC = () => {
     const handleClick = () => {
-        history.push('/auth/registration', { from: '/result/error-user-exist' });
+        history.push(paths.registration.path, { from: paths.errorRegistrationEmail.path });
     };
 
     return (

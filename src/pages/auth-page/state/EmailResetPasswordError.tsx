@@ -4,6 +4,7 @@ import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useMediaQuery } from 'react-responsive';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
@@ -12,7 +13,7 @@ export const EmailResetPasswordError: React.FC = () => {
     const newLine = isMobile ? '' : <br />;
 
     const handleClick = () => {
-        history.push('/auth');
+        history.push(paths.auth.path);
     };
 
     return (

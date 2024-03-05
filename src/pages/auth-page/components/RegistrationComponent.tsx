@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Form, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { User } from '../../../type/User.ts';
 import { FieldData } from 'rc-field-form/lib/interface';
@@ -8,10 +8,14 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.t
 import { useRegisterUserMutation } from '@redux/reducers/apiSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useMediaQuery } from 'react-responsive';
+import { EmailInput } from '@components/input/EmailInput.tsx';
+import { PasswordInput } from '@components/input/PasswordInput.tsx';
+import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
+import { paths, statusCodes } from '@constants/constants.ts';
 
-interface RegistrationComponentProps {
+type RegistrationComponentProps = {
     setIsLoading(value: boolean): void;
-}
+};
 
 export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ setIsLoading }) => {
     const dispatch = useAppDispatch();
@@ -32,7 +36,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
             history.location.state &&
             typeof history.location.state === 'object' &&
             'from' in history.location.state &&
-            history.location.state?.from === '/result/error-user-exist'
+            history.location.state?.from === paths.errorRegistrationEmail.path
         ) {
             registerUser(userData);
         }
@@ -40,14 +44,16 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
 
     useEffect(() => {
         if (data) {
-            history.push('/result/success', { from: '/auth/registration' });
+            history.push(paths.successRegistration.path, { from: paths.registration.path });
             setIsLoading(isLoading);
         } else if (error) {
             setIsLoading(isLoading);
-            if ('status' in error && error.status === 409) {
-                history.push('/result/error-user-exist', { from: '/auth/registration' });
+            if ('status' in error && error.status === statusCodes.ERROR_409) {
+                history.push(paths.errorRegistrationEmail.path, { from: paths.registration.path });
             } else {
-                history.push('/result/error', { from: '/auth/registration' });
+                history.push(paths.errorRegistrationGeneral.path, {
+                    from: paths.registration.path,
+                });
             }
         } else if (isLoading) {
             setIsLoading(isLoading);
@@ -63,87 +69,26 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
         <Form form={form} name='register' onFinish={onFinish} onFieldsChange={onFieldsChange}>
             <Space direction='vertical' style={{ columnGap: 0 }}>
                 <Space className={'container-input-reg'} direction='vertical'>
-                    <Form.Item
-                        name='email'
-                        rules={[
-                            {
-                                type: 'email',
-                                message: '',
-                            },
-                            {
-                                required: true,
-                                message: '',
-                            },
-                        ]}
-                    >
-                        <Input
-                            className={'reg-input reg-input-email'}
-                            size={'large'}
-                            autoComplete={'email'}
-                            addonBefore='e-mail:'
-                            data-test-id='registration-email'
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        name='password'
-                        rules={[
-                            {
-                                required: true,
-                                message: '',
-                            },
-                            () => ({
-                                validator(_, value) {
-                                    if (
-                                        value &&
-                                        !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
-                                    ) {
-                                        setIsTextPass(false);
-                                        return Promise.reject(
-                                            Error(
-                                                'Пароль не менее 8 символов, с заглавной буквой и цифрой',
-                                            ),
-                                        );
-                                    }
-                                    setIsTextPass(true);
-                                    return Promise.resolve();
-                                },
-                            }),
-                        ]}
-                        help={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
-                    >
-                        <Input.Password
-                            className={`reg-input ${isTextPass ? 'another-color' : ''}`}
-                            placeholder='Пaроль'
-                            autoComplete={'new-password'}
-                            data-test-id='registration-password'
-                        />
-                    </Form.Item>
-                </Space>
-                <Form.Item
-                    name='confirm'
-                    dependencies={['password']}
-                    rules={[
-                        {
-                            required: true,
-                            message: '',
-                        },
-                        ({ getFieldValue }) => ({
-                            validator(_, value) {
-                                if (!value || getFieldValue('password') === value) {
-                                    return Promise.resolve();
-                                }
-                                return Promise.reject(new Error('Пароли не совпадают'));
-                            },
-                        }),
-                    ]}
-                >
-                    <Input.Password
-                        className={'reg-input repeat-pass'}
-                        placeholder='Повторите пaроль'
-                        autoComplete={'new-password'}
-                        data-test-id='registration-confirm-password'
+                    <EmailInput
+                        className={'reg-input reg-input-email'}
+                        dataTestId='registration-email'
                     />
-                </Form.Item>
+                    <PasswordInput
+                        className={`reg-input ${isTextPass ? 'another-color' : ''}`}
+                        placeholder={'Пароль'}
+                        helpText={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
+                        dataTestId={'registration-password'}
+                        autoComplete={'new-password'}
+                        setIsTextPass={setIsTextPass}
+                    />
+                </Space>
+                <ConfirmPasswordInput
+                    className={'reg-input repeat-pass'}
+                    dataTestId={'registration-confirm-password'}
+                    placeholder={'Повторите пароль'}
+                    autoComplete={'new-password'}
+                    dependence={'password'}
+                />
                 <Button
                     className={'reg-enter'}
                     type='primary'
