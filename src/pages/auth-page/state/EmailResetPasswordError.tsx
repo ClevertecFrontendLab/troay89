@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Card, Layout } from 'antd';
+import { Card, Layout } from 'antd';
 import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useMediaQuery } from 'react-responsive';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -28,15 +29,13 @@ export const EmailResetPasswordError: React.FC = () => {
                         Мы не нашли в базе вашего e-mail. Попробуйте&nbsp; {newLine}войти с другим
                         e-mail.
                     </span>
-                    <Button
-                        className={'button-state middle'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'button-state middle style'}
+                        htmlType={'button'}
+                        text={'Попробовать снова'}
                         onClick={handleClick}
-                        data-test-id='check-retry-button'
-                    >
-                        Попробовать снова
-                    </Button>
+                        dataTestId={'check-retry-button'}
+                    />
                 </Card>
             </Content>
         </Layout>

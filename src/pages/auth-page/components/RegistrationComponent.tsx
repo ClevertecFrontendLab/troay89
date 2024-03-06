@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Form, Space } from 'antd';
+import { Form, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 import { User } from '../../../type/User.ts';
 import { FieldData } from 'rc-field-form/lib/interface';
@@ -12,6 +12,8 @@ import { EmailInput } from '@components/input/EmailInput.tsx';
 import { PasswordInput } from '@components/input/PasswordInput.tsx';
 import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
 import { paths, statusCodes } from '@constants/constants.ts';
+import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 type RegistrationComponentProps = {
     setIsLoading(value: boolean): void;
@@ -89,21 +91,18 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                     autoComplete={'new-password'}
                     dependence={'password'}
                 />
-                <Button
+                <PrimaryButton
                     className={'reg-enter'}
-                    type='primary'
-                    htmlType='submit'
+                    htmlType={'submit'}
+                    dataTestId={'registration-submit-button'}
                     disabled={!isValid}
-                    data-test-id='registration-submit-button'
-                >
-                    Войти
-                </Button>
-                <Button
-                    className={'auth-enter auth-google'}
-                    icon={!isMobile ? <GooglePlusOutlined /> : ''}
-                >
-                    Регистрация через Google
-                </Button>
+                    text={'Войти'}
+                />
+                <DefaultButton
+                    className={'auth-enter default-button'}
+                    text={'Регистрация через Google'}
+                    icon={!isMobile ? <GooglePlusOutlined /> : null}
+                />
             </Space>
         </Form>
     );

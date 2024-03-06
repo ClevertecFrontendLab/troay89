@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Result } from 'antd';
-import './ErrorCommentModal.css';
+import { Modal, Result } from 'antd';
 import { ResultStatusType } from '@constants/constants.ts';
+import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
+import './ErrorCommentModal.css';
 
 type ErrorModalProps = {
     isModal: boolean;
@@ -20,6 +22,11 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({
         setIsOpen(isModal);
     }, [isModal]);
 
+    const handleRepeatComment = () => {
+        setIsModalOpen(true);
+        closeModal();
+    };
+
     return (
         <Modal
             className={'error-comment-modal'}
@@ -34,27 +41,23 @@ export const ErrorCommentModal: React.FC<ErrorModalProps> = ({
                 title='Данные не сохранились'
                 subTitle='Что-то пошло не так. Попробуйте ещё раз.'
                 extra={[
-                    <Button
-                        data-test-id='write-review-not-saved-modal'
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'style-second'}
+                        htmlType={'button'}
+                        onClick={handleRepeatComment}
+                        dataTestId={'write-review-not-saved-modal'}
+                        text={'Написать отзыв'}
+                        buttonKey={'rep'}
                         key={'rep'}
-                        onClick={() => {
-                            setIsModalOpen(true);
-                            closeModal();
-                        }}
-                    >
-                        Написать отзыв
-                    </Button>,
-                    <Button
-                        key='close'
-                        size={'large'}
-                        onClick={() => {
-                            closeModal();
-                        }}
-                    >
-                        Закрыть
-                    </Button>,
+                    />,
+                    <DefaultButton
+                        className={'default-button'}
+                        onClick={closeModal}
+                        text={'Закрыть'}
+                        icon={null}
+                        buttonKey={'close'}
+                        key={'close'}
+                    />,
                 ]}
             />
         </Modal>

@@ -171,32 +171,8 @@
     margin-bottom: 8px;
 }
 
-.reg-enter.ant-btn-primary:hover,
-.auth-enter.ant-btn-primary:hover {
-    background: var(--hover-first-color);
-}
-
-.auth-enter.auth-google:hover {
-    border-color: var(--app-main-collor);
-    color: var(--app-main-collor);
-}
-
-.auth-enter.auth-google:hover .anticon-google-plus {
-    color: var(--hover-second-color);
-}
-
 .reg-enter {
     margin: 30px 0 9px;
-}
-
-.reg-enter.ant-btn-primary,
-.auth-enter.ant-btn-primary {
-    background: var(--app-main-collor);
-}
-
-.reg-enter.ant-btn-primary:disabled {
-    background: var(--disabled-second-color);
-    color: var(--third-color);
 }
 
 .auth-enter.ant-btn-default {
@@ -212,7 +188,6 @@
 .auth-layout .reg-enter,
 .auth-layout .auth-enter {
     width: 100%;
-    min-height: 40px;
     font-size: 16px;
 }
 

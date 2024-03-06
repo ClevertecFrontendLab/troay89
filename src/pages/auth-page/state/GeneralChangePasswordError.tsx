@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Card, Layout } from 'antd';
+import { Card, Layout } from 'antd';
 import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -19,15 +20,13 @@ export const GeneralChangePasswordError: React.FC = () => {
                     <CloseCircleFilled className={'icon-state status-error'} />
                     <h3 className={'title-state'}>Данные не сохранились</h3>
                     <span className={'message-state'}>Что-то пошло не так. Попробуйте ещё раз</span>
-                    <Button
-                        className={'button-state'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'button-state style'}
+                        htmlType={'button'}
+                        text={'Повторить'}
                         onClick={handleClick}
-                        data-test-id='change-retry-button'
-                    >
-                        Повторить
-                    </Button>
+                        dataTestId={'change-retry-button'}
+                    />
                 </Card>
             </Content>
         </Layout>

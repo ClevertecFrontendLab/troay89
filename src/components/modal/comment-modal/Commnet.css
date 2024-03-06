@@ -56,7 +56,6 @@
 
 .modal-create-comment .ant-btn-primary {
     font-size: 14px;
-    background-color: var(--app-main-collor);
     min-width: 130px;
     margin-right: 8px;
 }

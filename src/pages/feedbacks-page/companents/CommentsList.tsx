@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
 import { useGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
-import './CommentsList.css';
 import { Comments } from '../../../type/Data.ts';
 import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
 import { Loader } from '@components/loader/Loader.tsx';
@@ -13,6 +12,8 @@ import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
 import { SuccessModal } from '@components/modal/success-modal/SuccessModal.tsx';
 import { ErrorCommentModal } from '@components/modal/error-comment-modal/ErrorCommentModal.tsx';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
+import './CommentsList.css';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 type CommentsListProps = {
     isCloseSide: boolean;
@@ -83,15 +84,13 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                             и помогите им сделать правильный выбор.
                         </div>
                     </Card>
-                    <Button
-                        className={'first-comment-primary'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'first-comment-primary style-second'}
+                        htmlType={'button'}
                         onClick={handleShowComment}
-                        data-test-id='write-review'
-                    >
-                        Написать отзыв
-                    </Button>
+                        dataTestId={'write-review'}
+                        text={'Написать отзыв'}
+                    />
                 </div>
             </>
         );
@@ -152,15 +151,13 @@ export const CommentsList: React.FC<CommentsListProps> = ({ isCloseSide }) => {
                 )}
             />
             <div className={'wrapper-comment-button'}>
-                <Button
-                    className={'comment-primary'}
-                    type='primary'
-                    size={'large'}
+                <PrimaryButton
+                    className={'comment-primary style-second'}
+                    htmlType={'button'}
                     onClick={handleShowComment}
-                    data-test-id='write-review'
-                >
-                    Написать отзыв
-                </Button>
+                    dataTestId={'write-review'}
+                    text={'Написать отзыв'}
+                />
                 <Button
                     className={'comment-link'}
                     type='link'

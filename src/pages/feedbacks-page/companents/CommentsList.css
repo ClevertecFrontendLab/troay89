@@ -26,6 +26,10 @@
     margin: 0;
 }
 
+.comment .anticon-user {
+    color: black;
+}
+
 .comment .ant-avatar {
     display: flex;
     justify-content: center;
@@ -99,13 +103,17 @@
 }
 
 .wrapper-comment-button .comment-primary {
-    background-color: var(--app-main-collor);
     font-size: 14px;
 }
 
 .wrapper-comment-button .comment-link {
     color: var(--app-main-collor);
     font-size: 16px;
+    transition: background-color 0.5s ease;
+}
+
+.wrapper-comment-button .comment-link:hover {
+    background-color: #FFF;
 }
 
 .wrapper-empty-list {
@@ -150,7 +158,6 @@
 }
 
 .first-comment-primary {
-    background-color: var(--app-main-collor);
     margin: auto;
     font-size: 14px;
 }

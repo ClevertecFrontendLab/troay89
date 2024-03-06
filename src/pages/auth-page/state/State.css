@@ -122,7 +122,7 @@
     width: 368px;
     margin-top: 24px;
     font-size: 14px;
-    background: var(--app-main-collor)
+    /*background: var(--app-main-collor)*/
 }
 
 .button-state.small {
@@ -133,9 +133,9 @@
     width: 167px;
 }
 
-.button-state:hover {
-    background: var(--hover-first-color);
-}
+/*.button-state:hover {*/
+/*    background: var(--hover-first-color);*/
+/*}*/
 
 .vi__container {
     height: 40px;

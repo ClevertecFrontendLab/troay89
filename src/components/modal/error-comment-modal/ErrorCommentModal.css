@@ -42,8 +42,6 @@
 .error-comment-modal .ant-btn-primary {
     max-width: 180px;
     width: 100%;
-    background-color: var(--app-main-collor);
-    font-family: var(--main-text-font);
     font-size: 14px;
 }
 

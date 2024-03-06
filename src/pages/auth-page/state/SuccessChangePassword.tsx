@@ -1,10 +1,11 @@
 import React from 'react';
-import { Button, Card, Layout } from 'antd';
+import { Card, Layout } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
 import './State.css';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useMediaQuery } from 'react-responsive';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -27,15 +28,13 @@ export const SuccessChangePassword: React.FC = () => {
                         Теперь можно войти в аккаунт, используя{spaceMobile} <br />
                         свой логин и новый пароль
                     </span>
-                    <Button
-                        className={'button-state'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'button-state style'}
+                        htmlType={'button'}
+                        text={'Вход'}
                         onClick={handleClick}
-                        data-test-id='change-entry-button'
-                    >
-                        Вход
-                    </Button>
+                        dataTestId={'change-entry-button'}
+                    />
                 </Card>
             </Content>
         </Layout>
