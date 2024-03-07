@@ -44,6 +44,10 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
         history.push(paths.auth.path);
     };
 
+    const handleClickCalendar = () => {
+        history.push(paths.trainingList.path);
+    };
+
     return (
         <Sider
             width={sizeOpenSider}
@@ -71,6 +75,7 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                     key='1'
                     icon={isMobile ? null : <CalendarTwoTone className={'svg-menu'} />}
                     className={'ant-menu-item'}
+                    onClick={handleClickCalendar}
                 >
                     Календарь
                 </Menu.Item>

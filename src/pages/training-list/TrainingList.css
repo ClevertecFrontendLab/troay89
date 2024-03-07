@@ -1,0 +1,30 @@
+.wrapper-calendar {
+    background-color: var(--header-backgraund);
+}
+
+.custom-calendar.ant-picker-calendar {
+    background-color: transparent;
+    margin: 0 14px 93px 24px;
+}
+
+.custom-calendar .ant-picker-panel {
+    background-color: transparent;
+}
+
+.custom-calendar .ant-picker-calendar-header {
+    margin-right: 10px;
+}
+
+.custom-calendar .ant-picker-cell-inner.ant-picker-calendar-date {
+    margin-right: 10px;
+    background-color: white;
+    min-height: 143px;
+}
+
+.custom-calendar .ant-picker-content thead tr th{
+    color: var(--second-color);
+}
+
+.custom-calendar .ant-picker-cell-in-view {
+    color: var(--first-color);
+}

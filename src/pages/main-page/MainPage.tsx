@@ -12,6 +12,8 @@ import {
 import { useMediaQuery } from 'react-responsive';
 import './MainContent.css';
 import { LayoutComponent } from '@components/layout';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
@@ -29,6 +31,11 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const spaceMobileSiderClose = isMobile && isCloseSide ? <br /> : '';
     const changeMargin = isCloseSide && isMobile ? 'change-margin' : '';
     const MobilePadding = isCloseSide && isMobile ? '17px 20px 0 15px' : '17px 10px 0 15px';
+
+    const handleClickCalendar = () => {
+        history.push(paths.trainingList.path);
+    };
+
     return (
         <Content className='site-layout-background'>
             <Card className={`main-card-about ${changeMargin}`}>
@@ -59,18 +66,21 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
                     content={'Тренировки'}
                     icon={<HeartFilled />}
                     isCloseSide={isCloseSide}
+                    onClick={handleClickCalendar}
                 />
                 <CardComponent
                     title={'Назначить календарь'}
                     content={'Календарь'}
                     icon={<CalendarTwoTone twoToneColor={'#2F54EB'} />}
                     isCloseSide={isCloseSide}
+                    onClick={handleClickCalendar}
                 />
                 <CardComponent
                     title={'Заполнить профиль'}
                     content={'Профиль'}
                     icon={<IdcardOutlined />}
                     isCloseSide={isCloseSide}
+                    onClick={handleClickCalendar}
                 />
             </div>
             <Card className={'contact-card-header'} bordered={false}>

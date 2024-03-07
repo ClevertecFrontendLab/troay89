@@ -11,6 +11,10 @@
     height: auto;
 }
 
+.ant-layout-header .main-content.without-title {
+    justify-content: flex-end;
+}
+
 h1.title-header {
     color: var(--first-color);
     max-width: 920px;

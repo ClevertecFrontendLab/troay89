@@ -2,9 +2,9 @@ import React from 'react';
 import { Typography, Layout } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
-import './AppHeader.css';
 import { BreadcrumbComponent } from '@components/breadcrumb/BreadcrumbComponent.tsx';
 import { useLocation } from 'react-router-dom';
+import './AppHeader.css';
 
 const { Title, Paragraph } = Typography;
 const { Header } = Layout;
@@ -47,6 +47,14 @@ export const AppHeader: React.FC = () => {
                             поможет тебе добиться своей мечты!
                         </Title>
                     </div>
+                    <Paragraph className={'header-seating'}>
+                        <Settings isMobile={isMobile} isTablet={isTablet} />
+                        {!isMobile && 'Настройки'}
+                    </Paragraph>
+                </div>
+            )}
+            {location.pathname === '/catalogs/training-list' && (
+                <div className={'main-content without-title'}>
                     <Paragraph className={'header-seating'}>
                         <Settings isMobile={isMobile} isTablet={isTablet} />
                         {!isMobile && 'Настройки'}

@@ -15,6 +15,7 @@ import { GeneralChangePasswordError } from '@pages/auth-page/state/GeneralChange
 import { FeedbacksPage } from '@pages/feedbacks-page/FeedbacksPage.tsx';
 import { MainPage } from '@pages/main-page/MainPage.tsx';
 import { paths } from '@constants/constants.ts';
+import { TrainingList } from '@pages/training-list/TrainingList.tsx';
 
 const allRoutes: RouteObject = {
     path: paths.root.path,
@@ -23,6 +24,7 @@ const allRoutes: RouteObject = {
         { path: paths.auth.path, element: <Enter /> },
         { path: paths.registration.path, element: <Enter /> },
         { path: paths.feedbacks.path, element: <FeedbacksPage /> },
+        { path: paths.trainingList.path, element: <TrainingList /> },
         { path: paths.successRegistration.path, element: <SuccessReg /> },
         { path: paths.successChangePassport.path, element: <SuccessChangePassword /> },
         { path: paths.confirmEmail.path, element: <CheckCodeEmail /> },
