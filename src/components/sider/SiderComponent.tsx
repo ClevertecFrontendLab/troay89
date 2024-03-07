@@ -1,5 +1,5 @@
-import React from 'react';
-import { Layout, Menu } from 'antd';
+import React, {useState} from 'react';
+import {Layout, Menu} from 'antd';
 import {
     CalendarTwoTone,
     HeartFilled,
@@ -14,20 +14,21 @@ import partLogo from '/img/svg/logo-part.svg';
 
 import ExitBottom from '@components/custom-svg/ExitSVG.tsx';
 import './Sider.css';
-import { useMediaQuery } from 'react-responsive';
-import { history } from '@redux/reducers/routerSlice.ts';
-import { paths } from '@constants/constants.ts';
+import {useMediaQuery} from 'react-responsive';
+import {history} from '@redux/reducers/routerSlice.ts';
+import {JVT_TOKEN, paths} from '@constants/constants.ts';
 
 type SiderProps = {
     isCloseSide: boolean;
     setIsCloseSide(value: boolean): void;
 };
 
-const { Sider } = Layout;
+const {Sider} = Layout;
 
-export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSide }) => {
+export const SiderComponent: React.FC<SiderProps> = ({isCloseSide, setIsCloseSide}) => {
     const MenuIcon = isCloseSide ? MenuUnfoldOutlined : MenuFoldOutlined;
-    const isMobile = useMediaQuery({ query: '(max-width: 815px)' });
+    const [selectedKey, setSelectedKey] = useState('0')
+    const isMobile = useMediaQuery({query: '(max-width: 815px)'});
     const sizeOpenSider = isMobile ? 106 : 208;
     const sizeCloseSider = isMobile ? 1 : 64;
 
@@ -39,14 +40,26 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
     }
 
     const handleClickExit = () => {
-        localStorage.removeItem('jwtToken');
-        sessionStorage.removeItem('jwtToken');
+        localStorage.removeItem(JVT_TOKEN);
+        sessionStorage.removeItem(JVT_TOKEN);
         history.push(paths.auth.path);
     };
 
     const handleClickCalendar = () => {
         history.push(paths.trainingList.path);
     };
+
+    console.log(selectedKey)
+
+    React.useEffect(() => {
+        switch (location.pathname.slice(1)) {
+            case paths.trainingList.path:
+                setSelectedKey('1');
+                break;
+            default:
+                setSelectedKey('0'); // установите пустой ключ по умолчанию
+        }
+    }, []);
 
     return (
         <Sider
@@ -66,14 +79,13 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                 />
             </div>
             <Menu
-                selectable={false}
                 theme='light'
-                triggerSubMenuAction={'click'}
                 className={'list-menu'}
+                selectedKeys={[selectedKey]}
             >
                 <Menu.Item
                     key='1'
-                    icon={isMobile ? null : <CalendarTwoTone className={'svg-menu'} />}
+                    icon={isMobile ? null : <CalendarTwoTone className={'svg-menu'}/>}
                     className={'ant-menu-item'}
                     onClick={handleClickCalendar}
                 >
@@ -81,28 +93,28 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                 </Menu.Item>
                 <Menu.Item
                     key='2'
-                    icon={isMobile ? null : <HeartFilled className={'svg-menu'} />}
+                    icon={isMobile ? null : <HeartFilled className={'svg-menu'}/>}
                     className={'ant-menu-item'}
                 >
                     Тренировки
                 </Menu.Item>
                 <Menu.Item
                     key='3'
-                    icon={isMobile ? null : <TrophyFilled className={'svg-menu'} />}
+                    icon={isMobile ? null : <TrophyFilled className={'svg-menu'}/>}
                     className={'ant-menu-item'}
                 >
                     Достижения
                 </Menu.Item>
                 <Menu.Item
                     key='4'
-                    icon={isMobile ? null : <IdcardOutlined className={'svg-menu-special'} />}
+                    icon={isMobile ? null : <IdcardOutlined className={'svg-menu-special'}/>}
                     className={'ant-menu-item'}
                 >
                     Профиль
                 </Menu.Item>
                 <Menu.Item
                     key='5'
-                    icon={isMobile ? null : <ExitBottom className={'svg-menu-exit'} />}
+                    icon={isMobile ? null : <ExitBottom className={'svg-menu-exit'}/>}
                     className={'ant-menu-item bord-exit'}
                     onClick={handleClickExit}
                 >

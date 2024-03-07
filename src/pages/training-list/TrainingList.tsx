@@ -10,7 +10,7 @@ import moment from 'moment';
 import 'moment/locale/ru';
 
 moment.updateLocale('ru', {
-    monthsShort: 'янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек'.split('_'),
+    monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
     weekdaysMin: 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
     week: {
         dow: 1,
