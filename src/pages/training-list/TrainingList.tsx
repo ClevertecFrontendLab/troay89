@@ -1,13 +1,19 @@
 import { BadgeProps, ConfigProvider } from 'antd';
 import { Badge, Calendar } from 'antd';
 import type { Moment } from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import { LayoutComponent } from '@components/layout';
 import ruRU from 'antd/lib/locale/ru_RU';
 import './TrainingList.css';
 
 import moment from 'moment';
 import 'moment/locale/ru';
+import { TrainingModal } from '@components/modal/training-modal/TrainingModal.tsx';
+
+export type Position = {
+    top: number;
+    left: number;
+};
 
 moment.updateLocale('ru', {
     monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
@@ -54,7 +60,7 @@ const getMonthData = (value: Moment) => {
     }
 };
 
-const MainContent: React.FC = () => {
+const TrainingCalendar: React.FC = () => {
     const monthCellRender = (value: Moment) => {
         const num = getMonthData(value);
         return num ? (
@@ -65,16 +71,28 @@ const MainContent: React.FC = () => {
         ) : null;
     };
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalPosition, setModalPosition] = useState<Position | null>(null);
+
+    const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
+        console.log(value);
+        const rect = event.currentTarget.getBoundingClientRect();
+        setModalPosition({ top: rect.top, left: rect.left });
+        setIsModalOpen(true);
+    };
+
     const dateCellRender = (value: Moment) => {
         const listData = getListData(value);
         return (
-            <ul className='events'>
-                {listData.map((item) => (
-                    <li key={item.content}>
-                        <Badge status={item.type as BadgeProps['status']} text={item.content} />
-                    </li>
-                ))}
-            </ul>
+            <div className={'wrapper-events'} onClick={(event) => handleClickCell(value, event)}>
+                <ul className='events'>
+                    {listData.map((item, index) => (
+                        <li key={index} onClick={(event) => handleClickCell(value, event)}>
+                            <Badge status={item.type as BadgeProps['status']} text={item.content} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
         );
     };
 
@@ -85,6 +103,11 @@ const MainContent: React.FC = () => {
                 dateCellRender={dateCellRender}
                 monthCellRender={monthCellRender}
             />
+            <TrainingModal
+                isModal={isModalOpen}
+                closeModal={() => setIsModalOpen(false)}
+                modalPosition={modalPosition}
+            />
         </div>
     );
 };
@@ -94,7 +117,7 @@ export const TrainingList: React.FC = () => {
         <LayoutComponent>
             {() => (
                 <ConfigProvider locale={ruRU}>
-                    <MainContent />
+                    <TrainingCalendar />
                 </ConfigProvider>
             )}
         </LayoutComponent>

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
 import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
+import { PersonalTraining, TrainingList } from '../../type/Training.ts';
 
 export const apiSlices = createApi({
     reducerPath: 'api',
@@ -89,6 +90,36 @@ export const apiSlices = createApi({
                 },
                 transformResponse: () => ({
                     statusCode: 201,
+                }),
+            }),
+        }),
+        getTrainingList: builder.query<Array<TrainingList>, void>({
+            query: () => ({
+                url: 'catalogs/training-list',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem('jwtToken')
+                            ? localStorage.getItem('jwtToken')
+                            : sessionStorage.getItem('jwtToken')),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
+        getPersonalTrainingList: builder.query<Array<PersonalTraining>, void>({
+            query: () => ({
+                url: 'training',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem('jwtToken')
+                            ? localStorage.getItem('jwtToken')
+                            : sessionStorage.getItem('jwtToken')),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
                 }),
             }),
         }),
