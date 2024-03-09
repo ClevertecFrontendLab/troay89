@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
 import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
 import { PersonalTraining, TrainingList } from '../../type/Training.ts';
+import { JVT_TOKEN } from '@constants/constants.ts';
 
 export const apiSlices = createApi({
     reducerPath: 'api',
@@ -84,9 +85,9 @@ export const apiSlices = createApi({
                 headers: {
                     Authorization:
                         'Bearer ' +
-                        (localStorage.getItem('jwtToken')
-                            ? localStorage.getItem('jwtToken')
-                            : sessionStorage.getItem('jwtToken')),
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
                 },
                 transformResponse: () => ({
                     statusCode: 201,
@@ -99,9 +100,9 @@ export const apiSlices = createApi({
                 headers: {
                     Authorization:
                         'Bearer ' +
-                        (localStorage.getItem('jwtToken')
-                            ? localStorage.getItem('jwtToken')
-                            : sessionStorage.getItem('jwtToken')),
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
                 },
                 transformResponse: () => ({
                     statusCode: 200,
@@ -114,9 +115,9 @@ export const apiSlices = createApi({
                 headers: {
                     Authorization:
                         'Bearer ' +
-                        (localStorage.getItem('jwtToken')
-                            ? localStorage.getItem('jwtToken')
-                            : sessionStorage.getItem('jwtToken')),
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
                 },
                 transformResponse: () => ({
                     statusCode: 200,
@@ -134,3 +135,6 @@ export const { useAuthChangePasswordMutation } = apiSlices;
 export const { useSendFeedbackMutation } = apiSlices;
 export const { useGetFeedbacksQuery } = apiSlices;
 export const { useLazyGetFeedbacksQuery } = apiSlices;
+export const { useGetPersonalTrainingListQuery } = apiSlices;
+export const { useLazyGetPersonalTrainingListQuery } = apiSlices;
+export const { useGetTrainingListQuery } = apiSlices;

@@ -1,4 +1,4 @@
-.ant-modal-content {
+.modal-list-training .ant-modal-content {
     height: 200px;
 }
 
@@ -60,3 +60,19 @@
 .modal-list-training .ant-modal-footer {
     padding: 10px 13px 10px 11px;
 }
+
+.modal-list-training .ant-modal-close-x {
+    width: 46px;
+    height: 50px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+}
+
+.modal-list-training .ant-modal-close-icon{
+    margin: 1px 0 1px;
+}
+
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Menu } from 'antd';
 import {
     CalendarTwoTone,
@@ -16,7 +16,10 @@ import ExitBottom from '@components/custom-svg/ExitSVG.tsx';
 import './Sider.css';
 import { useMediaQuery } from 'react-responsive';
 import { history } from '@redux/reducers/routerSlice.ts';
-import { JVT_TOKEN, paths } from '@constants/constants.ts';
+import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
+import { useLazyGetPersonalTrainingListQuery } from '@redux/reducers/apiSlice.ts';
+import { Loader } from '@components/loader/Loader.tsx';
+import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
 
 type SiderProps = {
     isCloseSide: boolean;
@@ -45,10 +48,6 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
         history.push(paths.auth.path);
     };
 
-    const handleClickCalendar = () => {
-        history.push(paths.trainingList.path);
-    };
-
     React.useEffect(() => {
         switch (location.pathname.slice(1)) {
             case paths.trainingList.path:
@@ -59,74 +58,113 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
         }
     }, []);
 
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const [
+        getPersonalTrainingList,
+        {
+            data: personalTrainingData,
+            isLoading: personalTrainingIsLoading,
+            error: personalTrainingError,
+        },
+    ] = useLazyGetPersonalTrainingListQuery();
+
+    const handleClickCalendar = () => {
+        getPersonalTrainingList();
+    };
+
+    useEffect(() => {
+        if (personalTrainingData) {
+            setIsOpenModal(true);
+            history.push(paths.trainingList.path);
+        } else if (personalTrainingError) {
+            if (
+                'status' in personalTrainingError &&
+                personalTrainingError.status === statusCodes.ERROR_403
+            ) {
+                localStorage.removeItem(JVT_TOKEN);
+                sessionStorage.removeItem(JVT_TOKEN);
+                history.push(paths.auth.path);
+            } else {
+                setIsOpenModal(true);
+            }
+        }
+    }, [personalTrainingData, personalTrainingError]);
+
+    if (personalTrainingIsLoading) {
+        return <Loader />;
+    }
+
     return (
-        <Sider
-            width={sizeOpenSider}
-            collapsedWidth={sizeCloseSider}
-            trigger={false}
-            theme={'light'}
-            collapsed={isCloseSide}
-            className={'sider'}
-            data-test-id={isMobile ? 'sider-switch-mobile' : 'sider-switch'}
-        >
-            <div className={'logo-container'}>
-                <img
-                    className={`logo ${isCloseSide ? 'small' : ''}`}
-                    src={logoSrc}
-                    alt={'logo company'}
-                />
-            </div>
-            <Menu theme='light' className={'list-menu'} selectedKeys={[selectedKey]}>
-                <Menu.Item
-                    key='1'
-                    icon={isMobile ? null : <CalendarTwoTone className={'svg-menu'} />}
-                    className={'ant-menu-item'}
-                    onClick={handleClickCalendar}
-                >
-                    Календарь
-                </Menu.Item>
-                <Menu.Item
-                    key='2'
-                    icon={isMobile ? null : <HeartFilled className={'svg-menu'} />}
-                    className={'ant-menu-item'}
-                >
-                    Тренировки
-                </Menu.Item>
-                <Menu.Item
-                    key='3'
-                    icon={isMobile ? null : <TrophyFilled className={'svg-menu'} />}
-                    className={'ant-menu-item'}
-                >
-                    Достижения
-                </Menu.Item>
-                <Menu.Item
-                    key='4'
-                    icon={isMobile ? null : <IdcardOutlined className={'svg-menu-special'} />}
-                    className={'ant-menu-item'}
-                >
-                    Профиль
-                </Menu.Item>
-                <Menu.Item
-                    key='5'
-                    icon={isMobile ? null : <ExitBottom className={'svg-menu-exit'} />}
-                    className={'ant-menu-item bord-exit'}
-                    onClick={handleClickExit}
-                >
-                    Выход
-                </Menu.Item>
-            </Menu>
-            <div
-                onClick={() => setIsCloseSide(!isCloseSide)}
-                className={'wrapper-trigger'}
-                style={{
-                    left: isCloseSide ? sizeCloseSider : sizeOpenSider,
-                    transition: 'left 0.23s cubic-bezier(0.2, 0, 0, 1) 0s',
-                }}
+        <>
+            <ErrorModal isModal={isOpenModal} closeModal={() => setIsOpenModal(false)} />
+            <Sider
+                width={sizeOpenSider}
+                collapsedWidth={sizeCloseSider}
+                trigger={false}
+                theme={'light'}
+                collapsed={isCloseSide}
+                className={'sider'}
+                data-test-id={isMobile ? 'sider-switch-mobile' : 'sider-switch'}
             >
-                {React.createElement(MenuIcon, {
-                    className: 'trigger',
-                })}
-            </div>
-        </Sider>
+                <div className={'logo-container'}>
+                    <img
+                        className={`logo ${isCloseSide ? 'small' : ''}`}
+                        src={logoSrc}
+                        alt={'logo company'}
+                    />
+                </div>
+                <Menu theme='light' className={'list-menu'} selectedKeys={[selectedKey]}>
+                    <Menu.Item
+                        key='1'
+                        icon={isMobile ? null : <CalendarTwoTone className={'svg-menu'} />}
+                        className={'ant-menu-item'}
+                        onClick={handleClickCalendar}
+                    >
+                        Календарь
+                    </Menu.Item>
+                    <Menu.Item
+                        key='2'
+                        icon={isMobile ? null : <HeartFilled className={'svg-menu'} />}
+                        className={'ant-menu-item'}
+                    >
+                        Тренировки
+                    </Menu.Item>
+                    <Menu.Item
+                        key='3'
+                        icon={isMobile ? null : <TrophyFilled className={'svg-menu'} />}
+                        className={'ant-menu-item'}
+                    >
+                        Достижения
+                    </Menu.Item>
+                    <Menu.Item
+                        key='4'
+                        icon={isMobile ? null : <IdcardOutlined className={'svg-menu-special'} />}
+                        className={'ant-menu-item'}
+                    >
+                        Профиль
+                    </Menu.Item>
+                    <Menu.Item
+                        key='5'
+                        icon={isMobile ? null : <ExitBottom className={'svg-menu-exit'} />}
+                        className={'ant-menu-item bord-exit'}
+                        onClick={handleClickExit}
+                    >
+                        Выход
+                    </Menu.Item>
+                </Menu>
+                <div
+                    onClick={() => setIsCloseSide(!isCloseSide)}
+                    className={'wrapper-trigger'}
+                    style={{
+                        left: isCloseSide ? sizeCloseSider : sizeOpenSider,
+                        transition: 'left 0.23s cubic-bezier(0.2, 0, 0, 1) 0s',
+                    }}
+                >
+                    {React.createElement(MenuIcon, {
+                        className: 'trigger',
+                    })}
+                </div>
+            </Sider>
+        </>
     );
 };

@@ -14,7 +14,7 @@ import { SuccessChangePassword } from '@pages/auth-page/state/SuccessChangePassw
 import { GeneralChangePasswordError } from '@pages/auth-page/state/GeneralChangePasswordError.tsx';
 import { FeedbacksPage } from '@pages/feedbacks-page/FeedbacksPage.tsx';
 import { MainPage } from '@pages/main-page/MainPage.tsx';
-import { paths } from '@constants/constants.ts';
+import { JVT_TOKEN, paths } from '@constants/constants.ts';
 import { TrainingList } from '@pages/training-list/TrainingList.tsx';
 
 const allRoutes: RouteObject = {
@@ -42,12 +42,14 @@ export const AppRouter = React.memo(() => {
     const [redirectToAuth, setRedirectToAuth] = useState(false);
 
     useEffect(() => {
-        const isAuthUser = sessionStorage.getItem('jwtToken') || localStorage.getItem('jwtToken');
+        const isAuthUser = sessionStorage.getItem(JVT_TOKEN) || localStorage.getItem(JVT_TOKEN);
         if (location.pathname.startsWith('/result')) {
             setRedirectToAuth(true);
         } else if (
             !isAuthUser &&
-            (location.pathname.startsWith('/main') || location.pathname.startsWith('/feedbacks'))
+            (location.pathname.startsWith('/main') ||
+                location.pathname.startsWith('/feedbacks') ||
+                location.pathname.startsWith('/catalogs'))
         ) {
             setRedirectToAuth(true);
         } else if (isAuthUser && location.pathname.startsWith('/auth')) {

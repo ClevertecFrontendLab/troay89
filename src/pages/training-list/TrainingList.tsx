@@ -1,18 +1,27 @@
 import { BadgeProps, ConfigProvider } from 'antd';
 import { Badge, Calendar } from 'antd';
 import type { Moment } from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LayoutComponent } from '@components/layout';
 import ruRU from 'antd/lib/locale/ru_RU';
-import './TrainingList.css';
-
 import moment from 'moment';
 import 'moment/locale/ru';
 import { TrainingModal } from '@components/modal/training-modal/TrainingModal.tsx';
+import {
+    useGetPersonalTrainingListQuery,
+    useGetTrainingListQuery,
+} from '@redux/reducers/apiSlice.ts';
+import { Loader } from '@components/loader/Loader.tsx';
+import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { ErrorTrainingModal } from '@components/modal/error-list-training/ErrorTrainingModal.tsx';
+import './TrainingList.css';
 
 export type Position = {
+    date: string;
     top: number;
-    left: number;
+    left?: number | undefined;
+    right?: number | undefined;
 };
 
 moment.updateLocale('ru', {
@@ -44,9 +53,6 @@ const getListData = (value: Moment) => {
                 { type: 'warning', content: 'This is warning event' },
                 { type: 'success', content: 'This is very long usual event。。....' },
                 { type: 'error', content: 'This is error event 1.' },
-                { type: 'error', content: 'This is error event 2.' },
-                { type: 'error', content: 'This is error event 3.' },
-                { type: 'error', content: 'This is error event 4.' },
             ];
             break;
         default:
@@ -61,6 +67,50 @@ const getMonthData = (value: Moment) => {
 };
 
 const TrainingCalendar: React.FC = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalErrorList, setIsModalErrorList] = useState(false);
+    const [modalPosition, setModalPosition] = useState<Position | null>(null);
+    const {
+        data: dataTrainingList,
+        isLoading: isLoadingTrainingList,
+        error: errorTrainingList,
+    } = useGetTrainingListQuery();
+    const {
+        data: dataPersonalTraining,
+        isLoading: isLoadingPersonalTraining,
+        error: errorPersonalTraining,
+    } = useGetPersonalTrainingListQuery();
+
+    useEffect(() => {
+        if (dataTrainingList) {
+            console.log(dataTrainingList);
+            setIsModalErrorList(true);
+        } else if (errorTrainingList) {
+            if (
+                'status' in errorTrainingList &&
+                errorTrainingList.status === statusCodes.ERROR_403
+            ) {
+                localStorage.removeItem(JVT_TOKEN);
+                sessionStorage.removeItem(JVT_TOKEN);
+                history.push(paths.auth.path);
+            } else {
+                console.log(errorTrainingList);
+            }
+        }
+    }, [dataTrainingList, errorTrainingList]);
+
+    useEffect(() => {
+        if (dataPersonalTraining) {
+            console.log(dataPersonalTraining);
+        } else if (errorPersonalTraining) {
+            console.log(errorPersonalTraining);
+        }
+    }, [dataPersonalTraining, errorPersonalTraining]);
+
+    if (isLoadingTrainingList || isLoadingPersonalTraining) {
+        return <Loader />;
+    }
+
     const monthCellRender = (value: Moment) => {
         const num = getMonthData(value);
         return num ? (
@@ -71,13 +121,15 @@ const TrainingCalendar: React.FC = () => {
         ) : null;
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalPosition, setModalPosition] = useState<Position | null>(null);
-
     const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
-        console.log(value);
+        const date = value.toDate().toLocaleDateString();
         const rect = event.currentTarget.getBoundingClientRect();
-        setModalPosition({ top: rect.top, left: rect.left });
+        const windowWidth = window.innerWidth / 1.4;
+        if (rect.left > windowWidth) {
+            setModalPosition({ top: rect.top, right: rect.right, date: date });
+        } else {
+            setModalPosition({ top: rect.top, left: rect.left, date: date });
+        }
         setIsModalOpen(true);
     };
 
@@ -107,6 +159,10 @@ const TrainingCalendar: React.FC = () => {
                 isModal={isModalOpen}
                 closeModal={() => setIsModalOpen(false)}
                 modalPosition={modalPosition}
+            />
+            <ErrorTrainingModal
+                isModal={isModalErrorList}
+                closeModal={() => setIsModalOpen(false)}
             />
         </div>
     );

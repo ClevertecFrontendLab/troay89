@@ -47,13 +47,15 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                     cancelButtonProps={{ style: { display: 'none' } }}
                     style={{
                         top: modalPosition.top,
-                        left: modalPosition.left,
+                        ...(modalPosition.right !== undefined
+                            ? { left: modalPosition.right - 264 }
+                            : { left: modalPosition.left }),
                         maxWidth: 264,
                     }}
                     mask={false}
                 >
                     <h1 className={'title'}>
-                        Тренировки на <span className={'title-data'}>09.01.2024</span>
+                        Тренировки на <span className={'title-data'}>{modalPosition.date}</span>
                     </h1>
                     <p className={'text'}>Нет активных тренировок</p>
                     <img className={'img-not-data'} src={emptyData} alt={'not data'} />
