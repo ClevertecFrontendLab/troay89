@@ -38,9 +38,9 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const [
         getPersonalTrainingList,
         {
-            data: personalTrainingData,
-            isLoading: personalTrainingIsLoading,
-            error: personalTrainingError,
+            data: dataPersonalTraining,
+            isLoading: isLoadingPersonalTraining,
+            error: errorPersonalTraining,
         },
     ] = useLazyGetPersonalTrainingListQuery();
     const handleClickCalendar = () => {
@@ -48,13 +48,13 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     };
 
     useEffect(() => {
-        if (personalTrainingData) {
+        if (dataPersonalTraining) {
             setIsOpenModal(true);
             history.push(paths.trainingList.path);
-        } else if (personalTrainingError) {
+        } else if (errorPersonalTraining) {
             if (
-                'status' in personalTrainingError &&
-                personalTrainingError.status === statusCodes.ERROR_403
+                'status' in errorPersonalTraining &&
+                errorPersonalTraining.status === statusCodes.ERROR_403
             ) {
                 localStorage.removeItem(JVT_TOKEN);
                 sessionStorage.removeItem(JVT_TOKEN);
@@ -63,9 +63,9 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
                 setIsOpenModal(true);
             }
         }
-    }, [personalTrainingData, personalTrainingError]);
+    }, [dataPersonalTraining, errorPersonalTraining]);
 
-    if (personalTrainingIsLoading) {
+    if (isLoadingPersonalTraining) {
         return <Loader />;
     }
 

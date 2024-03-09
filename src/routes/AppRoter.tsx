@@ -49,7 +49,7 @@ export const AppRouter = React.memo(() => {
             !isAuthUser &&
             (location.pathname.startsWith('/main') ||
                 location.pathname.startsWith('/feedbacks') ||
-                location.pathname.startsWith('/catalogs'))
+                location.pathname.startsWith('/catalogs/training-list'))
         ) {
             setRedirectToAuth(true);
         } else if (isAuthUser && location.pathname.startsWith('/auth')) {
@@ -59,7 +59,7 @@ export const AppRouter = React.memo(() => {
             const url = new URL(window.location.href);
             const accessToken = url.searchParams.get('accessToken');
             if (accessToken) {
-                localStorage.setItem('jwtToken', accessToken);
+                localStorage.setItem(JVT_TOKEN, accessToken);
                 window.location.href = '/main';
                 history.push(paths.main.path);
             } else {

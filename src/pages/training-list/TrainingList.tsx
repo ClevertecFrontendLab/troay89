@@ -84,7 +84,6 @@ const TrainingCalendar: React.FC = () => {
     useEffect(() => {
         if (dataTrainingList) {
             console.log(dataTrainingList);
-            setIsModalErrorList(true);
         } else if (errorTrainingList) {
             if (
                 'status' in errorTrainingList &&
@@ -94,7 +93,7 @@ const TrainingCalendar: React.FC = () => {
                 sessionStorage.removeItem(JVT_TOKEN);
                 history.push(paths.auth.path);
             } else {
-                console.log(errorTrainingList);
+                setIsModalErrorList(true);
             }
         }
     }, [dataTrainingList, errorTrainingList]);
@@ -122,6 +121,8 @@ const TrainingCalendar: React.FC = () => {
     };
 
     const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        event.preventDefault();
         const date = value.toDate().toLocaleDateString();
         const rect = event.currentTarget.getBoundingClientRect();
         const windowWidth = window.innerWidth / 1.4;
@@ -131,6 +132,12 @@ const TrainingCalendar: React.FC = () => {
             setModalPosition({ top: rect.top, left: rect.left, date: date });
         }
         setIsModalOpen(true);
+    };
+
+    const handleClickOutside = () => {
+        if (isModalOpen) {
+            setIsModalOpen(false);
+        }
     };
 
     const dateCellRender = (value: Moment) => {
@@ -149,7 +156,7 @@ const TrainingCalendar: React.FC = () => {
     };
 
     return (
-        <div className={'wrapper-calendar'}>
+        <div className={'wrapper-calendar'} onClick={handleClickOutside}>
             <Calendar
                 className={'custom-calendar'}
                 dateCellRender={dateCellRender}
