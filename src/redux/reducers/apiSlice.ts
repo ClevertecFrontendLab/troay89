@@ -138,3 +138,4 @@ export const { useLazyGetFeedbacksQuery } = apiSlices;
 export const { useGetPersonalTrainingListQuery } = apiSlices;
 export const { useLazyGetPersonalTrainingListQuery } = apiSlices;
 export const { useGetTrainingListQuery } = apiSlices;
+export const { useLazyGetTrainingListQuery } = apiSlices;

@@ -1,0 +1,7 @@
+.ant-modal-wrap:has(.modal-add-training) {
+    position: absolute;
+    right: unset;
+    bottom: unset;
+    overflow: unset;
+    max-width: 0;
+}
