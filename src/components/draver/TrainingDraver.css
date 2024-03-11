@@ -1,0 +1,34 @@
+.site-drawer-render-in-current-wrapper .ant-drawer-title {
+    font-size: 20px;
+    line-height: 26px;
+    font-family: var(--medium-title-font);
+}
+
+.site-drawer-render-in-current-wrapper .ant-drawer-header {
+    padding: 24px 24px 13px 8px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-info {
+    display: flex;
+}
+
+.site-drawer-render-in-current-wrapper .date,
+.site-drawer-render-in-current-wrapper .type-training .ant-badge-status-text{
+    font-family: var(--medium-title-font);
+    line-height: 18px;
+    color: #8C8C8C;
+}
+
+.site-drawer-render-in-current-wrapper .date {
+    margin-top: 1px;
+    letter-spacing: -0.7px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.site-drawer-render-in-current-wrapper .ant-drawer-body {
+    padding: 0 32px 24px 32px;
+}

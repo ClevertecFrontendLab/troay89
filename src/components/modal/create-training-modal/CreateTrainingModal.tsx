@@ -1,26 +1,37 @@
-import {Position} from "@pages/training-list/TrainingList.tsx";
-import React, {useEffect, useState} from "react";
-import {Modal, PageHeader, Select} from "antd";
-import './CreateTrainingModal.css'
+import { Position } from '@pages/training-list/TrainingList.tsx';
+import React, { useEffect, useState } from 'react';
+import { Modal, PageHeader, Select } from 'antd';
+import './CreateTrainingModal.css';
+import { TrainingList } from '../../../type/Training.ts';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
     modalPosition: Position | null;
     closeModal: () => void;
-
+    dataTrainingList: TrainingList[] | undefined;
+    addTraining: (value: boolean) => void;
+    openTrainingDraver: (value: boolean) => void;
+    sendDraverInfo: (type: string) => void;
 };
 
 export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
-                                                                            isModal,
-                                                                            closeModal,
-                                                                            modalPosition,
-                                                                        }) => {
-
+    isModal,
+    closeModal,
+    modalPosition,
+    dataTrainingList,
+    addTraining,
+    openTrainingDraver,
+    sendDraverInfo,
+}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
 
     useEffect(() => {
         setIsModalOpen(isModal);
-    }, [isModal]);
+        if (!isModal) {
+            setSelectedValue('Выбор типа тренировки');
+        }
+    }, [dataTrainingList, isModal]);
 
     const handleOk = () => {
         setIsModalOpen(false);
@@ -28,12 +39,19 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     };
 
     const handleCancel = () => {
-        setIsModalOpen(false);
-        closeModal();
+        sendDraverInfo(selectedValue);
+        openTrainingDraver(true);
     };
 
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
+        setSelectedValue(value);
+    };
+
+    const handleBack = () => {
+        setIsModalOpen(false);
+        closeModal();
+        addTraining(true);
     };
 
     return (
@@ -48,54 +66,46 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     onCancel={handleCancel}
                     okButtonProps={{
                         className: 'style-second',
-                        size: 'large',
-                        disabled: modalPosition.disabled
                     }}
-                    okText='Добавить упражнения'
-                    cancelText={'Сохранить'}
+                    okText={'Сохранить'}
+                    cancelText={'Добавить упражнения'}
                     style={{
                         top: modalPosition.top,
                         ...(modalPosition.right !== undefined
-                            ? {left: modalPosition.right - 264}
-                            : {left: modalPosition.left}),
+                            ? { left: modalPosition.right - 264 }
+                            : { left: modalPosition.left }),
                         maxWidth: 264,
                     }}
                     mask={false}
                 >
                     <PageHeader
-                        className="site-page-header"
-                        onBack={() => null}
+                        className='site-page-header'
+                        onBack={handleBack}
+                        style={{ borderBottom: '1px solid #EEE' }}
                         extra={[
                             <Select
-                                key="select"
-                                defaultValue="lucy"
-                                style={{ width: 120 }}
+                                className={'select-training'}
+                                key='select'
+                                value={selectedValue}
+                                bordered={true}
                                 onChange={handleChange}
+                                style={{ width: 223 }}
                                 options={[
                                     {
-                                        value: 'jack',
-                                        label: 'Jack',
-                                        key: 'jack'
+                                        value: 'Выбор типа тренировки',
+                                        label: 'Выбор типа тренировки',
+                                        key: 'jack',
                                     },
-                                    {
-                                        value: 'lucy',
-                                        label: 'Lucy',
-                                        key: 'lucy'
-                                    },
-                                    {
-                                        value: 'disabled',
-                                        label: 'Disabled',
-                                        key: 'disabled'
-                                    },
-                                    {
-                                        value: 'Yiminghe',
-                                        label: 'yiminghe',
-                                        key: 'yiminghe'
-                                    },
+                                    ...(dataTrainingList || []).map((training) => ({
+                                        value: training.name,
+                                        label: training.name,
+                                        key: training.key,
+                                    })),
                                 ]}
-                            />
+                            />,
                         ]}
                     />
+                    <p>dewfwe</p>
                 </Modal>
             ) : null}
         </>

@@ -1,6 +1,6 @@
-import {Modal} from 'antd';
-import React, {useEffect, useState} from 'react';
-import {Position} from '@pages/training-list/TrainingList.tsx';
+import { Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Position } from '@pages/training-list/TrainingList.tsx';
 import './TrainingModal.css';
 import emptyData from '/img/svg/empty-image.svg';
 
@@ -12,10 +12,11 @@ type TrainingModalProps = {
 };
 
 export const TrainingModal: React.FC<TrainingModalProps> = ({
-                                                                isModal,
-                                                                closeModal,
-                                                                modalPosition,
-                                                                addTraining                                                            }) => {
+    isModal,
+    closeModal,
+    modalPosition,
+    addTraining,
+}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
     }, [isModal]);
 
     const handleOk = () => {
-        addTraining(true)
+        addTraining(true);
         setIsModalOpen(false);
         closeModal();
     };
@@ -45,15 +46,15 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                     okButtonProps={{
                         className: 'style-second',
                         size: 'large',
-                        disabled: modalPosition.disabled
+                        disabled: modalPosition.disabled,
                     }}
                     okText='Создать тренировку'
-                    cancelButtonProps={{style: {display: 'none'}}}
+                    cancelButtonProps={{ style: { display: 'none' } }}
                     style={{
                         top: modalPosition.top,
                         ...(modalPosition.right !== undefined
-                            ? {left: modalPosition.right - 264}
-                            : {left: modalPosition.left}),
+                            ? { left: modalPosition.right - 264 }
+                            : { left: modalPosition.left }),
                         maxWidth: 264,
                     }}
                     mask={false}
@@ -62,7 +63,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                         Тренировки на <span className={'title-data'}>{modalPosition.date}</span>
                     </h1>
                     <p className={'text'}>Нет активных тренировок</p>
-                    <img className={'img-not-data'} src={emptyData} alt={'not data'}/>
+                    <img className={'img-not-data'} src={emptyData} alt={'not data'} />
                 </Modal>
             ) : null}
         </>
