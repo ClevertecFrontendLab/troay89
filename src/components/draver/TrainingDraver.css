@@ -5,11 +5,13 @@
 }
 
 .site-drawer-render-in-current-wrapper .ant-drawer-header {
-    padding: 24px 24px 13px 8px;
+    padding: 24px 24px 14px 8px;
+    border-bottom: none;
 }
 
 .site-drawer-render-in-current-wrapper .wrapper-info {
     display: flex;
+    padding-bottom: 6px
 }
 
 .site-drawer-render-in-current-wrapper .date,
@@ -20,7 +22,7 @@
 }
 
 .site-drawer-render-in-current-wrapper .date {
-    margin-top: 1px;
+    margin-top: 2px;
     letter-spacing: -0.7px;
 }
 
@@ -31,4 +33,63 @@
 
 .site-drawer-render-in-current-wrapper .ant-drawer-body {
     padding: 0 32px 24px 32px;
+}
+
+.site-drawer-render-in-current-wrapper .data-training {
+    display: flex;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data .repeat {
+    width: 120px;
+    margin-right: 32px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data .repeat-number {
+    width: 120px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data-training {
+    display: inline-block;
+    margin-top: 24px;
+}
+
+.site-drawer-render-in-current-wrapper .style {
+    font-size: 12px;
+    line-height: 24px;
+    color: var(--first-color);
+    background-color: var(--netral-color);
+    padding-left: 8px;
+}
+
+.site-drawer-render-in-current-wrapper .space-x {
+    width: 13px;
+    text-align: center;
+    color: var(--third-color);
+    margin-top: 32px;
+}
+
+.site-drawer-render-in-current-wrapper .ant-input-sm {
+    margin-bottom: 8px;
+}
+
+.site-drawer-render-in-current-wrapper .ant-input-number-group-addon {
+    padding: 0 13px;
+}
+
+.site-drawer-render-in-current-wrapper .button-add-training {
+    margin-top: 24px;
+    width: 100%;
+    font-size: 14px;
+    color: var(--app-main-collor);
+    text-align: left;
+    background-color: var(--netral-color);
+    font-family: var(--medium-title-font);
+    padding-left: 11px;
+    border-color: white;
 }
