@@ -1,5 +1,5 @@
-import { BadgeProps, ConfigProvider } from 'antd';
-import { Badge, Calendar } from 'antd';
+import { ConfigProvider } from 'antd';
+import { Calendar } from 'antd';
 import type { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import { LayoutComponent } from '@components/layout';
@@ -35,36 +35,7 @@ moment.updateLocale('ru', {
     },
 });
 
-const getListData = (value: Moment) => {
-    let listData;
-    switch (value.date()) {
-        case 8:
-            listData = [
-                { type: 'warning', content: 'This is warning event.' },
-                { type: 'success', content: 'This is usual event.' },
-            ];
-            break;
-        case 10:
-            listData = [
-                { type: 'warning', content: 'This is warning event.' },
-                { type: 'success', content: 'This is usual event.' },
-                { type: 'error', content: 'This is error event.' },
-            ];
-            break;
-        case 15:
-            listData = [
-                { type: 'warning', content: 'This is warning event' },
-                { type: 'success', content: 'This is very long usual event。。....' },
-                { type: 'error', content: 'This is error event 1.' },
-            ];
-            break;
-        default:
-    }
-    return listData || [];
-};
-
 const TrainingCalendar: React.FC = () => {
-    const [currentMonth, setCurrentMonth] = useState(moment());
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenDraver, setIsModalOpenDraver] = useState(false);
     const [isModalAddTraining, setIsModalAddTraining] = useState(false);
@@ -117,50 +88,65 @@ const TrainingCalendar: React.FC = () => {
         return <Loader />;
     }
 
+    const updateModalPosition = (
+        rect: DOMRect,
+        windowWidth: number,
+        rectFirstCellLeft: number,
+        date: string,
+        disabled: boolean,
+    ) => {
+        console.log(windowWidth);
+        console.log(rect.left);
+        const position =
+            rect.left > (windowWidth / 100) * 90
+                ? {
+                      top: rect.top + document.documentElement.scrollTop,
+                      right: rect.right - rectFirstCellLeft,
+                  }
+                : {
+                      top: rect.top + document.documentElement.scrollTop,
+                      left: rect.left - rectFirstCellLeft,
+                  };
+
+        setModalPosition({
+            ...position,
+            date,
+            disabled,
+        });
+    };
+
     const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
+        setIsModalAddTraining(false);
         event.stopPropagation();
         event.preventDefault();
-
-        const disabled = currentMonth.month() !== value.month();
+        const tomorrow = moment().add(1, 'days').startOf('day');
+        const disabled = value.toDate().getTime() < tomorrow.toDate().getTime();
         const date = value.toDate().toLocaleDateString();
         const rect = event.currentTarget.getBoundingClientRect();
         const windowWidth = window.innerWidth / 1.2;
+        const firstCell = document.querySelector('.ant-picker-cell');
+        const rectFirstCellLeft = (firstCell && firstCell.getBoundingClientRect().left) ?? 0;
         setDateClick(date);
 
-        const updateModalPosition = () => {
-            const position =
-                rect.left > windowWidth
-                    ? { top: rect.top + document.documentElement.scrollTop, right: rect.right }
-                    : { top: rect.top + document.documentElement.scrollTop, left: rect.left };
-
-            setModalPosition({
-                ...position,
-                date,
-                disabled,
-            });
-        };
-
-        setIsModalAddTraining(false);
-
         if (isModalAddTraining) {
-            setTimeout(updateModalPosition, 120);
+            setTimeout(
+                () => updateModalPosition(rect, windowWidth, rectFirstCellLeft, date, disabled),
+                130,
+            );
         } else {
-            updateModalPosition();
+            updateModalPosition(rect, windowWidth, rectFirstCellLeft, date, disabled);
         }
 
         setIsModalOpen(true);
     };
 
-    const handleMonthChange = (value: Moment, mode: string) => {
+    const handleMonthChange = () => {
         setIsModalOpen(false);
         setIsModalAddTraining(false);
-        if (mode === 'month') {
-            setCurrentMonth(value);
-        }
     };
 
     const dateCellRender = (value: Moment) => {
-        const listData = getListData(value);
+        // const listData = getListData(value);
         return (
             <div
                 id={'cell'}
@@ -168,11 +154,11 @@ const TrainingCalendar: React.FC = () => {
                 onClick={(event) => handleClickCell(value, event)}
             >
                 <ul className='events'>
-                    {listData.map((item, index) => (
-                        <li key={index}>
-                            <Badge status={item.type as BadgeProps['status']} text={item.content} />
-                        </li>
-                    ))}
+                    {/*{listData.map((item, index) => (*/}
+                    {/*    <li key={index}>*/}
+                    {/*        <Badge status={item.type as BadgeProps['status']} text={item.content} />*/}
+                    {/*    </li>*/}
+                    {/*))}*/}
                 </ul>
             </div>
         );

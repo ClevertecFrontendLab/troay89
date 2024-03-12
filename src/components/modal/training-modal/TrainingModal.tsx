@@ -33,12 +33,13 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         setIsModalOpen(false);
         closeModal();
     };
+    // : { left: modalPosition.left - 460 }),
 
     return (
         <>
             {modalPosition ? (
                 <Modal
-                    getContainer={'#root'}
+                    getContainer={'.ant-picker-cell'}
                     className={'modal-list-training'}
                     open={isModalOpen}
                     onOk={handleOk}
@@ -51,7 +52,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                     okText='Создать тренировку'
                     cancelButtonProps={{ style: { display: 'none' } }}
                     style={{
-                        top: modalPosition.top,
+                        top: modalPosition.top - 167,
                         ...(modalPosition.right !== undefined
                             ? { left: modalPosition.right - 264 }
                             : { left: modalPosition.left }),

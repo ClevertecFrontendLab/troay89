@@ -44,7 +44,6 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     };
 
     const handleChange = (value: string) => {
-        console.log(`selected ${value}`);
         setSelectedValue(value);
     };
 
@@ -58,7 +57,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         <>
             {modalPosition ? (
                 <Modal
-                    getContainer={'#root'}
+                    getContainer={'.ant-picker-cell'}
                     className={'modal-add-training'}
                     open={isModalOpen}
                     onOk={handleOk}
@@ -67,10 +66,13 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     okButtonProps={{
                         className: 'style-second',
                     }}
+                    cancelButtonProps={{
+                        disabled: selectedValue === 'Выбор типа тренировки',
+                    }}
                     okText={'Сохранить'}
                     cancelText={'Добавить упражнения'}
                     style={{
-                        top: modalPosition.top,
+                        top: modalPosition.top - 167,
                         ...(modalPosition.right !== undefined
                             ? { left: modalPosition.right - 264 }
                             : { left: modalPosition.left }),

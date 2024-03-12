@@ -2,6 +2,11 @@
     background-color: var(--header-backgraund);
 }
 
+.ant-picker-cell {
+    width: 200px;
+}
+
+
 .custom-calendar.ant-picker-calendar {
     background-color: transparent;
     margin: 0 24px 86px 25px;
@@ -91,6 +96,10 @@
     color: var(--first-color);
     line-height: 14px;
     margin-top: 6px;
+}
+
+.custom-calendar .ant-select-single.ant-select-show-arrow .ant-select-selection-item {
+    text-align: left;
 }
 
 .custom-calendar .ant-picker-calendar-year-select .ant-select-arrow,
