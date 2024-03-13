@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { DataTraining } from '../../type/Training.ts';
+import { KindDataTraining } from '../../type/Training.ts';
 
 type InitialState = {
-    listTraining: DataTraining[];
+    listTraining: KindDataTraining;
 };
 
 const initialState: InitialState = {
-    listTraining: [],
+    listTraining: { kindTraining: '', date: '', data: [] },
 };
 
 const listTrainingSlice = createSlice({
     name: 'save training list',
     initialState,
     reducers: {
-        saveListTraining: (state, action: PayloadAction<DataTraining[]>) => {
+        saveListTraining: (state, action: PayloadAction<KindDataTraining>) => {
             state.listTraining = action.payload;
         },
     },

@@ -3,35 +3,37 @@ export type TrainingList = {
     key: string;
 };
 
-export type PersonalTraining = [
-    {
-        _id: 'string';
-        name: 'string';
-        date: '2024-03-08T12:54:36.647Z';
-        isImplementation: false;
-        userId: 'string';
-        parameters: {
-            repeat: false;
-            period: 7;
-            jointTraining: false;
-            participants: ['string'];
-        };
-        exercises: [
-            {
-                _id: 'string';
-                name: 'string';
-                replays: 0;
-                weight: 0;
-                approaches: 0;
-                isImplementation: false;
-            },
-        ];
-    },
-];
+export type PersonalTraining = {
+    _id?: string;
+    name: string;
+    date: string;
+    isImplementation: false;
+    userId?: string;
+    parameters: {
+        repeat: false;
+        period: number;
+        jointTraining: false;
+        participants: [];
+    };
+    exercises: {
+        _id?: string;
+        name: string;
+        replays: number;
+        weight: number;
+        approaches: number;
+        isImplementation: boolean;
+    }[];
+};
 
 export type DataTraining = {
     name: string;
     repeats: number;
     weight: number;
     count: number;
+};
+
+export type KindDataTraining = {
+    kindTraining: string;
+    date: string;
+    data: DataTraining[];
 };

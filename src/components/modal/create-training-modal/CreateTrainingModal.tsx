@@ -1,10 +1,11 @@
 import { Position } from '@pages/training-list/TrainingList.tsx';
 import React, { useEffect, useState } from 'react';
 import { Modal, PageHeader, Select } from 'antd';
-import { TrainingList } from '../../../type/Training.ts';
+import { PersonalTraining, TrainingList } from '../../../type/Training.ts';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { EditOutlined } from '@ant-design/icons';
 import './CreateTrainingModal.css';
+import { useAddPersonalTrainingListMutation } from '@redux/reducers/apiSlice.ts';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -14,6 +15,7 @@ type CreateTrainingModalProps = {
     addTraining: (value: boolean) => void;
     openTrainingDraver: (value: boolean) => void;
     sendDraverInfo: (type: string) => void;
+    kindTraining: PersonalTraining[] | undefined;
 };
 
 export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
@@ -24,10 +26,12 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     addTraining,
     openTrainingDraver,
     sendDraverInfo,
+    kindTraining,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
     const listTraining = useAppSelector((state) => state.saveListTraining.listTraining);
+    const [addPersonalTrainingList, { data, error }] = useAddPersonalTrainingListMutation();
 
     useEffect(() => {
         setIsModalOpen(isModal);
@@ -36,7 +40,29 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         }
     }, [dataTrainingList, isModal]);
 
+    useEffect(() => {
+        if (data) {
+            console.log(data);
+        } else if (error) {
+            console.log(error);
+        }
+    }, [data, error]);
+
     const handleOk = () => {
+        const exercises = listTraining.data.map((training) => ({
+            name: training.name,
+            replays: training.repeats,
+            weight: training.weight,
+            approaches: training.count,
+            isImplementation: false,
+        }));
+        addPersonalTrainingList({
+            name: listTraining.kindTraining,
+            date: listTraining.date.split('.').reverse().join('-') + 'T00:00:00.000Z',
+            isImplementation: false,
+            parameters: { repeat: false, period: 1, jointTraining: false, participants: [] },
+            exercises: exercises,
+        });
         setIsModalOpen(false);
         closeModal();
     };
@@ -57,6 +83,12 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         openTrainingDraver(false);
     };
 
+    const kindTrainingNames = kindTraining ? kindTraining.map((training) => training.name) : [];
+
+    const filteredTrainingList = dataTrainingList
+        ? dataTrainingList.filter((training) => !kindTrainingNames.includes(training.name))
+        : [];
+
     return (
         <>
             {modalPosition ? (
@@ -69,6 +101,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     onCancel={handleCancel}
                     okButtonProps={{
                         className: 'style-second',
+                        disabled: listTraining.date.length === 0,
                     }}
                     cancelButtonProps={{
                         disabled: selectedValue === 'Выбор типа тренировки',
@@ -102,7 +135,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                                         label: 'Выбор типа тренировки',
                                         key: 'jack',
                                     },
-                                    ...(dataTrainingList || []).map((training) => ({
+                                    ...filteredTrainingList.map((training) => ({
                                         value: training.name,
                                         label: training.name,
                                         key: training.key,
@@ -112,7 +145,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                         ]}
                     />
                     <ul className={'list-name-training'}>
-                        {listTraining.map((training, index) => (
+                        {listTraining.data.map((training, index) => (
                             <li className={'name-training'} key={index}>
                                 {training.name} <EditOutlined className={'edit-training'} />
                             </li>

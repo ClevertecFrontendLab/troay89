@@ -113,7 +113,9 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
         setTrainingData([...trainingData]);
         console.log(trainingData);
         const showListTraining = trainingData.filter((item) => item.name !== '');
-        dispatch(saveListTraining(showListTraining));
+        dispatch(
+            saveListTraining({ date: date, kindTraining: typeTraining, data: showListTraining }),
+        );
         closeModal();
         setOpen(false);
     };

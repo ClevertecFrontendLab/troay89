@@ -3,12 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { Position } from '@pages/training-list/TrainingList.tsx';
 import './TrainingModal.css';
 import emptyData from '/img/svg/empty-image.svg';
+import { PersonalTraining } from '../../../type/Training.ts';
 
 type TrainingModalProps = {
     isModal: boolean;
     modalPosition: Position | null;
     closeModal: () => void;
     addTraining: (value: boolean) => void;
+    kindTraining: PersonalTraining[] | undefined;
 };
 
 export const TrainingModal: React.FC<TrainingModalProps> = ({
@@ -16,6 +18,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
     closeModal,
     modalPosition,
     addTraining,
+    kindTraining,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,7 +36,6 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         setIsModalOpen(false);
         closeModal();
     };
-    // : { left: modalPosition.left - 460 }),
 
     return (
         <>
@@ -63,8 +65,18 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                     <h1 className={'title'}>
                         Тренировки на <span className={'title-data'}>{modalPosition.date}</span>
                     </h1>
-                    <p className={'text'}>Нет активных тренировок</p>
-                    <img className={'img-not-data'} src={emptyData} alt={'not data'} />
+                    {kindTraining && kindTraining.length ? (
+                        <ul className='events'>
+                            {kindTraining.map((training, index) => (
+                                <li key={index}>{training.name}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <>
+                            <p className={'text'}>Нет активных тренировок</p>
+                            <img className={'img-not-data'} src={emptyData} alt={'not data'} />
+                        </>
+                    )}
                 </Modal>
             ) : null}
         </>

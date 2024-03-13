@@ -124,6 +124,26 @@ export const apiSlices = createApi({
                 }),
             }),
         }),
+        addPersonalTrainingList: builder.mutation<
+            { statusCode: number },
+            Partial<PersonalTraining>
+        >({
+            query: (listTraining) => ({
+                url: 'training',
+                method: 'POST',
+                body: listTraining,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
     }),
 });
 
@@ -139,3 +159,4 @@ export const { useGetPersonalTrainingListQuery } = apiSlices;
 export const { useLazyGetPersonalTrainingListQuery } = apiSlices;
 export const { useGetTrainingListQuery } = apiSlices;
 export const { useLazyGetTrainingListQuery } = apiSlices;
+export const { useAddPersonalTrainingListMutation } = apiSlices;

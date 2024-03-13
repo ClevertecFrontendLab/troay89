@@ -18,6 +18,7 @@ import { ErrorTrainingModal } from '@components/modal/error-list-training/ErrorT
 import './TrainingList.css';
 import { CreateTrainingModal } from '@components/modal/create-training-modal/CreateTrainingModal.tsx';
 import { TrainingDraver } from '@components/draver/TrainingDraver.tsx';
+import { PersonalTraining } from '../../type/Training.ts';
 
 export type Position = {
     date: string;
@@ -43,6 +44,7 @@ const TrainingCalendar: React.FC = () => {
     const [selectTraining, setSelectTraining] = useState('');
     const [dateClick, setDateClick] = useState('');
     const [modalPosition, setModalPosition] = useState<Position | null>(null);
+    const [listKindTraining, setListKindTraining] = useState<PersonalTraining[]>();
     const [
         getPersonalTrainingList,
         { data: dataTrainingList, isLoading: isLoadingTrainingList, error: errorTrainingList },
@@ -113,7 +115,14 @@ const TrainingCalendar: React.FC = () => {
         });
     };
 
+    const findMatchingTrainings = (cellDate: string) =>
+        dataPersonalTraining &&
+        dataPersonalTraining.filter((training) => training.date.slice(0, 10) === cellDate);
+
     const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
+        const cellDate = value.format('YYYY-MM-DD');
+        const matchingTrainings = findMatchingTrainings(cellDate);
+        matchingTrainings && setListKindTraining([...matchingTrainings]);
         setIsModalAddTraining(false);
         event.stopPropagation();
         event.preventDefault();
@@ -147,7 +156,8 @@ const TrainingCalendar: React.FC = () => {
     };
 
     const dateCellRender = (value: Moment) => {
-        // const listData = getListData(value);
+        const cellDate = value.format('YYYY-MM-DD');
+        const matchingTrainings = findMatchingTrainings(cellDate);
         return (
             <div
                 id={'cell'}
@@ -155,11 +165,10 @@ const TrainingCalendar: React.FC = () => {
                 onClick={(event) => handleClickCell(value, event)}
             >
                 <ul className='events'>
-                    {/*{listData.map((item, index) => (*/}
-                    {/*    <li key={index}>*/}
-                    {/*        <Badge status={item.type as BadgeProps['status']} text={item.content} />*/}
-                    {/*    </li>*/}
-                    {/*))}*/}
+                    {matchingTrainings &&
+                        matchingTrainings.map((training, index) => (
+                            <li key={index}>{training.name}</li>
+                        ))}
                 </ul>
             </div>
         );
@@ -177,6 +186,7 @@ const TrainingCalendar: React.FC = () => {
                 closeModal={() => setIsModalOpen(false)}
                 modalPosition={modalPosition}
                 addTraining={setIsModalAddTraining}
+                kindTraining={listKindTraining}
             />
             <ErrorTrainingModal
                 isModal={isModalErrorList}
@@ -190,6 +200,7 @@ const TrainingCalendar: React.FC = () => {
                 addTraining={setIsModalOpen}
                 openTrainingDraver={setIsModalOpenDraver}
                 sendDraverInfo={setSelectTraining}
+                kindTraining={listKindTraining}
             />
             <TrainingDraver
                 isModal={isModalOpenDraver}
