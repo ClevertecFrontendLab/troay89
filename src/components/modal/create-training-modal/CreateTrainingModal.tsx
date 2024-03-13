@@ -1,8 +1,10 @@
 import { Position } from '@pages/training-list/TrainingList.tsx';
 import React, { useEffect, useState } from 'react';
 import { Modal, PageHeader, Select } from 'antd';
-import './CreateTrainingModal.css';
 import { TrainingList } from '../../../type/Training.ts';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { EditOutlined } from '@ant-design/icons';
+import './CreateTrainingModal.css';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -25,6 +27,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
+    const listTraining = useAppSelector((state) => state.saveListTraining.listTraining);
 
     useEffect(() => {
         setIsModalOpen(isModal);
@@ -51,6 +54,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         setIsModalOpen(false);
         closeModal();
         addTraining(true);
+        openTrainingDraver(false);
     };
 
     return (
@@ -107,7 +111,13 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                             />,
                         ]}
                     />
-                    <p>dewfwe</p>
+                    <ul className={'list-name-training'}>
+                        {listTraining.map((training, index) => (
+                            <li className={'name-training'} key={index}>
+                                {training.name} <EditOutlined className={'edit-training'} />
+                            </li>
+                        ))}
+                    </ul>
                 </Modal>
             ) : null}
         </>

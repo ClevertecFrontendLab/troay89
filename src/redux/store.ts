@@ -3,6 +3,7 @@ import saveDataReducer from './reducers/userSlice.ts';
 import saveEmailReducer from './reducers/userEmailSlice.ts';
 import saveNewPasswordReduce from './reducers/userNewPassword.ts';
 import saveCommentsReduce from './reducers/commentsSlice.ts';
+import saveTrainingReducer from './reducers/listTrainingSlice.ts';
 import { routerMiddlewareSlice, routerReducerSlice } from '@redux/reducers/routerSlice.ts';
 import { apiSlices } from '@redux/reducers/apiSlice.ts';
 
@@ -13,6 +14,7 @@ export const store = configureStore({
         saveEmail: saveEmailReducer,
         saveNewPassword: saveNewPasswordReduce,
         saveComments: saveCommentsReduce,
+        saveListTraining: saveTrainingReducer,
         [apiSlices.reducerPath]: apiSlices.reducer,
     },
     middleware: (getDefaultMiddleware) =>

@@ -95,8 +95,6 @@ const TrainingCalendar: React.FC = () => {
         date: string,
         disabled: boolean,
     ) => {
-        console.log(windowWidth);
-        console.log(rect.left);
         const position =
             rect.left > (windowWidth / 100) * 90
                 ? {
@@ -137,6 +135,9 @@ const TrainingCalendar: React.FC = () => {
             updateModalPosition(rect, windowWidth, rectFirstCellLeft, date, disabled);
         }
 
+        if (isModalOpenDraver) {
+            setIsModalOpenDraver(false);
+        }
         setIsModalOpen(true);
     };
 

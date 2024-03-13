@@ -1,3 +1,7 @@
+.ant-picker-cell {
+    position: relative;
+}
+
 .wrapper-calendar {
     background-color: var(--header-backgraund);
 }

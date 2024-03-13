@@ -3,6 +3,9 @@ import { Badge, Drawer, Input, InputNumber } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import './TrainingDraver.css';
 import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
+import { DataTraining } from '../../type/Training.ts';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
+import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -22,13 +25,6 @@ type TrainingDataProps = {
     setTrainingData(value: DataTraining[]): void;
 };
 
-type DataTraining = {
-    name: string;
-    repeats: number;
-    weight: number;
-    count: number;
-};
-
 const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
     const badgeObject = BADGE_VALUE.find((item) => item.text === typeTraining);
     return (
@@ -37,6 +33,8 @@ const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
         )
     );
 };
+
+// <EditOutlined />
 
 const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTrainingData }) => {
     const handleInputChange = (field: keyof DataTraining, value: string | number) => {
@@ -100,6 +98,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     typeTraining,
     date,
 }) => {
+    const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
     const [trainings, setTrainings] = useState([{}]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
@@ -111,13 +110,17 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     }, [isModal]);
 
     const onClose = () => {
+        setTrainingData([...trainingData]);
+        console.log(trainingData);
+        const showListTraining = trainingData.filter((item) => item.name !== '');
+        dispatch(saveListTraining(showListTraining));
         closeModal();
         setOpen(false);
     };
 
     const handleAddTraining = () => {
         setTrainings([...trainings, {}]);
-        setTrainingData([...trainingData, { name: '', repeats: 0, weight: 0, count: 0 }]);
+        setTrainingData([...trainingData, { name: '', repeats: 1, weight: 0, count: 1 }]);
         console.log(trainingData);
     };
 

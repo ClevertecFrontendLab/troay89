@@ -28,3 +28,10 @@ export type PersonalTraining = [
         ];
     },
 ];
+
+export type DataTraining = {
+    name: string;
+    repeats: number;
+    weight: number;
+    count: number;
+};
