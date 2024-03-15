@@ -25,7 +25,7 @@ type TrainingDataProps = {
     setTrainingData(value: DataTraining[]): void;
 };
 
-const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
+export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
     const badgeObject = BADGE_VALUE.find((item) => item.text === typeTraining);
     return (
         badgeObject && (
@@ -33,8 +33,6 @@ const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
         )
     );
 };
-
-// <EditOutlined />
 
 const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTrainingData }) => {
     const handleInputChange = (field: keyof DataTraining, value: string | number) => {
@@ -48,7 +46,12 @@ const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTra
 
     return (
         <span key={index} className={'wrapper-data-training'}>
-            <Input size={'small'} onChange={(e) => handleInputChange('name', e.target.value)} />
+            <Input
+                size={'small'}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                value={trainingData[index].name}
+                placeholder={'Упражнение'}
+            />
             <div className={'data-training'}>
                 <span className={'wrapper-data'}>
                     <span className={'repeat style'}>Подходы</span>
@@ -58,6 +61,8 @@ const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTra
                         max={999}
                         size={'small'}
                         addonBefore='+'
+                        value={trainingData[index].repeats}
+                        placeholder={'1'}
                         onChange={(value) => handleInputChange('repeats', value ?? 1)}
                     />
                 </span>
@@ -67,7 +72,9 @@ const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTra
                         min={0}
                         max={999}
                         size={'small'}
+                        value={trainingData[index].weight}
                         onChange={(value) => handleInputChange('weight', value ?? 0)}
+                        placeholder={'0'}
                     />
                 </span>
                 <span className={'space-x'}>x</span>
@@ -77,6 +84,8 @@ const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTra
                         min={1}
                         max={999}
                         size={'small'}
+                        value={trainingData[index].count}
+                        placeholder={'1'}
                         onChange={(value) => handleInputChange('count', value ?? 1)}
                     />
                 </span>
@@ -90,6 +99,7 @@ type TrainingDraverProps = {
     closeModal: () => void;
     typeTraining: string;
     date: string;
+    isCreateTrainingModal: boolean;
 };
 
 export const TrainingDraver: React.FC<TrainingDraverProps> = ({
@@ -97,33 +107,52 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     closeModal,
     typeTraining,
     date,
+    isCreateTrainingModal,
 }) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
-    const [trainings, setTrainings] = useState([{}]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
-        { name: '', repeats: 1, weight: 0, count: 1 },
+        { name: '', repeats: undefined, weight: undefined, count: undefined },
     ]);
 
     useEffect(() => {
         setOpen(isModal);
     }, [isModal]);
 
+    useEffect(() => {
+        if (!isCreateTrainingModal) {
+            setTrainingData([
+                { name: '', repeats: undefined, weight: undefined, count: undefined },
+            ]);
+            dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
+        }
+    }, [dispatch, isCreateTrainingModal, typeTraining]);
+
     const onClose = () => {
-        setTrainingData([...trainingData]);
-        console.log(trainingData);
         const showListTraining = trainingData.filter((item) => item.name !== '');
         dispatch(
             saveListTraining({ date: date, kindTraining: typeTraining, data: showListTraining }),
         );
+        showListTraining.length > 0
+            ? setTrainingData([...showListTraining])
+            : setTrainingData([
+                  {
+                      name: '',
+                      repeats: undefined,
+                      weight: undefined,
+                      count: undefined,
+                  },
+              ]);
+
         closeModal();
         setOpen(false);
     };
 
     const handleAddTraining = () => {
-        setTrainings([...trainings, {}]);
-        setTrainingData([...trainingData, { name: '', repeats: 1, weight: 0, count: 1 }]);
-        console.log(trainingData);
+        setTrainingData([
+            ...trainingData,
+            { name: '', repeats: undefined, weight: undefined, count: undefined },
+        ]);
     };
 
     return (
@@ -151,7 +180,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                     <span className={'date'}>{date}</span>
                 </span>
 
-                {trainings.map((_, index) => (
+                {trainingData.map((_, index) => (
                     <TrainingData
                         index={index}
                         setTrainingData={setTrainingData}

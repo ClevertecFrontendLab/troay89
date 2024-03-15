@@ -4,6 +4,8 @@ import { Position } from '@pages/training-list/TrainingList.tsx';
 import './TrainingModal.css';
 import emptyData from '/img/svg/empty-image.svg';
 import { PersonalTraining } from '../../../type/Training.ts';
+import { TrainingBadge } from '@components/draver/TrainingDraver.tsx';
+import { EditOutlined } from '@ant-design/icons';
 
 type TrainingModalProps = {
     isModal: boolean;
@@ -37,6 +39,10 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         closeModal();
     };
 
+    const handleEditTraining = () => {
+        console.log(111);
+    };
+
     return (
         <>
             {modalPosition ? (
@@ -49,7 +55,8 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                     okButtonProps={{
                         className: 'style-second',
                         size: 'large',
-                        disabled: modalPosition.disabled,
+                        disabled:
+                            modalPosition.disabled || (kindTraining && kindTraining.length === 5),
                     }}
                     okText='Создать тренировку'
                     cancelButtonProps={{ style: { display: 'none' } }}
@@ -66,9 +73,12 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                         Тренировки на <span className={'title-data'}>{modalPosition.date}</span>
                     </h1>
                     {kindTraining && kindTraining.length ? (
-                        <ul className='events'>
+                        <ul className='events-modal'>
                             {kindTraining.map((training, index) => (
-                                <li key={index}>{training.name}</li>
+                                <li key={index} className={'event-edit'}>
+                                    <TrainingBadge typeTraining={training.name} />{' '}
+                                    <EditOutlined onClick={handleEditTraining} />
+                                </li>
                             ))}
                         </ul>
                     ) : (

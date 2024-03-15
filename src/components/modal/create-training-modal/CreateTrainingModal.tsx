@@ -2,10 +2,16 @@ import { Position } from '@pages/training-list/TrainingList.tsx';
 import React, { useEffect, useState } from 'react';
 import { Modal, PageHeader, Select } from 'antd';
 import { PersonalTraining, TrainingList } from '../../../type/Training.ts';
-import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { EditOutlined } from '@ant-design/icons';
 import './CreateTrainingModal.css';
-import { useAddPersonalTrainingListMutation } from '@redux/reducers/apiSlice.ts';
+import {
+    useAddPersonalTrainingListMutation,
+    useLazyGetPersonalTrainingListQuery,
+} from '@redux/reducers/apiSlice.ts';
+import { savePersonalListTraining } from '@redux/reducers/listPersonalTrainingSlice.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -31,7 +37,27 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
     const listTraining = useAppSelector((state) => state.saveListTraining.listTraining);
-    const [addPersonalTrainingList, { data, error }] = useAddPersonalTrainingListMutation();
+    const [addPersonalTrainingList, { data, isLoading, error }] =
+        useAddPersonalTrainingListMutation();
+    const dispatch = useAppDispatch();
+
+    const [getPersonalTrainingList, { data: dataPersonalTraining, error: errorPersonalTraining }] =
+        useLazyGetPersonalTrainingListQuery();
+
+    useEffect(() => {
+        if (dataPersonalTraining) {
+            dispatch(savePersonalListTraining(dataPersonalTraining));
+        } else if (errorPersonalTraining) {
+            if (
+                'status' in errorPersonalTraining &&
+                errorPersonalTraining.status === statusCodes.ERROR_403
+            ) {
+                localStorage.removeItem(JVT_TOKEN);
+                sessionStorage.removeItem(JVT_TOKEN);
+                history.push(paths.auth.path);
+            }
+        }
+    }, [dataPersonalTraining, dispatch, errorPersonalTraining]);
 
     useEffect(() => {
         setIsModalOpen(isModal);
@@ -43,26 +69,29 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     useEffect(() => {
         if (data) {
             console.log(data);
+            getPersonalTrainingList();
         } else if (error) {
             console.log(error);
         }
-    }, [data, error]);
+    }, [data, error, getPersonalTrainingList]);
 
     const handleOk = () => {
         const exercises = listTraining.data.map((training) => ({
             name: training.name,
-            replays: training.repeats,
-            weight: training.weight,
-            approaches: training.count,
+            replays: training.repeats ?? 1,
+            weight: training.weight ?? 0,
+            approaches: training.count ?? 1,
             isImplementation: false,
         }));
         addPersonalTrainingList({
             name: listTraining.kindTraining,
-            date: listTraining.date.split('.').reverse().join('-') + 'T00:00:00.000Z',
+            date: listTraining.date.split('.').reverse().join('-') + 'T12:00:00.000Z',
             isImplementation: false,
             parameters: { repeat: false, period: 1, jointTraining: false, participants: [] },
             exercises: exercises,
         });
+        openTrainingDraver(false);
+        addTraining(true);
         setIsModalOpen(false);
         closeModal();
     };
@@ -100,8 +129,10 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     closable={false}
                     onCancel={handleCancel}
                     okButtonProps={{
-                        className: 'style-second',
-                        disabled: listTraining.date.length === 0,
+                        className: 'style-loading',
+                        type: 'default',
+                        disabled: !listTraining.data[0] || listTraining.data[0].name === '',
+                        loading: isLoading,
                     }}
                     cancelButtonProps={{
                         disabled: selectedValue === 'Выбор типа тренировки',
@@ -147,7 +178,8 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     <ul className={'list-name-training'}>
                         {listTraining.data.map((training, index) => (
                             <li className={'name-training'} key={index}>
-                                {training.name} <EditOutlined className={'edit-training'} />
+                                {training.name}{' '}
+                                <EditOutlined className={'edit-training'} onClick={handleCancel} />
                             </li>
                         ))}
                     </ul>

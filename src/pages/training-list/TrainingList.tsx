@@ -7,18 +7,17 @@ import ruRU from 'antd/lib/locale/ru_RU';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { TrainingModal } from '@components/modal/training-modal/TrainingModal.tsx';
-import {
-    useGetPersonalTrainingListQuery,
-    useLazyGetTrainingListQuery,
-} from '@redux/reducers/apiSlice.ts';
+import { useLazyGetTrainingListQuery } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
-import { ErrorTrainingModal } from '@components/modal/error-list-training/ErrorTrainingModal.tsx';
 import './TrainingList.css';
 import { CreateTrainingModal } from '@components/modal/create-training-modal/CreateTrainingModal.tsx';
-import { TrainingDraver } from '@components/draver/TrainingDraver.tsx';
+import { TrainingBadge, TrainingDraver } from '@components/draver/TrainingDraver.tsx';
 import { PersonalTraining } from '../../type/Training.ts';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import { ErrorTrainingModal } from '@components/modal/error-training-modal/ErrorTrainingModal.tsx';
+import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
 
 export type Position = {
     date: string;
@@ -41,25 +40,24 @@ const TrainingCalendar: React.FC = () => {
     const [isModalOpenDraver, setIsModalOpenDraver] = useState(false);
     const [isModalAddTraining, setIsModalAddTraining] = useState(false);
     const [isModalErrorList, setIsModalErrorList] = useState(false);
+    const [isModalErrorSaveList, setIsModalErrorSaveList] = useState(false);
     const [selectTraining, setSelectTraining] = useState('');
     const [dateClick, setDateClick] = useState('');
     const [modalPosition, setModalPosition] = useState<Position | null>(null);
     const [listKindTraining, setListKindTraining] = useState<PersonalTraining[]>();
+    const dataPersonalTraining = useAppSelector(
+        (state) => state.savePersonalListTraining.listPersonalTraining,
+    );
     const [
-        getPersonalTrainingList,
+        getTrainingList,
         { data: dataTrainingList, isLoading: isLoadingTrainingList, error: errorTrainingList },
     ] = useLazyGetTrainingListQuery();
-    const {
-        data: dataPersonalTraining,
-        isLoading: isLoadingPersonalTraining,
-        error: errorPersonalTraining,
-    } = useGetPersonalTrainingListQuery();
 
     useEffect(() => {
         if (!isModalErrorList) {
-            getPersonalTrainingList();
+            getTrainingList();
         }
-    }, [getPersonalTrainingList, isModalErrorList]);
+    }, [getTrainingList, isModalErrorList]);
 
     useEffect(() => {
         if (dataTrainingList) {
@@ -79,14 +77,16 @@ const TrainingCalendar: React.FC = () => {
     }, [dataTrainingList, errorTrainingList]);
 
     useEffect(() => {
-        if (dataPersonalTraining) {
-            console.log(dataPersonalTraining);
-        } else if (errorPersonalTraining) {
-            console.log(errorPersonalTraining);
+        if (isModalOpen) {
+            const cellDate = dateClick.split('.').reverse().join('-');
+            const matchingTrainings = dataPersonalTraining.filter(
+                (training) => training.date.slice(0, 10) === cellDate,
+            );
+            setListKindTraining([...matchingTrainings]);
         }
-    }, [dataPersonalTraining, errorPersonalTraining]);
+    }, [dataPersonalTraining, dateClick, isModalOpen]);
 
-    if (isLoadingTrainingList || isLoadingPersonalTraining) {
+    if (isLoadingTrainingList) {
         return <Loader />;
     }
 
@@ -116,13 +116,12 @@ const TrainingCalendar: React.FC = () => {
     };
 
     const findMatchingTrainings = (cellDate: string) =>
-        dataPersonalTraining &&
         dataPersonalTraining.filter((training) => training.date.slice(0, 10) === cellDate);
 
     const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
         const cellDate = value.format('YYYY-MM-DD');
         const matchingTrainings = findMatchingTrainings(cellDate);
-        matchingTrainings && setListKindTraining([...matchingTrainings]);
+        setListKindTraining([...matchingTrainings]);
         setIsModalAddTraining(false);
         event.stopPropagation();
         event.preventDefault();
@@ -167,7 +166,10 @@ const TrainingCalendar: React.FC = () => {
                 <ul className='events'>
                     {matchingTrainings &&
                         matchingTrainings.map((training, index) => (
-                            <li key={index}>{training.name}</li>
+                            <li key={index} className={'event'}>
+                                {' '}
+                                <TrainingBadge typeTraining={training.name} />{' '}
+                            </li>
                         ))}
                 </ul>
             </div>
@@ -192,6 +194,10 @@ const TrainingCalendar: React.FC = () => {
                 isModal={isModalErrorList}
                 closeModal={() => setIsModalErrorList(false)}
             />
+            <ErrorSaveTrainingModal
+                isModal={isModalErrorSaveList}
+                closeModal={() => setIsModalErrorSaveList(true)}
+            />
             <CreateTrainingModal
                 isModal={isModalAddTraining}
                 closeModal={() => setIsModalAddTraining(false)}
@@ -207,6 +213,7 @@ const TrainingCalendar: React.FC = () => {
                 closeModal={() => setIsModalOpenDraver(false)}
                 typeTraining={selectTraining}
                 date={dateClick}
+                isCreateTrainingModal={isModalAddTraining}
             />
         </div>
     );

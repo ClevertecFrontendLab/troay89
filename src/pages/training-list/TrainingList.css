@@ -126,6 +126,21 @@
     z-index: 100;
 }
 
+.custom-calendar .events {
+    list-style-type: none;
+    padding: 22px 0 0 7px;
+    text-align: left;
+}
+
+.custom-calendar .event {
+    line-height: 15px;
+}
+
+.custom-calendar .events .ant-badge-status-text {
+    font-size: 12px;
+    line-height: 15px;
+}
+
 .custom-calendar .ant-picker-cell-inner {
     position: relative;
 }

@@ -27,9 +27,9 @@ export type PersonalTraining = {
 
 export type DataTraining = {
     name: string;
-    repeats: number;
-    weight: number;
-    count: number;
+    repeats: number | undefined;
+    weight: number | undefined;
+    count: number | undefined;
 };
 
 export type KindDataTraining = {

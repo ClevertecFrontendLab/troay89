@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import {
     CalendarTwoTone,
@@ -16,10 +16,10 @@ import ExitBottom from '@components/custom-svg/ExitSVG.tsx';
 import './Sider.css';
 import { useMediaQuery } from 'react-responsive';
 import { history } from '@redux/reducers/routerSlice.ts';
-import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
-import { useLazyGetPersonalTrainingListQuery } from '@redux/reducers/apiSlice.ts';
+import { JVT_TOKEN, paths } from '@constants/constants.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
+import { usePersonalTrainingList } from '@hooks/personal-training-hook.ts';
 
 type SiderProps = {
     isCloseSide: boolean;
@@ -54,41 +54,12 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                 setSelectedKey('1');
                 break;
             default:
-                setSelectedKey('0'); // установите пустой ключ по умолчанию
+                setSelectedKey('0');
         }
     }, []);
 
-    const [isOpenModal, setIsOpenModal] = useState(false);
-    const [
-        getPersonalTrainingList,
-        {
-            data: personalTrainingData,
-            isLoading: personalTrainingIsLoading,
-            error: personalTrainingError,
-        },
-    ] = useLazyGetPersonalTrainingListQuery();
-
-    const handleClickCalendar = () => {
-        getPersonalTrainingList();
-    };
-
-    useEffect(() => {
-        if (personalTrainingData) {
-            setIsOpenModal(true);
-            history.push(paths.trainingList.path);
-        } else if (personalTrainingError) {
-            if (
-                'status' in personalTrainingError &&
-                personalTrainingError.status === statusCodes.ERROR_403
-            ) {
-                localStorage.removeItem(JVT_TOKEN);
-                sessionStorage.removeItem(JVT_TOKEN);
-                history.push(paths.auth.path);
-            } else {
-                setIsOpenModal(true);
-            }
-        }
-    }, [personalTrainingData, personalTrainingError]);
+    const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
+        usePersonalTrainingList();
 
     if (personalTrainingIsLoading) {
         return <Loader />;

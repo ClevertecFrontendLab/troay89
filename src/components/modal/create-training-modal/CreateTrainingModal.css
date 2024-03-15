@@ -53,7 +53,16 @@
 }
 
 .modal-add-training .ant-btn-default {
-    color: #262626;
+    color: var(--first-color);
+}
+
+.modal-add-training .ant-btn-default.style-loading.ant-btn {
+    margin: 8px 0 0;
+    color: var(--app-main-collor);
+}
+
+.modal-add-training .ant-btn-default.ant-btn:disabled {
+    color: var(--second-color);
 }
 
 .select-training .ant-select-selector {

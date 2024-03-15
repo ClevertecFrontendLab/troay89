@@ -1,5 +1,5 @@
 .modal-list-training .ant-modal-content {
-    height: 200px;
+    min-height: 200px;
 }
 
 .ant-modal-wrap:has(.modal-list-training) {
@@ -11,7 +11,18 @@
 }
 
 .modal-list-training .ant-modal-body {
-    padding: 3px 24px 17px 12px;
+    padding: 3px 15px 10px 11px;
+    min-height: 136px;
+
+}
+
+.modal-list-training .events-modal {
+    padding: 32px 0 0;
+    margin: 0;
+}
+
+.modal-list-training .events-modal .anticon-edit {
+    font-size: 16px;
 }
 
 .modal-list-training .title{
@@ -37,7 +48,7 @@
 .modal-list-training .img-not-data {
     display: block;
     margin:  30px auto 0;
-    padding-left: 10px;
+    padding-left: 5px;
 }
 
 .modal-list-training .ant-btn-primary.style-second.ant-btn {
@@ -48,7 +59,7 @@
 }
 
 .modal-list-training .ant-modal-footer {
-    padding: 10px 13px 10px 11px;
+    padding: 12px 13px 12px 11px;
 }
 
 .modal-list-training .ant-modal-close-x {
@@ -63,6 +74,28 @@
 
 .modal-list-training .ant-modal-close-icon{
     margin: 1px 0 1px;
+}
+
+.modal-list-training .event-edit {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;;
+}
+
+.modal-list-training .event-edit .type-training .ant-badge-status-text {
+    color: var(--main-text-font);
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.modal-list-training .event-edit .anticon-edit {
+    color: var(--app-main-collor);
+}
+
+.modal-list-training  .events {
+    list-style-type: none;
+    padding: 3px 14px 15px 11px;
+    text-align: left;
 }
 
 

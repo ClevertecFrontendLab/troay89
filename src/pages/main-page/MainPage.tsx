@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 import { Card } from 'antd';
 import { CardComponent } from '@components/card/Card.tsx';
@@ -12,11 +12,9 @@ import {
 import { useMediaQuery } from 'react-responsive';
 import './MainContent.css';
 import { LayoutComponent } from '@components/layout';
-import { history } from '@redux/reducers/routerSlice.ts';
-import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
-import { useLazyGetPersonalTrainingListQuery } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
+import { usePersonalTrainingList } from '@hooks/personal-training-hook.ts';
 
 const { Content } = Layout;
 
@@ -34,38 +32,10 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const spaceMobileSiderClose = isMobile && isCloseSide ? <br /> : '';
     const changeMargin = isCloseSide && isMobile ? 'change-margin' : '';
     const MobilePadding = isCloseSide && isMobile ? '17px 20px 0 15px' : '17px 10px 0 15px';
-    const [isOpenModal, setIsOpenModal] = useState(false);
-    const [
-        getPersonalTrainingList,
-        {
-            data: dataPersonalTraining,
-            isLoading: isLoadingPersonalTraining,
-            error: errorPersonalTraining,
-        },
-    ] = useLazyGetPersonalTrainingListQuery();
-    const handleClickCalendar = () => {
-        getPersonalTrainingList();
-    };
+    const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
+        usePersonalTrainingList();
 
-    useEffect(() => {
-        if (dataPersonalTraining) {
-            setIsOpenModal(true);
-            history.push(paths.trainingList.path);
-        } else if (errorPersonalTraining) {
-            if (
-                'status' in errorPersonalTraining &&
-                errorPersonalTraining.status === statusCodes.ERROR_403
-            ) {
-                localStorage.removeItem(JVT_TOKEN);
-                sessionStorage.removeItem(JVT_TOKEN);
-                history.push(paths.auth.path);
-            } else {
-                setIsOpenModal(true);
-            }
-        }
-    }, [dataPersonalTraining, errorPersonalTraining]);
-
-    if (isLoadingPersonalTraining) {
+    if (personalTrainingIsLoading) {
         return <Loader />;
     }
 
