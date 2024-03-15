@@ -6,6 +6,8 @@ import emptyData from '/img/svg/empty-image.svg';
 import { PersonalTraining } from '../../../type/Training.ts';
 import { TrainingBadge } from '@components/draver/TrainingDraver.tsx';
 import { EditOutlined } from '@ant-design/icons';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
+import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 
 type TrainingModalProps = {
     isModal: boolean;
@@ -23,6 +25,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
     kindTraining,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         setIsModalOpen(isModal);
@@ -39,8 +42,13 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         closeModal();
     };
 
-    const handleEditTraining = () => {
-        console.log(111);
+    const handleEditTraining = (index: number) => {
+        if (kindTraining) {
+            dispatch(editPersonalTraining(kindTraining[index]));
+            setIsModalOpen(false);
+            closeModal();
+            addTraining(true);
+        }
     };
 
     return (
@@ -77,7 +85,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                             {kindTraining.map((training, index) => (
                                 <li key={index} className={'event-edit'}>
                                     <TrainingBadge typeTraining={training.name} />{' '}
-                                    <EditOutlined onClick={handleEditTraining} />
+                                    <EditOutlined onClick={() => handleEditTraining(index)} />
                                 </li>
                             ))}
                         </ul>

@@ -2,6 +2,7 @@
     font-size: 20px;
     line-height: 26px;
     font-family: var(--medium-title-font);
+    display: flex;
 }
 
 .site-drawer-render-in-current-wrapper .ant-drawer-header {
@@ -74,8 +75,12 @@
     margin-top: 32px;
 }
 
-.site-drawer-render-in-current-wrapper .ant-input-sm {
+.site-drawer-render-in-current-wrapper .ant-input-group-wrapper {
     margin-bottom: 8px;
+}
+
+.site-drawer-render-in-current-wrapper .ant-input-group {
+    width: 100%
 }
 
 .site-drawer-render-in-current-wrapper .ant-input-number-group-addon {
@@ -83,7 +88,6 @@
 }
 
 .site-drawer-render-in-current-wrapper .button-add-training {
-    margin-top: 24px;
     width: 100%;
     font-size: 14px;
     color: var(--app-main-collor);
@@ -91,5 +95,31 @@
     background-color: var(--netral-color);
     font-family: var(--medium-title-font);
     padding-left: 11px;
-    border-color: white;
+    border: none;
+}
+
+.site-drawer-render-in-current-wrapper .button-add-training.edit {
+    padding: 0;
+    text-align: center;
+    margin: 3px 0 0 3px;
+}
+
+.site-drawer-render-in-current-wrapper .plus {
+    font-size: 12px;
+    margin-right: 13px;
+}
+
+.site-drawer-render-in-current-wrapper .edit {
+    font-size: 14px;
+    margin-right: 11px;
+}
+
+.site-drawer-render-in-current-wrapper .ant-checkbox{
+    margin-left: 2px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-button {
+    margin-top: 24px;
+    display: flex;
+    background-color: var(--netral-color);
 }

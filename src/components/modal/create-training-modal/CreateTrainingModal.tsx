@@ -12,6 +12,7 @@ import {
 import { savePersonalListTraining } from '@redux/reducers/listPersonalTrainingSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
+import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -37,6 +38,9 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
     const listTraining = useAppSelector((state) => state.saveListTraining.listTraining);
+    const listEditTraining = useAppSelector(
+        (state) => state.editPersonalTraining.listPersonalTraining,
+    );
     const [addPersonalTrainingList, { data, isLoading, error }] =
         useAddPersonalTrainingListMutation();
     const dispatch = useAppDispatch();
@@ -61,10 +65,11 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
 
     useEffect(() => {
         setIsModalOpen(isModal);
+        listEditTraining && setSelectedValue(listEditTraining.name);
         if (!isModal) {
             setSelectedValue('Выбор типа тренировки');
         }
-    }, [dataTrainingList, isModal]);
+    }, [dataTrainingList, isModal, listEditTraining]);
 
     useEffect(() => {
         if (data) {
@@ -90,19 +95,21 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
             parameters: { repeat: false, period: 1, jointTraining: false, participants: [] },
             exercises: exercises,
         });
+        dispatch(editPersonalTraining(null));
         openTrainingDraver(false);
         addTraining(true);
         setIsModalOpen(false);
         closeModal();
     };
 
-    const handleCancel = () => {
+    const handleAddTraining = () => {
         sendDraverInfo(selectedValue);
         openTrainingDraver(true);
     };
 
     const handleChange = (value: string) => {
         setSelectedValue(value);
+        dispatch(editPersonalTraining(null));
     };
 
     const handleBack = () => {
@@ -110,6 +117,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         closeModal();
         addTraining(true);
         openTrainingDraver(false);
+        dispatch(editPersonalTraining(null));
     };
 
     const kindTrainingNames = kindTraining ? kindTraining.map((training) => training.name) : [];
@@ -127,7 +135,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     open={isModalOpen}
                     onOk={handleOk}
                     closable={false}
-                    onCancel={handleCancel}
+                    onCancel={handleAddTraining}
                     okButtonProps={{
                         className: 'style-loading',
                         type: 'default',
@@ -176,12 +184,25 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                         ]}
                     />
                     <ul className={'list-name-training'}>
-                        {listTraining.data.map((training, index) => (
-                            <li className={'name-training'} key={index}>
-                                {training.name}{' '}
-                                <EditOutlined className={'edit-training'} onClick={handleCancel} />
-                            </li>
-                        ))}
+                        {listEditTraining
+                            ? listEditTraining.exercises.map((training, index) => (
+                                  <li className={'name-training'} key={index}>
+                                      {training.name}{' '}
+                                      <EditOutlined
+                                          className={'edit-training'}
+                                          onClick={handleAddTraining}
+                                      />
+                                  </li>
+                              ))
+                            : listTraining.data.map((training, index) => (
+                                  <li className={'name-training'} key={index}>
+                                      {training.name}{' '}
+                                      <EditOutlined
+                                          className={'edit-training'}
+                                          onClick={handleAddTraining}
+                                      />
+                                  </li>
+                              ))}
                     </ul>
                 </Modal>
             ) : null}

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Badge, Drawer, Input, InputNumber } from 'antd';
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import { Badge, Checkbox, Drawer, Input, InputNumber } from 'antd';
+import { CloseOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import './TrainingDraver.css';
 import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
-import { DataTraining } from '../../type/Training.ts';
-import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
+import { DataTraining, PersonalTraining } from '../../type/Training.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
+import { CheckboxChangeEvent } from 'antd/es/checkbox';
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -23,6 +24,9 @@ type TrainingDataProps = {
     index: number;
     trainingData: DataTraining[];
     setTrainingData(value: DataTraining[]): void;
+    listEditTraining: PersonalTraining | null;
+    isChecked: Array<boolean>;
+    setIsChecked(value: Array<boolean>): void;
 };
 
 export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
@@ -34,7 +38,14 @@ export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) =>
     );
 };
 
-const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTrainingData }) => {
+const TrainingData: React.FC<TrainingDataProps> = ({
+    index,
+    trainingData,
+    setTrainingData,
+    listEditTraining,
+    setIsChecked,
+    isChecked,
+}) => {
     const handleInputChange = (field: keyof DataTraining, value: string | number) => {
         const newTrainingData = [...trainingData];
         newTrainingData[index] = {
@@ -44,6 +55,12 @@ const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTra
         setTrainingData(newTrainingData);
     };
 
+    const handleCheckboxChange = (e: CheckboxChangeEvent) => {
+        const newIsChecked = [...isChecked];
+        newIsChecked[index] = e.target.checked;
+        setIsChecked(newIsChecked);
+    };
+
     return (
         <span key={index} className={'wrapper-data-training'}>
             <Input
@@ -51,6 +68,11 @@ const TrainingData: React.FC<TrainingDataProps> = ({ index, trainingData, setTra
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 value={trainingData[index].name}
                 placeholder={'Упражнение'}
+                addonAfter={
+                    listEditTraining ? (
+                        <Checkbox className={'remove-training'} onChange={handleCheckboxChange} />
+                    ) : null
+                }
             />
             <div className={'data-training'}>
                 <span className={'wrapper-data'}>
@@ -111,22 +133,37 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
+    const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
         { name: '', repeats: undefined, weight: undefined, count: undefined },
     ]);
+    const listEditTraining = useAppSelector(
+        (state) => state.editPersonalTraining.listPersonalTraining,
+    );
 
     useEffect(() => {
         setOpen(isModal);
     }, [isModal]);
 
     useEffect(() => {
+        if (listEditTraining) {
+            const editTrainingData: DataTraining[] = listEditTraining.exercises.map((item) => {
+                return {
+                    name: item.name,
+                    repeats: item.replays,
+                    weight: item.weight,
+                    count: item.approaches,
+                };
+            });
+            setTrainingData([...editTrainingData]);
+        }
         if (!isCreateTrainingModal) {
             setTrainingData([
                 { name: '', repeats: undefined, weight: undefined, count: undefined },
             ]);
             dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
         }
-    }, [dispatch, isCreateTrainingModal, typeTraining]);
+    }, [dispatch, isCreateTrainingModal, listEditTraining, typeTraining]);
 
     const onClose = () => {
         const showListTraining = trainingData.filter((item) => item.name !== '');
@@ -155,11 +192,27 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
         ]);
     };
 
+    const handleDeleteTraining = () => {
+        const newTrainingData = trainingData.filter((_, i) => !isChecked[i]);
+        setTrainingData(newTrainingData);
+        setIsChecked([]);
+    };
+
     return (
         <div className='site-drawer-render-in-current-wrapper'>
             <Drawer
                 className={'add-training-drawer'}
-                title='+&nbsp;&nbsp;Добавление упражнений'
+                title={
+                    listEditTraining ? (
+                        <>
+                            <EditOutlined className={'edit'} /> {'Редактирование'}
+                        </>
+                    ) : (
+                        <>
+                            <PlusOutlined className={'plus'} /> {'Добавление упражнений'}
+                        </>
+                    )
+                }
                 placement='right'
                 closable={true}
                 onClose={onClose}
@@ -179,22 +232,33 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                     <TrainingBadge typeTraining={typeTraining} />
                     <span className={'date'}>{date}</span>
                 </span>
-
                 {trainingData.map((_, index) => (
                     <TrainingData
                         index={index}
                         setTrainingData={setTrainingData}
                         trainingData={trainingData}
                         key={index}
+                        listEditTraining={listEditTraining}
+                        setIsChecked={setIsChecked}
+                        isChecked={isChecked}
                     />
                 ))}
-
-                <DefaultButton
-                    icon={<PlusOutlined />}
-                    text={'Добавить ещё'}
-                    className={'button-add-training'}
-                    onClick={handleAddTraining}
-                />
+                <div className={'wrapper-button'}>
+                    <DefaultButton
+                        icon={<PlusOutlined />}
+                        text={'Добавить ещё'}
+                        className={`button-add-training ${listEditTraining ? 'edit' : null}`}
+                        onClick={handleAddTraining}
+                    />
+                    {listEditTraining && (
+                        <DefaultButton
+                            icon={<MinusOutlined />}
+                            text={'Удалить'}
+                            className={'button-add-training edit'}
+                            onClick={handleDeleteTraining}
+                        />
+                    )}
+                </div>
             </Drawer>
         </div>
     );
