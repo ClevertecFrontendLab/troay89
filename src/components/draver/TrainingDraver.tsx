@@ -7,6 +7,7 @@ import { DataTraining, PersonalTraining } from '../../type/Training.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import {editPersonalTraining} from "@redux/reducers/editTrainingSlice.ts";
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -70,7 +71,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 placeholder={'Упражнение'}
                 addonAfter={
                     listEditTraining ? (
-                        <Checkbox className={'remove-training'} onChange={handleCheckboxChange} />
+                        <Checkbox className={'remove-training'} onChange={handleCheckboxChange} checked={isChecked[index]} />
                     ) : null
                 }
             />
@@ -133,7 +134,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
 }) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
-    const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
+    const [isChecked, setIsChecked] = useState<Array<boolean>>([false]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
         { name: '', repeats: undefined, weight: undefined, count: undefined },
     ]);
@@ -166,10 +167,19 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     }, [dispatch, isCreateTrainingModal, listEditTraining, typeTraining]);
 
     const onClose = () => {
-        const showListTraining = trainingData.filter((item) => item.name !== '');
-        dispatch(
-            saveListTraining({ date: date, kindTraining: typeTraining, data: showListTraining }),
-        );
+        const showListTraining: DataTraining[] = trainingData.filter((item) => item.name !== '');
+        if(listEditTraining){
+            const updatedListEditTraining = {...listEditTraining, exercises: showListTraining.map(item => ({
+                    name: item.name,
+                    replays: item.repeats || 1,
+                    weight: item.weight || 0,
+                    approaches: item.count || 1,
+                    isImplementation: false,
+                }))};
+            dispatch(editPersonalTraining(updatedListEditTraining));
+        } else {
+            dispatch(saveListTraining({ date: date, kindTraining: typeTraining, data: showListTraining }));
+        }
         showListTraining.length > 0
             ? setTrainingData([...showListTraining])
             : setTrainingData([
@@ -195,7 +205,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const handleDeleteTraining = () => {
         const newTrainingData = trainingData.filter((_, i) => !isChecked[i]);
         setTrainingData(newTrainingData);
-        setIsChecked([]);
+        setIsChecked(new Array(newTrainingData.length).fill(false));
     };
 
     return (
