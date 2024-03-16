@@ -196,17 +196,18 @@ const TrainingCalendar: React.FC = () => {
             />
             <ErrorSaveTrainingModal
                 isModal={isModalErrorSaveList}
-                closeModal={() => setIsModalErrorSaveList(true)}
+                closeModal={() => setIsModalErrorSaveList(false)}
             />
             <CreateTrainingModal
                 isModal={isModalAddTraining}
                 closeModal={() => setIsModalAddTraining(false)}
                 modalPosition={modalPosition}
                 dataTrainingList={dataTrainingList}
+                kindTraining={listKindTraining}
                 addTraining={setIsModalOpen}
                 openTrainingDraver={setIsModalOpenDraver}
                 sendDraverInfo={setSelectTraining}
-                kindTraining={listKindTraining}
+                setIsModalErrorSaveList={setIsModalErrorSaveList}
             />
             <TrainingDraver
                 isModal={isModalOpenDraver}

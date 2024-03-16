@@ -7,7 +7,7 @@ import { DataTraining, PersonalTraining } from '../../type/Training.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import {editPersonalTraining} from "@redux/reducers/editTrainingSlice.ts";
+import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -71,7 +71,11 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 placeholder={'Упражнение'}
                 addonAfter={
                     listEditTraining ? (
-                        <Checkbox className={'remove-training'} onChange={handleCheckboxChange} checked={isChecked[index]} />
+                        <Checkbox
+                            className={'remove-training'}
+                            onChange={handleCheckboxChange}
+                            checked={isChecked[index]}
+                        />
                     ) : null
                 }
             />
@@ -84,9 +88,9 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         max={999}
                         size={'small'}
                         addonBefore='+'
-                        value={trainingData[index].repeats}
+                        value={trainingData[index].replays}
                         placeholder={'1'}
-                        onChange={(value) => handleInputChange('repeats', value ?? 1)}
+                        onChange={(value) => handleInputChange('replays', value ?? 1)}
                     />
                 </span>
                 <span className={'wrapper-data'}>
@@ -107,9 +111,9 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         min={1}
                         max={999}
                         size={'small'}
-                        value={trainingData[index].count}
+                        value={trainingData[index].approaches}
                         placeholder={'1'}
-                        onChange={(value) => handleInputChange('count', value ?? 1)}
+                        onChange={(value) => handleInputChange('approaches', value ?? 1)}
                     />
                 </span>
             </div>
@@ -136,7 +140,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const [open, setOpen] = useState(false);
     const [isChecked, setIsChecked] = useState<Array<boolean>>([false]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
-        { name: '', repeats: undefined, weight: undefined, count: undefined },
+        { name: '', replays: undefined, weight: undefined, approaches: undefined },
     ]);
     const listEditTraining = useAppSelector(
         (state) => state.editPersonalTraining.listPersonalTraining,
@@ -151,16 +155,16 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
             const editTrainingData: DataTraining[] = listEditTraining.exercises.map((item) => {
                 return {
                     name: item.name,
-                    repeats: item.replays,
+                    replays: item.replays,
                     weight: item.weight,
-                    count: item.approaches,
+                    approaches: item.approaches,
                 };
             });
             setTrainingData([...editTrainingData]);
         }
         if (!isCreateTrainingModal) {
             setTrainingData([
-                { name: '', repeats: undefined, weight: undefined, count: undefined },
+                { name: '', replays: undefined, weight: undefined, approaches: undefined },
             ]);
             dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
         }
@@ -168,26 +172,35 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
 
     const onClose = () => {
         const showListTraining: DataTraining[] = trainingData.filter((item) => item.name !== '');
-        if(listEditTraining){
-            const updatedListEditTraining = {...listEditTraining, exercises: showListTraining.map(item => ({
+        if (listEditTraining) {
+            const updatedListEditTraining = {
+                ...listEditTraining,
+                exercises: showListTraining.map((item) => ({
                     name: item.name,
-                    replays: item.repeats || 1,
+                    replays: item.replays || 1,
                     weight: item.weight || 0,
-                    approaches: item.count || 1,
+                    approaches: item.approaches || 1,
                     isImplementation: false,
-                }))};
+                })),
+            };
             dispatch(editPersonalTraining(updatedListEditTraining));
         } else {
-            dispatch(saveListTraining({ date: date, kindTraining: typeTraining, data: showListTraining }));
+            dispatch(
+                saveListTraining({
+                    date: date,
+                    kindTraining: typeTraining,
+                    data: showListTraining,
+                }),
+            );
         }
         showListTraining.length > 0
             ? setTrainingData([...showListTraining])
             : setTrainingData([
                   {
                       name: '',
-                      repeats: undefined,
+                      replays: undefined,
                       weight: undefined,
-                      count: undefined,
+                      approaches: undefined,
                   },
               ]);
 
@@ -198,7 +211,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const handleAddTraining = () => {
         setTrainingData([
             ...trainingData,
-            { name: '', repeats: undefined, weight: undefined, count: undefined },
+            { name: '', replays: undefined, weight: undefined, approaches: undefined },
         ]);
     };
 
