@@ -19,7 +19,11 @@
 .site-drawer-render-in-current-wrapper .type-training .ant-badge-status-text{
     font-family: var(--medium-title-font);
     line-height: 18px;
-    color: #8C8C8C;
+    color: var(--second-color);
+}
+
+.ant-badge-not-a-wrapper.type-training.finish .ant-badge-status-text{
+    color: var(--third-color);
 }
 
 .site-drawer-render-in-current-wrapper .date {
@@ -38,6 +42,7 @@
 
 .site-drawer-render-in-current-wrapper .data-training {
     display: flex;
+    margin-top: 8px;
 }
 
 .site-drawer-render-in-current-wrapper .wrapper-data {
@@ -73,10 +78,6 @@
     text-align: center;
     color: var(--third-color);
     margin-top: 32px;
-}
-
-.site-drawer-render-in-current-wrapper .ant-input-group-wrapper {
-    margin-bottom: 8px;
 }
 
 .site-drawer-render-in-current-wrapper .ant-input-group {

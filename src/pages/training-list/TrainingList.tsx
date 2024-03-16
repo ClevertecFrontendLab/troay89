@@ -167,8 +167,10 @@ const TrainingCalendar: React.FC = () => {
                     {matchingTrainings &&
                         matchingTrainings.map((training, index) => (
                             <li key={index} className={'event'}>
-                                {' '}
-                                <TrainingBadge typeTraining={training.name} />{' '}
+                                <TrainingBadge
+                                    className={training.isImplementation ? 'finish' : undefined}
+                                    typeTraining={training.name}
+                                />
                             </li>
                         ))}
                 </ul>
@@ -189,6 +191,7 @@ const TrainingCalendar: React.FC = () => {
                 modalPosition={modalPosition}
                 addTraining={setIsModalAddTraining}
                 kindTraining={listKindTraining}
+                addDrawer={setIsModalOpenDraver}
             />
             <ErrorTrainingModal
                 isModal={isModalErrorList}
@@ -215,6 +218,7 @@ const TrainingCalendar: React.FC = () => {
                 typeTraining={selectTraining}
                 date={dateClick}
                 isCreateTrainingModal={isModalAddTraining}
+                trainingModal={isModalOpen}
             />
         </div>
     );

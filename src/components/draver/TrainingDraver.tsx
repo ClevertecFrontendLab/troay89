@@ -19,6 +19,7 @@ const BADGE_VALUE = [
 
 type TrainingBadgeProps = {
     typeTraining: string;
+    className?: string;
 };
 
 type TrainingDataProps = {
@@ -30,11 +31,15 @@ type TrainingDataProps = {
     setIsChecked(value: Array<boolean>): void;
 };
 
-export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ typeTraining }) => {
+export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ className, typeTraining }) => {
     const badgeObject = BADGE_VALUE.find((item) => item.text === typeTraining);
     return (
         badgeObject && (
-            <Badge text={badgeObject.text} color={badgeObject.color} className={'type-training'} />
+            <Badge
+                text={badgeObject.text}
+                color={badgeObject.color}
+                className={`type-training ${className}`}
+            />
         )
     );
 };
@@ -127,6 +132,7 @@ type TrainingDraverProps = {
     typeTraining: string;
     date: string;
     isCreateTrainingModal: boolean;
+    trainingModal: boolean;
 };
 
 export const TrainingDraver: React.FC<TrainingDraverProps> = ({
@@ -135,6 +141,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     typeTraining,
     date,
     isCreateTrainingModal,
+    trainingModal,
 }) => {
     const dispatch = useAppDispatch();
     const [open, setOpen] = useState(false);
@@ -162,7 +169,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
             });
             setTrainingData([...editTrainingData]);
         }
-        if (!isCreateTrainingModal) {
+        if (!isCreateTrainingModal && !listEditTraining) {
             setTrainingData([
                 { name: '', replays: undefined, weight: undefined, approaches: undefined },
             ]);
@@ -266,22 +273,24 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                         isChecked={isChecked}
                     />
                 ))}
-                <div className={'wrapper-button'}>
-                    <DefaultButton
-                        icon={<PlusOutlined />}
-                        text={'Добавить ещё'}
-                        className={`button-add-training ${listEditTraining ? 'edit' : null}`}
-                        onClick={handleAddTraining}
-                    />
-                    {listEditTraining && (
+                {!trainingModal && (
+                    <div className={'wrapper-button'}>
                         <DefaultButton
-                            icon={<MinusOutlined />}
-                            text={'Удалить'}
-                            className={'button-add-training edit'}
-                            onClick={handleDeleteTraining}
+                            icon={<PlusOutlined />}
+                            text={'Добавить ещё'}
+                            className={`button-add-training ${listEditTraining ? 'edit' : null}`}
+                            onClick={handleAddTraining}
                         />
-                    )}
-                </div>
+                        {listEditTraining && (
+                            <DefaultButton
+                                icon={<MinusOutlined />}
+                                text={'Удалить'}
+                                className={'button-add-training edit'}
+                                onClick={handleDeleteTraining}
+                            />
+                        )}
+                    </div>
+                )}
             </Drawer>
         </div>
     );

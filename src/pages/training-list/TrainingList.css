@@ -4,6 +4,7 @@
 
 .wrapper-calendar {
     background-color: var(--header-backgraund);
+    margin-bottom: 45px;
 }
 
 .ant-picker-cell {

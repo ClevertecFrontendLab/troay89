@@ -14,6 +14,7 @@ type TrainingModalProps = {
     modalPosition: Position | null;
     closeModal: () => void;
     addTraining: (value: boolean) => void;
+    addDrawer: (value: boolean) => void;
     kindTraining: PersonalTraining[] | undefined;
 };
 
@@ -23,13 +24,21 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
     modalPosition,
     addTraining,
     kindTraining,
+    addDrawer,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [pastFinishTraining, setPastFinishTraining] = useState(false);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         setIsModalOpen(isModal);
-    }, [isModal]);
+        if (!isModal && pastFinishTraining) {
+            dispatch(editPersonalTraining(null));
+        }
+        if (!isModalOpen) {
+            addDrawer(false);
+        }
+    }, [dispatch, isModal, pastFinishTraining]);
 
     const handleOk = () => {
         addTraining(true);
@@ -42,12 +51,17 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         closeModal();
     };
 
-    const handleEditTraining = (index: number) => {
+    const handleEditTraining = (index: number, isFinish: boolean) => {
         if (kindTraining) {
             dispatch(editPersonalTraining(kindTraining[index]));
-            setIsModalOpen(false);
-            closeModal();
-            addTraining(true);
+            if (isFinish) {
+                addDrawer(true);
+            } else {
+                addTraining(true);
+                setIsModalOpen(false);
+                closeModal();
+            }
+            setPastFinishTraining(kindTraining[index].isImplementation);
         }
     };
 
@@ -84,8 +98,16 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                         <ul className='events-modal'>
                             {kindTraining.map((training, index) => (
                                 <li key={index} className={'event-edit'}>
-                                    <TrainingBadge typeTraining={training.name} />{' '}
-                                    <EditOutlined onClick={() => handleEditTraining(index)} />
+                                    <TrainingBadge
+                                        className={training.isImplementation ? 'finish' : undefined}
+                                        typeTraining={training.name}
+                                    />{' '}
+                                    <EditOutlined
+                                        className={training.isImplementation ? 'finish' : undefined}
+                                        onClick={() =>
+                                            handleEditTraining(index, training.isImplementation)
+                                        }
+                                    />
                                 </li>
                             ))}
                         </ul>

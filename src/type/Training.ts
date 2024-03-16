@@ -7,7 +7,7 @@ export type PersonalTraining = {
     _id?: string;
     name: string;
     date: string;
-    isImplementation: false;
+    isImplementation: boolean;
     userId?: string;
     parameters: {
         repeat: false;

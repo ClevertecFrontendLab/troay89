@@ -14,6 +14,7 @@ import { savePersonalListTraining } from '@redux/reducers/listPersonalTrainingSl
 import { history } from '@redux/reducers/routerSlice.ts';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
+import moment from 'moment/moment';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -60,9 +61,16 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
             getPersonalTrainingList();
             addTraining(true);
         } else if (errorEditPersonalTraining) {
+            console.log(errorEditPersonalTraining);
             setIsModalErrorSaveList(true);
         }
-    }, [addTraining, dataEditPersonalTraining, errorEditPersonalTraining, getPersonalTrainingList]);
+    }, [
+        addTraining,
+        dataEditPersonalTraining,
+        errorEditPersonalTraining,
+        getPersonalTrainingList,
+        setIsModalErrorSaveList,
+    ]);
 
     useEffect(() => {
         if (dataPersonalTraining) {
@@ -97,6 +105,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     }, [addTraining, data, error, getPersonalTrainingList, setIsModalErrorSaveList]);
 
     const handleOk = () => {
+        const tomorrow = moment().add(1, 'days').startOf('day');
         {
             const data = listEditTraining
                 ? [...listEditTraining.exercises]
@@ -109,13 +118,16 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                 isImplementation: false,
             }));
             if (listEditTraining) {
+                const isFinish =
+                    new Date(listEditTraining.date).getTime() < tomorrow.toDate().getTime();
+                console.log(listEditTraining);
                 listEditTraining.exercises.length === 0
                     ? setIsModalErrorSaveList(true)
                     : editPersonalTrainingList({
                           _id: listEditTraining._id,
                           name: listEditTraining.name,
                           date: listEditTraining.date,
-                          isImplementation: false,
+                          isImplementation: isFinish,
                           parameters: {
                               repeat: false,
                               period: 1,
