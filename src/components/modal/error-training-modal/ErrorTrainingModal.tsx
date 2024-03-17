@@ -2,6 +2,7 @@ import { Button, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './ErrorTrainingModal.css';
 import { CloseCircleOutlined } from '@ant-design/icons';
+import { useMediaQuery } from 'react-responsive';
 
 type TrainingModalProps = {
     isModal: boolean;
@@ -9,6 +10,7 @@ type TrainingModalProps = {
 };
 
 export const ErrorTrainingModal: React.FC<TrainingModalProps> = ({ isModal, closeModal }) => {
+    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
@@ -33,7 +35,7 @@ export const ErrorTrainingModal: React.FC<TrainingModalProps> = ({ isModal, clos
             onCancel={handleCancel}
             footer={null}
             centered={true}
-            style={{ width: '100%', maxWidth: 384 }}
+            style={{ width: '100%', maxWidth: !isMobile ? 384 : 328 }}
         >
             <CloseCircleOutlined className={'icon'} />
             <div className={'wrapper-content'}>

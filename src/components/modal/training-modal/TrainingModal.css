@@ -107,4 +107,11 @@
     text-align: left;
 }
 
-
+@media screen and (max-width: 500px) {
+    .modal-list-training .title {
+        margin-top: 12px;
+    }
+    .modal-list-training .img-not-data {
+        padding: 0;
+    }
+}

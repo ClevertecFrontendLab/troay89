@@ -45,3 +45,18 @@
     display: flex;
     align-items: center;
 }
+
+@media (max-width: 500px) {
+    .modal-error-list-training .ant-modal-body {
+        flex-wrap: wrap;
+    }
+
+    .modal-error-list-training .wrapper-content {
+        width: 225px;
+    }
+
+    .modal-error-list-training .button-error {
+        margin-top: 30px;
+        margin-left: 180px;
+    }
+}

@@ -18,6 +18,7 @@ import { PersonalTraining } from '../../type/Training.ts';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { ErrorTrainingModal } from '@components/modal/error-training-modal/ErrorTrainingModal.tsx';
 import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
+import { useMediaQuery } from 'react-responsive';
 
 export type Position = {
     date: string;
@@ -44,6 +45,7 @@ const TrainingCalendar: React.FC = () => {
     const [selectTraining, setSelectTraining] = useState('');
     const [dateClick, setDateClick] = useState('');
     const [modalPosition, setModalPosition] = useState<Position | null>(null);
+    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [listKindTraining, setListKindTraining] = useState<PersonalTraining[]>();
     const dataPersonalTraining = useAppSelector(
         (state) => state.savePersonalListTraining.listPersonalTraining,
@@ -100,12 +102,12 @@ const TrainingCalendar: React.FC = () => {
         const position =
             rect.left > (windowWidth / 100) * 90
                 ? {
-                      top: rect.top + document.documentElement.scrollTop,
-                      right: rect.right - rectFirstCellLeft,
+                      top: !isMobile ? rect.top + document.documentElement.scrollTop : 215,
+                      right: !isMobile ? rect.right - rectFirstCellLeft : 260,
                   }
                 : {
-                      top: rect.top + document.documentElement.scrollTop,
-                      left: rect.left - rectFirstCellLeft,
+                      top: !isMobile ? rect.top + document.documentElement.scrollTop : 215,
+                      left: !isMobile ? rect.left - rectFirstCellLeft : -4,
                   };
 
         setModalPosition({
@@ -124,9 +126,9 @@ const TrainingCalendar: React.FC = () => {
         setListKindTraining([...matchingTrainings]);
         setIsModalAddTraining(false);
         event.stopPropagation();
-        event.preventDefault();
         const tomorrow = moment().add(1, 'days').startOf('day');
         const disabled = value.toDate().getTime() < tomorrow.toDate().getTime();
+
         const date = value.toDate().toLocaleDateString();
         const rect = event.currentTarget.getBoundingClientRect();
         const windowWidth = window.innerWidth / 1.2;
@@ -154,10 +156,25 @@ const TrainingCalendar: React.FC = () => {
         setIsModalAddTraining(false);
     };
 
+    const dateFullCellRender = (value: Moment) => {
+        const cellDate = value.format('YYYY-MM-DD');
+        const matchingTrainings = findMatchingTrainings(cellDate);
+        const extraClass = matchingTrainings.length > 0 ? 'extra-class' : '';
+        const date = value.date();
+        return (
+            <div
+                className={`ant-picker-cell-inner ant-picker-calendar-date ${extraClass}`}
+                onClick={(event) => handleClickCell(value, event)}
+            >
+                {date < 10 ? date : `${date}`}
+            </div>
+        );
+    };
+
     const dateCellRender = (value: Moment) => {
         const cellDate = value.format('YYYY-MM-DD');
         const matchingTrainings = findMatchingTrainings(cellDate);
-        return (
+        return !isMobile ? (
             <div
                 id={'cell'}
                 className={'wrapper-events'}
@@ -175,15 +192,16 @@ const TrainingCalendar: React.FC = () => {
                         ))}
                 </ul>
             </div>
-        );
+        ) : null;
     };
-
     return (
         <div className={'wrapper-calendar'}>
             <Calendar
                 className={'custom-calendar'}
                 onPanelChange={handleMonthChange}
                 dateCellRender={dateCellRender}
+                fullscreen={!isMobile}
+                dateFullCellRender={isMobile ? dateFullCellRender : undefined}
             />
             <TrainingModal
                 isModal={isModalOpen}

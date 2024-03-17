@@ -8,6 +8,7 @@ import { TrainingBadge } from '@components/draver/TrainingDraver.tsx';
 import { EditOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
+import { useMediaQuery } from 'react-responsive';
 
 type TrainingModalProps = {
     isModal: boolean;
@@ -26,6 +27,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
     kindTraining,
     addDrawer,
 }) => {
+    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [pastFinishTraining, setPastFinishTraining] = useState(false);
     const dispatch = useAppDispatch();
@@ -38,7 +40,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         if (!isModalOpen) {
             addDrawer(false);
         }
-    }, [dispatch, isModal, pastFinishTraining]);
+    }, [addDrawer, dispatch, isModal, isModalOpen, pastFinishTraining]);
 
     const handleOk = () => {
         addTraining(true);
@@ -87,7 +89,7 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
                         ...(modalPosition.right !== undefined
                             ? { left: modalPosition.right - 264 }
                             : { left: modalPosition.left }),
-                        maxWidth: 264,
+                        maxWidth: !isMobile ? 264 : 312,
                     }}
                     mask={false}
                 >

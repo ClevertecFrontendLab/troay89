@@ -37,7 +37,7 @@
 }
 
 .site-drawer-render-in-current-wrapper .ant-drawer-body {
-    padding: 0 32px 24px 32px;
+    padding: 0 26px 24px;
 }
 
 .site-drawer-render-in-current-wrapper .data-training {
@@ -123,4 +123,46 @@
     margin-top: 24px;
     display: flex;
     background-color: var(--netral-color);
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-training {
+    max-height: 800px;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 0 6px;
+}
+
+@media screen and (max-width: 500px) {
+    .site-drawer-render-in-current-wrapper .ant-drawer-body {
+        padding: 0 10px 24px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-input-sm {
+        width: 328px;
+    }
+
+    .site-drawer-render-in-current-wrapper .wrapper-data .repeat {
+        margin-right: 16px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-content {
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-content-wrapper {
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-close {
+        margin-right: 0;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-header {
+        padding: 24px 24px 14px 4px;
+    }
+    .site-drawer-render-in-current-wrapper .wrapper-training {
+        max-height: 380px;
+    }
 }

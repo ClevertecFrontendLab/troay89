@@ -175,4 +175,10 @@
         padding: 0 2px 0 8px;
     }
 
+    .list-menu .ant-menu-item.ant-menu-item-selected {
+        color: var(--first-color);
+        border-right: none;
+        background-color: white;
+        transition: all 0.4s;
+    }
 }

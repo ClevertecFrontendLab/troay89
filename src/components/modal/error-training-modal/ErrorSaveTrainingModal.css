@@ -42,3 +42,29 @@
     display: flex;
     align-items: center;
 }
+
+@media (max-width: 500px) {
+    .modal-error-save-training .ant-modal-content {
+        min-height: 188px;
+        min-width: 328px;
+    }
+
+    .modal-error-save-training .ant-modal-body {
+        flex-wrap: wrap;
+    }
+
+    .modal-error-save-training .button-error {
+        margin-left: 135px;
+    }
+
+    .modal-error-save-training .title{
+        width: 195px;
+    }
+    .modal-error-save-training .text {
+        width: 220px;
+    }
+
+    .modal-error-save-training .ant-modal-body {
+        padding: 30px 10px 15px 32px;
+    }
+}

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.t
 import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
+import { useMediaQuery } from 'react-responsive';
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -144,6 +145,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     trainingModal,
 }) => {
     const dispatch = useAppDispatch();
+    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [open, setOpen] = useState(false);
     const [isChecked, setIsChecked] = useState<Array<boolean>>([false]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
@@ -243,7 +245,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                         </>
                     )
                 }
-                placement='right'
+                placement={!isMobile ? 'right' : 'bottom'}
                 closable={true}
                 onClose={onClose}
                 open={open}
@@ -251,9 +253,17 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                 style={{ position: 'absolute' }}
                 mask={false}
                 maskClosable={false}
-                width={408}
+                width={!isMobile ? 408 : '100%'}
+                height={!isMobile ? undefined : 555}
                 closeIcon={
-                    <div style={{ position: 'absolute', right: 33, top: 31, fontSize: 13 }}>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            right: !isMobile ? 33 : 17,
+                            top: 31,
+                            fontSize: 13,
+                        }}
+                    >
                         <CloseOutlined />
                     </div>
                 }
@@ -262,17 +272,19 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                     <TrainingBadge typeTraining={typeTraining} />
                     <span className={'date'}>{date}</span>
                 </span>
-                {trainingData.map((_, index) => (
-                    <TrainingData
-                        index={index}
-                        setTrainingData={setTrainingData}
-                        trainingData={trainingData}
-                        key={index}
-                        listEditTraining={listEditTraining}
-                        setIsChecked={setIsChecked}
-                        isChecked={isChecked}
-                    />
-                ))}
+                <div className={'wrapper-training'}>
+                    {trainingData.map((_, index) => (
+                        <TrainingData
+                            index={index}
+                            setTrainingData={setTrainingData}
+                            trainingData={trainingData}
+                            key={index}
+                            listEditTraining={listEditTraining}
+                            setIsChecked={setIsChecked}
+                            isChecked={isChecked}
+                        />
+                    ))}
+                </div>
                 {!trainingModal && (
                     <div className={'wrapper-button'}>
                         <DefaultButton

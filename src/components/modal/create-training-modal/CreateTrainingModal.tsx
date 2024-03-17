@@ -15,6 +15,7 @@ import { history } from '@redux/reducers/routerSlice.ts';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import moment from 'moment/moment';
+import { useMediaQuery } from 'react-responsive';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -39,6 +40,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     setIsModalErrorSaveList,
     kindTraining,
 }) => {
+    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
     const listTraining = useAppSelector((state) => state.saveListTraining.listTraining);
@@ -53,7 +55,11 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         useLazyGetPersonalTrainingListQuery();
     const [
         editPersonalTrainingList,
-        { data: dataEditPersonalTraining, error: errorEditPersonalTraining },
+        {
+            data: dataEditPersonalTraining,
+            isLoading: isLoadingEdit,
+            error: errorEditPersonalTraining,
+        },
     ] = useEditPersonalTrainingListMutation();
 
     useEffect(() => {
@@ -197,7 +203,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                         disabled:
                             (!listTraining.data[0] || listTraining.data[0].name === '') &&
                             !listEditTraining,
-                        loading: isLoading,
+                        loading: isLoading || isLoadingEdit,
                     }}
                     cancelButtonProps={{
                         disabled: selectedValue === 'Выбор типа тренировки',
@@ -209,7 +215,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                         ...(modalPosition.right !== undefined
                             ? { left: modalPosition.right - 264 }
                             : { left: modalPosition.left }),
-                        maxWidth: 264,
+                        maxWidth: !isMobile ? 264 : 312,
                     }}
                     mask={false}
                 >
@@ -224,7 +230,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                                 value={selectedValue}
                                 bordered={true}
                                 onChange={handleChange}
-                                style={{ width: 223 }}
+                                style={{ width: !isMobile ? 223 : 271 }}
                                 options={[
                                     {
                                         value: 'Выбор типа тренировки',
