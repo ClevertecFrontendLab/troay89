@@ -11,7 +11,6 @@ import { useLazyGetTrainingListQuery } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
-import './TrainingList.css';
 import { CreateTrainingModal } from '@components/modal/create-training-modal/CreateTrainingModal.tsx';
 import { TrainingBadge, TrainingDraver } from '@components/draver/TrainingDraver.tsx';
 import { PersonalTraining } from '../../type/Training.ts';
@@ -19,6 +18,7 @@ import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { ErrorTrainingModal } from '@components/modal/error-training-modal/ErrorTrainingModal.tsx';
 import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
 import { useMediaQuery } from 'react-responsive';
+import './Calendar.css';
 
 export type Position = {
     date: string;
@@ -36,7 +36,7 @@ moment.updateLocale('ru', {
     },
 });
 
-const TrainingCalendar: React.FC = () => {
+const CustomCalendar: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalOpenDraver, setIsModalOpenDraver] = useState(false);
     const [isModalAddTraining, setIsModalAddTraining] = useState(false);
@@ -47,6 +47,7 @@ const TrainingCalendar: React.FC = () => {
     const [modalPosition, setModalPosition] = useState<Position | null>(null);
     const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [listKindTraining, setListKindTraining] = useState<PersonalTraining[]>();
+    const [updateData, setUpdateData] = useState(true);
     const dataPersonalTraining = useAppSelector(
         (state) => state.savePersonalListTraining.listPersonalTraining,
     );
@@ -56,15 +57,14 @@ const TrainingCalendar: React.FC = () => {
     ] = useLazyGetTrainingListQuery();
 
     useEffect(() => {
-        if (!isModalErrorList) {
+        if (updateData) {
             getTrainingList();
+            setUpdateData(false);
         }
-    }, [getTrainingList, isModalErrorList]);
+    }, [getTrainingList, updateData]);
 
     useEffect(() => {
-        if (dataTrainingList) {
-            console.log(dataTrainingList);
-        } else if (errorTrainingList) {
+        if (errorTrainingList) {
             if (
                 'status' in errorTrainingList &&
                 errorTrainingList.status === statusCodes.ERROR_403
@@ -81,9 +81,15 @@ const TrainingCalendar: React.FC = () => {
     useEffect(() => {
         if (isModalOpen) {
             const cellDate = dateClick.split('.').reverse().join('-');
-            const matchingTrainings = dataPersonalTraining.filter(
-                (training) => training.date.slice(0, 10) === cellDate,
-            );
+            const matchingTrainings = dataPersonalTraining.filter((training) => {
+                if (typeof training.date === 'number') {
+                    const date = new Date(training.date);
+                    const dateString = date.toLocaleDateString();
+                    const dateStringFormat = dateString.split('.').reverse().join('-');
+                    return dateStringFormat === cellDate;
+                }
+                return training.date.slice(0, 10) === cellDate;
+            });
             setListKindTraining([...matchingTrainings]);
         }
     }, [dataPersonalTraining, dateClick, isModalOpen]);
@@ -117,8 +123,17 @@ const TrainingCalendar: React.FC = () => {
         });
     };
 
-    const findMatchingTrainings = (cellDate: string) =>
-        dataPersonalTraining.filter((training) => training.date.slice(0, 10) === cellDate);
+    const findMatchingTrainings = (cellDate: string) => {
+        return dataPersonalTraining.filter((training) => {
+            if (typeof training.date === 'number') {
+                const date = new Date(training.date);
+                const dateString = date.toLocaleDateString();
+                const dateStringFormat = dateString.split('.').reverse().join('-');
+                return dateStringFormat === cellDate;
+            }
+            return training.date.slice(0, 10) === cellDate;
+        });
+    };
 
     const handleClickCell = (value: Moment, event: React.MouseEvent<HTMLElement>) => {
         const cellDate = value.format('YYYY-MM-DD');
@@ -174,7 +189,8 @@ const TrainingCalendar: React.FC = () => {
     const dateCellRender = (value: Moment) => {
         const cellDate = value.format('YYYY-MM-DD');
         const matchingTrainings = findMatchingTrainings(cellDate);
-        return !isMobile ? (
+        if (isMobile) return null;
+        return (
             <div
                 id={'cell'}
                 className={'wrapper-events'}
@@ -192,7 +208,7 @@ const TrainingCalendar: React.FC = () => {
                         ))}
                 </ul>
             </div>
-        ) : null;
+        );
     };
     return (
         <div className={'wrapper-calendar'}>
@@ -214,6 +230,7 @@ const TrainingCalendar: React.FC = () => {
             <ErrorTrainingModal
                 isModal={isModalErrorList}
                 closeModal={() => setIsModalErrorList(false)}
+                update={setUpdateData}
             />
             <ErrorSaveTrainingModal
                 isModal={isModalErrorSaveList}
@@ -236,7 +253,6 @@ const TrainingCalendar: React.FC = () => {
                 typeTraining={selectTraining}
                 date={dateClick}
                 isCreateTrainingModal={isModalAddTraining}
-                trainingModal={isModalOpen}
             />
         </div>
     );
@@ -247,7 +263,7 @@ export const TrainingList: React.FC = () => {
         <LayoutComponent>
             {() => (
                 <ConfigProvider locale={ruRU}>
-                    <TrainingCalendar />
+                    <CustomCalendar />
                 </ConfigProvider>
             )}
         </LayoutComponent>

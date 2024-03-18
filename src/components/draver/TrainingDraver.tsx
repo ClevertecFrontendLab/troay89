@@ -71,6 +71,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
     return (
         <span key={index} className={'wrapper-data-training'}>
             <Input
+                data-test-id={`modal-drawer-right-input-exercise${index}`}
                 size={'small'}
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 value={trainingData[index].name}
@@ -81,6 +82,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                             className={'remove-training'}
                             onChange={handleCheckboxChange}
                             checked={isChecked[index]}
+                            data-test-id={`modal-drawer-right-checkbox-exercise${index}`}
                         />
                     ) : null
                 }
@@ -90,6 +92,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                     <span className={'repeat style'}>Подходы</span>
                     <InputNumber
                         className={'repeat-number'}
+                        data-test-id={`modal-drawer-right-input-approach${index}`}
                         min={1}
                         max={999}
                         size={'small'}
@@ -102,6 +105,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 <span className={'wrapper-data'}>
                     <span className={'weight style'}>Вес, кг</span>
                     <InputNumber
+                        data-test-id={`modal-drawer-right-input-weight${index}`}
                         min={0}
                         max={999}
                         size={'small'}
@@ -114,6 +118,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 <span className={'wrapper-data'}>
                     <span className={'cont style'}>Количество</span>
                     <InputNumber
+                        data-test-id={`modal-drawer-right-input-quantity${index}`}
                         min={1}
                         max={999}
                         size={'small'}
@@ -133,7 +138,6 @@ type TrainingDraverProps = {
     typeTraining: string;
     date: string;
     isCreateTrainingModal: boolean;
-    trainingModal: boolean;
 };
 
 export const TrainingDraver: React.FC<TrainingDraverProps> = ({
@@ -142,12 +146,11 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     typeTraining,
     date,
     isCreateTrainingModal,
-    trainingModal,
 }) => {
     const dispatch = useAppDispatch();
     const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [open, setOpen] = useState(false);
-    const [isChecked, setIsChecked] = useState<Array<boolean>>([false]);
+    const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
     const [trainingData, setTrainingData] = useState<DataTraining[]>([
         { name: '', replays: undefined, weight: undefined, approaches: undefined },
     ]);
@@ -227,12 +230,13 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const handleDeleteTraining = () => {
         const newTrainingData = trainingData.filter((_, i) => !isChecked[i]);
         setTrainingData(newTrainingData);
-        setIsChecked(new Array(newTrainingData.length).fill(false));
+        setIsChecked([]);
     };
 
     return (
         <div className='site-drawer-render-in-current-wrapper'>
             <Drawer
+                data-test-id='modal-drawer-right'
                 className={'add-training-drawer'}
                 title={
                     listEditTraining ? (
@@ -264,7 +268,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                             fontSize: 13,
                         }}
                     >
-                        <CloseOutlined />
+                        <CloseOutlined data-test-id='modal-drawer-right-button-close' />
                     </div>
                 }
             >
@@ -285,24 +289,23 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                         />
                     ))}
                 </div>
-                {!trainingModal && (
-                    <div className={'wrapper-button'}>
+                <div className={'wrapper-button'}>
+                    <DefaultButton
+                        icon={<PlusOutlined />}
+                        text={'Добавить ещё'}
+                        className={`button-add-training ${listEditTraining ? 'edit' : null}`}
+                        onClick={handleAddTraining}
+                    />
+                    {listEditTraining && (
                         <DefaultButton
-                            icon={<PlusOutlined />}
-                            text={'Добавить ещё'}
-                            className={`button-add-training ${listEditTraining ? 'edit' : null}`}
-                            onClick={handleAddTraining}
+                            icon={<MinusOutlined />}
+                            text={'Удалить'}
+                            className={'button-add-training edit'}
+                            onClick={handleDeleteTraining}
+                            disabled={!isChecked.length}
                         />
-                        {listEditTraining && (
-                            <DefaultButton
-                                icon={<MinusOutlined />}
-                                text={'Удалить'}
-                                className={'button-add-training edit'}
-                                onClick={handleDeleteTraining}
-                            />
-                        )}
-                    </div>
-                )}
+                    )}
+                </div>
             </Drawer>
         </div>
     );

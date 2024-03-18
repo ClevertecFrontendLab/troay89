@@ -6,7 +6,7 @@ import { ReactElement } from 'react';
 const breadcrumbNameMap: Record<string, string> = {
     '/main': 'Главная',
     '/feedbacks': 'Отзывы пользователей',
-    '/catalogs/training-list': 'Календарь',
+    '/calendar': 'Календарь',
 };
 
 export const BreadcrumbComponent = () => {

@@ -1,9 +1,8 @@
-import { Position } from '@pages/training-list/TrainingList.tsx';
 import React, { useEffect, useState } from 'react';
 import { Modal, PageHeader, Select } from 'antd';
 import { PersonalTraining, TrainingList } from '../../../type/Training.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
-import { EditOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons';
 import './CreateTrainingModal.css';
 import {
     useAddPersonalTrainingListMutation,
@@ -16,6 +15,7 @@ import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import moment from 'moment/moment';
 import { useMediaQuery } from 'react-responsive';
+import { Position } from '@pages/calendar/CustomCalendar.tsx';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -67,7 +67,6 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
             getPersonalTrainingList();
             addTraining(true);
         } else if (errorEditPersonalTraining) {
-            console.log(errorEditPersonalTraining);
             setIsModalErrorSaveList(true);
         }
     }, [
@@ -174,11 +173,13 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     };
 
     const handleBack = () => {
-        setIsModalOpen(false);
-        closeModal();
         addTraining(true);
-        openTrainingDraver(false);
         dispatch(editPersonalTraining(null));
+        openTrainingDraver(false);
+        setTimeout(() => {
+            setIsModalOpen(false);
+            closeModal();
+        }, 0);
     };
 
     const kindTrainingNames = kindTraining ? kindTraining.map((training) => training.name) : [];
@@ -191,6 +192,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         <>
             {modalPosition ? (
                 <Modal
+                    data-test-id={'modal-create-exercise'}
                     getContainer={'.ant-picker-cell'}
                     className={'modal-add-training'}
                     open={isModalOpen}
@@ -222,21 +224,20 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     <PageHeader
                         className='site-page-header'
                         onBack={handleBack}
+                        backIcon={
+                            <ArrowLeftOutlined data-test-id='modal-exercise-training-button-close' />
+                        }
                         style={{ borderBottom: '1px solid #EEE' }}
                         extra={[
                             <Select
+                                data-test-id='modal-create-exercise-select'
                                 className={'select-training'}
                                 key='select'
-                                value={selectedValue}
+                                value={selectedValue || 'Выбор типа тренировки'}
                                 bordered={true}
                                 onChange={handleChange}
                                 style={{ width: !isMobile ? 223 : 271 }}
                                 options={[
-                                    {
-                                        value: 'Выбор типа тренировки',
-                                        label: 'Выбор типа тренировки',
-                                        key: 'jack',
-                                    },
                                     ...filteredTrainingList.map((training) => ({
                                         value: training.name,
                                         label: training.name,
@@ -246,27 +247,31 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                             />,
                         ]}
                     />
-                    <ul className={'list-name-training'}>
-                        {listEditTraining
-                            ? listEditTraining.exercises.map((training, index) => (
-                                  <li className={'name-training'} key={index}>
-                                      {training.name}{' '}
-                                      <EditOutlined
-                                          className={'edit-training'}
-                                          onClick={handleAddTraining}
-                                      />
-                                  </li>
-                              ))
-                            : listTraining.data.map((training, index) => (
-                                  <li className={'name-training'} key={index}>
-                                      {training.name}{' '}
-                                      <EditOutlined
-                                          className={'edit-training'}
-                                          onClick={handleAddTraining}
-                                      />
-                                  </li>
-                              ))}
-                    </ul>
+                    {isModal ? (
+                        <ul className={'list-name-training'}>
+                            {listEditTraining
+                                ? listEditTraining.exercises.map((training, index) => (
+                                      <li className={'name-training'} key={index}>
+                                          {training.name}{' '}
+                                          <EditOutlined
+                                              className={'edit-training'}
+                                              onClick={handleAddTraining}
+                                              data-test-id={`modal-update-training-edit-button${index}`}
+                                          />
+                                      </li>
+                                  ))
+                                : listTraining.data.map((training, index) => (
+                                      <li className={'name-training'} key={index}>
+                                          {training.name}{' '}
+                                          <EditOutlined
+                                              className={'edit-training'}
+                                              onClick={handleAddTraining}
+                                              data-test-id={`modal-update-training-edit-button${index}`}
+                                          />
+                                      </li>
+                                  ))}
+                        </ul>
+                    ) : null}
                 </Modal>
             ) : null}
         </>

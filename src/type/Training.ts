@@ -6,7 +6,7 @@ export type TrainingList = {
 export type PersonalTraining = {
     _id?: string;
     name: string;
-    date: string;
+    date: string | number;
     isImplementation: boolean;
     userId?: string;
     parameters: {

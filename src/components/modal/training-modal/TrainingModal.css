@@ -71,7 +71,7 @@
 }
 
 .modal-list-training .ant-modal-close-icon{
-    margin: 1px 0 1px;
+    margin: 1px 0;
 }
 
 .modal-list-training .event-edit {
@@ -105,6 +105,20 @@
     list-style-type: none;
     padding: 3px 14px 15px 11px;
     text-align: left;
+}
+
+.modal-list-training .edit-training-button {
+    border: none;
+    height: 15px;
+    transition: none;
+}
+
+.modal-list-training .edit-training-button:disabled {
+    background-color: white;
+}
+
+.modal-list-training .event-edit:hover .edit-training-button {
+    background-color: var(--disabled-color)
 }
 
 @media screen and (max-width: 500px) {

@@ -24,7 +24,6 @@ export const usePersonalTrainingList = () => {
     useEffect(() => {
         if (personalTrainingData) {
             setIsOpenModal(true);
-            console.log(personalTrainingData);
             dispatch(savePersonalListTraining(personalTrainingData));
             history.push(paths.trainingList.path);
         } else if (personalTrainingError) {

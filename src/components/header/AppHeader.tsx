@@ -53,7 +53,7 @@ export const AppHeader: React.FC = () => {
                     </Paragraph>
                 </div>
             )}
-            {location.pathname === '/catalogs/training-list' && (
+            {location.pathname === '/calendar' && (
                 <div className={'main-content without-title'}>
                     <Paragraph className={'header-seating'}>
                         <Settings isMobile={isMobile} isTablet={isTablet} />

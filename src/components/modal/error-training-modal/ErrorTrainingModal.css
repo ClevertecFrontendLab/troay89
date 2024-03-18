@@ -46,6 +46,11 @@
     align-items: center;
 }
 
+.modal-error-list-training .close {
+    display: inline-block;
+    margin-top: 21px;
+}
+
 @media (max-width: 500px) {
     .modal-error-list-training .ant-modal-body {
         flex-wrap: wrap;

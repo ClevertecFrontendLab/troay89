@@ -1,6 +1,7 @@
 .ant-picker-cell {
     position: relative;
     width: 200px;
+    height: 143px;
 }
 
 .wrapper-calendar {
@@ -33,7 +34,7 @@
 }
 
 .custom-calendar .ant-picker-cell-inner.ant-picker-calendar-date {
-    margin: 0 5px 0;
+    margin: 0 5px;
     padding: 0 8px;
     background-color: white;
     min-height: 143px;
@@ -234,7 +235,8 @@
     .custom-calendar .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
         color: var(--first-color);
     }
-    .custom-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before {
+
+    .custom-calendar .ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner:before {
         border-color: var(--app-main-collor);
     }
 

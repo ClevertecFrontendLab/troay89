@@ -15,7 +15,7 @@ import { GeneralChangePasswordError } from '@pages/auth-page/state/GeneralChange
 import { FeedbacksPage } from '@pages/feedbacks-page/FeedbacksPage.tsx';
 import { MainPage } from '@pages/main-page/MainPage.tsx';
 import { JVT_TOKEN, paths } from '@constants/constants.ts';
-import { TrainingList } from '@pages/training-list/TrainingList.tsx';
+import { TrainingList } from '@pages/calendar/CustomCalendar.tsx';
 
 const allRoutes: RouteObject = {
     path: paths.root.path,

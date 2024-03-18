@@ -1,7 +1,7 @@
 import { Button, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './ErrorSaveTrainingModal.css';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import { CloseCircleOutlined, CloseOutlined } from '@ant-design/icons';
 import { useMediaQuery } from 'react-responsive';
 
 type TrainingModalProps = {
@@ -36,13 +36,24 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({ isModal, 
             footer={null}
             centered={true}
             style={{ width: '100%', maxWidth: !isMobile ? 384 : 328 }}
+            closeIcon={
+                <CloseOutlined
+                    className={'close'}
+                    data-test-id='modal-error-user-training-button-close'
+                />
+            }
         >
             <CloseCircleOutlined className={'icon'} />
             <div className={'wrapper-content'}>
-                <h6 className={'title'}>При сохранении данных произошла ошибка</h6>
-                <p className={'text'}>Придётся попробовать ещё раз</p>
+                <h6 className={'title'} data-test-id='modal-error-user-training-title'>
+                    При сохранении данных произошла ошибка
+                </h6>
+                <p className={'text'} data-test-id='modal-error-user-training-subtitle'>
+                    Придётся попробовать ещё раз
+                </p>
                 <Button
                     className={'button-error style'}
+                    data-test-id='modal-error-user-training-button'
                     onClick={handleOk}
                     type={'primary'}
                     size={'large'}

@@ -78,6 +78,7 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
                         content={'Календарь'}
                         icon={<CalendarTwoTone twoToneColor={'#2F54EB'} />}
                         isCloseSide={isCloseSide}
+                        dataTestId={'menu-button-calendar'}
                         onClick={handleClickCalendar}
                     />
                     <CardComponent

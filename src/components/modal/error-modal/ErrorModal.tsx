@@ -29,6 +29,7 @@ export const ErrorModal: React.FC<ErrorModalProps> = ({ isModal, closeModal }) =
             footer={null}
             closeIcon={null}
             width={'100%'}
+            data-test-id={'modal-no-review'}
         >
             <Result
                 status={ResultStatusType.ERROR_500}

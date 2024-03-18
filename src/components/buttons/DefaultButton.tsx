@@ -8,6 +8,7 @@ type DefaultButton = {
     icon: ReactNode | null;
     buttonKey?: string;
     onClick?: () => void;
+    disabled?: boolean;
 };
 
 export const DefaultButton: React.FC<DefaultButton> = ({
@@ -16,9 +17,17 @@ export const DefaultButton: React.FC<DefaultButton> = ({
     text,
     icon,
     buttonKey,
+    disabled,
 }) => {
     return (
-        <Button className={className} icon={icon} onClick={onClick} size={'large'} key={buttonKey}>
+        <Button
+            className={className}
+            icon={icon}
+            onClick={onClick}
+            size={'large'}
+            key={buttonKey}
+            disabled={disabled}
+        >
             {text}
         </Button>
     );
