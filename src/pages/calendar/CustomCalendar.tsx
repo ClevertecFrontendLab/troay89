@@ -124,6 +124,7 @@ const CustomCalendar: React.FC = () => {
     };
 
     const findMatchingTrainings = (cellDate: string) => {
+        console.log('I am here');
         return dataPersonalTraining.filter((training) => {
             if (typeof training.date === 'number') {
                 const date = new Date(training.date);
@@ -131,8 +132,7 @@ const CustomCalendar: React.FC = () => {
                 const dateStringFormat = dateString.split('/').reverse().join('-');
                 return dateStringFormat === cellDate;
             }
-            const cellDateForTest = cellDate.split('-').reverse().join('/');
-            return training.date.slice(0, 10) === cellDateForTest;
+            return training.date.slice(0, 10) === cellDate;
         });
     };
 
@@ -190,6 +190,7 @@ const CustomCalendar: React.FC = () => {
     const dateCellRender = (value: Moment) => {
         const cellDate = value.format('YYYY-MM-DD');
         const matchingTrainings = findMatchingTrainings(cellDate);
+        console.log(matchingTrainings);
         if (isMobile) return null;
         return (
             <div
@@ -211,6 +212,9 @@ const CustomCalendar: React.FC = () => {
             </div>
         );
     };
+
+    console.log('I am here 2');
+
     return (
         <div className={'wrapper-calendar'}>
             <Calendar
