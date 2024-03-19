@@ -80,7 +80,7 @@ const CustomCalendar: React.FC = () => {
 
     useEffect(() => {
         if (isModalOpen) {
-            const cellDate = dateClick.split('.').reverse().join('-');
+            const cellDate = dateClick.split('/').reverse().join('-');
             const matchingTrainings = dataPersonalTraining.filter((training) => {
                 if (typeof training.date === 'number') {
                     const date = new Date(training.date);
