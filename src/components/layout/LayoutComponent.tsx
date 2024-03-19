@@ -11,7 +11,7 @@ type LayoutComponentProps = {
 };
 
 export const LayoutComponent: React.FC<LayoutComponentProps> = ({ children }) => {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const location = useLocation();
 
     return (

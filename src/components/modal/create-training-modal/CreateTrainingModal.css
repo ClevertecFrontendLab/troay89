@@ -104,20 +104,6 @@
     color: var(--app-main-collor);
 }
 
-/*.modal-add-training .edit-training-button {*/
-/*    border: none;*/
-/*    height: 15px;*/
-/*    transition: none;*/
-/*}*/
-
-/*.modal-add-training .edit-training-button:disabled {*/
-/*    background-color: white;*/
-/*}*/
-
-/*.modal-add-training .event-edit:hover .edit-training-button {*/
-/*    background-color: var(--disabled-color)*/
-/*}*/
-
 @media (max-width: 500px) {
     .modal-add-training .ant-page-header-heading {
         margin-top: 3px;

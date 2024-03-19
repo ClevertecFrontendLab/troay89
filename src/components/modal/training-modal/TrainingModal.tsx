@@ -74,7 +74,6 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         closeModal();
     };
 
-    console.log(listKindTraining);
     return (
         <>
             {modalPosition ? (

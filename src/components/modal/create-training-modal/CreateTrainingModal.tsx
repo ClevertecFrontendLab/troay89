@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, PageHeader, Select } from 'antd';
-import { PersonalTraining, TrainingList } from '../../../type/Training.ts';
-import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
-import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons';
+import React, {useEffect, useState} from 'react';
+import {Modal, PageHeader, Select} from 'antd';
+import {PersonalTraining, TrainingList} from '../../../type/Training.ts';
+import {useAppDispatch, useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
+import {ArrowLeftOutlined, EditOutlined} from '@ant-design/icons';
 import './CreateTrainingModal.css';
 import {
     useAddPersonalTrainingListMutation,
     useEditPersonalTrainingListMutation,
     useLazyGetPersonalTrainingListQuery,
 } from '@redux/reducers/apiSlice.ts';
-import { savePersonalListTraining } from '@redux/reducers/listPersonalTrainingSlice.ts';
-import { history } from '@redux/reducers/routerSlice.ts';
-import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
-import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
+import {savePersonalListTraining} from '@redux/reducers/listPersonalTrainingSlice.ts';
+import {history} from '@redux/reducers/routerSlice.ts';
+import {JVT_TOKEN, paths, statusCodes} from '@constants/constants.ts';
+import {editPersonalTraining} from '@redux/reducers/editTrainingSlice.ts';
 import moment from 'moment/moment';
-import { useMediaQuery } from 'react-responsive';
-import { Position } from '@pages/calendar/CustomCalendar.tsx';
+import {useMediaQuery} from 'react-responsive';
+import {Position} from '@pages/calendar/CustomCalendar.tsx';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
@@ -30,28 +30,29 @@ type CreateTrainingModalProps = {
 };
 
 export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
-    isModal,
-    closeModal,
-    modalPosition,
-    dataTrainingList,
-    addTraining,
-    openTrainingDraver,
-    sendDraverInfo,
-    setIsModalErrorSaveList,
-    kindTraining,
-}) => {
-    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
+                                                                            isModal,
+                                                                            closeModal,
+                                                                            modalPosition,
+                                                                            dataTrainingList,
+                                                                            addTraining,
+                                                                            openTrainingDraver,
+                                                                            sendDraverInfo,
+                                                                            setIsModalErrorSaveList,
+                                                                            kindTraining,
+                                                                        }) => {
+    const isMobile = useMediaQuery({query: '(max-width: 500px)'});
+    const [extraLoader, setExtraloader] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState('Выбор типа тренировки');
     const listTraining = useAppSelector((state) => state.saveListTraining.listTraining);
     const listEditTraining = useAppSelector(
         (state) => state.editPersonalTraining.listPersonalTraining,
     );
-    const [addPersonalTrainingList, { data, isLoading, error }] =
+    const [addPersonalTrainingList, {data, isLoading, error}] =
         useAddPersonalTrainingListMutation();
     const dispatch = useAppDispatch();
 
-    const [getPersonalTrainingList, { data: dataPersonalTraining, error: errorPersonalTraining }] =
+    const [getPersonalTrainingList, {data: dataPersonalTraining, error: errorPersonalTraining}] =
         useLazyGetPersonalTrainingListQuery();
     const [
         editPersonalTrainingList,
@@ -63,10 +64,9 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
     ] = useEditPersonalTrainingListMutation();
 
     useEffect(() => {
-        if (dataEditPersonalTraining) {
-            getPersonalTrainingList();
-            addTraining(true);
-        } else if (errorEditPersonalTraining) {
+        if (errorEditPersonalTraining) {
+            addTraining(false);
+            setExtraloader(false)
             setIsModalErrorSaveList(true);
         }
     }, [
@@ -76,6 +76,14 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
         getPersonalTrainingList,
         setIsModalErrorSaveList,
     ]);
+
+    useEffect(() => {
+        if (extraLoader) {
+            getPersonalTrainingList();
+            addTraining(true);
+        }
+        setExtraloader(false)
+    }, [addTraining, extraLoader, getPersonalTrainingList]);
 
     useEffect(() => {
         if (dataPersonalTraining) {
@@ -125,22 +133,22 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
             if (listEditTraining) {
                 const isFinish =
                     new Date(listEditTraining.date).getTime() < tomorrow.toDate().getTime();
-                console.log(listEditTraining);
                 listEditTraining.exercises.length === 0
                     ? setIsModalErrorSaveList(true)
                     : editPersonalTrainingList({
-                          _id: listEditTraining._id,
-                          name: listEditTraining.name,
-                          date: listEditTraining.date,
-                          isImplementation: isFinish,
-                          parameters: {
-                              repeat: false,
-                              period: 1,
-                              jointTraining: false,
-                              participants: [],
-                          },
-                          exercises: exercises,
-                      });
+                        _id: listEditTraining._id,
+                        name: listEditTraining.name,
+                        date: listEditTraining.date,
+                        isImplementation: isFinish,
+                        parameters: {
+                            repeat: false,
+                            period: 1,
+                            jointTraining: false,
+                            participants: [],
+                        },
+                        exercises: exercises,
+                    });
+                setExtraloader(true)
             } else {
                 addPersonalTrainingList({
                     name: listTraining.kindTraining,
@@ -156,9 +164,11 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                 });
             }
             dispatch(editPersonalTraining(null));
-            openTrainingDraver(false);
-            setIsModalOpen(false);
-            closeModal();
+            setTimeout(() => {
+                openTrainingDraver(false);
+                setIsModalOpen(false);
+                closeModal();
+            }, 0)
         }
     };
 
@@ -210,13 +220,13 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                     cancelButtonProps={{
                         disabled: selectedValue === 'Выбор типа тренировки',
                     }}
-                    okText={'Сохранить'}
+                    okText={(listEditTraining && isMobile) ? 'Сохранить изменения' : `Сохранить`}
                     cancelText={'Добавить упражнения'}
                     style={{
                         top: modalPosition.top - 167,
                         ...(modalPosition.right !== undefined
-                            ? { left: modalPosition.right - 264 }
-                            : { left: modalPosition.left }),
+                            ? {left: modalPosition.right - 264}
+                            : {left: modalPosition.left}),
                         maxWidth: !isMobile ? 264 : 312,
                     }}
                     mask={false}
@@ -225,9 +235,9 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                         className='site-page-header'
                         onBack={handleBack}
                         backIcon={
-                            <ArrowLeftOutlined data-test-id='modal-exercise-training-button-close' />
+                            <ArrowLeftOutlined data-test-id='modal-exercise-training-button-close'/>
                         }
-                        style={{ borderBottom: '1px solid #EEE' }}
+                        style={{borderBottom: '1px solid #EEE'}}
                         extra={[
                             <Select
                                 data-test-id='modal-create-exercise-select'
@@ -236,7 +246,7 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                                 value={selectedValue || 'Выбор типа тренировки'}
                                 bordered={true}
                                 onChange={handleChange}
-                                style={{ width: !isMobile ? 223 : 271 }}
+                                style={{width: !isMobile ? 223 : 271}}
                                 options={[
                                     ...filteredTrainingList.map((training) => ({
                                         value: training.name,
@@ -251,25 +261,25 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                         <ul className={'list-name-training'}>
                             {listEditTraining
                                 ? listEditTraining.exercises.map((training, index) => (
-                                      <li className={'name-training'} key={index}>
-                                          {training.name}{' '}
-                                          <EditOutlined
-                                              className={'edit-training'}
-                                              onClick={handleAddTraining}
-                                              data-test-id={`modal-update-training-edit-button${index}`}
-                                          />
-                                      </li>
-                                  ))
+                                    <li className={'name-training'} key={index}>
+                                        {training.name}{' '}
+                                        <EditOutlined
+                                            className={'edit-training'}
+                                            onClick={handleAddTraining}
+                                            data-test-id={`modal-update-training-edit-button${index}`}
+                                        />
+                                    </li>
+                                ))
                                 : listTraining.data.map((training, index) => (
-                                      <li className={'name-training'} key={index}>
-                                          {training.name}{' '}
-                                          <EditOutlined
-                                              className={'edit-training'}
-                                              onClick={handleAddTraining}
-                                              data-test-id={`modal-update-training-edit-button${index}`}
-                                          />
-                                      </li>
-                                  ))}
+                                    <li className={'name-training'} key={index}>
+                                        {training.name}{' '}
+                                        <EditOutlined
+                                            className={'edit-training'}
+                                            onClick={handleAddTraining}
+                                            data-test-id={`modal-update-training-edit-button${index}`}
+                                        />
+                                    </li>
+                                ))}
                         </ul>
                     ) : null}
                 </Modal>

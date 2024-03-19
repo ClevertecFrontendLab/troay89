@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Layout, Menu } from 'antd';
 import {
     CalendarTwoTone,
@@ -48,8 +48,8 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
         history.push(paths.auth.path);
     };
 
-    React.useEffect(() => {
-        switch (location.pathname.slice(1)) {
+    useEffect(() => {
+        switch (location.pathname) {
             case paths.trainingList.path:
                 setSelectedKey('1');
                 break;
