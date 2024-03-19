@@ -144,20 +144,27 @@ const CustomCalendar: React.FC = () => {
         const tomorrow = moment().add(1, 'days').startOf('day');
         const disabled = value.toDate().getTime() < tomorrow.toDate().getTime();
 
-        const date = value.toDate().toLocaleDateString().split('/').join('.');
+        const date = value.toDate();
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        const corectDate = `${day}.${month}.${year}`;
+        console.log(corectDate);
+
         const rect = event.currentTarget.getBoundingClientRect();
         const windowWidth = window.innerWidth / 1.2;
         const firstCell = document.querySelector('.ant-picker-cell');
         const rectFirstCellLeft = (firstCell && firstCell.getBoundingClientRect().left) ?? 0;
-        setDateClick(date);
+        setDateClick(corectDate);
 
         if (isModalAddTraining) {
             setTimeout(
-                () => updateModalPosition(rect, windowWidth, rectFirstCellLeft, date, disabled),
+                () =>
+                    updateModalPosition(rect, windowWidth, rectFirstCellLeft, corectDate, disabled),
                 130,
             );
         } else {
-            updateModalPosition(rect, windowWidth, rectFirstCellLeft, date, disabled);
+            updateModalPosition(rect, windowWidth, rectFirstCellLeft, corectDate, disabled);
         }
 
         if (isModalOpenDraver) {
