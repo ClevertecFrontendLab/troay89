@@ -128,7 +128,7 @@ const CustomCalendar: React.FC = () => {
             if (typeof training.date === 'number') {
                 const date = new Date(training.date);
                 const dateString = date.toLocaleDateString();
-                const dateStringFormat = dateString.split('.').reverse().join('-');
+                const dateStringFormat = dateString.split('/').reverse().join('-');
                 return dateStringFormat === cellDate;
             }
             return training.date.slice(0, 10) === cellDate;
