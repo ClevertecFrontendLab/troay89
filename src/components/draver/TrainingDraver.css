@@ -138,7 +138,7 @@
     }
 
     .site-drawer-render-in-current-wrapper .ant-input-sm {
-        width: 328px;
+        max-width: 100%;
     }
 
     .site-drawer-render-in-current-wrapper .wrapper-data .repeat {
