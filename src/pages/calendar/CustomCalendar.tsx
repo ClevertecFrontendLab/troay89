@@ -129,7 +129,7 @@ const CustomCalendar: React.FC = () => {
             if (typeof training.date === 'number') {
                 const dateObject = new Date(cellDate).getTime();
                 const trainingDay = new Date(training.date);
-                const startDay = trainingDay.setHours(3, 0, 0, 0);
+                const startDay = trainingDay.setHours(0, 0, 0, 0);
                 console.log(new Date(cellDate), 1);
                 console.log(startDay, 2);
                 return startDay === dateObject;
