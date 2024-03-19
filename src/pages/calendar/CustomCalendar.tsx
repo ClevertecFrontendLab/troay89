@@ -144,7 +144,7 @@ const CustomCalendar: React.FC = () => {
         const tomorrow = moment().add(1, 'days').startOf('day');
         const disabled = value.toDate().getTime() < tomorrow.toDate().getTime();
 
-        const date = value.toDate().toLocaleDateString().split('/').join('');
+        const date = value.toDate().toLocaleDateString().split('/').join('.');
         const rect = event.currentTarget.getBoundingClientRect();
         const windowWidth = window.innerWidth / 1.2;
         const firstCell = document.querySelector('.ant-picker-cell');
