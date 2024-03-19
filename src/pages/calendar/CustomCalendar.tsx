@@ -126,12 +126,12 @@ const CustomCalendar: React.FC = () => {
     const findMatchingTrainings = (cellDate: string) => {
         console.log('I am here');
         return dataPersonalTraining.filter((training) => {
-            if (typeof training.date === 'number') {
-                const date = new Date(training.date);
-                const dateString = date.toLocaleDateString();
-                const dateStringFormat = dateString.split('/').reverse().join('-');
-                return dateStringFormat === cellDate;
-            }
+            // if (typeof training.date === 'number') {
+            //     const date = new Date(training.date);
+            //     const dateString = date.toLocaleDateString();
+            //     const dateStringFormat = dateString.split('/').reverse().join('-');
+            //     return dateStringFormat === cellDate;
+            // }
             return training.date.slice(0, 10) === cellDate;
         });
     };
@@ -189,9 +189,7 @@ const CustomCalendar: React.FC = () => {
 
     const dateCellRender = (value: Moment) => {
         const cellDate = value.format('YYYY-MM-DD');
-        console.log(cellDate);
         const matchingTrainings = findMatchingTrainings(cellDate);
-        console.log(matchingTrainings);
         if (isMobile) return null;
         return (
             <div
