@@ -131,7 +131,8 @@ const CustomCalendar: React.FC = () => {
                 const dateStringFormat = dateString.split('/').reverse().join('-');
                 return dateStringFormat === cellDate;
             }
-            return training.date.slice(0, 10) === cellDate;
+            const cellDateForTest = cellDate.split('-').reverse().join('/');
+            return training.date.slice(0, 10) === cellDateForTest;
         });
     };
 
