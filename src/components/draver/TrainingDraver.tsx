@@ -76,6 +76,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 value={trainingData[index].name}
                 placeholder={'Упражнение'}
+                autoFocus={true}
                 addonAfter={
                     listEditTraining ? (
                         <Checkbox
