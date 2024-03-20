@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Result } from 'antd';
+import { Modal, Result } from 'antd';
 import { history } from '@redux/reducers/routerSlice.ts';
-import './ErrorModal.css';
 import { paths, ResultStatusType } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
+import './ErrorModal.css';
 
 type ErrorModalProps = {
     isModal: boolean;
@@ -16,6 +17,11 @@ export const ErrorModal: React.FC<ErrorModalProps> = ({ isModal, closeModal }) =
         setIsModalOpen(isModal);
     }, [isModal]);
 
+    const handleClick = () => {
+        closeModal();
+        history.push(paths.main.path);
+    };
+
     return (
         <Modal
             className={'error-modal'}
@@ -23,22 +29,19 @@ export const ErrorModal: React.FC<ErrorModalProps> = ({ isModal, closeModal }) =
             footer={null}
             closeIcon={null}
             width={'100%'}
+            data-test-id={'modal-no-review'}
         >
             <Result
                 status={ResultStatusType.ERROR_500}
                 title='&nbsp;&nbsp;Что-то пошло не так&nbsp;'
                 subTitle='&nbsp;Произошла ошибка, попробуйте ещё раз.'
                 extra={
-                    <Button
-                        type='primary'
-                        size={'large'}
-                        onClick={() => {
-                            closeModal();
-                            history.push(paths.main.path);
-                        }}
-                    >
-                        Назад
-                    </Button>
+                    <PrimaryButton
+                        className={'style-second'}
+                        text={'Назад'}
+                        onClick={handleClick}
+                        htmlType={'button'}
+                    />
                 }
             />
         </Modal>

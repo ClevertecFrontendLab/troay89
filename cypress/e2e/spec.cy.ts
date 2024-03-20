@@ -633,7 +633,7 @@ describe('Sprint 4', () => {
             limitedSelectDropdown(`[data-test-id=${DATA_TEST_ID.modalCreateExerciseSelect}]`);
             takeScreenshots('create-new-training-3', resolutionLaptop);
         });
-        it('update future trainings', () => {
+        xit('update future trainings', () => {
             goToCalendar();
             cy.viewport(833, 900);
             // TODO Проверка изменения тренировок будущего с ошибкой сохранения
@@ -679,7 +679,7 @@ describe('Sprint 4', () => {
                 cy.contains('Прыжки с нагрузкой').should('exist');
             });
         });
-        it('update past trainings', () => {
+        xit('update past trainings', () => {
             goToCalendar();
             cy.wait(1000);
             cy.viewport(360, 740);

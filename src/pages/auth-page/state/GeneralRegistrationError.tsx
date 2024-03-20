@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Card, Layout } from 'antd';
+import { Card, Layout } from 'antd';
 import './State.css';
 import { CloseCircleFilled } from '@ant-design/icons';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -22,15 +23,13 @@ export const GeneralRegistrationError: React.FC = () => {
                         Что-то пошло не так и ваша регистрация&nbsp; <br /> не завершилась.
                         Попробуйте ещё раз.
                     </span>
-                    <Button
-                        className={'button-state'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'button-state ant-btn-primary style'}
+                        htmlType={'button'}
+                        text={'Повторить'}
                         onClick={handleClick}
-                        data-test-id='registration-retry-button'
-                    >
-                        Повторить
-                    </Button>
+                        dataTestId={'registration-retry-button'}
+                    />
                 </Card>
             </Content>
         </Layout>

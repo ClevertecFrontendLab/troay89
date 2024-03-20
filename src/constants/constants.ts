@@ -14,6 +14,9 @@ export const paths = {
     feedbacks: {
         path: '/feedbacks',
     },
+    trainingList: {
+        path: '/calendar',
+    },
     confirmEmail: {
         path: '/auth/confirm-email',
     },

@@ -1,9 +1,10 @@
-import { Button, Card, Image, Layout } from 'antd';
+import { Card, Image, Layout } from 'antd';
 import React from 'react';
 import { history } from '@redux/reducers/routerSlice.ts';
 import somethingWrong from '/img/svg/something-wrong.svg';
 import { useMediaQuery } from 'react-responsive';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -27,15 +28,13 @@ export const GeneralResetPasswordError: React.FC = () => {
                     <span className={'message-state general-change-pass'}>
                         Произошла ошибка, попробуйте {newLine} отправить форму ещё раз&nbsp;
                     </span>
-                    <Button
-                        className={'button-state small'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'button-state small style'}
+                        htmlType={'button'}
+                        text={'Назад'}
                         onClick={handleClick}
-                        data-test-id='check-back-button'
-                    >
-                        Назад
-                    </Button>
+                        dataTestId={'check-back-button'}
+                    />
                 </Card>
             </Content>
         </Layout>

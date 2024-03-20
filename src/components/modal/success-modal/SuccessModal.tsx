@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Result } from 'antd';
+import { Modal, Result } from 'antd';
 import './SuccessModal.css';
 import { useLazyGetFeedbacksQuery } from '@redux/reducers/apiSlice.ts';
 import { saveComments } from '@redux/reducers/commentsSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { JVT_TOKEN, paths, ResultStatusType, statusCodes } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 type ErrorModalProps = {
     isModal: boolean;
@@ -49,9 +50,12 @@ export const SuccessModal: React.FC<ErrorModalProps> = ({ isModal, closeModal })
                 status={ResultStatusType.SUCCESS}
                 title='Отзыв успешно опубликован'
                 extra={
-                    <Button type='primary' size={'large'} onClick={closeModal}>
-                        Отлично
-                    </Button>
+                    <PrimaryButton
+                        className={'style-second'}
+                        onClick={closeModal}
+                        text={'Отлично'}
+                        htmlType={'button'}
+                    />
                 }
             />
         </Modal>

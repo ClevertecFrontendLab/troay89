@@ -1,0 +1,33 @@
+.default-button:hover,
+.auth-enter.default-button:hover {
+    border-color: var(--hover-default-button);
+    color: var(--hover-default-button);
+}
+
+.auth-enter.default-button:hover .anticon-google-plus {
+    color: var(--hover-second-color);
+}
+
+.style-second,
+.ant-btn-primary.style,
+.reg-enter.ant-btn-primary,
+.auth-enter.ant-btn-primary {
+    background: var(--app-main-collor);
+}
+
+.ant-btn-primary.style:hover,
+.reg-enter.ant-btn-primary:hover,
+.auth-enter.ant-btn-primary:hover {
+    background: var(--hover-first-color);
+}
+
+.ant-btn-primary.style:disabled,
+.reg-enter.ant-btn-primary:disabled {
+    background: var(--disabled-second-color);
+    color: var(--third-color);
+}
+
+.style-second:hover {
+    background-color: var(--hover-second-color);
+    border-color: var(--hover-first-color);
+}

@@ -37,10 +37,6 @@
     margin-left: 4px;
 }
 
-.error-modal .ant-btn-primary {
-    background-color: var(--app-main-collor);
-}
-
 @media(max-width: 500px) {
     .error-modal {
         max-width: 568px;

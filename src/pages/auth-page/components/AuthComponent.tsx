@@ -11,6 +11,8 @@ import { FieldData } from 'rc-field-form/lib/interface';
 import { EmailInput } from '@components/input/EmailInput.tsx';
 import { PasswordInput } from '@components/input/PasswordInput.tsx';
 import { JVT_TOKEN, paths, ResultStatusType, statusCodes } from '@constants/constants.ts';
+import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 type AuthComponentProps = {
     setIsLoading(value: boolean): void;
@@ -53,6 +55,10 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
             dispatch(saveDataEmail(emailValue));
             authCheckEmail({ email: emailValue });
         }
+    };
+
+    const handleGoogleClick = () => {
+        window.location.href = 'https://marathon-api.clevertec.ru/auth/google';
     };
 
     useEffect(() => {
@@ -139,23 +145,18 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                     </Button>
                 </Space>
                 <Space className={'container-auth-buttons'} direction={'vertical'}>
-                    <Button
+                    <PrimaryButton
                         className={'auth-enter'}
-                        type='primary'
-                        htmlType='submit'
-                        data-test-id='login-submit-button'
-                    >
-                        Войти
-                    </Button>
-                    <Button
-                        className={'auth-enter auth-google'}
-                        icon={!isMobile ? <GooglePlusOutlined /> : ''}
-                        onClick={() =>
-                            (window.location.href = 'https://marathon-api.clevertec.ru/auth/google')
-                        }
-                    >
-                        Войти через Google
-                    </Button>
+                        htmlType={'submit'}
+                        dataTestId={'login-submit-button'}
+                        text={'Войти'}
+                    />
+                    <DefaultButton
+                        className={'auth-enter default-button'}
+                        text={'Войти через Google'}
+                        onClick={handleGoogleClick}
+                        icon={!isMobile ? <GooglePlusOutlined /> : null}
+                    />
                 </Space>
             </Space>
         </Form>

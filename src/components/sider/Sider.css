@@ -49,6 +49,11 @@
     fill: var(--second-title);
 }
 
+.ant-menu-item-selected .svg-menu svg path,
+.ant-menu-item-selected .svg-menu-special svg path {
+    fill: #1890ff;
+}
+
 .wrapper-trigger {
     display: flex;
     justify-content: center;
@@ -95,6 +100,13 @@
 
 .ant-menu.ant-menu-inline-collapsed > .bord-exit {
     padding-left: 16px;
+}
+
+.list-menu .ant-menu-item.ant-menu-item-selected {
+    color: #1890ff;
+    border-right: 3px solid #1890ff;
+    background-color: #F0F5FF;
+    transition: all 0.4s;
 }
 
 @media (max-width: 1000px) {
@@ -161,5 +173,12 @@
 
     .list-menu .ant-menu-item {
         padding: 0 2px 0 8px;
+    }
+
+    .list-menu .ant-menu-item.ant-menu-item-selected {
+        color: var(--first-color);
+        border-right: none;
+        background-color: white;
+        transition: all 0.4s;
     }
 }

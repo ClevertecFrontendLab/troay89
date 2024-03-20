@@ -122,7 +122,6 @@
     width: 368px;
     margin-top: 24px;
     font-size: 14px;
-    background: var(--app-main-collor)
 }
 
 .button-state.small {
@@ -131,10 +130,6 @@
 
 .button-state.middle {
     width: 167px;
-}
-
-.button-state:hover {
-    background: var(--hover-first-color);
 }
 
 .vi__container {

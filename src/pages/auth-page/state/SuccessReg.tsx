@@ -1,9 +1,10 @@
 import React from 'react';
-import { Button, Card, Layout } from 'antd';
+import { Card, Layout } from 'antd';
 import { CheckCircleFilled } from '@ant-design/icons';
 import './State.css';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -22,15 +23,13 @@ export const SuccessReg: React.FC = () => {
                         Регистрация прошла успешно. Зайдите&nbsp; <br /> в приложение, используя
                         свои e-mail и пароль.
                     </span>
-                    <Button
-                        className={'button-state'}
-                        type='primary'
-                        size={'large'}
+                    <PrimaryButton
+                        className={'button-state ant-btn-primary style'}
+                        htmlType={'button'}
+                        text={'Войти'}
                         onClick={handleClick}
-                        data-test-id='registration-enter-button'
-                    >
-                        Войти
-                    </Button>
+                        dataTestId={'registration-enter-button'}
+                    />
                 </Card>
             </Content>
         </Layout>

@@ -1,4 +1,4 @@
-import { Button, Card, Form, Layout } from 'antd';
+import { Card, Form, Layout } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { history } from '@redux/reducers/routerSlice.ts';
 import './ChangePassword.css';
@@ -10,6 +10,7 @@ import { saveDataNewPassword } from '@redux/reducers/userNewPassword.ts';
 import { PasswordInput } from '@components/input/PasswordInput.tsx';
 import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
 import { paths } from '@constants/constants.ts';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 
 const { Content } = Layout;
 
@@ -73,15 +74,12 @@ export const ChangePassword: React.FC = () => {
                             dataTestId={'change-confirm-password'}
                             dependence={'password'}
                         />
-                        <Button
-                            className={'button-change-passport'}
-                            type='primary'
-                            htmlType='submit'
-                            size={'large'}
-                            data-test-id='change-submit-button'
-                        >
-                            Сохранить
-                        </Button>
+                        <PrimaryButton
+                            className={'button-change-passport style'}
+                            htmlType={'submit'}
+                            text={'Сохранить'}
+                            dataTestId={'change-submit-button'}
+                        />
                     </Form>
                 </Card>
             </Content>

@@ -1,24 +1,30 @@
 import { Breadcrumb } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import './BreadcrumbComponent.css';
+import { ReactElement } from 'react';
 
 const breadcrumbNameMap: Record<string, string> = {
     '/main': 'Главная',
     '/feedbacks': 'Отзывы пользователей',
+    '/calendar': 'Календарь',
 };
 
 export const BreadcrumbComponent = () => {
     const location = useLocation();
     const pathSnippets = location.pathname.split('/').filter((i) => i);
 
-    const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+    const extraBreadcrumbItems = pathSnippets.reduce((breadcrumbItems, _, index) => {
         const url = `/${pathSnippets.slice(0, index + 1).join('/')}`;
-        return (
-            <Breadcrumb.Item key={url}>
-                <Link to={url}>{breadcrumbNameMap[url]}</Link>
-            </Breadcrumb.Item>
-        );
-    });
+        if (breadcrumbNameMap[url]) {
+            const breadcrumbItem = (
+                <Breadcrumb.Item key={url}>
+                    <Link to={url}>{breadcrumbNameMap[url]}</Link>
+                </Breadcrumb.Item>
+            );
+            breadcrumbItems.push(breadcrumbItem);
+        }
+        return breadcrumbItems;
+    }, [] as ReactElement[]);
 
     const breadcrumbItems = [
         <Breadcrumb.Item key='home'>

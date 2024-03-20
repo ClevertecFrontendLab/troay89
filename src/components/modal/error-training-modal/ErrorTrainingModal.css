@@ -1,0 +1,67 @@
+.modal-error-list-training .ant-modal-content {
+    min-height: 144px;
+}
+
+.modal-error-list-training .title{
+    font-size: 16px;
+    line-height: 21px;
+    font-family: var(--main-text-font);
+}
+
+.modal-error-list-training .text {
+    line-height: 18px;
+    color: var(--second-color);
+    font-family: var(--main-text-font);
+    margin-bottom: 8px;
+}
+
+.modal-error-list-training .ant-modal-close-x {
+    width: 70px;
+    font-size: 14px;
+}
+
+.modal-error-list-training .ant-modal-body {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px 24px 15px;
+    column-gap: 16px;
+}
+
+.modal-error-list-training .icon {
+    font-size: 24px;
+    color: #2F54EB;
+}
+
+.modal-error-list-training .style {
+    height: 28px;
+}
+
+.modal-error-list-training .button-error {
+    margin-top: 86px;
+    margin-left: 7px;
+    width: 99px;
+    font-size: 14px;
+    font-family: var(--main-text-font);
+    display: flex;
+    align-items: center;
+}
+
+.modal-error-list-training .close {
+    display: inline-block;
+    margin-top: 21px;
+}
+
+@media (max-width: 500px) {
+    .modal-error-list-training .ant-modal-body {
+        flex-wrap: wrap;
+    }
+
+    .modal-error-list-training .wrapper-content {
+        width: 225px;
+    }
+
+    .modal-error-list-training .button-error {
+        margin-top: 30px;
+        margin-left: 180px;
+    }
+}

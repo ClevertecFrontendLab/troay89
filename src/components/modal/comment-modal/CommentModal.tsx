@@ -69,6 +69,7 @@ export const CommentModal: React.FC<CommentsListProps> = ({
                 width={'100%'}
                 cancelButtonProps={{ style: { display: 'none' } }}
                 okButtonProps={{
+                    className: 'style-second',
                     size: 'large',
                     disabled: rating === 0,
                     ['data-test-id']: 'new-review-submit-button',

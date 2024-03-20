@@ -1,0 +1,127 @@
+.ant-modal-wrap:has(.modal-add-training) {
+    position: absolute;
+    right: unset;
+    bottom: unset;
+    overflow: unset;
+    max-width: 0;
+}
+
+.modal-add-training .ant-modal-content {
+    min-height: 240px;
+}
+
+.modal-add-training .ant-modal-body {
+    padding: 4px 0 0;
+    min-height: 142px;
+}
+
+.modal-add-training .ant-page-header {
+    padding: 0 0 7px;
+}
+
+.modal-add-training .ant-page-header-heading {
+    justify-content: flex-start;
+}
+
+.modal-add-training .ant-select-selection-item {
+    font-family: var(--main-text-font);
+    color: #262626;
+    line-height: 18px;
+}
+
+.modal-add-training .ant-page-header-back {
+    margin: 0;
+}
+
+.modal-add-training .ant-page-header-heading-left {
+    padding-left: 7px;
+}
+
+.modal-add-training .ant-btn {
+    width: 100%;
+    height: 32px;
+    font-family: var(--main-text-font);
+}
+
+.modal-add-training .ant-modal-footer {
+    padding: 11px 12px;
+}
+
+.modal-add-training .ant-modal-footer .ant-btn-primary.ant-btn {
+    margin-top: 8px;
+    margin-left: 0;
+}
+
+.modal-add-training .ant-btn-default {
+    color: var(--first-color);
+}
+
+.modal-add-training .ant-btn-default.style-loading.ant-btn {
+    margin: 8px 0 0;
+    color: var(--app-main-collor);
+}
+
+.modal-add-training .ant-btn-default.ant-btn:disabled {
+    color: var(--second-color);
+}
+
+.select-training .ant-select-selector {
+    border-color: white !important;
+    box-shadow: none;
+}
+
+.select-training .ant-select-selector:active {
+    border-color: var(--hover-first-color) !important;
+    box-shadow: none;
+}
+
+.select-training .ant-select-selector:focus {
+    border-color: var(--hover-first-color) !important;
+    box-shadow: none;
+}
+
+.select-training .ant-select-selector:hover {
+    border-color: var(--hover-first-color) !important;
+}
+
+.modal-add-training .list-name-training {
+    padding: 15px 12px 0;
+    margin: 0;
+}
+
+.modal-add-training .name-training {
+    list-style-type: none;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    line-height: 18px;
+    color: var(--second-color);
+    margin-bottom: 8px;
+}
+
+.edit-training {
+    font-size: 16px;
+    color: var(--app-main-collor);
+}
+
+.modal-add-training .img-not-data {
+    display: block;
+    margin:  21px auto 0;
+    padding-left: 5px;
+    text-align: center;
+}
+
+.modal-add-training .text{
+    font-size: 14px;
+    color: var(--second-color);
+    font-family: var(--main-text-font);
+    text-align: left;
+    margin-left: 11px;
+}
+
+
+@media (max-width: 500px) {
+    .modal-add-training .ant-page-header-heading {
+        margin-top: 3px;
+    }
+}

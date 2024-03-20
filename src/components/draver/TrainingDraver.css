@@ -1,0 +1,168 @@
+.site-drawer-render-in-current-wrapper .ant-drawer-title {
+    font-size: 20px;
+    line-height: 26px;
+    font-family: var(--medium-title-font);
+    display: flex;
+}
+
+.site-drawer-render-in-current-wrapper .ant-drawer-header {
+    padding: 24px 24px 14px 8px;
+    border-bottom: none;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-info {
+    display: flex;
+    padding-bottom: 6px
+}
+
+.site-drawer-render-in-current-wrapper .date,
+.site-drawer-render-in-current-wrapper .type-training .ant-badge-status-text{
+    font-family: var(--medium-title-font);
+    line-height: 18px;
+    color: var(--second-color);
+}
+
+.ant-badge-not-a-wrapper.type-training.finish .ant-badge-status-text{
+    color: var(--third-color);
+}
+
+.site-drawer-render-in-current-wrapper .date {
+    margin-top: 2px;
+    letter-spacing: -0.7px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.site-drawer-render-in-current-wrapper .ant-drawer-body {
+    padding: 0 26px 24px;
+}
+
+.site-drawer-render-in-current-wrapper .data-training {
+    display: flex;
+    margin-top: 8px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data .repeat {
+    width: 120px;
+    margin-right: 32px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data .repeat-number {
+    width: 84px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-data-training {
+    display: inline-block;
+    margin-top: 24px;
+}
+
+.site-drawer-render-in-current-wrapper .style {
+    font-size: 12px;
+    line-height: 24px;
+    color: var(--first-color);
+    background-color: var(--netral-color);
+    padding-left: 8px;
+}
+
+.site-drawer-render-in-current-wrapper .space-x {
+    width: 13px;
+    text-align: center;
+    color: var(--third-color);
+    margin-top: 32px;
+}
+
+.site-drawer-render-in-current-wrapper .ant-input-group {
+    width: 100%
+}
+
+.site-drawer-render-in-current-wrapper .ant-input-number-group-addon {
+    padding: 0 13px;
+}
+
+.site-drawer-render-in-current-wrapper .button-add-training {
+    width: 100%;
+    font-size: 14px;
+    color: var(--app-main-collor);
+    text-align: left;
+    background-color: var(--netral-color);
+    font-family: var(--medium-title-font);
+    padding-left: 11px;
+    border: none;
+}
+
+.site-drawer-render-in-current-wrapper .button-add-training.edit {
+    padding: 0;
+    text-align: center;
+    margin: 3px 0 0 3px;
+}
+
+.site-drawer-render-in-current-wrapper .plus {
+    font-size: 12px;
+    margin-right: 13px;
+}
+
+.site-drawer-render-in-current-wrapper .edit {
+    font-size: 14px;
+    margin-right: 11px;
+}
+
+.site-drawer-render-in-current-wrapper .ant-checkbox{
+    margin-left: 2px;
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-button {
+    margin-top: 24px;
+    display: flex;
+    background-color: var(--netral-color);
+}
+
+.site-drawer-render-in-current-wrapper .wrapper-training {
+    max-height: 800px;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 0 6px;
+}
+
+@media screen and (max-width: 500px) {
+    .site-drawer-render-in-current-wrapper .ant-drawer-body {
+        padding: 0 10px 24px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-input-sm {
+        max-width: 100%;
+    }
+
+    .site-drawer-render-in-current-wrapper .wrapper-data .repeat {
+        margin-right: 16px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-content {
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-content-wrapper {
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-close {
+        margin-right: 0;
+    }
+
+    .site-drawer-render-in-current-wrapper .ant-drawer-header {
+        padding: 24px 24px 14px 4px;
+    }
+    .site-drawer-render-in-current-wrapper .wrapper-training {
+        max-height: 380px;
+    }
+}
