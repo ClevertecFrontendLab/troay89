@@ -173,11 +173,11 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
             dispatch(saveDrawerTraining([...editTrainingData]));
         } else if (!isCreateTrainingModal && !listEditTraining) {
             dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
-            // dispatch(
-            //     saveDrawerTraining([
-            //         { name: '', replays: undefined, weight: undefined, approaches: undefined },
-            //     ]),
-            // );
+            dispatch(
+                saveDrawerTraining([
+                    { name: '', replays: undefined, weight: undefined, approaches: undefined },
+                ]),
+            );
         }
     }, [dispatch, isCreateTrainingModal, listEditTraining]);
 

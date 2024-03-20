@@ -9,7 +9,6 @@ import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import { useMediaQuery } from 'react-responsive';
 import { Position } from '@pages/calendar/CustomCalendar.tsx';
-import { saveDrawerTraining } from '@redux/reducers/drawerReduce.ts';
 
 type TrainingModalProps = {
     isModal: boolean;

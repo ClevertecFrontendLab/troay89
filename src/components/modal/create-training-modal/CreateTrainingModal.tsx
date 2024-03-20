@@ -16,7 +16,6 @@ import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import moment from 'moment/moment';
 import { useMediaQuery } from 'react-responsive';
 import { Position } from '@pages/calendar/CustomCalendar.tsx';
-import { saveDrawerTraining } from '@redux/reducers/drawerReduce.ts';
 
 type CreateTrainingModalProps = {
     isModal: boolean;
