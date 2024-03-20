@@ -40,12 +40,6 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         setIsModalOpen(isModal);
         if (!isModal && pastFinishTraining) {
             dispatch(editPersonalTraining(null));
-        } else if (!isModal) {
-            dispatch(
-                saveDrawerTraining([
-                    { name: '', replays: undefined, weight: undefined, approaches: undefined },
-                ]),
-            );
         }
         if (isModalOpen) {
             setListKindTraining(kindTraining);
