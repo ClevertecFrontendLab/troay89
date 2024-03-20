@@ -9,6 +9,7 @@ import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import { useMediaQuery } from 'react-responsive';
+import { saveDrawerTraining } from '@redux/reducers/drawerReduce.ts';
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -25,8 +26,6 @@ type TrainingBadgeProps = {
 
 type TrainingDataProps = {
     index: number;
-    trainingData: DataTraining[];
-    setTrainingData(value: DataTraining[]): void;
     listEditTraining: PersonalTraining | null;
     isChecked: Array<boolean>;
     setIsChecked(value: Array<boolean>): void;
@@ -47,19 +46,19 @@ export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ className, typeTra
 
 const TrainingData: React.FC<TrainingDataProps> = ({
     index,
-    trainingData,
-    setTrainingData,
     listEditTraining,
     setIsChecked,
     isChecked,
 }) => {
+    const dispatch = useAppDispatch();
+    const listDrawer = useAppSelector((state) => state.saveListDrawer.listDrawerTraining);
     const handleInputChange = (field: keyof DataTraining, value: string | number) => {
-        const newTrainingData = [...trainingData];
+        const newTrainingData = [...listDrawer];
         newTrainingData[index] = {
             ...newTrainingData[index],
             [field]: value,
         };
-        setTrainingData(newTrainingData);
+        dispatch(saveDrawerTraining(newTrainingData));
     };
 
     const handleCheckboxChange = (e: CheckboxChangeEvent) => {
@@ -75,7 +74,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 data-test-id={`modal-drawer-right-input-exercise${index}`}
                 size={'small'}
                 onChange={(e) => handleInputChange('name', e.currentTarget.value)}
-                value={trainingData[index].name}
+                value={listDrawer[index].name}
                 placeholder={'Упражнение'}
                 addonAfter={
                     listEditTraining ? (
@@ -97,7 +96,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         min={1}
                         size={'small'}
                         addonBefore='+'
-                        value={trainingData[index].replays}
+                        value={listDrawer[index].replays}
                         placeholder={'1'}
                         onChange={(value) => handleInputChange('replays', value ?? 1)}
                         controls={false}
@@ -109,7 +108,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         data-test-id={`modal-drawer-right-input-weight${index}`}
                         min={0}
                         size={'small'}
-                        value={trainingData[index].weight}
+                        value={listDrawer[index].weight}
                         onChange={(value) => handleInputChange('weight', value ?? 0)}
                         placeholder={'0'}
                         controls={false}
@@ -122,7 +121,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         data-test-id={`modal-drawer-right-input-quantity${index}`}
                         min={1}
                         size={'small'}
-                        value={trainingData[index].approaches}
+                        value={listDrawer[index].approaches}
                         placeholder={'1'}
                         onChange={(value) => handleInputChange('approaches', value ?? 1)}
                         controls={false}
@@ -152,12 +151,10 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [open, setOpen] = useState(false);
     const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
-    const [trainingData, setTrainingData] = useState<DataTraining[]>([
-        { name: '', replays: undefined, weight: undefined, approaches: undefined },
-    ]);
     const listEditTraining = useAppSelector(
         (state) => state.editPersonalTraining.listPersonalTraining,
     );
+    const listDrawer = useAppSelector((state) => state.saveListDrawer.listDrawerTraining);
 
     useEffect(() => {
         setOpen(isModal);
@@ -165,6 +162,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
 
     useEffect(() => {
         if (listEditTraining) {
+            console.log('I an here 2');
             const editTrainingData: DataTraining[] = listEditTraining.exercises.map((item) => {
                 return {
                     name: item.name,
@@ -173,18 +171,20 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                     approaches: item.approaches,
                 };
             });
-            setTrainingData([...editTrainingData]);
+            dispatch(saveDrawerTraining([...editTrainingData]));
         }
         if (!isCreateTrainingModal && !listEditTraining) {
-            setTrainingData([
-                { name: '', replays: undefined, weight: undefined, approaches: undefined },
-            ]);
+            dispatch(
+                saveDrawerTraining([
+                    { name: '', replays: undefined, weight: undefined, approaches: undefined },
+                ]),
+            );
             dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
         }
-    }, [dispatch, isCreateTrainingModal, listEditTraining, typeTraining]);
+    }, [dispatch, isCreateTrainingModal, listEditTraining]);
 
     const onClose = () => {
-        const showListTraining: DataTraining[] = trainingData.filter((item) => item.name !== '');
+        const showListTraining: DataTraining[] = listDrawer.filter((item) => item.name !== '');
         if (listEditTraining) {
             const updatedListEditTraining = {
                 ...listEditTraining,
@@ -207,30 +207,34 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
             );
         }
         showListTraining.length > 0
-            ? setTrainingData([...showListTraining])
-            : setTrainingData([
-                  {
-                      name: '',
-                      replays: undefined,
-                      weight: undefined,
-                      approaches: undefined,
-                  },
-              ]);
+            ? dispatch(saveDrawerTraining([...showListTraining]))
+            : dispatch(
+                  saveDrawerTraining([
+                      {
+                          name: '',
+                          replays: undefined,
+                          weight: undefined,
+                          approaches: undefined,
+                      },
+                  ]),
+              );
 
         closeModal();
         setOpen(false);
     };
 
     const handleAddTraining = () => {
-        setTrainingData([
-            ...trainingData,
-            { name: '', replays: undefined, weight: undefined, approaches: undefined },
-        ]);
+        dispatch(
+            saveDrawerTraining([
+                ...listDrawer,
+                { name: '', replays: undefined, weight: undefined, approaches: undefined },
+            ]),
+        );
     };
 
     const handleDeleteTraining = () => {
-        const newTrainingData = trainingData.filter((_, i) => !isChecked[i]);
-        setTrainingData(newTrainingData);
+        const newTrainingData = listDrawer.filter((_, i) => !isChecked[i]);
+        dispatch(saveDrawerTraining([...newTrainingData]));
         setIsChecked([]);
     };
 
@@ -278,11 +282,9 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                     <span className={'date'}>{date}</span>
                 </span>
                 <div className={'wrapper-training'}>
-                    {trainingData.map((_, index) => (
+                    {listDrawer.map((_, index) => (
                         <TrainingData
                             index={index}
-                            setTrainingData={setTrainingData}
-                            trainingData={trainingData}
                             key={index}
                             listEditTraining={listEditTraining}
                             setIsChecked={setIsChecked}
