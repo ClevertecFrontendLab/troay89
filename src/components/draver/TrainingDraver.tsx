@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Badge, Checkbox, Drawer, Input, InputNumber } from 'antd';
 import { CloseOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import './TrainingDraver.css';
 import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
-import { DataTraining, PersonalTraining } from '../../type/Training.ts';
+import { DataTraining } from '../../type/Training.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import { useMediaQuery } from 'react-responsive';
-import { saveDrawerTraining } from '@redux/reducers/drawerReduce.ts';
+import {
+    addExercises,
+    deleteExercises,
+    saveDrawerTraining,
+    saveDrawerTrainingField,
+} from '@redux/reducers/drawerReduce.ts';
 
 const BADGE_VALUE = [
     { text: 'Ноги', color: '#FF4D4F' },
@@ -24,11 +28,21 @@ type TrainingBadgeProps = {
     className?: string;
 };
 
+type Nullable<T> = T | null;
+
 type TrainingDataProps = {
     index: number;
-    listEditTraining: PersonalTraining | null;
-    isChecked: Array<boolean>;
-    setIsChecked(value: Array<boolean>): void;
+    indexes: number[];
+    weight: number;
+    approaches: number;
+    name: string;
+    replays: number;
+    isCheck: boolean;
+    onChangeName: (value: string, index: number) => void;
+    onChangeReplays: (value: Nullable<number>, index: number) => void;
+    onChangeWeight: (value: Nullable<number>, index: number) => void;
+    onChangeApproaches: (value: Nullable<number>, index: number) => void;
+    onCheckedElement: (index: number) => void;
 };
 
 export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ className, typeTraining }) => {
@@ -45,26 +59,35 @@ export const TrainingBadge: React.FC<TrainingBadgeProps> = ({ className, typeTra
 };
 
 const TrainingData: React.FC<TrainingDataProps> = ({
+    onChangeReplays,
+    onChangeApproaches,
+    onChangeWeight,
+    onChangeName,
+    onCheckedElement,
+    weight,
+    replays,
+    name,
+    approaches,
     index,
-    listEditTraining,
-    setIsChecked,
-    isChecked,
+    indexes,
+    isCheck,
 }) => {
-    const dispatch = useAppDispatch();
-    const listDrawer = useAppSelector((state) => state.saveListDrawer.listDrawerTraining);
-    const handleInputChange = (field: keyof DataTraining, value: string | number) => {
-        const newTrainingData = [...listDrawer];
-        newTrainingData[index] = {
-            ...newTrainingData[index],
-            [field]: value,
-        };
-        dispatch(saveDrawerTraining(newTrainingData));
+    const isChecked = indexes.includes(index);
+
+    const onChangeNameHandle = (event: ChangeEvent<HTMLInputElement>) => {
+        onChangeName(event.currentTarget.value, index);
     };
 
-    const handleCheckboxChange = (e: CheckboxChangeEvent) => {
-        const newIsChecked = [...isChecked];
-        newIsChecked[index] = e.target.checked;
-        setIsChecked(newIsChecked);
+    const onChangeApproachesHandle = (value: Nullable<number>) => {
+        onChangeApproaches(value, index);
+    };
+
+    const onChangeReplaysHandle = (value: Nullable<number>) => {
+        onChangeReplays(value, index);
+    };
+
+    const onChangeWeightHandle = (value: Nullable<number>) => {
+        onChangeWeight(value, index);
     };
 
     return (
@@ -73,18 +96,18 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 type={'text'}
                 data-test-id={`modal-drawer-right-input-exercise${index}`}
                 size={'small'}
-                onChange={(e) => handleInputChange('name', e.currentTarget.value)}
-                value={listDrawer[index].name}
+                onChange={onChangeNameHandle}
+                value={name}
                 placeholder={'Упражнение'}
                 addonAfter={
-                    listEditTraining ? (
+                    isCheck && (
                         <Checkbox
                             className={'remove-training'}
-                            onChange={handleCheckboxChange}
-                            checked={isChecked[index]}
+                            onChange={() => onCheckedElement(index)}
+                            checked={isChecked}
                             data-test-id={`modal-drawer-right-checkbox-exercise${index}`}
                         />
-                    ) : undefined
+                    )
                 }
             />
             <div className={'data-training'}>
@@ -96,9 +119,9 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         min={1}
                         size={'small'}
                         addonBefore='+'
-                        value={listDrawer[index].replays}
+                        value={replays}
                         placeholder={'1'}
-                        onChange={(value) => handleInputChange('replays', value ?? 1)}
+                        onChange={onChangeReplaysHandle}
                         controls={false}
                     />
                 </span>
@@ -108,8 +131,8 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         data-test-id={`modal-drawer-right-input-weight${index}`}
                         min={0}
                         size={'small'}
-                        value={listDrawer[index].weight}
-                        onChange={(value) => handleInputChange('weight', value ?? 0)}
+                        value={weight}
+                        onChange={onChangeWeightHandle}
                         placeholder={'0'}
                         controls={false}
                     />
@@ -119,11 +142,11 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                     <span className={'cont style'}>Количество</span>
                     <InputNumber
                         data-test-id={`modal-drawer-right-input-quantity${index}`}
-                        min={1}
+                        min={0}
                         size={'small'}
-                        value={listDrawer[index].approaches}
+                        value={approaches}
                         placeholder={'1'}
-                        onChange={(value) => handleInputChange('approaches', value ?? 1)}
+                        onChange={onChangeApproachesHandle}
                         controls={false}
                     />
                 </span>
@@ -150,7 +173,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const dispatch = useAppDispatch();
     const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
     const [open, setOpen] = useState(false);
-    const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
+    const [indexes, setIndexes] = useState<number[]>([]);
     const listEditTraining = useAppSelector(
         (state) => state.editPersonalTraining.listPersonalTraining,
     );
@@ -174,11 +197,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
             dispatch(saveDrawerTraining([...editTrainingData]));
         }
         if (!isCreateTrainingModal && !listEditTraining) {
-            dispatch(
-                saveDrawerTraining([
-                    { name: '', replays: undefined, weight: undefined, approaches: undefined },
-                ]),
-            );
+            // dispatch(saveDrawerTraining([{ name: '', replays: 0, weight: 0, approaches: 0 }]));
             dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
         }
     }, [dispatch, isCreateTrainingModal, listEditTraining]);
@@ -212,9 +231,9 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                   saveDrawerTraining([
                       {
                           name: '',
-                          replays: undefined,
-                          weight: undefined,
-                          approaches: undefined,
+                          replays: 0,
+                          weight: 0,
+                          approaches: 0,
                       },
                   ]),
               );
@@ -223,19 +242,39 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
         setOpen(false);
     };
 
-    const handleAddTraining = () => {
-        dispatch(
-            saveDrawerTraining([
-                ...listDrawer,
-                { name: '', replays: undefined, weight: undefined, approaches: undefined },
-            ]),
-        );
+    const addExercisesDataHandle = () => {
+        dispatch(addExercises());
     };
 
-    const handleDeleteTraining = () => {
-        const newTrainingData = listDrawer.filter((_, i) => !isChecked[i]);
-        dispatch(saveDrawerTraining([...newTrainingData]));
-        setIsChecked([]);
+    const deleteExercisesDataHandle = () => {
+        dispatch(deleteExercises(indexes));
+        setIndexes([]);
+    };
+
+    const onChangeApproaches = (value: Nullable<number>, index: number) => {
+        dispatch(saveDrawerTrainingField({ approaches: value || 0, index }));
+    };
+
+    const onChangeName = (value: Nullable<string>, index: number) => {
+        dispatch(saveDrawerTrainingField({ name: value || '', index }));
+    };
+
+    const onChangeReplays = (value: Nullable<number>, index: number) => {
+        dispatch(saveDrawerTrainingField({ replays: value || 0, index }));
+    };
+
+    const onChangeWeight = (value: Nullable<number>, index: number) => {
+        dispatch(saveDrawerTrainingField({ weight: value || 0, index }));
+    };
+
+    const onSetIndex = (index: number) => {
+        if (indexes.includes(index)) {
+            setIndexes(indexes.filter((element) => element !== index));
+
+            return;
+        }
+
+        setIndexes([...indexes, index]);
     };
 
     return (
@@ -282,13 +321,21 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                     <span className={'date'}>{date}</span>
                 </span>
                 <div className={'wrapper-training'}>
-                    {listDrawer.map((_, index) => (
+                    {listDrawer.map(({ weight, approaches, name, replays }, index) => (
                         <TrainingData
-                            index={index}
                             key={index}
-                            listEditTraining={listEditTraining}
-                            setIsChecked={setIsChecked}
-                            isChecked={isChecked}
+                            weight={weight}
+                            approaches={approaches}
+                            name={name}
+                            replays={replays}
+                            onChangeApproaches={onChangeApproaches}
+                            onChangeName={onChangeName}
+                            onChangeReplays={onChangeReplays}
+                            onChangeWeight={onChangeWeight}
+                            index={index}
+                            indexes={indexes}
+                            onCheckedElement={onSetIndex}
+                            isCheck={!!listEditTraining}
                         />
                     ))}
                 </div>
@@ -297,15 +344,15 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                         icon={<PlusOutlined />}
                         text={'Добавить ещё'}
                         className={`button-add-training ${listEditTraining ? 'edit' : null}`}
-                        onClick={handleAddTraining}
+                        onClick={addExercisesDataHandle}
                     />
                     {listEditTraining && (
                         <DefaultButton
                             icon={<MinusOutlined />}
                             text={'Удалить'}
                             className={'button-add-training edit'}
-                            onClick={handleDeleteTraining}
-                            disabled={!isChecked.length}
+                            onClick={deleteExercisesDataHandle}
+                            disabled={!indexes.length}
                         />
                     )}
                 </div>
