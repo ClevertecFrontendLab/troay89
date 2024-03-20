@@ -3,6 +3,7 @@ import { Modal, PageHeader, Select } from 'antd';
 import { PersonalTraining, TrainingList } from '../../../type/Training.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { ArrowLeftOutlined, EditOutlined } from '@ant-design/icons';
+import emptyData from '/img/svg/empty-image.svg';
 import './CreateTrainingModal.css';
 import {
     useAddPersonalTrainingListMutation,
@@ -257,29 +258,40 @@ export const CreateTrainingModal: React.FC<CreateTrainingModalProps> = ({
                             />,
                         ]}
                     />
-                    {isModal ? (
+                    {isModal || (!listEditTraining && listTraining.data.length) ? (
                         <ul className={'list-name-training'}>
-                            {listEditTraining
-                                ? listEditTraining.exercises.map((training, index) => (
-                                      <li className={'name-training'} key={index}>
-                                          {training.name}{' '}
-                                          <EditOutlined
-                                              className={'edit-training'}
-                                              onClick={handleAddTraining}
-                                              data-test-id={`modal-update-training-edit-button${index}`}
-                                          />
-                                      </li>
-                                  ))
-                                : listTraining.data.map((training, index) => (
-                                      <li className={'name-training'} key={index}>
-                                          {training.name}{' '}
-                                          <EditOutlined
-                                              className={'edit-training'}
-                                              onClick={handleAddTraining}
-                                              data-test-id={`modal-update-training-edit-button${index}`}
-                                          />
-                                      </li>
-                                  ))}
+                            {listEditTraining ? (
+                                listEditTraining.exercises.map((training, index) => (
+                                    <li className={'name-training'} key={index}>
+                                        {training.name}{' '}
+                                        <EditOutlined
+                                            className={'edit-training'}
+                                            onClick={handleAddTraining}
+                                            data-test-id={`modal-update-training-edit-button${index}`}
+                                        />
+                                    </li>
+                                ))
+                            ) : listTraining.data.length > 0 ? (
+                                listTraining.data.map((training, index) => (
+                                    <li className={'name-training'} key={index}>
+                                        {training.name}{' '}
+                                        <EditOutlined
+                                            className={'edit-training'}
+                                            onClick={handleAddTraining}
+                                            data-test-id={`modal-update-training-edit-button${index}`}
+                                        />
+                                    </li>
+                                ))
+                            ) : (
+                                <>
+                                    <p className={'text'}>Нет активных тренировок</p>
+                                    <img
+                                        className={'img-not-data'}
+                                        src={emptyData}
+                                        alt={'not data'}
+                                    />
+                                </>
+                            )}
                         </ul>
                     ) : null}
                 </Modal>

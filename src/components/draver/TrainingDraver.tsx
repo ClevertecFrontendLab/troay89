@@ -161,7 +161,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     }, [isModal]);
 
     useEffect(() => {
-        if (listEditTraining) {
+        if (listEditTraining && isCreateTrainingModal) {
             const editTrainingData: DataTraining[] = listEditTraining.exercises.map((item) => {
                 return {
                     name: item.name,

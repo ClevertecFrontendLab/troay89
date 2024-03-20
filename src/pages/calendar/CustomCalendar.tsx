@@ -85,7 +85,7 @@ const CustomCalendar: React.FC = () => {
                 if (typeof training.date === 'number') {
                     const dateObject = new Date(cellDate).getTime();
                     const trainingDay = new Date(training.date);
-                    const startDay = trainingDay.setHours(0, 0, 0, 0);
+                    const startDay = trainingDay.setHours(3, 0, 0, 0);
                     return startDay === dateObject;
                 }
                 return training.date.slice(0, 10) === cellDate;
@@ -128,7 +128,7 @@ const CustomCalendar: React.FC = () => {
             if (typeof training.date === 'number') {
                 const dateObject = new Date(cellDate).getTime();
                 const trainingDay = new Date(training.date);
-                const startDay = trainingDay.setHours(0, 0, 0, 0);
+                const startDay = trainingDay.setHours(3, 0, 0, 0);
                 return startDay === dateObject;
             }
             return training.date.slice(0, 10) === cellDate;
@@ -149,7 +149,6 @@ const CustomCalendar: React.FC = () => {
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
         const corectDate = `${day}.${month}.${year}`;
-        console.log(corectDate);
 
         const rect = event.currentTarget.getBoundingClientRect();
         const windowWidth = window.innerWidth / 1.2;
