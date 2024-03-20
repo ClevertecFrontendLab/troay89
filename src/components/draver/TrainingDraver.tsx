@@ -162,7 +162,6 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
 
     useEffect(() => {
         if (listEditTraining) {
-            console.log('I an here 2');
             const editTrainingData: DataTraining[] = listEditTraining.exercises.map((item) => {
                 return {
                     name: item.name,
@@ -172,14 +171,13 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                 };
             });
             dispatch(saveDrawerTraining([...editTrainingData]));
-        }
-        if (!isCreateTrainingModal && !listEditTraining) {
-            dispatch(
-                saveDrawerTraining([
-                    { name: '', replays: undefined, weight: undefined, approaches: undefined },
-                ]),
-            );
+        } else if (!isCreateTrainingModal && !listEditTraining) {
             dispatch(saveListTraining({ date: '', kindTraining: '', data: [] }));
+            // dispatch(
+            //     saveDrawerTraining([
+            //         { name: '', replays: undefined, weight: undefined, approaches: undefined },
+            //     ]),
+            // );
         }
     }, [dispatch, isCreateTrainingModal, listEditTraining]);
 

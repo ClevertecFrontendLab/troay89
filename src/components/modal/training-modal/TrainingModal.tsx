@@ -9,6 +9,7 @@ import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import { useMediaQuery } from 'react-responsive';
 import { Position } from '@pages/calendar/CustomCalendar.tsx';
+import { saveDrawerTraining } from '@redux/reducers/drawerReduce.ts';
 
 type TrainingModalProps = {
     isModal: boolean;
@@ -39,6 +40,12 @@ export const TrainingModal: React.FC<TrainingModalProps> = ({
         setIsModalOpen(isModal);
         if (!isModal && pastFinishTraining) {
             dispatch(editPersonalTraining(null));
+        } else if (!isModal) {
+            dispatch(
+                saveDrawerTraining([
+                    { name: '', replays: undefined, weight: undefined, approaches: undefined },
+                ]),
+            );
         }
         if (isModalOpen) {
             setListKindTraining(kindTraining);
