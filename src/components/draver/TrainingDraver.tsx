@@ -85,7 +85,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                             checked={isChecked[index]}
                             data-test-id={`modal-drawer-right-checkbox-exercise${index}`}
                         />
-                    ) : null
+                    ) : undefined
                 }
             />
             <div className={'data-training'}>
@@ -95,12 +95,12 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         className={'repeat-number'}
                         data-test-id={`modal-drawer-right-input-approach${index}`}
                         min={1}
-                        max={999}
                         size={'small'}
                         addonBefore='+'
                         value={trainingData[index].replays}
                         placeholder={'1'}
                         onChange={(value) => handleInputChange('replays', value ?? 1)}
+                        controls={false}
                     />
                 </span>
                 <span className={'wrapper-data'}>
@@ -108,11 +108,11 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                     <InputNumber
                         data-test-id={`modal-drawer-right-input-weight${index}`}
                         min={0}
-                        max={999}
                         size={'small'}
                         value={trainingData[index].weight}
                         onChange={(value) => handleInputChange('weight', value ?? 0)}
                         placeholder={'0'}
+                        controls={false}
                     />
                 </span>
                 <span className={'space-x'}>x</span>
@@ -121,11 +121,11 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                     <InputNumber
                         data-test-id={`modal-drawer-right-input-quantity${index}`}
                         min={1}
-                        max={999}
                         size={'small'}
                         value={trainingData[index].approaches}
                         placeholder={'1'}
                         onChange={(value) => handleInputChange('approaches', value ?? 1)}
+                        controls={false}
                     />
                 </span>
             </div>
