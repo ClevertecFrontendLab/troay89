@@ -74,10 +74,9 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                 type={'text'}
                 data-test-id={`modal-drawer-right-input-exercise${index}`}
                 size={'small'}
-                onChange={(e) => handleInputChange('name', e.target.value)}
+                onChange={(e) => handleInputChange('name', e.currentTarget.value)}
                 value={trainingData[index].name}
                 placeholder={'Упражнение'}
-                autoFocus={true}
                 addonAfter={
                     listEditTraining ? (
                         <Checkbox
@@ -101,7 +100,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         addonBefore='+'
                         value={trainingData[index].replays}
                         placeholder={'1'}
-                        onChange={(value) => handleInputChange('replays', value)}
+                        onChange={(value) => handleInputChange('replays', value ?? 1)}
                     />
                 </span>
                 <span className={'wrapper-data'}>
@@ -112,7 +111,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         max={999}
                         size={'small'}
                         value={trainingData[index].weight}
-                        onChange={(value) => handleInputChange('weight', value)}
+                        onChange={(value) => handleInputChange('weight', value ?? 0)}
                         placeholder={'0'}
                     />
                 </span>
@@ -126,7 +125,7 @@ const TrainingData: React.FC<TrainingDataProps> = ({
                         size={'small'}
                         value={trainingData[index].approaches}
                         placeholder={'1'}
-                        onChange={(value) => handleInputChange('approaches', value)}
+                        onChange={(value) => handleInputChange('approaches', value ?? 1)}
                     />
                 </span>
             </div>
@@ -225,7 +224,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
     const handleAddTraining = () => {
         setTrainingData([
             ...trainingData,
-            {name: '', replays: undefined, weight: undefined, approaches: undefined},
+            { name: '', replays: undefined, weight: undefined, approaches: undefined },
         ]);
     };
 
@@ -243,11 +242,11 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                 title={
                     listEditTraining ? (
                         <>
-                            <EditOutlined className={'edit'}/> {'Редактирование'}
+                            <EditOutlined className={'edit'} /> {'Редактирование'}
                         </>
                     ) : (
                         <>
-                            <PlusOutlined className={'plus'}/> {'Добавление упражнений'}
+                            <PlusOutlined className={'plus'} /> {'Добавление упражнений'}
                         </>
                     )
                 }
@@ -256,7 +255,7 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                 onClose={onClose}
                 open={open}
                 getContainer={false}
-                style={{position: 'absolute'}}
+                style={{ position: 'absolute' }}
                 mask={false}
                 maskClosable={false}
                 width={!isMobile ? 408 : '100%'}
@@ -270,12 +269,12 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                             fontSize: 13,
                         }}
                     >
-                        <CloseOutlined data-test-id='modal-drawer-right-button-close'/>
+                        <CloseOutlined data-test-id='modal-drawer-right-button-close' />
                     </div>
                 }
             >
                 <span className={'wrapper-info'}>
-                    <TrainingBadge typeTraining={typeTraining}/>
+                    <TrainingBadge typeTraining={typeTraining} />
                     <span className={'date'}>{date}</span>
                 </span>
                 <div className={'wrapper-training'}>
@@ -293,14 +292,14 @@ export const TrainingDraver: React.FC<TrainingDraverProps> = ({
                 </div>
                 <div className={'wrapper-button'}>
                     <DefaultButton
-                        icon={<PlusOutlined/>}
+                        icon={<PlusOutlined />}
                         text={'Добавить ещё'}
                         className={`button-add-training ${listEditTraining ? 'edit' : null}`}
                         onClick={handleAddTraining}
                     />
                     {listEditTraining && (
                         <DefaultButton
-                            icon={<MinusOutlined/>}
+                            icon={<MinusOutlined />}
                             text={'Удалить'}
                             className={'button-add-training edit'}
                             onClick={handleDeleteTraining}
