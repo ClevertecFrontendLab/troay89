@@ -63,6 +63,7 @@ export const ChangePassword: React.FC = () => {
                             placeholder={'Новый пароль'}
                             autoComplete={'new-password'}
                             dataTestId={'change-password'}
+                            isCheckStartData={true}
                             helpText={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
                             setIsTextPass={setIsTextPass}
                         />
@@ -71,6 +72,7 @@ export const ChangePassword: React.FC = () => {
                             classNameForm={'wrapper-change-passport-input'}
                             placeholder={'Повторите пароль'}
                             autoComplete={'new-password'}
+                            isCheckStartData={true}
                             dataTestId={'change-confirm-password'}
                             dependence={'password'}
                         />

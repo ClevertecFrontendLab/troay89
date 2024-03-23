@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input } from 'antd';
 
 type PasswordInputProps = {
@@ -7,7 +7,9 @@ type PasswordInputProps = {
     autoComplete: string;
     dataTestId: string;
     dependence: string;
+    isCheckStartData: boolean;
     classNameForm?: string;
+    handleChangeInput?: () => void;
 };
 
 export const ConfirmPasswordInput: React.FC<PasswordInputProps> = ({
@@ -16,33 +18,50 @@ export const ConfirmPasswordInput: React.FC<PasswordInputProps> = ({
     autoComplete,
     dataTestId,
     dependence,
+    isCheckStartData,
     classNameForm,
-}) => (
-    <Form.Item
-        name='confirmPassword'
-        className={classNameForm}
-        dependencies={[dependence]}
-        rules={[
-            {
-                required: true,
-                message: '',
-            },
-            ({ getFieldValue }) => ({
-                validator(_, value) {
-                    if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                    }
-                    return Promise.reject(new Error('Пароли не совпадают'));
-                },
-            }),
-        ]}
-    >
-        <Input.Password
-            className={className}
-            placeholder={placeholder}
-            autoComplete={autoComplete}
-            data-test-id={dataTestId}
-            size={'large'}
-        />
-    </Form.Item>
-);
+    handleChangeInput,
+}) => {
+    const [hasBeenTouched, setHasBeenTouched] = useState(isCheckStartData);
+
+    const handleChange = () => {
+        setHasBeenTouched(true);
+        handleChangeInput && handleChangeInput();
+    };
+
+    return (
+        <Form.Item
+            name='confirmPassword'
+            className={classNameForm}
+            dependencies={[dependence]}
+            rules={
+                hasBeenTouched
+                    ? [
+                          {
+                              required: true,
+                              message: '',
+                          },
+                          ({ getFieldValue }) => ({
+                              validator(_, value) {
+                                  if (!value || getFieldValue('password') === value) {
+                                      return Promise.resolve();
+                                  }
+                                  return Promise.reject(new Error('Пароли не совпадают'));
+                              },
+                          }),
+                      ]
+                    : undefined
+            }
+        >
+            <Input.Password
+                className={className}
+                placeholder={placeholder}
+                autoComplete={autoComplete}
+                data-test-id={dataTestId}
+                size={'large'}
+                onFocus={() => setHasBeenTouched(true)}
+                onChange={handleChange}
+            />
+        </Form.Item>
+    );
+};

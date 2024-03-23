@@ -7,6 +7,7 @@ const breadcrumbNameMap: Record<string, string> = {
     '/main': 'Главная',
     '/feedbacks': 'Отзывы пользователей',
     '/calendar': 'Календарь',
+    '/profile': ' ',
 };
 
 export const BreadcrumbComponent = () => {

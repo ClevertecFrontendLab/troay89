@@ -36,6 +36,17 @@ export const AppHeader: React.FC = () => {
     const spaceMobile = !isMobile ? '' : <br />;
     const location = useLocation();
 
+    if (location.pathname === '/profile') {
+        return (
+            <Header className={'header-two'} style={{ padding: 0 }}>
+                <h1 className={'title'}>Профиль</h1>
+                <div className={'wrapper-sitting'}>
+                    <Settings isMobile={isMobile} isTablet={false} />
+                    {!isMobile && 'Настройки'}
+                </div>
+            </Header>
+        );
+    }
     return (
         <Header className={'ant-layout-header'} style={{ padding: 0 }}>
             <BreadcrumbComponent />

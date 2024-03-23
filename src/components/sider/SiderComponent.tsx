@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Menu } from 'antd';
 import {
     CalendarTwoTone,
@@ -53,6 +53,9 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
             case paths.trainingList.path:
                 setSelectedKey('1');
                 break;
+            case paths.profile.path:
+                setSelectedKey('4');
+                break;
             default:
                 setSelectedKey('0');
         }
@@ -60,6 +63,8 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
 
     const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
         usePersonalTrainingList();
+
+    const handleClickProfile = () => history.push(paths.profile.path);
 
     if (personalTrainingIsLoading) {
         return <Loader />;
@@ -111,6 +116,7 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                         key='4'
                         icon={isMobile ? null : <IdcardOutlined className={'svg-menu-special'} />}
                         className={'ant-menu-item'}
+                        onClick={handleClickProfile}
                     >
                         Профиль
                     </Menu.Item>

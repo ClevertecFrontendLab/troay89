@@ -5,13 +5,17 @@ type ValidateStatus = '' | 'error' | 'validating' | 'success' | 'warning' | unde
 type EmailInputProps = {
     className: string;
     dataTestId: string;
+    autoComplete: string;
     validateStatus?: ValidateStatus;
+    handleChangeInput?: () => void;
 };
 
 export const EmailInput: React.FC<EmailInputProps> = ({
     className,
     validateStatus,
+    autoComplete,
     dataTestId,
+    handleChangeInput,
 }) => (
     <Form.Item
         name='email'
@@ -30,9 +34,10 @@ export const EmailInput: React.FC<EmailInputProps> = ({
         <Input
             className={className}
             size={'large'}
-            autoComplete={'email'}
+            autoComplete={autoComplete}
             addonBefore='e-mail:'
             data-test-id={dataTestId}
+            onChange={handleChangeInput}
         />
     </Form.Item>
 );

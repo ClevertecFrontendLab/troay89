@@ -15,6 +15,8 @@ import { LayoutComponent } from '@components/layout';
 import { Loader } from '@components/loader/Loader.tsx';
 import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
 import { usePersonalTrainingList } from '@hooks/personal-training-hook.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
 
 const { Content } = Layout;
 
@@ -34,6 +36,8 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const MobilePadding = isCloseSide && isMobile ? '17px 20px 0 15px' : '17px 10px 0 15px';
     const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
         usePersonalTrainingList();
+
+    const handleClickProfile = () => history.push(paths.profile.path);
 
     if (personalTrainingIsLoading) {
         return <Loader />;
@@ -86,7 +90,7 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
                         content={'Профиль'}
                         icon={<IdcardOutlined />}
                         isCloseSide={isCloseSide}
-                        onClick={handleClickCalendar}
+                        onClick={handleClickProfile}
                     />
                 </div>
                 <Card className={'contact-card-header'} bordered={false}>

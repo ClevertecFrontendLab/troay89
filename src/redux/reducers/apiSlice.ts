@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
+import {
+    InfoUser,
+    User,
+    UserChangePassword,
+    UserCheckEmail,
+    UserConfirmEmail,
+} from '../../type/User.ts';
 import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
 import { PersonalTraining, TrainingList } from '../../type/Training.ts';
 import { JVT_TOKEN } from '@constants/constants.ts';
@@ -164,6 +170,57 @@ export const apiSlices = createApi({
                 }),
             }),
         }),
+        getUserInfo: builder.query<InfoUser, void>({
+            query: () => ({
+                url: 'user/me',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
+        changeUserInfo: builder.mutation<
+            {
+                email: string;
+                firstName: string;
+                lastName: string;
+                birthday: string;
+            },
+            Partial<InfoUser>
+        >({
+            query: (personalInfo) => ({
+                url: 'user',
+                method: 'PUT',
+                body: personalInfo,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+            }),
+        }),
+        uploadImage: builder.mutation<{ name: string; url: string }, FormData>({
+            query: (file: FormData) => ({
+                url: 'upload-image',
+                method: 'POST',
+                body: file,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+            }),
+        }),
     }),
 });
 
@@ -181,3 +238,6 @@ export const { useGetTrainingListQuery } = apiSlices;
 export const { useLazyGetTrainingListQuery } = apiSlices;
 export const { useAddPersonalTrainingListMutation } = apiSlices;
 export const { useEditPersonalTrainingListMutation } = apiSlices;
+export const { useGetUserInfoQuery } = apiSlices;
+export const { useChangeUserInfoMutation } = apiSlices;
+export const { useUploadImageMutation } = apiSlices;

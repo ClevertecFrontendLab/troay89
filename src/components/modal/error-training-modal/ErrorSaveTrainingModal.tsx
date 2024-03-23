@@ -7,9 +7,18 @@ import { useMediaQuery } from 'react-responsive';
 type TrainingModalProps = {
     isModal: boolean;
     closeModal: () => void;
+    tittle: string;
+    text: string;
+    className?: string;
 };
 
-export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({ isModal, closeModal }) => {
+export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({
+    isModal,
+    closeModal,
+    tittle,
+    text,
+    className,
+}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
 
@@ -29,7 +38,7 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({ isModal, 
 
     return (
         <Modal
-            className={'modal-error-save-training'}
+            className={`modal-error-save-training ${className && className}`}
             maskStyle={{ backgroundColor: 'rgba(121, 156, 212, 0)' }}
             open={isModalOpen}
             onCancel={handleCancel}
@@ -37,19 +46,22 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({ isModal, 
             centered={true}
             style={{ width: '100%', maxWidth: !isMobile ? 384 : 328 }}
             closeIcon={
-                <CloseOutlined
-                    className={'close'}
-                    data-test-id='modal-error-user-training-button-close'
-                />
+                !className ? (
+                    <CloseOutlined
+                        className={'close'}
+                        data-test-id='modal-error-user-training-button-close'
+                    />
+                ) : undefined
             }
+            closable={!className}
         >
             <CloseCircleOutlined className={'icon'} />
             <div className={'wrapper-content'}>
                 <h6 className={'title'} data-test-id='modal-error-user-training-title'>
-                    При сохранении данных произошла ошибка
+                    {tittle}
                 </h6>
                 <p className={'text'} data-test-id='modal-error-user-training-subtitle'>
-                    Придётся попробовать ещё раз
+                    {text}
                 </p>
                 <Button
                     className={'button-error style'}

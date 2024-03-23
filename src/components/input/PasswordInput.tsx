@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input } from 'antd';
 
 type PasswordInputProps = {
@@ -7,8 +7,10 @@ type PasswordInputProps = {
     autoComplete: string;
     dataTestId: string;
     helpText: string;
+    isCheckStartData: boolean;
     classNameForm?: string;
     setIsTextPass?: React.Dispatch<React.SetStateAction<boolean>>;
+    handleChangeInput?: () => void;
 };
 
 export const PasswordInput: React.FC<PasswordInputProps> = ({
@@ -17,38 +19,60 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
     autoComplete,
     dataTestId,
     helpText,
+    isCheckStartData,
     classNameForm,
     setIsTextPass,
-}) => (
-    <Form.Item
-        name='password'
-        className={classNameForm}
-        rules={[
-            {
-                required: true,
-                message: '',
-            },
-            () => ({
-                validator(_, value) {
-                    if (value && !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)) {
-                        setIsTextPass && setIsTextPass(false);
-                        return Promise.reject(
-                            Error('Пароль не менее 8 символов, с заглавной буквой и цифрой'),
-                        );
-                    }
-                    setIsTextPass && setIsTextPass(true);
-                    return Promise.resolve();
-                },
-            }),
-        ]}
-        help={helpText}
-    >
-        <Input.Password
-            className={className}
-            placeholder={placeholder}
-            autoComplete={autoComplete}
-            data-test-id={dataTestId}
-            size={'large'}
-        />
-    </Form.Item>
-);
+    handleChangeInput,
+}) => {
+    const [hasBeenTouched, setHasBeenTouched] = useState(isCheckStartData);
+
+    const handleChange = () => {
+        setHasBeenTouched(true);
+        handleChangeInput && handleChangeInput();
+    };
+
+    return (
+        <Form.Item
+            name='password'
+            className={classNameForm}
+            rules={
+                hasBeenTouched
+                    ? [
+                          {
+                              required: true,
+                              message: '',
+                          },
+                          () => ({
+                              validator(_, value) {
+                                  if (
+                                      value &&
+                                      !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
+                                  ) {
+                                      setIsTextPass && setIsTextPass(false);
+                                      return Promise.reject(
+                                          Error(
+                                              'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                                          ),
+                                      );
+                                  }
+                                  setIsTextPass && setIsTextPass(true);
+                                  return Promise.resolve();
+                              },
+                          }),
+                      ]
+                    : undefined
+            }
+            help={helpText}
+        >
+            <Input.Password
+                className={className}
+                placeholder={placeholder}
+                autoComplete={autoComplete}
+                data-test-id={dataTestId}
+                size={'large'}
+                onFocus={() => setHasBeenTouched(true)}
+                onChange={handleChange}
+            />
+        </Form.Item>
+    );
+};
