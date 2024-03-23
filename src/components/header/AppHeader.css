@@ -139,4 +139,17 @@ div.header-seating {
         margin-top: 4px;
     }
 
+    .header-two .wrapper-sitting {
+        margin-right: 39px;
+        width: fit-content;
+    }
+
+    .ant-layout-header.header-two {
+        min-height: 82px;
+    }
+
+    .header-two .wrapper-sitting {
+        margin-right: 34px;
+        margin-top: 10px;
+    }
 }

@@ -41,7 +41,7 @@ export const AppHeader: React.FC = () => {
             <Header className={'header-two'} style={{ padding: 0 }}>
                 <h1 className={'title'}>Профиль</h1>
                 <div className={'wrapper-sitting'}>
-                    <Settings isMobile={isMobile} isTablet={false} />
+                    <Settings isMobile={false} isTablet={false} />
                     {!isMobile && 'Настройки'}
                 </div>
             </Header>
