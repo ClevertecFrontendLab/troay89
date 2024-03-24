@@ -65,6 +65,7 @@ div.header-seating {
     min-height: 72px;
 }
 
+.header-setting .title,
 .header-two .title {
     color: var(--first-color);
     font-size: 20px;
@@ -73,11 +74,22 @@ div.header-seating {
     margin: 22px 0 0 24px;
 }
 
+.header-setting .title {
+    margin: 22px 0 22px 17px;
+}
+
 .header-two .wrapper-sitting {
     margin-right: 39px;
     width: 99px;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+}
+
+.header-setting .wrapper-content {
+    display: flex;
+    align-items: baseline;
+    margin-left: 24px;
 }
 
 @media screen and (max-width: 1000px) {

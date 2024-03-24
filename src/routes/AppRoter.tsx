@@ -17,6 +17,7 @@ import { MainPage } from '@pages/main-page/MainPage.tsx';
 import { JVT_TOKEN, paths } from '@constants/constants.ts';
 import { TrainingList } from '@pages/calendar/CustomCalendar.tsx';
 import { Profile } from '@pages/profile/Profile.tsx';
+import { SettingPage } from '@pages/setting/Setting.tsx';
 
 const allRoutes: RouteObject = {
     path: paths.root.path,
@@ -27,6 +28,7 @@ const allRoutes: RouteObject = {
         { path: paths.feedbacks.path, element: <FeedbacksPage /> },
         { path: paths.trainingList.path, element: <TrainingList /> },
         { path: paths.profile.path, element: <Profile /> },
+        { path: paths.setting.path, element: <SettingPage /> },
         { path: paths.successRegistration.path, element: <SuccessReg /> },
         { path: paths.successChangePassport.path, element: <SuccessChangePassword /> },
         { path: paths.confirmEmail.path, element: <CheckCodeEmail /> },

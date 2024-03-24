@@ -20,6 +20,9 @@ export const paths = {
     profile: {
         path: '/profile',
     },
+    setting: {
+        path: '/settings',
+    },
     confirmEmail: {
         path: '/auth/confirm-email',
     },
