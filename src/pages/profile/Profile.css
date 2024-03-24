@@ -161,7 +161,7 @@
         margin-bottom: 21px;
     }
 
-    .mobile-upload .text {
+    .personal-profile .ant-upload .text {
         font-size: 12px;
         line-height: 16px;
         color: var(--main-text-font);
@@ -169,18 +169,18 @@
         margin-right: 17px;
     }
 
-    .mobile-upload .upload-button {
+    .personal-profile .ant-upload .upload-button {
         width: 145px;
         font-size: 14px;
         color: var(--main-text-font);
     }
 
-    .mobile-upload .upload-button .anticon-upload {
+    .personal-profile .ant-upload .upload-button .anticon-upload {
         color: var(--second-color);
     }
 
     .wrapper-profile-form .personal-profile {
-        margin-bottom: 20px;
+        margin-bottom: 19px;
     }
 
     .private-profile .ant-form-item-explain {
@@ -189,6 +189,7 @@
 
     .profile-form .change-data {
         width: 100%;
+        margin-bottom: 20px;
     }
 
     .wrapper-profile-form  .private-profile {
@@ -197,6 +198,36 @@
 
     .wrapper-profile-form {
         min-height: 667px;
+    }
+
+    .personal-profile .ant-upload-list-item-info .ant-upload-list-item-name {
+        display: none;
+    }
+
+    .personal-profile .ant-upload-list-item .ant-upload-span {
+        justify-content: space-between;
+    }
+
+    .mobile-upload .ant-upload-list-item {
+        margin-top: -1px;
+    }
+
+    .wrapper-profile-form .ant-alert-success {
+        position: absolute;
+        bottom: 90px;
+        right: 24px;
+        max-width: 312px;
+        margin: 0 auto 0;
+        padding: 7px 16px;
+    }
+
+    .ant-alert-success .ant-alert-message {
+        color: var(--first-color);
+        line-height: 19px;
+    }
+
+    .wrapper-profile-form .ant-alert-success .anticon-check-circle {
+        margin-right: 12px
     }
 }
 

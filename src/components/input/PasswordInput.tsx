@@ -6,7 +6,7 @@ type PasswordInputProps = {
     placeholder: string;
     autoComplete: string;
     dataTestId: string;
-    helpText: string;
+    helpText: string | React.ReactNode;
     isCheckStartData: boolean;
     classNameForm?: string;
     setIsTextPass?: React.Dispatch<React.SetStateAction<boolean>>;

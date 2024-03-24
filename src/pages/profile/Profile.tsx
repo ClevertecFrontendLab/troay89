@@ -1,29 +1,37 @@
-import React, {useEffect, useState} from 'react';
-import {LayoutComponent} from '@components/layout';
-import {Alert, Button, DatePicker, Form, Input, Modal, Upload, UploadFile, UploadProps} from 'antd';
-import {CalendarTwoTone, PlusOutlined, UploadOutlined} from '@ant-design/icons';
-import {EmailInput} from '@components/input/EmailInput.tsx';
-import {PasswordInput} from '@components/input/PasswordInput.tsx';
-import {ConfirmPasswordInput} from '@components/input/ConfirmPasswordInput.tsx';
+import React, { useEffect, useState } from 'react';
+import { LayoutComponent } from '@components/layout';
+import {
+    Alert,
+    Button,
+    DatePicker,
+    Form,
+    Input,
+    Modal,
+    Upload,
+    UploadFile,
+    UploadProps,
+} from 'antd';
+import { CalendarTwoTone, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { EmailInput } from '@components/input/EmailInput.tsx';
+import { PasswordInput } from '@components/input/PasswordInput.tsx';
+import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
 import './Profile.css';
-import {PrimaryButton} from '@components/buttons/PrimaryButton.tsx';
+import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
 import {
     useChangeUserInfoMutation,
     useGetUserInfoQuery,
     useUploadImageMutation,
 } from '@redux/reducers/apiSlice.ts';
-import {Loader} from '@components/loader/Loader.tsx';
+import { Loader } from '@components/loader/Loader.tsx';
 import moment from 'moment';
-import {RcFile} from 'antd/es/upload';
-import {InfoUser} from '../../type/User.ts';
-import {JVT_TOKEN, paths, statusCodes} from '@constants/constants.ts';
-import {history} from '@redux/reducers/routerSlice.ts';
-import {
-    ErrorSaveTrainingModal
-} from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
-import {useMediaQuery} from "react-responsive";
+import { RcFile } from 'antd/es/upload';
+import { InfoUser } from '../../type/User.ts';
+import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
+import { useMediaQuery } from 'react-responsive';
+import { UploadFileStatus } from 'antd/es/upload/interface';
 
-// https://training-api.clevertec.ru/${imageUrl}
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -42,17 +50,19 @@ const ProfileForm: React.FC = () => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
-    const isMobile = useMediaQuery({query: '(max-width: 500px)'});
-    const helpText = <span>Пароль не менее 8 символов, с заглавной буквой {isMobile && <br/>} и цифрой</span>
-    const {data, isLoading, error} = useGetUserInfoQuery();
+    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
+    const helpText = (
+        <span>Пароль не менее 8 символов, с заглавной буквой {isMobile && <br />} и цифрой</span>
+    );
+    const { data, isLoading, error } = useGetUserInfoQuery();
     const [
         changeUserInfo,
-        {data: dataEditUser, isLoading: isLoadingEditUser, error: errorEditUser},
+        { data: dataEditUser, isLoading: isLoadingEditUser, error: errorEditUser },
     ] = useChangeUserInfoMutation();
 
     const [
         uploadImage,
-        {data: dataUpdatePhoto, isLoading: isLoadingUpdatePhoto, error: errorUpdatePhoto},
+        { data: dataUpdatePhoto, isLoading: isLoadingUpdatePhoto, error: errorUpdatePhoto },
     ] = useUploadImageMutation();
 
     useEffect(() => {
@@ -93,20 +103,20 @@ const ProfileForm: React.FC = () => {
         } else if (errorEditUser) {
             setIsModalErrorSave(true);
         }
+        setIsDisabled(true);
     }, [dataEditUser, errorEditUser, form]);
 
     useEffect(() => {
         if (isLoadingUpdatePhoto) {
             const newFileList = fileList.map((file) => {
                 if (file.status !== 'uploading') {
-                    return {...file, status: 'uploading'};
+                    return { ...file, status: 'uploading' as UploadFileStatus };
                 }
                 return file;
             });
             setFileList(newFileList);
         } else if (dataUpdatePhoto) {
             if ('url' in dataUpdatePhoto && dataUpdatePhoto.url) {
-                console.log('I am here');
                 setFileList([
                     {
                         uid: '-5',
@@ -124,7 +134,7 @@ const ProfileForm: React.FC = () => {
                 setIsDisabled(false);
             }
         } else if (errorUpdatePhoto) {
-            setFileList([{uid: '-5', name: 'image.png', status: 'error', url: ''}]);
+            setFileList([{ uid: '-5', name: 'image.png', status: 'error', url: '' }]);
         }
     }, [dataUpdatePhoto, errorUpdatePhoto, isLoadingUpdatePhoto]);
 
@@ -145,12 +155,12 @@ const ProfileForm: React.FC = () => {
         }
     };
 
-    const handleChange: UploadProps['onChange'] = ({file, fileList}) => {
+    const handleChange: UploadProps['onChange'] = ({ file, fileList }) => {
         const saveFile = file.originFileObj;
         if (saveFile) {
             const isBigSize = saveFile.size / 1024 / 1024 < 5;
             if (!isBigSize) {
-                setFileList([{uid: '-5', name: 'image.png', status: 'error', url: ''}]);
+                setFileList([{ uid: '-5', name: 'image.png', status: 'error', url: '' }]);
                 setIsDisabled(true);
                 setIsModalErrorSavePhoto(true);
                 return;
@@ -164,15 +174,18 @@ const ProfileForm: React.FC = () => {
 
     const uploadButton = (
         <div className={'wrapper-upload'}>
-            <PlusOutlined/>
+            <PlusOutlined />
             <div className={'upload-text'}>Загрузить фото профиля</div>
         </div>
     );
 
-    const uploadMobleButton = (
-        <Upload>
-            <span>Загрузить фото профиля:</span><Button icon={<UploadOutlined/>}>Загрузить</Button>
-        </Upload>
+    const uploadButtonMoble = (
+        <>
+            <span className={'text'}>Загрузить фото профиля:</span>
+            <Button className={'upload-button'} size={'large'} icon={<UploadOutlined />}>
+                Загрузить
+            </Button>
+        </>
     );
 
     const onFinish = (values: InfoUser) => {
@@ -187,7 +200,7 @@ const ProfileForm: React.FC = () => {
     };
 
     if (isLoading || isLoadingEditUser) {
-        return <Loader/>;
+        return <Loader />;
     }
 
     return (
@@ -205,25 +218,26 @@ const ProfileForm: React.FC = () => {
                     <h5 className={'title'}>Личная информация</h5>
                     <div className={'personal-profile'}>
                         <Form.Item label='' valuePropName='fileList' name={'imgSrc'}>
-                            <>{!isMobile ?
+                            <>
                                 <Upload
+                                    className={isMobile ? 'mobile-upload' : ''}
                                     name={'file'}
                                     fileList={fileList}
-                                    listType='picture-card'
+                                    listType={isMobile ? 'picture' : 'picture-card'}
                                     onPreview={handlePreview}
                                     onChange={handleChange}
                                 >
-                                    {fileList.length >= 1 ? null : uploadButton}
-                                </Upload> :
-                                <Upload className={'mobile-upload'}>
-                                    <span className={'text'}>Загрузить фото профиля:</span><Button
-                                    className={'upload-button'}
-                                    size={'large'} icon={<UploadOutlined/>}>Загрузить</Button>
-                                </Upload>}
+                                    {fileList.length >= 1
+                                        ? null
+                                        : isMobile
+                                        ? uploadButtonMoble
+                                        : uploadButton}
+                                </Upload>
+
                                 <Modal open={previewOpen} footer={null} onCancel={handleCancel}>
                                     <img
                                         alt='example'
-                                        style={{width: '100%'}}
+                                        style={{ width: '100%' }}
                                         src={previewImage}
                                     />
                                 </Modal>
@@ -250,7 +264,7 @@ const ProfileForm: React.FC = () => {
                                 <DatePicker
                                     placeholder={'Дата рождения'}
                                     size={'large'}
-                                    suffixIcon={<CalendarTwoTone twoToneColor={'#D9D9D9'}/>}
+                                    suffixIcon={<CalendarTwoTone twoToneColor={'#D9D9D9'} />}
                                     format={'DD-MM-YYYY'}
                                     defaultValue={
                                         data && data.birthday ? moment(data.birthday) : undefined
@@ -297,7 +311,11 @@ const ProfileForm: React.FC = () => {
                 </Form>
                 {isShowAlert && (
                     <Alert
-                        message='Данные профиля успешно обновлены'
+                        message={
+                            isMobile
+                                ? 'Новая тренировка успешно добавлена'
+                                : 'Данные профиля успешно обновлены'
+                        }
                         type='success'
                         showIcon
                         closable
@@ -307,7 +325,7 @@ const ProfileForm: React.FC = () => {
             <ErrorSaveTrainingModal
                 isModal={isModalErrorSavePhoto}
                 closeModal={() => setIsModalErrorSavePhoto(false)}
-                tittle={'Файл слишком большой '}
+                tittle={'Файл слишком большой'}
                 text={'Выберите файл размером [......] МБ.'}
                 className={'big-file'}
             />
@@ -323,5 +341,5 @@ const ProfileForm: React.FC = () => {
 };
 
 export const Profile: React.FC = () => {
-    return <LayoutComponent>{() => <ProfileForm/>}</LayoutComponent>;
+    return <LayoutComponent>{() => <ProfileForm />}</LayoutComponent>;
 };
