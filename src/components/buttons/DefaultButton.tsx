@@ -5,7 +5,7 @@ import './Buttons.css';
 type DefaultButton = {
     className: string;
     text: string;
-    icon: ReactNode | null;
+    icon?: ReactNode | null;
     buttonKey?: string;
     onClick?: () => void;
     disabled?: boolean;
