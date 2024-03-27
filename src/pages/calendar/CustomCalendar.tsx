@@ -12,13 +12,16 @@ import { Loader } from '@components/loader/Loader.tsx';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { CreateTrainingModal } from '@components/modal/create-training-modal/CreateTrainingModal.tsx';
-import { TrainingBadge, TrainingDraver } from '@components/draver/TrainingDraver.tsx';
 import { PersonalTraining } from '../../type/Training.ts';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { ErrorTrainingModal } from '@components/modal/error-training-modal/ErrorTrainingModal.tsx';
 import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
 import { useMediaQuery } from 'react-responsive';
 import './Calendar.css';
+import {
+    TrainingBadge,
+    TrainingDraver,
+} from '@components/draver/training-drawer/TrainingDraver.tsx';
 
 export type Position = {
     date: string;

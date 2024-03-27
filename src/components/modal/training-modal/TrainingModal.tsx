@@ -3,12 +3,12 @@ import React, { useEffect, useState } from 'react';
 import './TrainingModal.css';
 import emptyData from '/img/svg/empty-image.svg';
 import { PersonalTraining } from '../../../type/Training.ts';
-import { TrainingBadge } from '@components/draver/TrainingDraver.tsx';
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
 import { editPersonalTraining } from '@redux/reducers/editTrainingSlice.ts';
 import { useMediaQuery } from 'react-responsive';
 import { Position } from '@pages/calendar/CustomCalendar.tsx';
+import { TrainingBadge } from '@components/draver/training-drawer/TrainingDraver.tsx';
 
 type TrainingModalProps = {
     isModal: boolean;

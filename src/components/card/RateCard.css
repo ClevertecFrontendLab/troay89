@@ -19,6 +19,7 @@
     line-height: 18px;
     color: var(--app-main-collor);
     font-family: var(--main-text-font);
+    cursor: pointer;
 }
 
 .rate-card .header-card {

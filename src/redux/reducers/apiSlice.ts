@@ -9,6 +9,7 @@ import {
 import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
 import { PersonalTraining, TrainingList } from '../../type/Training.ts';
 import { JVT_TOKEN } from '@constants/constants.ts';
+import { TariffList } from '../../type/Tariff.ts';
 
 export const apiSlices = createApi({
     reducerPath: 'api',
@@ -221,6 +222,21 @@ export const apiSlices = createApi({
                 },
             }),
         }),
+        getRateInfo: builder.query<Array<TariffList>, void>({
+            query: () => ({
+                url: 'catalogs/tariff-list',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
     }),
 });
 
@@ -232,12 +248,11 @@ export const { useAuthChangePasswordMutation } = apiSlices;
 export const { useSendFeedbackMutation } = apiSlices;
 export const { useGetFeedbacksQuery } = apiSlices;
 export const { useLazyGetFeedbacksQuery } = apiSlices;
-export const { useGetPersonalTrainingListQuery } = apiSlices;
 export const { useLazyGetPersonalTrainingListQuery } = apiSlices;
-export const { useGetTrainingListQuery } = apiSlices;
 export const { useLazyGetTrainingListQuery } = apiSlices;
 export const { useAddPersonalTrainingListMutation } = apiSlices;
 export const { useEditPersonalTrainingListMutation } = apiSlices;
 export const { useGetUserInfoQuery } = apiSlices;
 export const { useChangeUserInfoMutation } = apiSlices;
 export const { useUploadImageMutation } = apiSlices;
+export const { useGetRateInfoQuery } = apiSlices;
