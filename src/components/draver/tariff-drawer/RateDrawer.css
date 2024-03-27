@@ -1,0 +1,67 @@
+.drawer-rate {
+    font-family: var(--main-text-font);
+    color: var(--first-color);
+}
+
+.drawer-rate .ant-drawer-title {
+    font-size: 20px;
+    line-height: 26px;
+    font-family: var(--medium-title-font);
+    color: var(--first-color);
+    margin: 8px 1px 1px 8px;
+}
+
+.drawer-rate .ant-drawer-close {
+    width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.drawer-rate .wrapper-tariff {
+    margin-left: 219px;
+    display: flex;
+    gap: 17px;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 22px;
+}
+
+.drawer-rate .wrapper-tariff .free {
+    background-color: var(--netral-color);
+    padding: 4px 13px
+}
+
+.drawer-rate .wrapper-tariff .pro {
+    background-color: var(--header-backgraund);
+    padding: 4px 13px
+}
+
+.drawer-rate .ant-drawer-body {
+    padding: 46px 49px 24px 32px;
+}
+
+.drawer-rate .ant-drawer-body p {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.drawer-rate .ant-drawer-body p div {
+    width: 187px;
+}
+
+.drawer-rate .ant-drawer-body .anticon-check-circle,
+.drawer-rate .ant-drawer-body .anticon-close-circle {
+    font-size: 16px;
+}
+
+.drawer-rate .ant-drawer-body .anticon-close-circle {
+    color: var(--third-color)
+}
+
+.drawer-rate .price-title {
+    line-height: 18px;
+    font-family: var(--main-title-font);
+    margin: 84px 0 0 0;
+}
+
