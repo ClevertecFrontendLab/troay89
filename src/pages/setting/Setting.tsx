@@ -98,7 +98,11 @@ const Setting: React.FC = () => {
                                 dataInfo && dataInfo.tariff
                                     ? new Date(dataInfo.tariff.expired).toLocaleDateString(
                                           'default',
-                                          { day: '2-digit', month: '2-digit' },
+                                          {
+                                              day: '2-digit',
+                                              month: '2-digit',
+                                              timeZone: 'Europe/London',
+                                          },
                                       )
                                     : undefined
                             }
@@ -156,6 +160,7 @@ const Setting: React.FC = () => {
                         ? new Date(dataInfo.tariff.expired).toLocaleDateString('default', {
                               day: '2-digit',
                               month: '2-digit',
+                              timeZone: 'Europe/London',
                           })
                         : undefined
                 }
