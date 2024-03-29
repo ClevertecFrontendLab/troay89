@@ -10,6 +10,8 @@ type ToolTipRiteProps = {
     isCheck: boolean;
     onSwitchChange: (checked: boolean, id: string | React.ReactNode) => void;
     isDisabled?: boolean;
+    dataTestId: string;
+    dataTestIdIcon: string;
 };
 
 export const ToolTipRite: React.FC<ToolTipRiteProps> = ({
@@ -18,6 +20,8 @@ export const ToolTipRite: React.FC<ToolTipRiteProps> = ({
     isCheck,
     onSwitchChange,
     isDisabled = false,
+    dataTestId,
+    dataTestIdIcon,
 }) => {
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     return (
@@ -25,10 +29,11 @@ export const ToolTipRite: React.FC<ToolTipRiteProps> = ({
             <span className={'left-content'}>
                 <span className={`text ${isDisabled && 'disabled'}`}>{text}</span>
                 <Tooltip title={title} placement={isMobile ? 'topLeft' : 'bottomLeft'}>
-                    <ExclamationCircleOutlined />
+                    <ExclamationCircleOutlined data-test-id={dataTestIdIcon} />
                 </Tooltip>
             </span>
             <Switch
+                data-test-id={dataTestId}
                 size={isMobile ? 'small' : undefined}
                 checked={isCheck}
                 onChange={(checked) => onSwitchChange(checked, text)}

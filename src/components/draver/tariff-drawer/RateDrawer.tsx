@@ -47,6 +47,7 @@ export const RateDrawer: React.FC<RateDrawerProps> = ({
         if (changeDays) {
             dataTariff && buyTariff({ tariffId: dataTariff[0]._id, days: changeDays });
             setOpenBuyModal(true);
+            setOpen(false);
         }
     };
 
@@ -68,6 +69,8 @@ export const RateDrawer: React.FC<RateDrawerProps> = ({
                 height={isMobile ? 1040 : undefined}
                 maskClosable={false}
                 style={{ borderRadius: '8px 0 0 8px' }}
+                data-test-id='tariff-sider'
+                destroyOnClose={true}
                 closeIcon={
                     <div
                         style={{
@@ -88,6 +91,7 @@ export const RateDrawer: React.FC<RateDrawerProps> = ({
                             htmlType={'button'}
                             onClick={handleClick}
                             disabled={!changeDays}
+                            dataTestId={'tariff-submit'}
                         />
                     )
                 }
@@ -130,7 +134,7 @@ export const RateDrawer: React.FC<RateDrawerProps> = ({
                 {!date && (
                     <>
                         <div className={'price-title'}>Стоимость тарифа</div>
-                        <Radio.Group className={'choose-price'}>
+                        <Radio.Group className={'choose-price'} data-test-id='tariff-cost'>
                             <Space direction='vertical'>
                                 {dataTariff &&
                                     dataTariff[0].periods.map((period, index) => (
@@ -138,6 +142,7 @@ export const RateDrawer: React.FC<RateDrawerProps> = ({
                                             value={period.days}
                                             key={index}
                                             onChange={handleRadio}
+                                            data-test-id={index === 2 ? 'tariff-10' : undefined}
                                         >
                                             <span className={'month'}>{period.text}</span>
                                             <span className={'price'}>

@@ -32,7 +32,7 @@ export type InfoUser = {
     sendNotification?: boolean;
     password?: string;
     tariff?: {
-        tariffId: string;
-        expired: Date;
+        tariffId?: string;
+        expired?: Date;
     };
 };

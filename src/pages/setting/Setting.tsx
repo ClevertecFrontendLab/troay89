@@ -89,6 +89,7 @@ const Setting: React.FC = () => {
                             setIsOpenDrawer={setIsOpenDrawer}
                         />
                         <RateCard
+                            dataTestId={'pro-tariff-card'}
                             nameRate={'PRO tarif'}
                             img={dataInfo && dataInfo.tariff ? proActive : proDisabled}
                             isActive={!!(dataInfo && dataInfo.tariff)}
@@ -105,18 +106,24 @@ const Setting: React.FC = () => {
                     </div>
                     <div className={'wrapper-switch'}>
                         <ToolTipRite
+                            dataTestId={'tariff-trainings'}
+                            dataTestIdIcon={'tariff-trainings-icon'}
                             text={'Открыт для совместных тренировок'}
                             title={tooltipTitleOne}
                             isCheck={isReadyForJointTraining}
                             onSwitchChange={onchangeSwitch}
                         />
                         <ToolTipRite
+                            dataTestIdIcon={'tariff-notifications-icon'}
+                            dataTestId={'tariff-notifications'}
                             text={'Уведомления'}
                             title={tooltipTitleTwo}
                             isCheck={isSendNotification}
                             onSwitchChange={onchangeSwitch}
                         />
                         <ToolTipRite
+                            dataTestIdIcon={'tariff-theme-icon'}
+                            dataTestId={'tariff-theme'}
                             text={text}
                             title={tooltipTitleThree}
                             isCheck={isDarkTopic}

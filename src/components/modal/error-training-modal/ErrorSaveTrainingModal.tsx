@@ -10,6 +10,7 @@ type TrainingModalProps = {
     tittle: string;
     text: string;
     className?: string;
+    dataTestId?: string;
 };
 
 export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({
@@ -18,6 +19,7 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({
     tittle,
     text,
     className,
+    dataTestId,
 }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
@@ -47,10 +49,7 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({
             style={{ width: '100%', maxWidth: !isMobile ? 384 : 328 }}
             closeIcon={
                 !className ? (
-                    <CloseOutlined
-                        className={'close'}
-                        data-test-id='modal-error-user-training-button-close'
-                    />
+                    <CloseOutlined className={'close'} data-test-id={dataTestId} />
                 ) : undefined
             }
             closable={!className}
@@ -65,10 +64,10 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({
                 </p>
                 <Button
                     className={'button-error style'}
-                    data-test-id='modal-error-user-training-button'
                     onClick={handleOk}
                     type={'primary'}
                     size={'large'}
+                    data-test-id={dataTestId}
                 >
                     Закрыть
                 </Button>

@@ -161,6 +161,7 @@
 
     .drawer-rate .ant-drawer-body {
         padding: 24px 16px 4px;
+        overflow: visible;
     }
 
     .drawer-rate .wrapper-tariff .pro {

@@ -17,20 +17,15 @@ import { PasswordInput } from '@components/input/PasswordInput.tsx';
 import { ConfirmPasswordInput } from '@components/input/ConfirmPasswordInput.tsx';
 import './Profile.css';
 import { PrimaryButton } from '@components/buttons/PrimaryButton.tsx';
-import {
-    useChangeUserInfoMutation,
-    useGetUserInfoQuery,
-    useUploadImageMutation,
-} from '@redux/reducers/apiSlice.ts';
+import { useChangeUserInfoMutation, useUploadImageMutation } from '@redux/reducers/apiSlice.ts';
 import { Loader } from '@components/loader/Loader.tsx';
 import moment from 'moment';
 import { RcFile } from 'antd/es/upload';
 import { InfoUser } from '../../type/User.ts';
-import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
-import { history } from '@redux/reducers/routerSlice.ts';
 import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
 import { useMediaQuery } from 'react-responsive';
 import { UploadFileStatus } from 'antd/es/upload/interface';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -54,7 +49,7 @@ const ProfileForm: React.FC = () => {
     const helpText = (
         <span>Пароль не менее 8 символов, с заглавной буквой {isMobile && <br />} и цифрой</span>
     );
-    const { data, isLoading, error } = useGetUserInfoQuery();
+
     const [
         changeUserInfo,
         { data: dataEditUser, isLoading: isLoadingEditUser, error: errorEditUser },
@@ -65,9 +60,11 @@ const ProfileForm: React.FC = () => {
         { data: dataUpdatePhoto, isLoading: isLoadingUpdatePhoto, error: errorUpdatePhoto },
     ] = useUploadImageMutation();
 
+    const data = useAppSelector((state) => state.saveInfoUser.info);
+
     useEffect(() => {
         if (data) {
-            console.log(data);
+            console.log(data.imgSrc, 111);
             if (data.imgSrc) {
                 setUploadedImageUrl(data.imgSrc);
                 setFileList([
@@ -78,15 +75,15 @@ const ProfileForm: React.FC = () => {
                         url: data.imgSrc && data.imgSrc,
                     },
                 ]);
-            }
-        } else if (error) {
-            if ('status' in error && error.status === statusCodes.ERROR_403) {
-                localStorage.removeItem(JVT_TOKEN);
-                sessionStorage.removeItem(JVT_TOKEN);
-                history.push(paths.auth.path);
+                form.setFieldsValue({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    birthday: data.birthday ? moment(data.birthday) : undefined,
+                });
             }
         }
-    }, [data, error]);
+    }, [data, form]);
 
     useEffect(() => {
         if (dataEditUser) {
@@ -122,7 +119,7 @@ const ProfileForm: React.FC = () => {
                         url:
                             dataUpdatePhoto.url &&
                             'url' in dataUpdatePhoto &&
-                            dataUpdatePhoto.url.startsWith('https://lh3.googleusercontent.com')
+                            dataUpdatePhoto.url.startsWith('https://lh3.googleusercontent.com/a/')
                                 ? dataUpdatePhoto.url
                                 : `https://training-api.clevertec.ru${dataUpdatePhoto.url}`,
                     },
@@ -132,6 +129,7 @@ const ProfileForm: React.FC = () => {
             }
         } else if (errorUpdatePhoto) {
             setFileList([{ uid: '-5', name: 'image.png', status: 'error', url: '' }]);
+            setIsModalErrorSavePhoto(true);
         }
     }, [dataUpdatePhoto, errorUpdatePhoto, isLoadingUpdatePhoto]);
 
@@ -159,7 +157,6 @@ const ProfileForm: React.FC = () => {
             if (!isBigSize) {
                 setFileList([{ uid: '-5', name: 'image.png', status: 'error', url: '' }]);
                 setIsDisabled(true);
-                setIsModalErrorSavePhoto(true);
                 return;
             }
             const formData = new FormData();
@@ -198,7 +195,7 @@ const ProfileForm: React.FC = () => {
         });
     };
 
-    if (isLoading || isLoadingEditUser) {
+    if (isLoadingEditUser) {
         return <Loader />;
     }
 
@@ -216,7 +213,12 @@ const ProfileForm: React.FC = () => {
                 >
                     <h5 className={'title'}>Личная информация</h5>
                     <div className={'personal-profile'}>
-                        <Form.Item label='' valuePropName='fileList' name={'imgSrc'}>
+                        <Form.Item
+                            label=''
+                            valuePropName='fileList'
+                            name={'imgSrc'}
+                            data-test-id='profile-avatar'
+                        >
                             <>
                                 <Upload
                                     className={isMobile ? 'mobile-upload' : ''}
@@ -245,6 +247,7 @@ const ProfileForm: React.FC = () => {
                         <div className={'wrapper-personal-input'}>
                             <Form.Item name={'firstName'}>
                                 <Input
+                                    data-test-id='profile-name'
                                     placeholder={'Имя'}
                                     size={'large'}
                                     defaultValue={data && data.firstName}
@@ -253,6 +256,7 @@ const ProfileForm: React.FC = () => {
                             </Form.Item>
                             <Form.Item name={'lastName'}>
                                 <Input
+                                    data-test-id='profile-surname'
                                     placeholder={'Фамилия'}
                                     size={'large'}
                                     defaultValue={data && data.lastName}
@@ -262,9 +266,12 @@ const ProfileForm: React.FC = () => {
                             <Form.Item name={'birthday'}>
                                 <DatePicker
                                     placeholder={'Дата рождения'}
+                                    placement={'topRight'}
+                                    picker='quarter'
                                     size={'large'}
                                     suffixIcon={<CalendarTwoTone twoToneColor={'#D9D9D9'} />}
                                     format={'DD-MM-YYYY'}
+                                    data-test-id='profile-birthday'
                                     defaultValue={
                                         data && data.birthday ? moment(data.birthday) : undefined
                                     }
@@ -277,14 +284,14 @@ const ProfileForm: React.FC = () => {
                     <div className={'private-profile'}>
                         <EmailInput
                             className={'profile-email'}
-                            dataTestId={''}
+                            dataTestId={'profile-email'}
                             autoComplete={'email'}
                             handleChangeInput={handleChangeInput}
                         />
                         <PasswordInput
                             className={'profile-password'}
                             placeholder={'Пароль'}
-                            dataTestId={''}
+                            dataTestId={'profile-password'}
                             autoComplete={'off'}
                             isCheckStartData={false}
                             helpText={helpText}
@@ -292,7 +299,7 @@ const ProfileForm: React.FC = () => {
                         />
                         <ConfirmPasswordInput
                             className={''}
-                            dataTestId={''}
+                            dataTestId={'profile-repeat-password'}
                             placeholder={'Повторите пароль'}
                             autoComplete={'off'}
                             isCheckStartData={false}
@@ -302,7 +309,7 @@ const ProfileForm: React.FC = () => {
                     </div>
                     <PrimaryButton
                         className={'style-second change-data'}
-                        dataTestId={''}
+                        dataTestId='profile-submit'
                         htmlType={'submit'}
                         text={'Сохранить изменения'}
                         disabled={isDisable}
@@ -318,6 +325,7 @@ const ProfileForm: React.FC = () => {
                         type='success'
                         showIcon
                         closable
+                        data-test-id='alert'
                     />
                 )}
             </div>
@@ -327,6 +335,7 @@ const ProfileForm: React.FC = () => {
                 tittle={'Файл слишком большой'}
                 text={'Выберите файл размером [......] МБ.'}
                 className={'big-file'}
+                dataTestId={'big-file-error-close'}
             />
             <ErrorSaveTrainingModal
                 isModal={isModalErrorSave}

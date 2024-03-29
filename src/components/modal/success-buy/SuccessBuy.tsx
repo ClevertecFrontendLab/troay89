@@ -37,6 +37,7 @@ export const SuccessBuy: React.FC<SuccessBuyProps> = ({ isOpen, closeModal, emai
 
     return (
         <Modal
+            data-test-id='tariff-modal-success'
             className={'success-buy'}
             maskStyle={{ backgroundColor: 'rgba(121, 156, 212, 0)' }}
             open={isModalOpen}
@@ -44,12 +45,7 @@ export const SuccessBuy: React.FC<SuccessBuyProps> = ({ isOpen, closeModal, emai
             onCancel={handleCancel}
             width={isMobile ? 328 : 539}
             maskClosable={false}
-            closeIcon={
-                <CloseOutlined
-                    className={'close'}
-                    data-test-id='modal-error-user-training-button-close'
-                />
-            }
+            closeIcon={<CloseOutlined className={'close'} />}
             footer={false}
         >
             <Result
