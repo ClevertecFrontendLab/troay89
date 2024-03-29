@@ -87,9 +87,10 @@ const Setting: React.FC = () => {
                             isActive={true}
                             date={undefined}
                             setIsOpenDrawer={setIsOpenDrawer}
+                            dataTestId={false}
                         />
                         <RateCard
-                            dataTestId={'pro-tariff-card'}
+                            dataTestId={true}
                             nameRate={'PRO tarif'}
                             img={dataInfo && dataInfo.tariff ? proActive : proDisabled}
                             isActive={!!(dataInfo && dataInfo.tariff)}

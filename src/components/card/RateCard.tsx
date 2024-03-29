@@ -10,7 +10,7 @@ type RateCard = {
     isActive: boolean;
     date?: string;
     setIsOpenDrawer(value: boolean): void;
-    dataTestId?: string;
+    dataTestId: boolean;
 };
 
 export const RateCard: React.FC<RateCard> = ({
@@ -26,7 +26,7 @@ export const RateCard: React.FC<RateCard> = ({
     };
 
     return (
-        <Card className={'rate-card'} data-test-id={dataTestId}>
+        <Card className={'rate-card'} data-test-id={dataTestId ? 'pro-tariff-card' : undefined}>
             <div className={'header-card'}>
                 <span className={'name-rate'}>{nameRate}</span>
                 <span className={'more-rate'} onClick={handleMore}>
