@@ -24,11 +24,6 @@ export const RateCard: React.FC<RateCard> = ({
     const handleMore = () => {
         setIsOpenDrawer(true);
     };
-    const activeText = (
-        <span>
-            <br /> до {date}
-        </span>
-    );
 
     return (
         <Card className={'rate-card'} data-test-id={dataTestId}>
@@ -41,7 +36,15 @@ export const RateCard: React.FC<RateCard> = ({
             <Image src={img} alt={'picture'} />
             {isActive ? (
                 <p className={`footer-card ${date && 'date'}`}>
-                    активен {date ? activeText : <CheckOutlined />}
+                    активен
+                    {date ? (
+                        <>
+                            <br />
+                            до {date}
+                        </>
+                    ) : (
+                        <CheckOutlined />
+                    )}
                 </p>
             ) : (
                 <div className={'wrapper-active-rate'}>
