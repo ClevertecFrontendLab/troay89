@@ -9,3 +9,8 @@ export type TariffList = {
         },
     ];
 };
+
+export type buyTariff = {
+    tariffId: string;
+    days: number;
+};

@@ -10,6 +10,7 @@
     height: 100%;
     background-color: white;
     padding: 24px 24px 16px;
+    border-radius: 8px;
 }
 
 .wrapper-setting-content .title {
@@ -34,4 +35,42 @@
     color: var(--app-main-collor);
     margin-left: 9px;
     border: none;
+}
+
+@media screen and (max-width: 600px) {
+    .wrapper-setting-page {
+        padding: 24px 0 42px;
+    }
+
+    .wrapper-setting-content .wrapper-card {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .wrapper-setting-page .rate-card {
+        width: 312px;
+    }
+
+    .wrapper-setting-content {
+        border-radius: 0;
+        padding: 16px 24px;
+    }
+
+    .wrapper-setting-content .title {
+        margin-bottom: 15px;
+    }
+
+    .wrapper-setting-content .two-button,
+    .wrapper-setting-content .one-button {
+        width: 100%;
+        margin: 0;
+    }
+
+    .wrapper-button {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
 }

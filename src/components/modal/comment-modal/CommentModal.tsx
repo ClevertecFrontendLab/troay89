@@ -5,40 +5,37 @@ import './Commnet.css';
 import { useSendFeedbackMutation } from '@redux/reducers/apiSlice.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
+import { SuccessModal } from '@components/modal/success-modal/SuccessModal.tsx';
+import { ErrorCommentModal } from '@components/modal/error-comment-modal/ErrorCommentModal.tsx';
 
 type CommentsListProps = {
     isModal: boolean;
     closeModal: () => void;
-    setSuccess(value: boolean): void;
-    setFailed(value: boolean): void;
 };
 
-export const CommentModal: React.FC<CommentsListProps> = ({
-    isModal,
-    closeModal,
-    setSuccess,
-    setFailed,
-}) => {
+export const CommentModal: React.FC<CommentsListProps> = ({ isModal, closeModal }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [rating, setRating] = useState(0);
     const [sendFeedback, { data, error }] = useSendFeedbackMutation();
+    const [isModalSuccess, setIsModalSuccess] = useState(false);
+    const [isModalCommentError, setIsModalCommentError] = useState(false);
     const [form] = Form.useForm();
 
     useEffect(() => {
         if (data) {
             form.resetFields();
             setRating(0);
-            setSuccess(true);
+            setIsModalSuccess(true);
         } else if (error) {
             if ('status' in error && error.status === statusCodes.ERROR_403) {
                 localStorage.removeItem(JVT_TOKEN);
                 sessionStorage.removeItem(JVT_TOKEN);
                 history.push(paths.auth.path);
             } else {
-                setFailed(true);
+                setIsModalCommentError(true);
             }
         }
-    }, [data, error, form, setFailed, setSuccess]);
+    }, [data, error, form]);
 
     useEffect(() => {
         setIsModalOpen(isModal);
@@ -57,44 +54,52 @@ export const CommentModal: React.FC<CommentsListProps> = ({
     };
 
     return (
-        <span className={'wrapper-create-comment'}>
-            <Modal
-                maskStyle={{ backgroundColor: 'rgba(121, 156, 212, 0)' }}
-                className={'modal-create-comment'}
-                title='Ваш отзыв'
-                open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
-                okText='Опубликовать'
-                width={'100%'}
-                cancelButtonProps={{ style: { display: 'none' } }}
-                okButtonProps={{
-                    className: 'style-second',
-                    size: 'large',
-                    disabled: rating === 0,
-                    ['data-test-id']: 'new-review-submit-button',
-                }}
-                centered={true}
-            >
-                <Form form={form}>
-                    <Rate
-                        character={({ index }) => {
-                            if (index === undefined) {
-                                return null;
-                            }
-                            return index < rating ? (
-                                <StarFilled />
-                            ) : (
-                                <StarOutlined className={'empty'} />
-                            );
-                        }}
-                        onChange={setRating}
-                    />
-                    <Form.Item name='comment'>
-                        <TextArea className={'area-comment'} autoSize={{ minRows: 2 }} />
-                    </Form.Item>
-                </Form>
-            </Modal>
-        </span>
+        <>
+            <span className={'wrapper-create-comment'}>
+                <Modal
+                    maskStyle={{ backgroundColor: 'rgba(121, 156, 212, 0)' }}
+                    className={'modal-create-comment'}
+                    title='Ваш отзыв'
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                    okText='Опубликовать'
+                    width={'100%'}
+                    cancelButtonProps={{ style: { display: 'none' } }}
+                    okButtonProps={{
+                        className: 'style-second',
+                        size: 'large',
+                        disabled: rating === 0,
+                        ['data-test-id']: 'new-review-submit-button',
+                    }}
+                    centered={true}
+                >
+                    <Form form={form}>
+                        <Rate
+                            character={({ index }) => {
+                                if (index === undefined) {
+                                    return null;
+                                }
+                                return index < rating ? (
+                                    <StarFilled />
+                                ) : (
+                                    <StarOutlined className={'empty'} />
+                                );
+                            }}
+                            onChange={setRating}
+                        />
+                        <Form.Item name='comment'>
+                            <TextArea className={'area-comment'} autoSize={{ minRows: 2 }} />
+                        </Form.Item>
+                    </Form>
+                </Modal>
+            </span>
+            <SuccessModal isModal={isModalSuccess} closeModal={() => setIsModalSuccess(false)} />
+            <ErrorCommentModal
+                isModal={isModalCommentError}
+                closeModal={() => setIsModalCommentError(false)}
+                setIsModalOpen={setIsModalOpen}
+            />
+        </>
     );
 };

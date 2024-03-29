@@ -113,11 +113,21 @@ div.header-seating {
         max-height: 30px;
     }
 
+    .header-setting .title,
     .header-two .title {
         font-family: var(--main-text-font);
         font-size: 14px;
         line-height: 18px;
         margin: 16px 0 0 24px;
+    }
+
+    .header-setting .title {
+        margin: 22px 0 22px 16px;
+    }
+
+
+    .ant-layout-header.header-setting {
+        min-height: 62px;
     }
 
     .ant-layout-header.header-two {

@@ -13,6 +13,10 @@
     line-height: 18px;
 }
 
+.wrapper-setting-content .wrapper-switch .text.disabled {
+    color: var(--third-color);
+}
+
 .wrapper-setting-content .content-switch {
     display: flex;
     justify-content: space-between;
@@ -28,4 +32,27 @@
 
 .wrapper-setting-content .wrapper-switch .left-content {
     display: flex;
+}
+
+
+@media screen and (max-width: 600px) {
+    .wrapper-setting-content .wrapper-switch {
+        margin-top: 34px;
+        gap: 22px;
+        margin-bottom: 36px;
+    }
+
+    .wrapper-setting-content .wrapper-switch .left-content {
+        align-items: baseline;
+        width: 198px;
+    }
+
+    .wrapper-setting-content .content-switch {
+        align-items: center;
+    }
+
+    .wrapper-setting-content .wrapper-switch .text {
+        display: inline-block;
+        max-width: 205px;
+    }
 }

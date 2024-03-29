@@ -7,22 +7,45 @@ import { RateCard } from '@components/card/RateCard.tsx';
 import { ToolTipRite } from '@components/tooltip/ToolTipRite.tsx';
 import freeCard from '/img/png/free.png';
 import proDisabled from '/img/png/pro_disabled.png';
-import { useGetRateInfoQuery } from '@redux/reducers/apiSlice.ts';
+import proActive from '/img/png/pro_active.png';
+import {
+    useChangeUserInfoMutation,
+    useGetRateInfoQuery,
+    useGetUserInfoQuery,
+} from '@redux/reducers/apiSlice.ts';
 import { RateDrawer } from '@components/draver/tariff-drawer/RateDrawer.tsx';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
+import { CommentModal } from '@components/modal/comment-modal/CommentModal.tsx';
 
 const Setting: React.FC = () => {
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-    const { data, isLoading, error } = useGetRateInfoQuery();
+    const [isOpenCommemt, setIsOpenCommemt] = useState(false);
+    const [isDarkTopic, setIsDarkTopic] = useState(false);
+    const [isReadyForJointTraining, setIsReadyForJointTraining] = useState(false);
+    const [isSendNotification, setIsSendNotification] = useState(false);
+    const { data } = useGetRateInfoQuery();
+    const { data: dataInfo } = useGetUserInfoQuery();
+    const [changeUserInfo, { data: dataEditUser }] = useChangeUserInfoMutation();
 
     useEffect(() => {
-        if (data) {
-            console.log(data);
-        } else if (error) {
-            console.log(error);
-        } else if (isLoading) {
-            console.log(isLoading);
+        if (dataInfo || dataEditUser) {
+            setIsReadyForJointTraining(
+                dataEditUser
+                    ? (dataEditUser.readyForJointTraining as boolean)
+                    : dataInfo
+                    ? (dataInfo.readyForJointTraining as boolean)
+                    : true,
+            );
+            setIsSendNotification(
+                dataEditUser
+                    ? (dataEditUser.sendNotification as boolean)
+                    : dataInfo
+                    ? (dataInfo.sendNotification as boolean)
+                    : true,
+            );
         }
-    }, [data, error, isLoading]);
+    }, [dataEditUser, dataInfo]);
 
     const tooltipTitleOne = (
         <span>
@@ -42,6 +65,16 @@ const Setting: React.FC = () => {
     );
     const text = <span>Тёмная тема&nbsp;</span>;
 
+    const onchangeSwitch = (checked: boolean, id: string | React.ReactNode) => {
+        if (id === 'Открыт для совместных тренировок') {
+            changeUserInfo({ readyForJointTraining: checked });
+        } else if (id === 'Уведомления') {
+            changeUserInfo({ sendNotification: checked });
+        } else {
+            setIsDarkTopic(checked);
+        }
+    };
+
     return (
         <>
             <div className={'wrapper-setting-page'}>
@@ -52,12 +85,21 @@ const Setting: React.FC = () => {
                             nameRate={'FREE tarif'}
                             img={freeCard}
                             isActive={true}
+                            date={undefined}
                             setIsOpenDrawer={setIsOpenDrawer}
                         />
                         <RateCard
                             nameRate={'PRO tarif'}
-                            img={proDisabled}
-                            isActive={false}
+                            img={dataInfo && dataInfo.tariff ? proActive : proDisabled}
+                            isActive={!!(dataInfo && dataInfo.tariff)}
+                            date={
+                                dataInfo && dataInfo.tariff
+                                    ? new Date(dataInfo.tariff.expired).toLocaleDateString(
+                                          'default',
+                                          { day: '2-digit', month: '2-digit' },
+                                      )
+                                    : undefined
+                            }
                             setIsOpenDrawer={setIsOpenDrawer}
                         />
                     </div>
@@ -65,21 +107,53 @@ const Setting: React.FC = () => {
                         <ToolTipRite
                             text={'Открыт для совместных тренировок'}
                             title={tooltipTitleOne}
+                            isCheck={isReadyForJointTraining}
+                            onSwitchChange={onchangeSwitch}
                         />
-                        <ToolTipRite text={'Уведомления'} title={tooltipTitleTwo} />
-                        <ToolTipRite text={text} title={tooltipTitleThree} />
+                        <ToolTipRite
+                            text={'Уведомления'}
+                            title={tooltipTitleTwo}
+                            isCheck={isSendNotification}
+                            onSwitchChange={onchangeSwitch}
+                        />
+                        <ToolTipRite
+                            text={text}
+                            title={tooltipTitleThree}
+                            isCheck={isDarkTopic}
+                            onSwitchChange={onchangeSwitch}
+                            isDisabled={!(dataInfo && dataInfo.tariff)}
+                        />
                     </div>
                     <div className={'wrapper-button'}>
                         <PrimaryButton
                             className={'style one-button'}
                             text={'Написать отзыв'}
                             htmlType={'submit'}
+                            onClick={() => setIsOpenCommemt(true)}
                         />
-                        <DefaultButton className={'two-button'} text={'Смотреть все отзывы'} />
+                        <DefaultButton
+                            className={'two-button'}
+                            text={'Смотреть все отзывы'}
+                            onClick={() => history.push(paths.feedbacks.path)}
+                        />
                     </div>
                 </div>
             </div>
-            <RateDrawer isModal={isOpenDrawer} closeModal={() => setIsOpenDrawer(false)} />
+            <RateDrawer
+                isModal={isOpenDrawer}
+                closeModal={() => setIsOpenDrawer(false)}
+                dataTariff={data}
+                date={
+                    dataInfo && dataInfo.tariff
+                        ? new Date(dataInfo.tariff.expired).toLocaleDateString('default', {
+                              day: '2-digit',
+                              month: '2-digit',
+                          })
+                        : undefined
+                }
+                email={dataInfo && dataInfo.email}
+            />
+            <CommentModal isModal={isOpenCommemt} closeModal={() => setIsOpenCommemt(false)} />
         </>
     );
 };

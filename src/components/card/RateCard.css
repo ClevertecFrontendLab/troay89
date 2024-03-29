@@ -59,6 +59,28 @@
     margin: 28px 0 0 ;
 }
 
-/*box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);*/
-/*background: var(--character-light-primary-inverse);*/
-/*border-radius: 8px;*/
+@media screen and (max-width: 600px) {
+    .wrapper-setting-page .rate-card {
+        width: 312px;
+    }
+
+    .rate-card .footer-card {
+        margin: 22px 0 20px;
+    }
+
+    .rate-card .footer-card.date{
+        margin: 11px 0;
+    }
+
+    .rate-card .ant-image-img {
+        height: 195px;
+    }
+
+    .rate-card .header-card {
+        padding: 16px 23px 16px;
+    }
+
+    .rate-card .active-rate {
+        margin: 13px 0 11px;
+    }
+}

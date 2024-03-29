@@ -9,7 +9,7 @@ import {
 import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
 import { PersonalTraining, TrainingList } from '../../type/Training.ts';
 import { JVT_TOKEN } from '@constants/constants.ts';
-import { TariffList } from '../../type/Tariff.ts';
+import { buyTariff, TariffList } from '../../type/Tariff.ts';
 
 export const apiSlices = createApi({
     reducerPath: 'api',
@@ -192,6 +192,8 @@ export const apiSlices = createApi({
                 firstName: string;
                 lastName: string;
                 birthday: string;
+                readyForJointTraining: boolean;
+                sendNotification: boolean;
             },
             Partial<InfoUser>
         >({
@@ -237,6 +239,23 @@ export const apiSlices = createApi({
                 }),
             }),
         }),
+        buyTariff: builder.mutation<{ statusCode: number }, Partial<buyTariff>>({
+            query: (tariff) => ({
+                url: 'tariff',
+                method: 'POST',
+                body: tariff,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
     }),
 });
 
@@ -256,3 +275,4 @@ export const { useGetUserInfoQuery } = apiSlices;
 export const { useChangeUserInfoMutation } = apiSlices;
 export const { useUploadImageMutation } = apiSlices;
 export const { useGetRateInfoQuery } = apiSlices;
+export const { useBuyTariffMutation } = apiSlices;

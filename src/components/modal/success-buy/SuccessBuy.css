@@ -1,0 +1,66 @@
+.ant-modal-content {
+    min-height: 351px;
+}
+
+.success-buy .ant-result-success{
+    padding: 66px 22px 0;
+}
+
+.success-buy .ant-modal-body {
+    padding: 0 24px;
+}
+
+.success-buy .ant-result-title {
+    font-family: var(--medium-title-font);
+    font-size: 24px;
+    line-height: 31px;
+    color: var(--first-color);
+}
+
+.success-buy .ant-result-icon {
+    margin-bottom: 28px;
+
+}
+
+.success-buy .ant-result-icon > .anticon{
+    color: var(--app-main-collor);
+}
+
+.success-buy .ant-result-subtitle {
+    font-family: var(--main-text-font);
+    color: var(--second-color);
+    line-height: 18px;
+}
+
+.success-buy .ant-result-extra {
+    font-family: var(--main-text-font);
+    color: var(--second-color);
+    line-height: 18px;
+}
+
+.success-buy .anticon-close {
+    margin: 22px 8px 0 0;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 600px) {
+    .success-buy .ant-modal-body {
+        padding: 0 4px;
+    }
+
+    .success-buy .ant-result-success{
+        padding: 25px 22px 0;
+    }
+
+    .success-buy .ant-result-title {
+        padding: 0 35px;
+    }
+
+    .success-buy .ant-result-extra {
+        padding: 0 10px;
+    }
+
+    .success-buy .ant-modal-content {
+        height: 362px;
+    }
+}

@@ -8,13 +8,25 @@ type RateCard = {
     nameRate: string;
     img: string;
     isActive: boolean;
+    date?: string;
     setIsOpenDrawer(value: boolean): void;
 };
 
-export const RateCard: React.FC<RateCard> = ({ nameRate, img, isActive, setIsOpenDrawer }) => {
+export const RateCard: React.FC<RateCard> = ({
+    nameRate,
+    img,
+    isActive,
+    setIsOpenDrawer,
+    date,
+}) => {
     const handleMore = () => {
         setIsOpenDrawer(true);
     };
+    const activeText = (
+        <span>
+            <br /> до {date}
+        </span>
+    );
 
     return (
         <Card className={'rate-card'}>
@@ -26,8 +38,8 @@ export const RateCard: React.FC<RateCard> = ({ nameRate, img, isActive, setIsOpe
             </div>
             <Image src={img} alt={'picture'} />
             {isActive ? (
-                <p className={'footer-card'}>
-                    активен <CheckOutlined />
+                <p className={`footer-card ${date && 'date'}`}>
+                    активен {date ? activeText : <CheckOutlined />}
                 </p>
             ) : (
                 <div className={'wrapper-active-rate'}>

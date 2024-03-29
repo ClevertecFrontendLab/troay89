@@ -67,6 +67,7 @@ const ProfileForm: React.FC = () => {
 
     useEffect(() => {
         if (data) {
+            console.log(data);
             if (data.imgSrc) {
                 setUploadedImageUrl(data.imgSrc);
                 setFileList([
@@ -74,11 +75,7 @@ const ProfileForm: React.FC = () => {
                         uid: '-5',
                         name: 'image.png',
                         status: 'success',
-                        url:
-                            data.imgSrc &&
-                            data.imgSrc.startsWith('https://lh3.googleusercontent.com')
-                                ? data.imgSrc
-                                : `https://training-api.clevertec.ru${data.imgSrc}`,
+                        url: data.imgSrc && data.imgSrc,
                     },
                 ]);
             }
@@ -195,7 +192,9 @@ const ProfileForm: React.FC = () => {
             lastName: values.lastName,
             birthday: values.birthday,
             password: values.password,
-            imgSrc: uploadedImageUrl ? uploadedImageUrl : undefined,
+            imgSrc: uploadedImageUrl
+                ? `https://training-api.clevertec.ru${uploadedImageUrl}`
+                : undefined,
         });
     };
 
