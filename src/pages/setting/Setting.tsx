@@ -75,6 +75,13 @@ const Setting: React.FC = () => {
         }
     };
 
+    const date = () => {
+        if (dataInfo && dataInfo.tariff) {
+            const monthUTC = new Date(dataInfo.tariff.expired).getUTCMonth() + 1;
+            const dayUTC = new Date(dataInfo.tariff.expired).getUTCDate();
+            return `${String(dayUTC).padStart(2, '0')}.${String(monthUTC).padStart(2, '0')}`;
+        }
+    };
     return (
         <>
             <div className={'wrapper-setting-page'}>
@@ -94,18 +101,7 @@ const Setting: React.FC = () => {
                             nameRate={'PRO tarif'}
                             img={dataInfo && dataInfo.tariff ? proActive : proDisabled}
                             isActive={!!(dataInfo && dataInfo.tariff)}
-                            date={
-                                dataInfo && dataInfo.tariff
-                                    ? new Date(dataInfo.tariff.expired).toLocaleDateString(
-                                          'default',
-                                          {
-                                              day: '2-digit',
-                                              month: '2-digit',
-                                              timeZone: 'Europe/London',
-                                          },
-                                      )
-                                    : undefined
-                            }
+                            date={dataInfo && dataInfo.tariff ? date() : undefined}
                             setIsOpenDrawer={setIsOpenDrawer}
                         />
                     </div>
@@ -155,15 +151,7 @@ const Setting: React.FC = () => {
                 isModal={isOpenDrawer}
                 closeModal={() => setIsOpenDrawer(false)}
                 dataTariff={data}
-                date={
-                    dataInfo && dataInfo.tariff
-                        ? new Date(dataInfo.tariff.expired).toLocaleDateString('default', {
-                              day: '2-digit',
-                              month: '2-digit',
-                              timeZone: 'Europe/London',
-                          })
-                        : undefined
-                }
+                date={dataInfo && dataInfo.tariff ? date() : undefined}
                 email={dataInfo && dataInfo.email}
             />
             <CommentModal isModal={isOpenCommemt} closeModal={() => setIsOpenCommemt(false)} />
