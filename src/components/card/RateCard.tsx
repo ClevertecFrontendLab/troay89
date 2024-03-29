@@ -46,6 +46,7 @@ export const RateCard: React.FC<RateCard> = ({
                         text={'Активировать'}
                         htmlType={'button'}
                         dataTestId={'activate-tariff-btn'}
+                        onClick={handleMore}
                     />
                 </div>
             )}
