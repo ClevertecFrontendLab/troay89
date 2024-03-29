@@ -36,7 +36,8 @@ export const RateCard: React.FC<RateCard> = ({
             <Image src={img} alt={'picture'} />
             {isActive ? (
                 <p className={`footer-card ${date && 'date'}`}>
-                    активен {date ? `до ${date}` : <CheckOutlined />}
+                    активен{' '}
+                    {date ? <span style={{ display: 'block' }}>до {date}</span> : <CheckOutlined />}
                 </p>
             ) : (
                 <div className={'wrapper-active-rate'}>
