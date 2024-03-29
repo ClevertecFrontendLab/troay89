@@ -31,7 +31,7 @@ export const RateDrawer: React.FC<RateDrawerProps> = ({
     const [open, setOpen] = useState(false);
     const [openBuyModal, setOpenBuyModal] = useState(false);
     const [changeDays, setChangeDays] = useState<null | number>(null);
-    const [buyTariff, { data }] = useBuyTariffMutation();
+    const [buyTariff] = useBuyTariffMutation();
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
     useEffect(() => {
