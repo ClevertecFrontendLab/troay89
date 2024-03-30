@@ -25,6 +25,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
     handleChangeInput,
 }) => {
     const [hasBeenTouched, setHasBeenTouched] = useState(isCheckStartData);
+    const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
     const handleChange = () => {
         setHasBeenTouched(true);
@@ -44,10 +45,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
                           },
                           () => ({
                               validator(_, value) {
-                                  if (
-                                      value &&
-                                      !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/)
-                                  ) {
+                                  if (value && !value.match(PASSWORD_REGEX)) {
                                       setIsTextPass && setIsTextPass(false);
                                       return Promise.reject(
                                           Error(

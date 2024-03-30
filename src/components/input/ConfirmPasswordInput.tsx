@@ -12,6 +12,13 @@ type PasswordInputProps = {
     handleChangeInput?: () => void;
 };
 
+const validatePasswordsMatch = (getFieldValue: (field: string) => string, value?: string) => {
+    if (!value || getFieldValue('password') === value) {
+        return Promise.resolve();
+    }
+    return Promise.reject(new Error('Пароли не совпадают'));
+};
+
 export const ConfirmPasswordInput: React.FC<PasswordInputProps> = ({
     className,
     placeholder,
@@ -42,12 +49,7 @@ export const ConfirmPasswordInput: React.FC<PasswordInputProps> = ({
                               message: '',
                           },
                           ({ getFieldValue }) => ({
-                              validator(_, value) {
-                                  if (!value || getFieldValue('password') === value) {
-                                      return Promise.resolve();
-                                  }
-                                  return Promise.reject(new Error('Пароли не совпадают'));
-                              },
+                              validator: (_, value) => validatePasswordsMatch(getFieldValue, value),
                           }),
                       ]
                     : undefined

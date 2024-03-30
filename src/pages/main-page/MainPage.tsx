@@ -47,13 +47,6 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
         if (data) {
             dispatch(saveInfoUser(data));
         }
-        // else if (error) {
-        //     if ('status' in error && error.status === statusCodes.ERROR_403) {
-        //         localStorage.removeItem(JVT_TOKEN);
-        //         sessionStorage.removeItem(JVT_TOKEN);
-        //         history.push(paths.auth.path);
-        //     }
-        // }
     }, [data, dispatch]);
 
     const handleClickProfile = () => history.push(paths.profile.path);

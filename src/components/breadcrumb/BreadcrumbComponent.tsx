@@ -2,13 +2,12 @@ import { Breadcrumb } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import './BreadcrumbComponent.css';
 import { ReactElement } from 'react';
+import { paths } from '@constants/constants.ts';
 
 const breadcrumbNameMap: Record<string, string> = {
     '/main': 'Главная',
     '/feedbacks': 'Отзывы пользователей',
     '/calendar': 'Календарь',
-    '/profile': ' ',
-    '/settings': ' ',
 };
 
 export const BreadcrumbComponent = () => {
@@ -30,8 +29,8 @@ export const BreadcrumbComponent = () => {
 
     const breadcrumbItems = [
         <Breadcrumb.Item key='home'>
-            {extraBreadcrumbItems.length && extraBreadcrumbItems[0].key !== '/main' ? (
-                <Link to='/main'>Главная</Link>
+            {extraBreadcrumbItems.length && extraBreadcrumbItems[0].key !== paths.main.path ? (
+                <Link to={paths.main.path}>Главная</Link>
             ) : null}
         </Breadcrumb.Item>,
     ].concat(extraBreadcrumbItems);

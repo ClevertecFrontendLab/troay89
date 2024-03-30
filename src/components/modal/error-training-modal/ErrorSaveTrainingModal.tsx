@@ -48,9 +48,7 @@ export const ErrorSaveTrainingModal: React.FC<TrainingModalProps> = ({
             centered={true}
             style={{ width: '100%', maxWidth: !isMobile ? 384 : 328 }}
             closeIcon={
-                !className ? (
-                    <CloseOutlined className={'close'} data-test-id={dataTestId} />
-                ) : undefined
+                !className && <CloseOutlined className={'close'} data-test-id={dataTestId} />
             }
             closable={!className}
         >

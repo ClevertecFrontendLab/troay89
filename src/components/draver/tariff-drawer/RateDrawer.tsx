@@ -16,9 +16,9 @@ import { useMediaQuery } from 'react-responsive';
 type RateDrawerProps = {
     isModal: boolean;
     closeModal: () => void;
-    dataTariff: Array<TariffList> | undefined;
     date: string | undefined;
     email: string | undefined;
+    dataTariff?: Array<TariffList>;
 };
 
 export const RateDrawer: React.FC<RateDrawerProps> = ({
