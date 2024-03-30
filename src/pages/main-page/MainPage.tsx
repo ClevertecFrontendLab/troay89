@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout } from 'antd';
 import { Card } from 'antd';
 import { CardComponent } from '@components/card/Card.tsx';
@@ -15,6 +15,11 @@ import { LayoutComponent } from '@components/layout';
 import { Loader } from '@components/loader/Loader.tsx';
 import { ErrorModal } from '@components/modal/error-modal/ErrorModal.tsx';
 import { usePersonalTrainingList } from '@hooks/personal-training-hook.ts';
+import { history } from '@redux/reducers/routerSlice.ts';
+import { paths } from '@constants/constants.ts';
+import { useGetUserInfoQuery } from '@redux/reducers/apiSlice.ts';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks.ts';
+import { saveInfoUser } from '@redux/reducers/userInfo.ts';
 
 const { Content } = Layout;
 
@@ -23,6 +28,7 @@ type MainPageProps = {
 };
 
 const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
+    const dispatch = useAppDispatch();
     const isMobile = useMediaQuery({ query: '(max-width: 815px)' });
     const isTable = useMediaQuery({ query: '(max-width: 1000px)' });
     const spaceDesktop = !isTable && !isMobile && !isCloseSide ? <br /> : '';
@@ -34,6 +40,23 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const MobilePadding = isCloseSide && isMobile ? '17px 20px 0 15px' : '17px 10px 0 15px';
     const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
         usePersonalTrainingList();
+
+    const { data } = useGetUserInfoQuery();
+
+    useEffect(() => {
+        if (data) {
+            dispatch(saveInfoUser(data));
+        }
+        // else if (error) {
+        //     if ('status' in error && error.status === statusCodes.ERROR_403) {
+        //         localStorage.removeItem(JVT_TOKEN);
+        //         sessionStorage.removeItem(JVT_TOKEN);
+        //         history.push(paths.auth.path);
+        //     }
+        // }
+    }, [data, dispatch]);
+
+    const handleClickProfile = () => history.push(paths.profile.path);
 
     if (personalTrainingIsLoading) {
         return <Loader />;
@@ -86,7 +109,8 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
                         content={'Профиль'}
                         icon={<IdcardOutlined />}
                         isCloseSide={isCloseSide}
-                        onClick={handleClickCalendar}
+                        dataTestId={'menu-button-profile'}
+                        onClick={handleClickProfile}
                     />
                 </div>
                 <Card className={'contact-card-header'} bordered={false}>

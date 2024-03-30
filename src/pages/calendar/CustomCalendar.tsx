@@ -12,13 +12,16 @@ import { Loader } from '@components/loader/Loader.tsx';
 import { JVT_TOKEN, paths, statusCodes } from '@constants/constants.ts';
 import { history } from '@redux/reducers/routerSlice.ts';
 import { CreateTrainingModal } from '@components/modal/create-training-modal/CreateTrainingModal.tsx';
-import { TrainingBadge, TrainingDraver } from '@components/draver/TrainingDraver.tsx';
 import { PersonalTraining } from '../../type/Training.ts';
 import { useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { ErrorTrainingModal } from '@components/modal/error-training-modal/ErrorTrainingModal.tsx';
 import { ErrorSaveTrainingModal } from '@components/modal/error-training-modal/ErrorSaveTrainingModal.tsx';
 import { useMediaQuery } from 'react-responsive';
 import './Calendar.css';
+import {
+    TrainingBadge,
+    TrainingDraver,
+} from '@components/draver/training-drawer/TrainingDraver.tsx';
 
 export type Position = {
     date: string;
@@ -85,7 +88,7 @@ const CustomCalendar: React.FC = () => {
                 if (typeof training.date === 'number') {
                     const dateObject = new Date(cellDate).getTime();
                     const trainingDay = new Date(training.date);
-                    const startDay = trainingDay.setHours(0, 0, 0, 0);
+                    const startDay = trainingDay.setHours(3, 0, 0, 0);
                     return startDay === dateObject;
                 }
                 return training.date.slice(0, 10) === cellDate;
@@ -128,7 +131,7 @@ const CustomCalendar: React.FC = () => {
             if (typeof training.date === 'number') {
                 const dateObject = new Date(cellDate).getTime();
                 const trainingDay = new Date(training.date);
-                const startDay = trainingDay.setHours(0, 0, 0, 0);
+                const startDay = trainingDay.setHours(3, 0, 0, 0);
                 return startDay === dateObject;
             }
             return training.date.slice(0, 10) === cellDate;
@@ -242,6 +245,8 @@ const CustomCalendar: React.FC = () => {
             <ErrorSaveTrainingModal
                 isModal={isModalErrorSaveList}
                 closeModal={() => setIsModalErrorSaveList(false)}
+                tittle={'При сохранении данных произошла ошибка'}
+                text={'Придётся попробовать ещё раз'}
             />
             <CreateTrainingModal
                 isModal={isModalAddTraining}

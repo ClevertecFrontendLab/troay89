@@ -58,6 +58,40 @@ div.header-seating {
     border: solid var(--setting-backgraund) 1px;
 }
 
+.header-two {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    min-height: 72px;
+}
+
+.header-setting .title,
+.header-two .title {
+    color: var(--first-color);
+    font-size: 20px;
+    line-height: 26px;
+    font-family: var(--medium-title-font);
+    margin: 22px 0 0 24px;
+}
+
+.header-setting .title {
+    margin: 22px 0 22px 17px;
+}
+
+.header-two .wrapper-sitting {
+    margin-right: 39px;
+    width: 99px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.header-setting .wrapper-content {
+    display: flex;
+    align-items: baseline;
+    margin-left: 24px;
+}
+
 @media screen and (max-width: 1000px) {
     .ant-layout-header {
         min-height: 50px;
@@ -78,6 +112,35 @@ div.header-seating {
         margin: 12px 39px 12px 0;
         max-height: 30px;
     }
+
+    .header-setting .title,
+    .header-two .title {
+        font-family: var(--main-text-font);
+        font-size: 14px;
+        line-height: 18px;
+        margin: 16px 0 0 24px;
+    }
+
+    .header-setting .title {
+        margin: 22px 0 22px 16px;
+    }
+
+
+    .ant-layout-header.header-setting {
+        min-height: 62px;
+    }
+
+    .ant-layout-header.header-two {
+        min-height: 96px;
+        line-height: 18px;
+        display: block;
+    }
+
+    .header-two .wrapper-sitting {
+        text-align: right;
+        margin-left: auto;
+        margin-top: 15px;
+    }
 }
 
 @media screen and (max-width: 815px) {
@@ -96,5 +159,19 @@ div.header-seating {
 
     h1.title-header {
         margin-top: 4px;
+    }
+
+    .header-two .wrapper-sitting {
+        margin-right: 39px;
+        width: fit-content;
+    }
+
+    .ant-layout-header.header-two {
+        min-height: 82px;
+    }
+
+    .header-two .wrapper-sitting {
+        margin-right: 34px;
+        margin-top: 10px;
     }
 }

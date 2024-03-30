@@ -1,0 +1,13 @@
+.site-layout:has(.wrapper-404) .ant-layout-header {
+    display: none;
+}
+
+.wrapper-404 {
+    height: 100%;
+    margin: 24px 24px 42px;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

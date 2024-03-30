@@ -1,4 +1,4 @@
-.ant-picker-cell {
+.custom-calendar .ant-picker-cell {
     position: relative;
     width: 200px;
     height: 143px;
@@ -146,7 +146,7 @@
 
 @media screen and (max-width: 500px) {
 
-    .ant-picker-cell {
+    .custom-calendar .ant-picker-cell {
         height: 30px;
         padding: 0;
     }

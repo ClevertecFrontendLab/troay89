@@ -22,16 +22,17 @@ export type UserChangePassword = {
     confirmPassword: string;
 };
 
-export type DataUser = {
-    email: string;
-    firstName: string;
-    lastName: string;
-    birthday: Date;
-    imgSrc: string;
-    readyForJointTraining: boolean;
-    sendNotification: boolean;
-    tariff: {
+export type InfoUser = {
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    birthday?: string;
+    imgSrc?: string;
+    readyForJointTraining?: boolean;
+    sendNotification?: boolean;
+    password?: string;
+    tariff?: {
         tariffId: string;
-        expired: Date;
+        expired: string;
     };
 };

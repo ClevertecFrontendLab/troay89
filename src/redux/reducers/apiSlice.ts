@@ -1,8 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { User, UserChangePassword, UserCheckEmail, UserConfirmEmail } from '../../type/User.ts';
+import {
+    InfoUser,
+    User,
+    UserChangePassword,
+    UserCheckEmail,
+    UserConfirmEmail,
+} from '../../type/User.ts';
 import { Comments, SendComment, ServerResponseAuth } from '../../type/Data.ts';
 import { PersonalTraining, TrainingList } from '../../type/Training.ts';
 import { JVT_TOKEN } from '@constants/constants.ts';
+import { buyTariff, TariffList } from '../../type/Tariff.ts';
 
 export const apiSlices = createApi({
     reducerPath: 'api',
@@ -164,6 +171,91 @@ export const apiSlices = createApi({
                 }),
             }),
         }),
+        getUserInfo: builder.query<InfoUser, void>({
+            query: () => ({
+                url: 'user/me',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
+        changeUserInfo: builder.mutation<
+            {
+                email: string;
+                firstName: string;
+                lastName: string;
+                birthday: string;
+                readyForJointTraining: boolean;
+                sendNotification: boolean;
+            },
+            Partial<InfoUser>
+        >({
+            query: (personalInfo) => ({
+                url: 'user',
+                method: 'PUT',
+                body: personalInfo,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+            }),
+        }),
+        uploadImage: builder.mutation<{ name: string; url: string }, FormData>({
+            query: (file: FormData) => ({
+                url: 'upload-image',
+                method: 'POST',
+                body: file,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+            }),
+        }),
+        getRateInfo: builder.query<Array<TariffList>, void>({
+            query: () => ({
+                url: 'catalogs/tariff-list',
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
+        buyTariff: builder.mutation<{ statusCode: number }, Partial<buyTariff>>({
+            query: (tariff) => ({
+                url: 'tariff',
+                method: 'POST',
+                body: tariff,
+                headers: {
+                    Authorization:
+                        'Bearer ' +
+                        (localStorage.getItem(JVT_TOKEN)
+                            ? localStorage.getItem(JVT_TOKEN)
+                            : sessionStorage.getItem(JVT_TOKEN)),
+                },
+                transformResponse: () => ({
+                    statusCode: 200,
+                }),
+            }),
+        }),
     }),
 });
 
@@ -175,9 +267,12 @@ export const { useAuthChangePasswordMutation } = apiSlices;
 export const { useSendFeedbackMutation } = apiSlices;
 export const { useGetFeedbacksQuery } = apiSlices;
 export const { useLazyGetFeedbacksQuery } = apiSlices;
-export const { useGetPersonalTrainingListQuery } = apiSlices;
 export const { useLazyGetPersonalTrainingListQuery } = apiSlices;
-export const { useGetTrainingListQuery } = apiSlices;
 export const { useLazyGetTrainingListQuery } = apiSlices;
 export const { useAddPersonalTrainingListMutation } = apiSlices;
 export const { useEditPersonalTrainingListMutation } = apiSlices;
+export const { useGetUserInfoQuery } = apiSlices;
+export const { useChangeUserInfoMutation } = apiSlices;
+export const { useUploadImageMutation } = apiSlices;
+export const { useGetRateInfoQuery } = apiSlices;
+export const { useBuyTariffMutation } = apiSlices;

@@ -1,0 +1,58 @@
+.wrapper-setting-content .wrapper-switch {
+    max-width: 505px;
+    margin-top: 41px;
+    margin-bottom: 110px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.wrapper-setting-content .wrapper-switch .text {
+    color: var(--first-color);
+    font-family: var(--main-title-font);
+    line-height: 18px;
+}
+
+.wrapper-setting-content .wrapper-switch .text.disabled {
+    color: var(--third-color);
+}
+
+.wrapper-setting-content .content-switch {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.wrapper-setting-content .wrapper-switch .anticon-exclamation-circle {
+    font-size: 16px;
+    padding-left: 17px;
+    margin-left: -12px;
+    color: var(--second-color);
+}
+
+.wrapper-setting-content .wrapper-switch .left-content {
+    display: flex;
+}
+
+
+@media screen and (max-width: 600px) {
+    .wrapper-setting-content .wrapper-switch {
+        margin-top: 34px;
+        gap: 22px;
+        margin-bottom: 36px;
+    }
+
+    .wrapper-setting-content .wrapper-switch .left-content {
+        align-items: baseline;
+        width: 198px;
+    }
+
+    .wrapper-setting-content .content-switch {
+        align-items: center;
+    }
+
+    .wrapper-setting-content .wrapper-switch .text {
+        display: inline-block;
+        max-width: 205px;
+    }
+}

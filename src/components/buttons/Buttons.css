@@ -13,6 +13,7 @@
 .reg-enter.ant-btn-primary,
 .auth-enter.ant-btn-primary {
     background: var(--app-main-collor);
+    font-size: 14px;
 }
 
 .ant-btn-primary.style:hover,

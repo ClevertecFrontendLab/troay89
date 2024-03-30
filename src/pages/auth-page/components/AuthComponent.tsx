@@ -24,8 +24,8 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
     const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
     const [isSaveData, setIsSaveData] = useState<boolean>(false);
     const [isEmailValid, setIsEmailValid] = useState(true);
-    const [isEmailEmpty, setIsEmailEmpty] = useState(false);
     const [isRedColor, setIsRedColor] = useState(false);
+    const [isEmailEmpty, setIsEmailEmpty] = useState(false);
     const userEmail = useAppSelector((state) => state.saveEmail.saveUserEmail);
     const [authUser, { data: authData, isLoading: authIsLoading, error: authError }] =
         useAuthUserMutation();
@@ -116,6 +116,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                 <Space direction='vertical'>
                     <EmailInput
                         className={'auth-input auth-input-email'}
+                        autoComplete={'email'}
                         validateStatus={
                             isRedColor || !isEmailValid
                                 ? ResultStatusType.ERROR
@@ -128,6 +129,7 @@ export const AuthComponent: React.FC<AuthComponentProps> = ({ setIsLoading }) =>
                         placeholder={'Пароль'}
                         dataTestId={'login-password'}
                         autoComplete={'current-password'}
+                        isCheckStartData={true}
                         helpText={''}
                     />
                 </Space>

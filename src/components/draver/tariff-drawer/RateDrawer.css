@@ -1,0 +1,214 @@
+.drawer-rate {
+    font-family: var(--main-text-font);
+    color: var(--first-color);
+}
+
+.drawer-rate .ant-drawer-title {
+    font-size: 20px;
+    line-height: 26px;
+    font-family: var(--medium-title-font);
+    color: var(--first-color);
+    margin: 8px 1px 1px 8px;
+}
+
+.drawer-rate .ant-drawer-close {
+    width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.drawer-rate .wrapper-tariff {
+    margin-left: 219px;
+    display: flex;
+    gap: 17px;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 22px;
+}
+
+.drawer-rate .wrapper-tariff .free {
+    background-color: var(--netral-color);
+    padding: 4px 13px
+}
+
+.drawer-rate .wrapper-tariff .pro {
+    background-color: var(--header-backgraund);
+    padding: 4px 13px;
+    color: var(--hover-default-button);
+}
+
+.drawer-rate .wrapper-tariff .pro.active {
+    width: 126px;
+    font-size: 14px;
+    font-family: var(--medium-title-font);
+    padding: 3px 1px 1px 0;
+    text-align: right;
+    line-height: 18px;
+}
+
+.drawer-rate .wrapper-tariff .pro.active .anticon-check-circle {
+    font-size: 14px;
+    color: var(--success-color);
+}
+
+.drawer-rate .ant-drawer-body {
+    padding: 47px 32px 4px;
+}
+
+.drawer-rate .ant-drawer-body:has(.active-pro) {
+    padding: 23px 32px 4px;
+}
+
+.drawer-rate .ant-drawer-body .benefits {
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 17px;
+}
+
+.drawer-rate .ant-drawer-body .benefits div {
+    width: 187px;
+}
+
+.drawer-rate .ant-drawer-body .anticon-check-circle{
+    font-size: 16px;
+}
+
+.drawer-rate .ant-drawer-body .anticon-close-circle {
+    font-size: 18px;
+}
+
+.drawer-rate .ant-drawer-body .anticon-close-circle {
+    color: var(--third-color)
+}
+
+.drawer-rate .price-title {
+    line-height: 18px;
+    font-family: var(--main-title-font);
+    margin: 84px 0 12px 0;
+}
+
+.drawer-rate .choose-price .ant-radio-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.drawer-rate .choose-price .price {
+    margin-right: 49px;
+    font-size: 16px;
+    font-family: var(--medium-title-font);
+    letter-spacing: -0.5px;
+    display: inline-block;
+    width: 39px;
+    text-align: right;
+}
+
+.drawer-rate .choose-price .month {
+    margin-right: 132px;
+    display: inline-block;
+    width: 92px;
+}
+
+.drawer-rate .ant-space-item {
+    margin-top: 15px;
+}
+
+.drawer-rate .ant-radio-wrapper span.ant-radio + * {
+    padding: 0;
+}
+
+.drawer-rate .button-tariff {
+    width: 100%;
+}
+
+.drawer-rate .ant-drawer-footer {
+    padding: 11px 32px 11px 32px;
+}
+
+.drawer-rate .ant-drawer-content-wrapper {
+    border-radius: 8px 0 0 8px
+}
+
+.drawer-rate .ant-drawer-content {
+    border-radius: 8px 0 0 8px
+}
+
+.drawer-rate .active-pro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 49px;
+    font-size: 16px;
+    line-height: 21px;
+    font-family: var(--medium-title-font);
+    color: var(--primary-light);
+    background-color: var(--header-backgraund);
+    margin-bottom: 48px;
+}
+
+@media screen and (max-width: 600px) {
+    .drawer-rate .ant-drawer-header {
+        padding: 15px 8px;
+    }
+
+    .drawer-rate .wrapper-tariff {
+        margin-left: 186px;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+
+    .drawer-rate .ant-drawer-body {
+        padding: 24px 16px 4px;
+        overflow: visible;
+    }
+
+    .drawer-rate .wrapper-tariff .pro {
+        padding: 4px 15px;
+    }
+
+    .drawer-rate .ant-drawer-body .benefits {
+        margin-bottom: 4px;
+    }
+
+    .drawer-rate .price-title {
+        margin: 31px 0 10px;
+    }
+
+    .drawer-rate .choose-price .month {
+        margin-right: 116px;
+        display: inline-block;
+        width: 92px;
+    }
+
+    .drawer-rate .ant-space-item {
+        margin-top: 4px;
+    }
+
+    .drawer-rate .ant-drawer-footer {
+        padding: 11px 16px 498px;
+    }
+
+    .drawer-rate .ant-drawer-content-wrapper {
+        border-radius: 24px 24px 0 0;
+    }
+
+    .drawer-rate .ant-drawer-content {
+        border-radius: 24px 24px 0 0;
+    }
+
+    .drawer-rate .ant-drawer-body:has(.active-pro) {
+        padding: 23px 16px 4px;
+    }
+
+    .drawer-rate .active-pro {
+        margin-bottom: 24px;
+    }
+
+    .drawer-rate .wrapper-tariff .pro.active {
+        width: 56px;
+        padding: 3px 1px 1px 0;
+        text-align: center;
+    }
+}

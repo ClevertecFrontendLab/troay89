@@ -3,7 +3,7 @@ import { Badge, Checkbox, Drawer, Input, InputNumber } from 'antd';
 import { CloseOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import './TrainingDraver.css';
 import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
-import { DataTraining, PersonalTraining } from '../../type/Training.ts';
+import { DataTraining, PersonalTraining } from '../../../type/Training.ts';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
 import { saveListTraining } from '@redux/reducers/listTrainingSlice.ts';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';

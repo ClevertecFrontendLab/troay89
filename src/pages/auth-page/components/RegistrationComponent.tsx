@@ -74,6 +74,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                     <EmailInput
                         className={'reg-input reg-input-email'}
                         dataTestId='registration-email'
+                        autoComplete={'email'}
                     />
                     <PasswordInput
                         className={`reg-input ${isTextPass ? 'another-color' : ''}`}
@@ -81,6 +82,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                         helpText={'Пароль не менее 8 символов, с заглавной буквой и цифрой'}
                         dataTestId={'registration-password'}
                         autoComplete={'new-password'}
+                        isCheckStartData={true}
                         setIsTextPass={setIsTextPass}
                     />
                 </Space>
@@ -89,6 +91,7 @@ export const RegistrationComponent: React.FC<RegistrationComponentProps> = ({ se
                     dataTestId={'registration-confirm-password'}
                     placeholder={'Повторите пароль'}
                     autoComplete={'new-password'}
+                    isCheckStartData={true}
                     dependence={'password'}
                 />
                 <PrimaryButton
