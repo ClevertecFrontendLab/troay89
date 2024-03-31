@@ -79,7 +79,7 @@ const CustomCalendar: React.FC = () => {
                 setIsModalErrorList(true);
             }
         }
-    }, [dataTrainingList, errorTrainingList]);
+    }, [errorTrainingList]);
 
     useEffect(() => {
         if (isModalOpen) {

@@ -8,6 +8,7 @@ import { history } from '@redux/reducers/routerSlice.ts';
 export const usePersonalTrainingList = () => {
     const dispatch = useAppDispatch();
     const [isOpenModal, setIsOpenModal] = useState(false);
+    const [isCalendar, setIsCalendar] = useState(false)
     const [
         getPersonalTrainingList,
         {
@@ -18,14 +19,20 @@ export const usePersonalTrainingList = () => {
     ] = useLazyGetPersonalTrainingListQuery();
 
     const handleClickCalendar = () => {
+        setIsCalendar(true)
+        getPersonalTrainingList();
+    };
+
+    const handleClickWorkout = () => {
+        setIsCalendar(false)
         getPersonalTrainingList();
     };
 
     useEffect(() => {
         if (personalTrainingData) {
-            setIsOpenModal(true);
+            setIsOpenModal(false);
             dispatch(savePersonalListTraining(personalTrainingData));
-            history.push(paths.trainingList.path);
+            isCalendar ? history.push(paths.trainingList.path) : history.push(paths.workouts.path);
         } else if (personalTrainingError) {
             if (
                 'status' in personalTrainingError &&
@@ -45,5 +52,6 @@ export const usePersonalTrainingList = () => {
         handleClickCalendar,
         personalTrainingIsLoading,
         setIsOpenModal,
+        handleClickWorkout
     };
 };

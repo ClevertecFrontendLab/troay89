@@ -12,24 +12,43 @@
 
 .workout-drawer .ant-drawer-header {
     border-bottom: none;
-    padding: 24px 24px 14px 8px;
+    padding: 24px 24px 16px 8px;
 }
 
 .workout-drawer .select-training {
     width: 100%;
-    height: 28px;
     border: 1px solid var(--netral-two-color);
 }
 
-.workout-drawer .select-training .ant-select-selector {
+.workout-drawer .select-training .ant-select-selection-item {
+    font-size: 14px;
+    color: var(--third-color);
+}
+
+.workout-drawer .ant-select-single.ant-select-sm:not(.ant-select-customize-input) .ant-select-selector {
     height: 26px;
 }
 
-.workout-drawer .pick-date {
-    margin: 22px 0 0;
-    padding: 2px 11px;
+.workout-drawer .ant-select-single.ant-select-sm:not(.ant-select-customize-input) .ant-select-selector {
+    padding: 0 11px;
 }
 
 .workout-drawer .pick-date {
+    margin: 24px 32px 0 0;
+    padding: 2px 11px;
     width: 156px;
+}
+
+.workout-drawer .ant-checkbox + span {
+    padding-right: 0;
+}
+
+.workout-drawer .wrapper-button .ant-btn-default {
+    font-size: 14px;
+    color: var(--app-main-collor);
+    background-color: var(--netral-color);
+    width: 344px;
+    margin: 25px 0 0 9px;
+    padding: 6.4px 11px;
+    text-align: left;
 }

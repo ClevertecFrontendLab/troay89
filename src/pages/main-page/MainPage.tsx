@@ -38,7 +38,7 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
     const spaceMobileSiderClose = isMobile && isCloseSide ? <br /> : '';
     const changeMargin = isCloseSide && isMobile ? 'change-margin' : '';
     const MobilePadding = isCloseSide && isMobile ? '17px 20px 0 15px' : '17px 10px 0 15px';
-    const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
+    const { isOpenModal, handleClickCalendar, handleClickWorkout, personalTrainingIsLoading, setIsOpenModal } =
         usePersonalTrainingList();
 
     const { data } = useGetUserInfoQuery();
@@ -87,7 +87,7 @@ const MainContent: React.FC<MainPageProps> = ({ isCloseSide }) => {
                         content={'Тренировки'}
                         icon={<HeartFilled />}
                         isCloseSide={isCloseSide}
-                        onClick={handleClickCalendar}
+                        onClick={handleClickWorkout}
                     />
                     <CardComponent
                         title={'Назначить календарь'}

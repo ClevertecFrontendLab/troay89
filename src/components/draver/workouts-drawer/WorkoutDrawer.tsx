@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { CloseOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import { TrainingData } from '../../../trainingData/TrainingData.tsx';
-import { DefaultButton } from '@components/buttons/DefaultButton.tsx';
-import { Checkbox, DatePicker, Drawer, Select } from 'antd';
-import { useMediaQuery } from 'react-responsive';
-import { saveDrawerTraining } from '@redux/reducers/drawerReduce.ts';
-import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks.ts';
+import React, {useEffect, useState} from 'react';
+import {CloseOutlined, EditOutlined, MinusOutlined, PlusOutlined} from '@ant-design/icons';
+import {TrainingData} from '../../../trainingData/TrainingData.tsx';
+import {DefaultButton} from '@components/buttons/DefaultButton.tsx';
+import {Checkbox, ConfigProvider, DatePicker, Drawer, Select} from 'antd';
+import {useMediaQuery} from 'react-responsive';
+import {saveDrawerTraining} from '@redux/reducers/drawerReduce.ts';
+import {useAppDispatch, useAppSelector} from '@hooks/typed-react-redux-hooks.ts';
 import './WorkoutDrawer.css';
+import ruRU from "antd/lib/locale/ru_RU";
+import {TrainingList} from "../../../type/Training.ts";
+
 
 type WorkoutDrawerProps = {
     isModal: boolean;
     closeModal: () => void;
+    dataTrainingList: TrainingList[];
 };
 
-export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModal }) => {
+export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({isModal, closeModal, dataTrainingList}) => {
     const dispatch = useAppDispatch();
-    const isMobile = useMediaQuery({ query: '(max-width: 500px)' });
+    const isMobile = useMediaQuery({query: '(max-width: 500px)'});
     const [open, setOpen] = useState(false);
     const [isChecked, setIsChecked] = useState<Array<boolean>>([]);
     const listDrawer = useAppSelector((state) => state.saveListDrawer.listDrawerTraining);
@@ -36,7 +40,7 @@ export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModa
         dispatch(
             saveDrawerTraining([
                 ...listDrawer,
-                { name: '', replays: undefined, weight: undefined, approaches: undefined },
+                {name: '', replays: undefined, weight: undefined, approaches: undefined},
             ]),
         );
     };
@@ -52,7 +56,7 @@ export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModa
                 //     </>
                 // ) :
                 <>
-                    <PlusOutlined className={'plus'} /> {'Новая тренировка'}
+                    <PlusOutlined className={'plus'}/> {'Новая тренировка'}
                 </>
             }
             placement={!isMobile ? 'right' : 'bottom'}
@@ -60,7 +64,7 @@ export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModa
             onClose={onClose}
             open={open}
             getContainer={false}
-            style={{ position: 'absolute' }}
+            style={{position: 'absolute'}}
             mask={false}
             maskClosable={false}
             width={!isMobile ? 408 : '100%'}
@@ -74,7 +78,7 @@ export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModa
                         fontSize: 13,
                     }}
                 >
-                    <CloseOutlined data-test-id='modal-drawer-right-button-close' />
+                    <CloseOutlined data-test-id='modal-drawer-right-button-close'/>
                 </div>
             }
         >
@@ -84,22 +88,20 @@ export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModa
                     className={'select-training'}
                     key='select'
                     value={'Выбор типа тренировки'}
-                    bordered={true}
+                    bordered={false}
+                    size={'small'}
                     // onChange={handleChange}
                     options={[
-                        {
-                            value: '1',
-                            label: '1',
-                            key: '1',
-                        },
-                        {
-                            value: '2',
-                            label: '2',
-                            key: '2',
-                        },
+                        ...dataTrainingList.map((training) => ({
+                            value: training.name,
+                            label: training.name,
+                            key: training.key,
+                        })),
                     ]}
                 />
-                <DatePicker className={'pick-date'} />
+                <ConfigProvider locale={ruRU}>
+                    <DatePicker className={'pick-date'} size={'small'}/>
+                </ConfigProvider>
                 <Checkbox>С периодичностью</Checkbox>
                 {listDrawer.map((_, index) => (
                     <TrainingData
@@ -113,8 +115,8 @@ export const WorkoutDrawer: React.FC<WorkoutDrawerProps> = ({ isModal, closeModa
             </div>
             <div className={'wrapper-button'}>
                 <DefaultButton
-                    icon={<PlusOutlined />}
-                    text={'Добавить ещё'}
+                    icon={<PlusOutlined/>}
+                    text={'Добавить ещё упражнение'}
                     className={`button-add-training`}
                     onClick={handleAddTraining}
                 />

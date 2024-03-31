@@ -64,12 +64,11 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
         }
     }, []);
 
-    const { isOpenModal, handleClickCalendar, personalTrainingIsLoading, setIsOpenModal } =
+    const { isOpenModal, handleClickCalendar, handleClickWorkout, personalTrainingIsLoading, setIsOpenModal } =
         usePersonalTrainingList();
 
     const handleClickProfile = () => history.push(paths.profile.path);
 
-    const handleClickWorkouts = () => history.push(paths.workouts.path);
 
     if (personalTrainingIsLoading) {
         return <Loader />;
@@ -107,7 +106,7 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                         key='2'
                         icon={isMobile ? null : <HeartFilled className={'svg-menu'} />}
                         className={'ant-menu-item'}
-                        onClick={handleClickWorkouts}
+                        onClick={handleClickWorkout}
                     >
                         Тренировки
                     </Menu.Item>
