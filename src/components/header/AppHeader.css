@@ -15,6 +15,10 @@
     justify-content: flex-end;
 }
 
+.ant-layout-header .main-content.without-title.workouts {
+    margin-bottom: 16px;
+}
+
 h1.title-header {
     color: var(--first-color);
     max-width: 920px;

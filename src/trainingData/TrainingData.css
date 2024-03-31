@@ -1,0 +1,75 @@
+.workout-drawer .wrapper-data-training,
+.site-drawer-render-in-current-wrapper .wrapper-data-training {
+    display: inline-block;
+    margin-top: 24px;
+}
+
+.workout-drawer .data-training,
+.site-drawer-render-in-current-wrapper .data-training {
+    display: flex;
+    margin-top: 8px;
+}
+
+.workout-drawer .wrapper-data,
+.site-drawer-render-in-current-wrapper .wrapper-data {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+}
+
+.workout-drawer .wrapper-data .repeat,
+.site-drawer-render-in-current-wrapper .wrapper-data .repeat {
+    width: 120px;
+    margin-right: 32px;
+}
+
+.workout-drawer .wrapper-data .repeat-number,
+.site-drawer-render-in-current-wrapper .wrapper-data .repeat-number {
+    width: 84px;
+}
+
+.workout-drawer .style,
+.site-drawer-render-in-current-wrapper .style {
+    font-size: 12px;
+    line-height: 24px;
+    color: var(--first-color);
+    background-color: var(--netral-color);
+    padding-left: 8px;
+}
+
+.workout-drawer .wrapper-training,
+.site-drawer-render-in-current-wrapper .wrapper-training {
+    max-height: 800px;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 0 8px;
+}
+
+.workout-drawer .wrapper-training {
+
+}
+
+.workout-drawer .space-x,
+.site-drawer-render-in-current-wrapper .space-x {
+    width: 13px;
+    text-align: center;
+    color: var(--third-color);
+    margin-top: 32px;
+}
+.workout-drawer .ant-input-number-group-addon,
+.site-drawer-render-in-current-wrapper .ant-input-number-group-addon {
+    padding: 0 13px;
+}
+
+
+@media screen and (max-width: 500px) {
+    .workout-drawer .wrapper-data .repeat,
+    .site-drawer-render-in-current-wrapper .wrapper-data .repeat {
+        margin-right: 16px;
+    }
+
+    .workout-drawer .wrapper-training,
+    .site-drawer-render-in-current-wrapper .wrapper-training {
+        max-height: 380px;
+    }
+}

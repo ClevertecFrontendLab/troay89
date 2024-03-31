@@ -23,6 +23,9 @@ export const paths = {
     setting: {
         path: '/settings',
     },
+    workouts: {
+        path: '/workouts',
+    },
     confirmEmail: {
         path: '/auth/confirm-email',
     },

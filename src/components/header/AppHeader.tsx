@@ -87,8 +87,12 @@ export const AppHeader: React.FC = () => {
                     </Paragraph>
                 </div>
             )}
-            {location.pathname === '/calendar' && (
-                <div className={'main-content without-title'}>
+            {(location.pathname === '/calendar' || location.pathname === '/workouts') && (
+                <div
+                    className={`main-content without-title ${
+                        location.pathname === '/workouts' && 'workouts'
+                    }`}
+                >
                     <Paragraph
                         className={'header-seating'}
                         onClick={handleClick}

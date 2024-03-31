@@ -8,6 +8,7 @@ const breadcrumbNameMap: Record<string, string> = {
     '/main': 'Главная',
     '/feedbacks': 'Отзывы пользователей',
     '/calendar': 'Календарь',
+    '/workouts': 'Тренировки',
 };
 
 export const BreadcrumbComponent = () => {
@@ -30,7 +31,9 @@ export const BreadcrumbComponent = () => {
     const breadcrumbItems = [
         <Breadcrumb.Item key='home'>
             {extraBreadcrumbItems.length && extraBreadcrumbItems[0].key !== paths.main.path ? (
-                <Link to={paths.main.path}>Главная</Link>
+                <Link to={paths.main.path}>
+                    {location.pathname === '/workouts' ? 'Home' : 'Главная'}
+                </Link>
             ) : null}
         </Breadcrumb.Item>,
     ].concat(extraBreadcrumbItems);

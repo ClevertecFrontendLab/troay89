@@ -56,6 +56,9 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
             case paths.profile.path:
                 setSelectedKey('4');
                 break;
+            case paths.workouts.path:
+                setSelectedKey('2');
+                break;
             default:
                 setSelectedKey('0');
         }
@@ -65,6 +68,8 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
         usePersonalTrainingList();
 
     const handleClickProfile = () => history.push(paths.profile.path);
+
+    const handleClickWorkouts = () => history.push(paths.workouts.path);
 
     if (personalTrainingIsLoading) {
         return <Loader />;
@@ -102,6 +107,7 @@ export const SiderComponent: React.FC<SiderProps> = ({ isCloseSide, setIsCloseSi
                         key='2'
                         icon={isMobile ? null : <HeartFilled className={'svg-menu'} />}
                         className={'ant-menu-item'}
+                        onClick={handleClickWorkouts}
                     >
                         Тренировки
                     </Menu.Item>
