@@ -1,16 +1,10 @@
-.mainContainer {
+.main-container {
     grid-template-areas:
         'header header header'
         'nav main aside';
     grid-template-rows: 80px 1fr;
     grid-template-columns: 256px 1fr 256px;
-    color: rgba(0, 0, 0, 0.7);
     height: 100vh;
-}
-
-.header {
-    grid-area: header;
-    background-color: #f6ad55;
 }
 
 .navigation {

@@ -1,0 +1,6 @@
+:root {
+    --lime-color: #ffffd3;
+    --black-color: #000;
+    --black-alpha: rgba(0, 0, 0, 0.64);
+    --font-inter-500: normal 500 18px/156% 'Inter', sans-serif;
+}

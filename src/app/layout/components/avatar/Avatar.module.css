@@ -1,0 +1,19 @@
+.avatar-container {
+    display: flex;
+    margin-right: 68px;
+}
+
+.avatar-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+}
+
+.avatar-name {
+    font: var(--font-inter-500);
+}
+
+.avatar-email {
+    font: var(--font-inter-400);
+    color: var(--black-alpha);
+}

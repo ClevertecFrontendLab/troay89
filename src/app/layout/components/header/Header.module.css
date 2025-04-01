@@ -1,0 +1,14 @@
+.header {
+    grid-area: header;
+    background-color: var(--lime-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+    column-gap: 88px;
+}

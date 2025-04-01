@@ -1,16 +1,15 @@
 import { Grid, GridItem } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
+import Header from './components/header/Header';
 import styles from './Layout.module.css';
 
 type LayoutProps = PropsWithChildren;
 
 function Layout({ children }: LayoutProps) {
     return (
-        <Grid className={styles.mainContainer}>
-            <GridItem className={styles.header} as='header'>
-                Header
-            </GridItem>
+        <Grid className={styles['main-container']}>
+            <Header />
             <GridItem className={styles.navigation} as='nav'>
                 Nav
             </GridItem>
