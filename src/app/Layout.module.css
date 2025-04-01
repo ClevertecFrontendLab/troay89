@@ -1,0 +1,35 @@
+.mainContainer {
+    grid-template-areas:
+        'header header header'
+        'nav main aside';
+    grid-template-rows: 80px 1fr;
+    grid-template-columns: 256px 1fr 256px;
+    color: rgba(0, 0, 0, 0.7);
+    height: 100vh;
+}
+
+.header {
+    grid-area: header;
+    background-color: #f6ad55;
+}
+
+.navigation {
+    grid-area: nav;
+    background-color: #f687b3;
+}
+
+.main {
+    grid-area: main;
+    background-color: #68d391;
+}
+
+.aside {
+    grid-area: aside;
+    background-color: #f687b3;
+}
+
+.footer {
+    grid-area: footer;
+
+    display: none;
+}
