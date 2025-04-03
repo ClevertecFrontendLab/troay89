@@ -22,7 +22,6 @@
 
 .main {
     grid-area: main;
-    background-color: #68d391;
     overflow: auto;
 }
 
@@ -30,13 +29,7 @@
     display: none;
 }
 
-.aside {
-    grid-area: aside;
-    background-color: #f687b3;
-}
-
 .footer {
     grid-area: footer;
-
     display: none;
 }

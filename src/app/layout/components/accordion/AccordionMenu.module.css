@@ -3,6 +3,10 @@
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-gutter: stable;
+    border-radius: 12px;
+    box-shadow:
+        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+        0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .item_menu {

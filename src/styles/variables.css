@@ -1,5 +1,6 @@
 :root {
     --lime-color: #ffffd3;
+    --lime-color-600: #2db100;
     --black-color: #000;
     --black-alpha: rgba(0, 0, 0, 0.64);
     --black-alpha-400: rgba(0, 0, 0, 0.24);

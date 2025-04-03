@@ -1,0 +1,16 @@
+.container_user_stats {
+    flex-direction: column;
+    align-content: end;
+    margin: 24px 0 0 145px;
+}
+
+.container_user_stats > *:not(:last-child) {
+    margin-bottom: 40px;
+}
+
+.user_stat {
+    font: var(--font-inter-nav);
+    color: var(--lime-color-600);
+    font-weight: 600;
+    column-gap: 9px;
+}
