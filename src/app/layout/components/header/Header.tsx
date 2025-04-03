@@ -8,7 +8,7 @@ import styles from './Header.module.css';
 function Header() {
     return (
         <GridItem className={styles.header} as='header'>
-            <Box className={styles['header-container']}>
+            <Box className={styles['header_container']}>
                 <Image src={logo} alt='logo' />
                 <Center>
                     <Bread />

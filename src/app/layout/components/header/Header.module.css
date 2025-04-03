@@ -6,7 +6,7 @@
     justify-content: space-between;
 }
 
-.header-container {
+.header_container {
     display: flex;
     align-items: center;
     margin-left: 16px;

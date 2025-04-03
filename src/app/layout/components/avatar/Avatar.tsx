@@ -5,11 +5,11 @@ import styles from './Avatar.module.css';
 
 function Avatar() {
     return (
-        <Box className={styles['avatar-container']}>
+        <Box className={styles['avatar_container']}>
             <UserAvatar size='md' name='random user' src={avatar} />
-            <Box className={styles['avatar-info']}>
-                <span className={styles['avatar-name']}>Екатерина Константинопольская</span>
-                <span className={styles['avatar-email']}>@bake_and_pie</span>
+            <Box className={styles['avatar_info']}>
+                <span className={styles['avatar_name']}>Екатерина Константинопольская</span>
+                <span className={styles['avatar_email']}>@bake_and_pie</span>
             </Box>
         </Box>
     );

@@ -1,19 +1,19 @@
-.avatar-container {
+.avatar_container {
     display: flex;
     margin-right: 68px;
 }
 
-.avatar-info {
+.avatar_info {
     display: flex;
     flex-direction: column;
     margin-left: 12px;
 }
 
-.avatar-name {
+.avatar_name {
     font: var(--font-inter-500);
 }
 
-.avatar-email {
+.avatar_email {
     font: var(--font-inter-400);
     color: var(--black-alpha);
 }

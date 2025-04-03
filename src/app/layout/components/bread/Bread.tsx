@@ -6,7 +6,7 @@ function Bread() {
     return (
         <Breadcrumb>
             <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink className={styles['bread-crumb']} href='#'>
+                <BreadcrumbLink className={styles['bread_crumb']} href='#'>
                     Главная
                 </BreadcrumbLink>
             </BreadcrumbItem>

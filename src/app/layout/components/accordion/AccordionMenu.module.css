@@ -1,0 +1,49 @@
+.navigation {
+    margin-top: 34px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+.item_menu {
+    display: flex;
+    align-items: center;
+}
+
+.title_nav {
+    font: var(--font-inter-nav);
+}
+
+.icon {
+    padding: 12px 13px 12px 17px;
+}
+
+.accordion_icon {
+    margin-right: 4px;
+}
+
+.item_link {
+    display: block;
+    padding: 6px 0 6px 55px;
+    font: var(--font-inter-nav);
+    color: var(--black-color);
+    text-decoration: none;
+}
+
+.item_link:before {
+    content: '';
+    padding-right: 6px;
+    border-left: 1px solid green;
+}
+
+.navigation .accordion_panel {
+    padding-bottom: 0;
+}
+
+.accordion_panel .list > li {
+    margin: 0;
+}
+
+.list_items .item_button {
+    margin: 0;
+}
