@@ -166,8 +166,8 @@ function AccordionMenu() {
     return (
         <Accordion className={styles['navigation']} allowMultiple as='nav'>
             {Object.entries(menu).map(([category, items]) => (
-                <AccordionItem key={category}>
-                    <AccordionButton as='span'>
+                <AccordionItem className={styles['accordion_item']} key={category}>
+                    <AccordionButton className={styles['accordion_button']} as='span'>
                         <Box className={styles['item_menu']} flex='1' textAlign='left'>
                             {categoryIcons[category] && (
                                 <img

@@ -17,9 +17,10 @@
 }
 
 .footer_exit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-weight: 600;
-    text-decoration: none;
-    color: var(--black-color);
     padding-bottom: 32px;
     width: 100px;
 }

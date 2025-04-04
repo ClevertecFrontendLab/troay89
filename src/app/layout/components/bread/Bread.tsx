@@ -4,9 +4,9 @@ import styles from './Bread.module.css';
 
 function Bread() {
     return (
-        <Breadcrumb>
+        <Breadcrumb className={styles.breadcrumb}>
             <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink className={styles['bread_crumb']} href='#'>
+                <BreadcrumbLink className={styles['breadcrumb_link']} href='#'>
                     Главная
                 </BreadcrumbLink>
             </BreadcrumbItem>

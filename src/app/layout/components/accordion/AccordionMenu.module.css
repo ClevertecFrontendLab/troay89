@@ -9,6 +9,14 @@
         0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+.navigation .accordion_item {
+    border: none;
+}
+
+.navigation .accordion_button {
+    padding: 11px 2px 11px 19px;
+}
+
 .item_menu {
     display: flex;
     align-items: center;
@@ -16,10 +24,11 @@
 
 .title_nav {
     font: var(--font-inter-nav);
+    color: var(--black-color);
 }
 
 .icon {
-    padding: 12px 13px 12px 17px;
+    padding-right: 11px;
 }
 
 .accordion_icon {

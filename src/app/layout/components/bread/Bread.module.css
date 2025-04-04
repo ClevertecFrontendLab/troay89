@@ -1,4 +1,4 @@
-.bread_crumb {
-    font-size: 16px;
-    line-height: 150%;
+.breadcrumb .breadcrumb_link {
+    font: var(--font-inter-bread);
+    color: var(--black-color);
 }

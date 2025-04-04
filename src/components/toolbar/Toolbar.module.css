@@ -1,0 +1,10 @@
+.container {
+    flex-direction: column;
+    align-items: center;
+}
+
+.container .title {
+    font: var(--font-inter-title);
+    color: var(--black-color);
+    letter-spacing: 1px;
+}

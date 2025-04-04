@@ -1,7 +1,7 @@
-.container_user_stats {
+div.container_user_stats {
     flex-direction: column;
-    align-content: end;
-    margin: 24px 0 0 145px;
+    align-items: center;
+    margin: 25px 0 0 60px;
 }
 
 .container_user_stats > *:not(:last-child) {
@@ -9,6 +9,7 @@
 }
 
 .user_stat {
+    align-items: center;
     font: var(--font-inter-nav);
     color: var(--lime-color-600);
     font-weight: 600;

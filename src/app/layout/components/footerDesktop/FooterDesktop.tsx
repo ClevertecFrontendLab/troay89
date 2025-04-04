@@ -1,6 +1,7 @@
-import { Image, Link } from '@chakra-ui/react';
+import { Icon, Link } from '@chakra-ui/react';
 
-import exit from './../../../../assets/images/aside/nav/left.svg';
+import LeaveDoor from '~/components/icons/LeaveDoor';
+
 import styles from './Footer.module.css';
 
 function FooterDesktop() {
@@ -13,7 +14,7 @@ function FooterDesktop() {
             <span className={styles['footer_version']}>Версия программы 03.25</span>
             <span className={styles['footer_info']}>{textInfo}</span>
             <Link className={styles['footer_exit']} href='/'>
-                <Image src={exit} alt='выход' /> Выйти
+                <Icon as={LeaveDoor} /> Выйти
             </Link>
         </footer>
     );

@@ -1,11 +1,15 @@
+import { ChakraProvider } from '@chakra-ui/react';
+
 import Layout from './layout/Layout';
-import MainPage from './pages/MainPage';
+import MainPage from './pages/start-page/MainPage';
 
 function App() {
     return (
-        <Layout>
-            <MainPage />
-        </Layout>
+        <ChakraProvider>
+            <Layout>
+                <MainPage />
+            </Layout>
+        </ChakraProvider>
     );
 }
 
