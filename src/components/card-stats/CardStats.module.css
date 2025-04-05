@@ -1,0 +1,41 @@
+.container {
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.label {
+    align-items: center;
+    background-color: var(--lime-color-150);
+    padding: 2px 8px;
+    border-radius: 4px;
+    gap: 8px;
+}
+
+.label.yellow {
+    background-color: var(--lime-color);
+}
+
+.image {
+    height: 16px;
+}
+
+.text {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+}
+
+.number {
+    font: var(--font-inter-small);
+    color: var(--lime-color-600);
+}
+
+.stats {
+    align-items: center;
+    gap: 3px;
+}
+
+.stats_container {
+    gap: 19px;
+    margin-right: 6px;
+}

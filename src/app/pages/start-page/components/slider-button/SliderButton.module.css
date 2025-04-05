@@ -1,0 +1,17 @@
+button.slider_button {
+    display: flex;
+    position: absolute;
+    top: 146px;
+    left: -8px;
+    z-index: 10;
+    width: 48px;
+    height: 48px;
+    background-color: var(--black-color);
+    padding: 0;
+}
+
+.slider_button.reverse {
+    transform: rotate(180deg);
+    left: unset;
+    right: -8px;
+}

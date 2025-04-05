@@ -1,0 +1,8 @@
+button.button {
+    display: flex;
+    background-color: var(--lime-color-400);
+    font: var(--font-inter-button);
+    color: var(--black-color);
+    padding-inline: 24px;
+    height: 48px;
+}

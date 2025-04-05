@@ -1,0 +1,7 @@
+button.button {
+    background-color: var(--black-color);
+    color: var(--white-color);
+    font: var(--font-inter-email);
+    padding-inline: 13px;
+    height: 32px;
+}

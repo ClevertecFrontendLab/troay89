@@ -1,0 +1,36 @@
+.card {
+    width: 322px;
+}
+
+.card_image {
+    border-radius: 8px 8px 0 0;
+}
+
+.card .card_body {
+    padding: 0;
+}
+
+.text {
+    margin: 16px 24px 20px;
+}
+
+.text .title_card {
+    font: var(--font-inter-title-card);
+    color: var(--black-color);
+    display: inline-block;
+    width: 21ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.description_card {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}

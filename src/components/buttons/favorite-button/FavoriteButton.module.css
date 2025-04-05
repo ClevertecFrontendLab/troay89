@@ -1,0 +1,13 @@
+button.button {
+    border: var(--border);
+    border-radius: 6px;
+    background-color: unset;
+    font: var(--font-inter-email);
+    padding-inline: 11px;
+    color: var(--black-alpha-800);
+    height: 32px;
+}
+
+.icon {
+    margin-right: 8px;
+}

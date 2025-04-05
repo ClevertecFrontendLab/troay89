@@ -7,7 +7,7 @@
     width: 458px;
     padding: 0;
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.48);
+    border: var(--border);
 }
 
 .search_container .search::placeholder {
@@ -27,5 +27,5 @@ button.filter {
     padding-inline: 12.5px;
     background-color: unset;
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.48);
+    border: var(--border);
 }

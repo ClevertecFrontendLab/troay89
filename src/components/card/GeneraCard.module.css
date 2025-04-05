@@ -1,0 +1,40 @@
+.card_container {
+    width: 668px;
+    border-radius: 8px;
+}
+
+.image {
+    border-radius: 8px 0 0 8px;
+}
+
+.card_container .card_body {
+    padding: 0 24px 4px;
+}
+
+h3.subtitle {
+    font: var(--font-inter-title-card);
+    color: var(--black-color);
+    margin-block: 24px 8px;
+    display: inline-block;
+    width: 21ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.description {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+.card_container .card_footer {
+    position: relative;
+    padding-inline: 24px;
+    justify-content: flex-end;
+}

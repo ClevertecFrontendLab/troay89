@@ -1,15 +1,24 @@
 :root {
     --lime-color: #ffffd3;
+    --lime-color-150: #d7ff94;
+    --lime-color-400: #b1ff2e;
     --lime-color-600: #2db100;
     --color-lime-800: #134b00;
     --black-color: #000;
     --black-alpha: rgba(0, 0, 0, 0.64);
+    --black-alpha-800: rgba(0, 0, 0, 0.8);
     --black-alpha-400: rgba(0, 0, 0, 0.24);
+    --white-color: #fff;
+    --border: 1px solid rgba(0, 0, 0, 0.48);
     --font-inter-500: normal 500 18px/156% 'Inter', sans-serif;
     --font-inter-nav: normal 500 16px/150% 'Inter', sans-serif;
     --font-inter-version: normal 500 12px/133% 'Inter', sans-serif;
     --font-inter-title: normal 700 48px/100% 'Inter', sans-serif;
+    --font-inter-subtitle: normal 500 48px/100% 'Inter', sans-serif;
     --font-inter-search: normal 400 18px/100% 'Inter', sans-serif;
     --font-inter-bread: normal 400 16px/150% 'Inter', sans-serif;
     --font-inter-email: normal 400 14px/143% 'Inter', sans-serif;
+    --font-inter-title-card: normal 500 20px/140% 'Inter', sans-serif;
+    --font-inter-small: normal 600 12px/133% 'Inter', sans-serif;
+    --font-inter-button: normal 600 18px/156% 'Inter', sans-serif;
 }
