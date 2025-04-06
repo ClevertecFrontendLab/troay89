@@ -1,6 +1,7 @@
 :root {
     --lime-color: #ffffd3;
     --lime-color-150: #d7ff94;
+    --lime-color-300: #c4ff61;
     --lime-color-400: #b1ff2e;
     --lime-color-600: #2db100;
     --color-lime-800: #134b00;
@@ -15,6 +16,7 @@
     --font-inter-version: normal 500 12px/133% 'Inter', sans-serif;
     --font-inter-title: normal 700 48px/100% 'Inter', sans-serif;
     --font-inter-subtitle: normal 500 48px/100% 'Inter', sans-serif;
+    --font-inter-subtitle-second: normal 400 36px/111% 'Inter', sans-serif;
     --font-inter-search: normal 400 18px/100% 'Inter', sans-serif;
     --font-inter-bread: normal 400 16px/150% 'Inter', sans-serif;
     --font-inter-email: normal 400 14px/143% 'Inter', sans-serif;

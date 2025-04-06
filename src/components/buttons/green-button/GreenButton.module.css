@@ -6,3 +6,7 @@ button.button {
     padding-inline: 24px;
     height: 48px;
 }
+
+.button.changeColor {
+    background-color: var(--lime-color-300);
+}

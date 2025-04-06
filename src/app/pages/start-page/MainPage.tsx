@@ -2,10 +2,11 @@ import { Flex, Heading } from '@chakra-ui/react';
 
 import { alexAvatar, eight, elenaAvatar, five, seven, six } from '~/assets/images/main-page';
 import GreenButton from '~/components/buttons/green-button/GreenButton';
-import GeneraCard from '~/components/card/GeneralCard';
+import GeneraCard from '~/components/cards/card/GeneralCard';
 import Toolbar from '~/components/toolbar/Toolbar';
 import CardProps from '~/type/cardProps';
 
+import AuthorBlock from './components/author-block/AuthorBlock';
 import Slider from './components/slaider/Slaider';
 import styles from './MaingPage.module.css';
 
@@ -91,6 +92,7 @@ function MainPage() {
                     ),
                 )}
             </Flex>
+            <AuthorBlock />
         </>
     );
 }

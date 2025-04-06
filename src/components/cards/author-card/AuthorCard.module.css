@@ -1,0 +1,40 @@
+.container {
+    width: 316px;
+    padding: 24px;
+    gap: 28px;
+    border-radius: 8px;
+}
+
+.container_about {
+    gap: 8px;
+}
+
+.about {
+    flex-direction: column;
+}
+
+.name {
+    font: var(--font-inter-500);
+    color: var(--black-color);
+    display: inline-block;
+    width: 18ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.email {
+    font: var(--font-inter-email);
+    color: var(--black-alpha);
+}
+
+.container .content {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}

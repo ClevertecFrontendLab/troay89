@@ -1,12 +1,20 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/react';
+
+import ArrowButton from '~/components/icons/ArrowButton';
 
 import styles from './GreenButton.module.css';
 
-function GreenButton() {
+type GreenButton = {
+    changeColor?: boolean;
+};
+
+function GreenButton({ changeColor }: GreenButton) {
     return (
         <>
-            <Button className={styles.button} rightIcon={<ArrowForwardIcon />}>
+            <Button
+                className={`${styles.button} ${changeColor && styles.changeColor}`}
+                rightIcon={<ArrowButton />}
+            >
                 Вся подборка
             </Button>
         </>

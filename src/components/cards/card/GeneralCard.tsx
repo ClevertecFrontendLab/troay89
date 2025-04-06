@@ -9,12 +9,12 @@ import {
     Text,
 } from '@chakra-ui/react';
 
+import FavoriteButton from '~/components/buttons/favorite-button/FavoriteButton';
+import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
+import CardStats from '~/components/card-stats/CardStats';
+import UserRecomend from '~/components/user-recomend/UserRecomend';
 import CardProps from '~/type/cardProps';
 
-import FavoriteButton from '../buttons/favorite-button/FavoriteButton';
-import SimpleButton from '../buttons/simple-button/SimpleButton';
-import CardStats from '../card-stats/CardStats';
-import UserRecomend from '../user-recomend/UserRecomend';
 import styles from './GeneraCard.module.css';
 
 function GeneraCard({
