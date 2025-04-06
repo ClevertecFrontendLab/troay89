@@ -7,5 +7,5 @@ export { default as six } from './6.png';
 export { default as seven } from './7.png';
 export { default as eight } from './8.png';
 export { default as alexAvatar } from './alex.png';
-export { default as ekaterinaAvatar } from './avatar-three.png';
-export { default as elenaAvatar } from './avatar-two.png';
+export { default as ekaterinaAvatar } from './avatarThree.png';
+export { default as elenaAvatar } from './avatarTwo.png';

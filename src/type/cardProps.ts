@@ -1,5 +1,5 @@
 type CardProps = {
-    image: string;
+    image?: string;
     title: string;
     description: string;
     label: string;

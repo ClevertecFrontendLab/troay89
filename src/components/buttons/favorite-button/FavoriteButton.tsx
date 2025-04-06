@@ -6,7 +6,7 @@ import styles from './FavoriteButton.module.css';
 
 function FavoriteButton() {
     return (
-        <Button className={styles.button}>
+        <Button className={styles.button} bg='white' color='blackAlpha.800'>
             <Icon className={styles.icon} as={BookMark} boxSize={4} />
             Сохранить
         </Button>

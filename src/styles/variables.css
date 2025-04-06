@@ -11,6 +11,7 @@
     --black-alpha-400: rgba(0, 0, 0, 0.24);
     --white-color: #fff;
     --border: 1px solid rgba(0, 0, 0, 0.48);
+    --border-button-cook: 1px solid #2db100;
     --font-inter-500: normal 500 18px/156% 'Inter', sans-serif;
     --font-inter-nav: normal 500 16px/150% 'Inter', sans-serif;
     --font-inter-version: normal 500 12px/133% 'Inter', sans-serif;
@@ -23,4 +24,5 @@
     --font-inter-title-card: normal 500 20px/140% 'Inter', sans-serif;
     --font-inter-small: normal 600 12px/133% 'Inter', sans-serif;
     --font-inter-button: normal 600 18px/156% 'Inter', sans-serif;
+    --font-inter-button-second: normal 600 14px/143% 'Inter', sans-serif;
 }

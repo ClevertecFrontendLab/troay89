@@ -9,10 +9,3 @@ h2.subtitle {
     justify-content: space-between;
     align-items: center;
 }
-
-.juicy {
-    flex-wrap: wrap;
-    justify-content: space-between;
-    row-gap: 24px;
-    margin-bottom: 40px;
-}

@@ -1,0 +1,27 @@
+.container {
+    width: 322px;
+    padding: 24px;
+}
+
+.container .title {
+    font: var(--font-inter-title-card);
+    color: var(--black-color);
+    display: inline-block;
+    width: 21ch;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-block: 0 8px;
+}
+
+.content {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    padding-bottom: 4px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}

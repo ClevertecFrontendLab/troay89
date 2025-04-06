@@ -18,8 +18,12 @@ function AuthorBlock() {
             </Flex>
             <Flex className={styles['cards_container']}>
                 {dataAuthorCards.map(
-                    ({ nameRecomend, avatarRecomend, email, message }: UserRecomendProps) => (
+                    (
+                        { nameRecomend, avatarRecomend, email, message }: UserRecomendProps,
+                        index,
+                    ) => (
                         <AuthorCard
+                            key={index}
                             nameRecomend={nameRecomend}
                             avatarRecomend={avatarRecomend}
                             email={email}

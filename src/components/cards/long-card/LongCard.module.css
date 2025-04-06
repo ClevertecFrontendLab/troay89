@@ -1,0 +1,29 @@
+div.container {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 12px 12px 12px 24px;
+}
+
+.title_container {
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+}
+
+.container .title {
+    font: var(--font-inter-title-card);
+    color: var(--black-color);
+}
+
+.image {
+    height: 24px;
+}
+
+.container .button {
+    font: var(--font-inter-button-second);
+    background-color: var(--white-color);
+    color: var(--lime-color-600);
+    border: var(--border-button-cook);
+    height: 32px;
+    padding-inline: 15px;
+}

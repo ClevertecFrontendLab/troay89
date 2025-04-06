@@ -178,12 +178,7 @@ function AccordionMenu() {
                             )}
                             <span className={styles['title_nav']}>{category}</span>
                         </Box>
-                        <AccordionIcon
-                            className={styles['accordion_icon']}
-                            height='26px'
-                            width='26px'
-                            viewBox='0 0 22 22'
-                        />
+                        <AccordionIcon className={styles['accordion_icon']} boxSize={7} />
                     </AccordionButton>
                     <AccordionPanel className={styles['accordion_panel']} pb={4}>
                         <List className={styles['list']} spacing={2}>
