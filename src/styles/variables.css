@@ -12,6 +12,7 @@
     --white-color: #fff;
     --border: 1px solid rgba(0, 0, 0, 0.48);
     --border-button-cook: 1px solid #2db100;
+    --shadow-hover-cart: 0 2px 4px -1px rgba(32, 126, 0, 0.06), 0 4px 6px -1px rgba(32, 126, 0, 0.1);
     --font-inter-500: normal 500 18px/156% 'Inter', sans-serif;
     --font-inter-nav: normal 500 16px/150% 'Inter', sans-serif;
     --font-inter-version: normal 500 12px/133% 'Inter', sans-serif;

@@ -1,6 +1,7 @@
 .container {
     width: 322px;
     padding: 24px;
+    transition: box-shadow 0.3s ease;
 }
 
 .container .title {
@@ -24,4 +25,11 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
     line-clamp: 3;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .container:hover {
+        box-shadow: var(--shadow-hover-cart);
+        transition: box-shadow 0.3s ease;
+    }
 }

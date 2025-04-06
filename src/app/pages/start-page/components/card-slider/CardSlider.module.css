@@ -1,5 +1,6 @@
 .card {
     width: 322px;
+    transition: box-shadow 0.3s ease;
 }
 
 .card_image {
@@ -33,4 +34,11 @@
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
     line-clamp: 3;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .card:hover {
+        box-shadow: var(--shadow-hover-cart);
+        transition: box-shadow 0.3s ease;
+    }
 }

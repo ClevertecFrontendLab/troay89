@@ -1,6 +1,7 @@
 .card_container {
     width: 668px;
     border-radius: 8px;
+    transition: box-shadow 0.3s ease;
 }
 
 .image {
@@ -37,4 +38,11 @@ h3.subtitle {
     position: relative;
     padding-inline: 24px;
     justify-content: flex-end;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .card_container:hover {
+        box-shadow: var(--shadow-hover-cart);
+        transition: box-shadow 0.3s ease;
+    }
 }

@@ -60,3 +60,10 @@
 .list_items .item_button {
     margin: 0;
 }
+
+@media (hover: hover) and (pointer: fine) {
+    .accordion_item:hover {
+        background-color: var(--lime-color);
+        transition: background-color 0.3s ease;
+    }
+}
