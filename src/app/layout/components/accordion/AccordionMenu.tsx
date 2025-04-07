@@ -9,6 +9,7 @@ import {
     List,
     ListItem,
 } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router';
 
 import dataCategoryIcons from '~/data/dataCategoryIcons';
 import dataNavigation from '~/data/dataNavigation';
@@ -45,7 +46,11 @@ function AccordionMenu() {
                         <List className={styles['list']} spacing={2}>
                             {items.map((item) => (
                                 <ListItem key={item}>
-                                    <Link className={styles['item_link']} href='/'>
+                                    <Link
+                                        as={RouterLink}
+                                        className={styles['item_link']}
+                                        to='/vegan'
+                                    >
                                         {item}
                                     </Link>
                                 </ListItem>

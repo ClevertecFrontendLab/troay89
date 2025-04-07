@@ -1,4 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
 import GreenButton from '~/components/buttons/green-button/GreenButton';
 import LastBlock from '~/components/last-block/LastBlock';
@@ -25,7 +26,9 @@ function MainPage() {
                 <Heading className={styles.subtitle} as='h2'>
                     Самое сочное
                 </Heading>
-                <GreenButton text='Вся подборка' />
+                <Link to='/juicy'>
+                    <GreenButton text='Вся подборка' />
+                </Link>
             </Flex>
             <JuicyBlock />
             <AuthorBlock />
