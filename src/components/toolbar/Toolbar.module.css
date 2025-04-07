@@ -1,11 +1,12 @@
 .container {
     flex-direction: column;
     align-items: center;
+    margin-bottom: 24px;
 }
 
 .container .title {
     font: var(--font-inter-title);
     color: var(--black-color);
     letter-spacing: 1px;
-    margin-block: 33px;
+    margin-block: 32px;
 }

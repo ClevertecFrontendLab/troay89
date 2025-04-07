@@ -14,7 +14,7 @@ function AuthorBlock() {
                 <Heading className={styles.subtitle} as='h2'>
                     Кулинарные блоги
                 </Heading>
-                <GreenButton changeColor />
+                <GreenButton text='Все авторы' changeColor />
             </Flex>
             <Flex className={styles['cards_container']}>
                 {dataAuthorCards.map(

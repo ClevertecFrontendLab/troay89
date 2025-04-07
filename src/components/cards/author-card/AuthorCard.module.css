@@ -1,5 +1,4 @@
 .container {
-    width: 316px;
     padding: 24px;
     gap: 28px;
     border-radius: 8px;
@@ -7,7 +6,7 @@
 }
 
 .container_about {
-    gap: 8px;
+    gap: 13px;
 }
 
 .about {
@@ -17,11 +16,6 @@
 .name {
     font: var(--font-inter-500);
     color: var(--black-color);
-    display: inline-block;
-    width: 18ch;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .email {

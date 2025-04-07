@@ -18,8 +18,9 @@
 .text .title_card {
     font: var(--font-inter-title-card);
     color: var(--black-color);
+    letter-spacing: 0.2px;
     display: inline-block;
-    width: 21ch;
+    width: 22ch;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

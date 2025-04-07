@@ -21,7 +21,7 @@ function MainPage() {
                 <Heading className={styles.subtitle} as='h2'>
                     Самое сочное
                 </Heading>
-                <GreenButton />
+                <GreenButton text='Вся подборка' />
             </Flex>
             <JuicyBlock />
             <AuthorBlock />

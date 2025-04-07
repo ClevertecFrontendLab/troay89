@@ -15,7 +15,8 @@
 h3.subtitle {
     font: var(--font-inter-title-card);
     color: var(--black-color);
-    margin-block: 24px 8px;
+    margin-block: 24px 3px;
+    letter-spacing: 0.2px;
     display: inline-block;
     width: 21ch;
     white-space: nowrap;

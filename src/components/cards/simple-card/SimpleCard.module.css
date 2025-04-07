@@ -1,6 +1,6 @@
 .container {
     width: 322px;
-    padding: 24px;
+    padding: 24px 24px 20px;
     transition: box-shadow 0.3s ease;
 }
 
@@ -13,12 +13,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     margin-block: 0 8px;
+    letter-spacing: 0.2px;
 }
 
 .content {
     font: var(--font-inter-email);
     color: var(--black-color);
-    padding-bottom: 4px;
+    margin-bottom: 8px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;

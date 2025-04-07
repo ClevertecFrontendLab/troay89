@@ -1,7 +1,7 @@
 button.button {
     border: var(--border);
     font: var(--font-inter-email);
-    padding-inline: 11px;
+    padding-inline: 10px 12px;
     height: 32px;
 }
 

@@ -14,7 +14,7 @@
 }
 
 .navigation .accordion_button {
-    padding: 11px 2px 11px 19px;
+    padding: 10px 2px 10px 19px;
 }
 
 .item_menu {
@@ -29,10 +29,6 @@
 
 .icon {
     padding-right: 11px;
-}
-
-.accordion_icon {
-    margin-right: 4px;
 }
 
 .item_link {

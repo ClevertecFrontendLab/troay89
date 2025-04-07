@@ -9,6 +9,7 @@
 .subtitle_container {
     justify-content: space-between;
     padding-bottom: 24px;
+    letter-spacing: 1.5px;
 }
 
 .subtitle_container .subtitle {
@@ -18,5 +19,6 @@
 }
 
 .cards_container {
-    justify-content: space-around;
+    justify-content: space-between;
+    gap: 16px;
 }

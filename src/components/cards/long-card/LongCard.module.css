@@ -1,7 +1,7 @@
 div.container {
     flex-direction: row;
     justify-content: space-between;
-    padding: 12px 12px 12px 24px;
+    padding: 12px 24px;
     transition: box-shadow 0.3s ease;
 }
 
@@ -9,6 +9,7 @@ div.container {
     align-items: center;
     width: 100%;
     gap: 12px;
+    letter-spacing: 0.2px;
 }
 
 .container .title {
