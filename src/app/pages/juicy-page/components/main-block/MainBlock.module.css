@@ -1,0 +1,19 @@
+.container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.card_container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 16px;
+}
+
+button.button {
+    background-color: var(--lime-color-400);
+    font: var(--font-inter-button-third);
+    color: var(--black-color);
+    padding: 18px;
+}

@@ -4,9 +4,23 @@
     margin-bottom: 24px;
 }
 
+.container_title {
+    flex-direction: column;
+    margin-block: 32px;
+    align-items: center;
+}
+
 .container .title {
     font: var(--font-inter-title);
     color: var(--black-color);
     letter-spacing: 1px;
-    margin-block: 32px;
+    margin: 0;
+}
+
+.heading_description {
+    font: var(--font-inter-nav);
+    color: var(--black-alpha-600);
+    margin-top: 12px;
+    max-width: 696px;
+    text-align: center;
 }

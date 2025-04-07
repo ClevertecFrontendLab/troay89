@@ -1,0 +1,18 @@
+.container {
+    flex-direction: column;
+    width: 100%;
+}
+
+.cards_container {
+    gap: 24px;
+}
+
+.container .simple_cards_container {
+    gap: 24px;
+}
+
+.container .long_cards_container {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+}

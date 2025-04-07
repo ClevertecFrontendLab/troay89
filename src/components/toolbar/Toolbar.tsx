@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Flex, Heading, Text } from '@chakra-ui/react';
 
 import AllergenSort from '../allergen-sort/AllergenSort';
 import SearchFilter from '../search-filter/SearchFilter';
@@ -6,14 +6,20 @@ import styles from './Toolbar.module.css';
 
 type ToolbarProps = {
     title: string;
+    description?: string;
 };
 
-function Toolbar({ title }: ToolbarProps) {
+function Toolbar({ title, description }: ToolbarProps) {
     return (
         <Flex className={styles.container} direction='column'>
-            <Heading className={styles.title} as='h1'>
-                {title}
-            </Heading>
+            <Flex className={styles['container_title']}>
+                <Heading className={styles.title} as='h1'>
+                    {title}
+                </Heading>
+                {description && (
+                    <Text className={styles['heading_description']}>{description}</Text>
+                )}
+            </Flex>
             <SearchFilter />
             <AllergenSort />
         </Flex>
