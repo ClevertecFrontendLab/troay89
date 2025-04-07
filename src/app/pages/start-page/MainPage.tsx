@@ -16,7 +16,7 @@ function MainPage() {
         'Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.';
     return (
         <>
-            <Toolbar title='Приятного аппетита!' />
+            <Toolbar title='Приятного аппетита!' isExtraSpace />
             <Heading className={styles.subtitle} as='h2'>
                 Новые рецепты
             </Heading>

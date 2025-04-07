@@ -1,13 +1,13 @@
 import { ChakraProvider } from '@chakra-ui/react';
 
 import Layout from './layout/Layout';
-import VeganPage from './pages/vegan-page/VeganPage';
+import MainPage from './pages/start-page/MainPage';
 
 function App() {
     return (
         <ChakraProvider>
             <Layout>
-                <VeganPage />
+                <MainPage />
             </Layout>
         </ChakraProvider>
     );
