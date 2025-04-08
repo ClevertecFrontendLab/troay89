@@ -37,6 +37,7 @@
     font: var(--font-inter-nav);
     color: var(--black-color);
     text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 .item_link:before {
@@ -58,8 +59,18 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .accordion_item:hover {
+    .accordion_item .accordion_button:hover {
         background-color: var(--lime-color);
         transition: background-color 0.3s ease;
+    }
+
+    .accordion_item .item_link:hover {
+        background-color: var(--lime-color);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .item_link:hover:before {
+        opacity: 0;
     }
 }

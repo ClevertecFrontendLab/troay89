@@ -39,7 +39,7 @@ function TabPanelNavigation() {
     return (
         <Flex className={styles.container}>
             <Box className={styles['container_tabs']}>
-                <Tabs variant='unstyled'>
+                <Tabs variant='unstyled' defaultIndex={2}>
                     <TabList
                         maxW='fit-content'
                         mx='auto'
