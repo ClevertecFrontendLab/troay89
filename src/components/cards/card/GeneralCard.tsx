@@ -30,7 +30,7 @@ function GeneraCard({
     return (
         <Card className={styles['card_container']} direction={{ base: 'column', sm: 'row' }}>
             <Image className={styles.image} src={image} alt='Caffe Latte' />
-            <Stack gap={0}>
+            <Stack className={styles['card_content']} gap={0}>
                 <CardBody className={styles['card_body']}>
                     <CardStats label={label} like={like} favorites={favorites} yellow />
                     <Heading className={styles.subtitle} as='h3'>

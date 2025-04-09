@@ -1,5 +1,5 @@
 .subtitle_container {
-    padding-block: 24px;
+    padding-block: 23px 24px;
     justify-content: space-between;
 }
 
@@ -14,4 +14,15 @@
     color: var(--black-alpha);
     width: 668px;
     letter-spacing: 0.1px;
+}
+
+@media (max-width: 1880px) {
+    .subtitle_container .subtitle.change_table {
+        width: 300px;
+        font: var(--font-inter-last-block-table);
+    }
+
+    .description {
+        width: 578px;
+    }
 }

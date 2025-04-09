@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Divider, Flex, Heading } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import GreenButton from '~/components/buttons/green-button/GreenButton';
@@ -32,11 +32,13 @@ function MainPage() {
             </Flex>
             <JuicyBlock />
             <AuthorBlock />
+            <Divider />
             <LastBlock
                 title='Веганская кухня'
                 text={text}
                 simpleCardArray={dataSimpleCard}
                 longCardArray={dataLongCard}
+                isChangeTable
             />
         </>
     );

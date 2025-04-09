@@ -1,3 +1,5 @@
+import { Divider } from '@chakra-ui/react';
+
 import Toolbar from '~/components/toolbar/Toolbar';
 import dataLongCard from '~/data/dataLongCardMain';
 import dataSimpleCard from '~/data/dataSimpleCard';
@@ -12,11 +14,13 @@ function JuicyPage() {
         <>
             <Toolbar title='Самое сочное' />
             <MainBlock />
+            <Divider />
             <LastBlock
                 title='Веганская кухня'
                 text={text}
                 simpleCardArray={dataSimpleCard}
                 longCardArray={dataLongCard}
+                isChangeTable
             />
         </>
     );

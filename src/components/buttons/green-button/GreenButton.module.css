@@ -10,3 +10,11 @@ button.button {
 .button.changeColor {
     background-color: var(--lime-color-300);
 }
+
+@media (max-width: 1880px) {
+    button.button {
+        font: var(--font-inter-button-third);
+        padding-inline: 18px 16px;
+        height: 40px;
+    }
+}

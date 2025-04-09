@@ -1,5 +1,6 @@
-.card {
+div.card {
     width: 322px;
+    box-shadow: none;
     transition: box-shadow 0.3s ease;
 }
 
@@ -11,11 +12,13 @@
     padding: 0;
 }
 
-.text {
-    margin: 16px 24px 20px;
+.content {
+    border: var(--border-card);
+    border-top: none;
+    padding: 16px 24px 19px;
 }
 
-.text .title_card {
+.content .title_card {
     font: var(--font-inter-title-card);
     color: var(--black-color);
     letter-spacing: 0.2px;
@@ -29,6 +32,7 @@
 .description_card {
     font: var(--font-inter-email);
     color: var(--black-color);
+    margin-bottom: 20px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -41,5 +45,23 @@
     .card:hover {
         box-shadow: var(--shadow-hover-cart);
         transition: box-shadow 0.3s ease;
+    }
+}
+
+@media (max-width: 1890px) {
+    .card {
+        width: 279px;
+    }
+
+    .content {
+        padding: 12px 11px 11px;
+    }
+
+    .content .title_card {
+        font: var(--font-inter-500);
+    }
+
+    .card_image {
+        height: 230px;
     }
 }

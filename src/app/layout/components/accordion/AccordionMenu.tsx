@@ -9,7 +9,7 @@ import {
     List,
     ListItem,
 } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router';
+import { Link as RouterLink, useLocation } from 'react-router';
 
 import dataCategoryIcons from '~/data/dataCategoryIcons';
 import dataNavigation from '~/data/dataNavigation';
@@ -17,6 +17,9 @@ import dataNavigation from '~/data/dataNavigation';
 import styles from './AccordionMenu.module.css';
 
 function AccordionMenu() {
+    const location = useLocation();
+    console.log(location.pathname, 1);
+
     return (
         <Accordion className={styles['navigation']} allowMultiple as='nav'>
             {Object.entries(dataNavigation).map(([category, items]) => (
@@ -48,7 +51,7 @@ function AccordionMenu() {
                                 <ListItem key={item}>
                                     <Link
                                         as={RouterLink}
-                                        className={styles['item_link']}
+                                        className={`${styles['item_link']} ${item === 'Вторые блюда' && location.pathname === '/vegan' ? styles['item_change'] : ''}`}
                                         to='/vegan'
                                     >
                                         {item}

@@ -9,3 +9,15 @@ h2.subtitle {
     justify-content: space-between;
     align-items: flex-start;
 }
+
+@media (max-width: 1890px) {
+    h2.subtitle {
+        font-size: 36px;
+        line-height: 111%;
+        letter-spacing: 1.1px;
+    }
+
+    .subtitle_container .subtitle {
+        margin-bottom: 16px;
+    }
+}

@@ -11,7 +11,9 @@ function SimpleCard({ title, description, label, favorites, like }: CardProps) {
             <Heading className={styles.title} as='h3'>
                 {title}
             </Heading>
-            <Text className={styles.content}>{description}</Text>
+            <Text className={styles.content} noOfLines={3}>
+                {description}
+            </Text>
             <CardStats label={label} like={like} favorites={favorites} yellow />
         </Card>
     );

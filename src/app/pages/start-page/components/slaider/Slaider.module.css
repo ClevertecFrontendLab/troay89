@@ -1,5 +1,19 @@
 .container_slider {
     position: relative;
-    gap: 24px;
+    width: 100%;
+    z-index: 5;
+}
+
+.card_container {
+    width: 100%;
+    justify-content: space-between;
     margin-bottom: 40px;
+}
+
+@media (max-width: 1890px) {
+    .card_container {
+        min-width: 1144px;
+        gap: 12px;
+        overflow: hidden;
+    }
 }

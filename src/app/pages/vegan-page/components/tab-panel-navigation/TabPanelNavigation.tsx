@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import dataVeganPageCards from '~/data/dataVeganPageCards';
@@ -36,11 +37,22 @@ const tabData = [
 ];
 
 function TabPanelNavigation() {
+    const tabListRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (tabListRef.current) {
+            const tabList = tabListRef.current;
+            tabList.scrollLeft = (tabList.scrollWidth - tabList.clientWidth) / 2;
+        }
+    }, []);
+
     return (
         <Flex className={styles.container}>
             <Box className={styles['container_tabs']}>
                 <Tabs variant='unstyled' defaultIndex={2}>
                     <TabList
+                        ref={tabListRef}
+                        className={styles['tab_list']}
                         maxW='fit-content'
                         mx='auto'
                         borderBottom='1px solid'
@@ -62,7 +74,13 @@ function TabPanelNavigation() {
                     </TabList>
                     <TabPanels>
                         {tabData.map((tab, index) => (
-                            <TabPanel key={index} px={0} pt={6} pb={4}>
+                            <TabPanel
+                                className={styles['tab_panel']}
+                                key={index}
+                                px={0}
+                                pt={6}
+                                pb={4}
+                            >
                                 {tab.content}
                             </TabPanel>
                         ))}

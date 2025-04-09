@@ -10,7 +10,7 @@ function CardSlider({ image, title, description, label, favorites, like }: CardP
         <Card className={styles.card}>
             <CardBody className={styles['card_body']}>
                 <Image className={styles['card_image']} src={image} alt={label} />
-                <Stack className={styles.text}>
+                <Stack className={styles.content}>
                     <Heading className={styles['title_card']} as='h3'>
                         {title}
                     </Heading>

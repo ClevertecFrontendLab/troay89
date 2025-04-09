@@ -1,7 +1,9 @@
 div.container {
     flex-direction: row;
     justify-content: space-between;
-    padding: 12px 24px;
+    padding: 11px 23px;
+    border: var(--border-card);
+    box-shadow: none;
     transition: box-shadow 0.3s ease;
 }
 
@@ -9,7 +11,7 @@ div.container {
     align-items: center;
     width: 100%;
     gap: 12px;
-    letter-spacing: 0.2px;
+    letter-spacing: 0.3px;
 }
 
 .container .title {
@@ -34,5 +36,30 @@ div.container {
     .container:hover {
         box-shadow: var(--shadow-hover-cart);
         transition: box-shadow 0.3s ease;
+    }
+}
+
+@media (max-width: 1880px) {
+    div.container {
+        padding: 9px 12px 9px 11px;
+    }
+
+    .title_container {
+        gap: 9px;
+    }
+
+    .container .title {
+        font: var(--font-inter-500);
+        display: inline-block;
+        width: 13.5ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .container .button {
+        font: var(--font-inter-small);
+        height: 32px;
+        padding-inline: 13px;
     }
 }

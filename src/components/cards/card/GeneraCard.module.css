@@ -1,6 +1,7 @@
-.card_container {
+div.card_container {
     width: 668px;
     border-radius: 8px;
+    box-shadow: none;
     transition: box-shadow 0.3s ease;
 }
 
@@ -8,15 +9,17 @@
     border-radius: 8px 0 0 8px;
 }
 
-.card_container .card_body {
-    padding: 0 24px 4px;
+.card_content {
+    border: var(--border-card);
+    border-left: none;
+    padding: 19px 23px 0 24px;
 }
 
 h3.subtitle {
     font: var(--font-inter-title-card);
     color: var(--black-color);
-    margin-block: 24px 3px;
     letter-spacing: 0.2px;
+    padding-block: 24px 3px;
     display: inline-block;
     width: 21ch;
     white-space: nowrap;
@@ -35,15 +38,30 @@ h3.subtitle {
     line-clamp: 3;
 }
 
+div.card_body {
+    padding: 0;
+}
+
 .card_container .card_footer {
     position: relative;
-    padding-inline: 24px;
     justify-content: flex-end;
+    padding: 20px 0 19px;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .card_container:hover {
         box-shadow: var(--shadow-hover-cart);
         transition: box-shadow 0.3s ease;
+    }
+}
+
+@media (max-width: 1900px) {
+    div.card_container {
+        width: auto;
+        max-width: 880px;
+    }
+
+    h3.subtitle {
+        width: 38ch;
     }
 }

@@ -9,6 +9,16 @@
     max-width: 100%;
 }
 
+div.tab_list {
+    max-width: 1006px;
+    margin: auto;
+    overflow-x: auto;
+}
+
+.tab_list::-webkit-scrollbar {
+    display: none;
+}
+
 .container_cards {
     justify-content: space-between;
     flex-wrap: wrap;
@@ -19,6 +29,7 @@
     font: var(--font-inter-nav);
     color: var(--color-lime-800);
     letter-spacing: 0.07px;
+    white-space: nowrap;
 }
 
 button.button {
@@ -26,4 +37,11 @@ button.button {
     font: var(--font-inter-button-third);
     color: var(--black-color);
     padding: 18px;
+}
+
+@media (max-width: 1880px) {
+    .container_cards {
+        align-items: center;
+        justify-content: center;
+    }
 }

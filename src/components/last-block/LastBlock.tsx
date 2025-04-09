@@ -6,19 +6,20 @@ import SubtitleWithText from '~/components/subtitle-with-text/SubtitleWithText';
 import CardLongProps from '~/type/cardLongCardProps';
 import CardProps from '~/type/cardProps';
 
-import styles from './VeganBlock.module.css';
+import styles from './LastBlock.module.css';
 
 type LastBlockProps = {
     title: string;
     text: string;
     simpleCardArray: CardProps[];
     longCardArray: CardLongProps[];
+    isChangeTable?: boolean;
 };
 
-function LastBlock({ title, text, simpleCardArray, longCardArray }: LastBlockProps) {
+function LastBlock({ title, text, simpleCardArray, longCardArray, isChangeTable }: LastBlockProps) {
     return (
         <Flex className={styles.container}>
-            <SubtitleWithText title={title} text={text} />
+            <SubtitleWithText title={title} text={text} isChangeTable={isChangeTable} />
             <Flex className={styles['cards_container']}>
                 <Flex className={styles['simple_cards_container']}>
                     {simpleCardArray.map(

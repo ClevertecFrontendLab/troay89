@@ -36,3 +36,11 @@
     grid-area: footer;
     display: none;
 }
+
+@media (max-width: 1890px) {
+    .main {
+        margin-inline: 24px;
+        padding-inline: 0;
+        overflow-x: hidden;
+    }
+}

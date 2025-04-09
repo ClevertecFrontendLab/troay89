@@ -4,3 +4,11 @@
     row-gap: 24px;
     margin-bottom: 40px;
 }
+
+@media (max-width: 1900px) {
+    div.juicy {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+}

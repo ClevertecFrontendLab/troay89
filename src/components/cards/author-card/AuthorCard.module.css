@@ -1,7 +1,9 @@
-.container {
-    padding: 24px;
+div.container {
+    padding: 23px;
     gap: 28px;
     border-radius: 8px;
+    border: var(--border-card);
+    box-shadow: none;
     transition: box-shadow 0.3s ease;
 }
 
@@ -38,5 +40,24 @@
     .container:hover {
         box-shadow: var(--shadow-hover-cart);
         transition: box-shadow 0.3s ease;
+    }
+}
+
+@media (max-width: 1880px) {
+    div.container {
+        padding: 15px 15px 19px;
+        gap: 16px;
+    }
+
+    .name {
+        display: inline-block;
+        width: 16ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .container .content {
+        text-align: left;
     }
 }

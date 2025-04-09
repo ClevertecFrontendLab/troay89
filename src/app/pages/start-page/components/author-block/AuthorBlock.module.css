@@ -22,3 +22,14 @@
     justify-content: space-between;
     gap: 16px;
 }
+
+@media (max-width: 1880px) {
+    .subtitle_container {
+        padding-bottom: 16px;
+        letter-spacing: 1px;
+    }
+
+    .subtitle_container .subtitle {
+        font: var(--font-inter-subtitle-table);
+    }
+}

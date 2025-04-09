@@ -17,3 +17,9 @@ button.button {
     color: var(--black-color);
     padding: 18px;
 }
+
+@media (max-width: 1915px) {
+    .card_container {
+        justify-content: center;
+    }
+}
