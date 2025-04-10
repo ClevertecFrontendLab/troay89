@@ -27,3 +27,18 @@
         gap: 17px;
     }
 }
+
+@media (max-width: 950px) {
+    .container {
+        padding-bottom: 12px;
+    }
+
+    .container .long_cards_container {
+        gap: 12px;
+    }
+
+    .container .simple_cards_container,
+    .cards_container {
+        gap: 12px;
+    }
+}

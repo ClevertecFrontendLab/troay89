@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 
 import GreenButton from '~/components/buttons/green-button/GreenButton';
 import AuthorCard from '~/components/cards/author-card/AuthorCard';
@@ -14,7 +14,9 @@ function AuthorBlock() {
                 <Heading className={styles.subtitle} as='h2'>
                     Кулинарные блоги
                 </Heading>
-                <GreenButton text='Все авторы' changeColor />
+                <Box className={styles['button_desktop']}>
+                    <GreenButton text='Все авторы' changeColor />
+                </Box>
             </Flex>
             <Flex className={styles['cards_container']}>
                 {dataAuthorCards.map(
@@ -32,6 +34,9 @@ function AuthorBlock() {
                     ),
                 )}
             </Flex>
+            <Box className={styles['button_mobile']}>
+                <GreenButton text='Все авторы' changeColor />
+            </Box>
         </Flex>
     );
 }

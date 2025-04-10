@@ -23,9 +23,39 @@
 }
 
 button.filter {
+    min-width: auto;
     height: 48px;
-    padding-inline: 12.5px;
+    width: 48px;
     background-color: unset;
     border-radius: 6px;
     border: var(--border);
+}
+
+@media (max-width: 950px) {
+    .search_container button.filter {
+        height: 32px;
+        width: 35px;
+        padding-inline: 8px;
+    }
+
+    .filter .filter_icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .search_container .search {
+        height: 32px;
+        width: 402px;
+    }
+
+    .search_wrapper .search_icon {
+        top: -3px;
+        right: -5px;
+    }
+
+    .search_container .search::placeholder {
+        font-size: 14px;
+        padding-left: 12px;
+        letter-spacing: 0;
+    }
 }

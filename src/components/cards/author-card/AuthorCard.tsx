@@ -8,7 +8,7 @@ function AuthorCard({ nameRecomend, avatarRecomend, email, message }: UserRecome
     return (
         <Card className={styles.container}>
             <Flex className={styles['container_about']}>
-                <Avatar name='' src={avatarRecomend} />
+                <Avatar className={styles.avatar} name='' src={avatarRecomend} />
                 <Flex className={styles.about}>
                     <Text className={styles.name}>{nameRecomend}</Text>
                     <Text className={styles.email}>{email}</Text>

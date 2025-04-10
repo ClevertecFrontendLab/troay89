@@ -23,6 +23,10 @@
     gap: 16px;
 }
 
+.button_mobile {
+    display: none;
+}
+
 @media (max-width: 1880px) {
     .subtitle_container {
         padding-bottom: 16px;
@@ -31,5 +35,35 @@
 
     .subtitle_container .subtitle {
         font: var(--font-inter-subtitle-table);
+    }
+}
+
+@media (max-width: 950px) {
+    .container {
+        padding: 12px;
+        margin-bottom: 32px;
+    }
+
+    .subtitle_container {
+        padding-bottom: 12px;
+    }
+
+    .cards_container {
+        gap: 12px;
+    }
+
+    .subtitle_container .subtitle {
+        font: var(--font-inter-subtitle-mobile);
+        letter-spacing: 0.5px;
+    }
+
+    .button_desktop {
+        display: none;
+    }
+
+    .button_mobile {
+        display: flex;
+        justify-content: center;
+        margin-top: 12px;
     }
 }

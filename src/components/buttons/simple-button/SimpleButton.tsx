@@ -4,7 +4,7 @@ import styled from './SimpleButton.module.css';
 
 function SimpleButton() {
     return (
-        <Button className={styled.button} bg='blackAlpha.900' color='white'>
+        <Button className={`${styled.button} ${styled.extra}`} bg='blackAlpha.900' color='white'>
             Готовить
         </Button>
     );

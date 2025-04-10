@@ -61,3 +61,23 @@ div.container {
         text-align: left;
     }
 }
+
+@media (max-width: 950px) {
+    .name {
+        font: var(--font-inter-nav);
+    }
+
+    .email {
+        font: var(--font-inter-small);
+    }
+
+    .container_about .avatar {
+        height: 32px;
+        width: 32px;
+    }
+
+    .container_about {
+        align-items: center;
+        gap: 8px;
+    }
+}

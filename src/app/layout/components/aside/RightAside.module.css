@@ -25,3 +25,9 @@
     color: var(--black-alpha);
     background: radial-gradient(30% 30% at 50% 43%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%);
 }
+
+@media (max-width: 1439px) {
+    .aside {
+        display: none;
+    }
+}

@@ -41,3 +41,21 @@ div.container {
         width: 19ch;
     }
 }
+
+@media (max-width: 950px) {
+    div.container {
+        width: 232px;
+        padding: 11px;
+    }
+
+    .container .title {
+        font: var(--font-inter-button-third);
+        width: 20ch;
+        letter-spacing: 0;
+    }
+
+    .content {
+        font: var(--font-inter-email);
+        margin-bottom: 28px;
+    }
+}

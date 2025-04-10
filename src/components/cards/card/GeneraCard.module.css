@@ -13,6 +13,7 @@ div.card_container {
     border: var(--border-card);
     border-left: none;
     padding: 19px 23px 0 24px;
+    border-radius: 0 6px 6px 0;
 }
 
 h3.subtitle {
@@ -63,5 +64,48 @@ div.card_body {
 
     h3.subtitle {
         width: 38ch;
+    }
+}
+
+@media (max-width: 1439px) {
+    h3.subtitle {
+        width: auto;
+        white-space: unset;
+    }
+}
+
+@media (max-width: 950px) {
+    div.card_container {
+        width: 356px;
+    }
+
+    .card_content {
+        padding: 11px 8px 3px;
+        width: 198px;
+    }
+
+    h3.subtitle {
+        font: var(--font-inter-button-third);
+        padding-block: 4px 3px;
+        letter-spacing: 0;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+
+    .description {
+        display: none;
+    }
+
+    .image {
+        width: 158px;
+        height: 128px;
+    }
+
+    .card_container .card_footer {
+        padding: 0;
     }
 }

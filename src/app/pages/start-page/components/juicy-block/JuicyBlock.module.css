@@ -8,7 +8,15 @@
 @media (max-width: 1900px) {
     div.juicy {
         flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
         gap: 16px;
+    }
+}
+
+@media (max-width: 950px) {
+    div.juicy {
+        flex-direction: row;
+        margin-bottom: 12px;
     }
 }

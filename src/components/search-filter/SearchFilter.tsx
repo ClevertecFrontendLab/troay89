@@ -8,7 +8,7 @@ function SearchFilter() {
     return (
         <Flex className={styles['search_container']}>
             <Button className={styles.filter}>
-                <Icon as={FilterIcon} boxSize={6} />
+                <Icon className={styles['filter_icon']} as={FilterIcon} boxSize={6} />
             </Button>
             <InputGroup className={styles['search_wrapper']}>
                 <Input className={styles.search} placeholder='Название или ингредиент...' />

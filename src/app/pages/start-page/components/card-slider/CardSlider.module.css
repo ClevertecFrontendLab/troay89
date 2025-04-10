@@ -16,6 +16,7 @@ div.card {
     border: var(--border-card);
     border-top: none;
     padding: 16px 24px 19px;
+    border-radius: 0 0 6px 6px;
 }
 
 .content .title_card {
@@ -49,7 +50,7 @@ div.card {
 }
 
 @media (max-width: 1890px) {
-    .card {
+    div.card {
         width: 279px;
     }
 
@@ -63,5 +64,41 @@ div.card {
 
     .card_image {
         height: 230px;
+    }
+}
+
+@media (max-width: 950px) {
+    div.card {
+        width: 158px;
+    }
+
+    .card_image {
+        height: 128px;
+    }
+
+    .description_card {
+        display: none;
+    }
+
+    .content .title_card {
+        font: var(--font-inter-nav);
+        padding-bottom: 5px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        white-space: wrap;
+        width: auto;
+    }
+
+    .content {
+        padding: 7px 7px 0;
+        height: 92px;
+    }
+
+    .card_body {
+        position: relative;
     }
 }

@@ -1,6 +1,8 @@
 import { Card, CardBody, Heading, Image, Stack } from '@chakra-ui/react';
 
 import CardStats from '~/components/card-stats/CardStats';
+import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
+import StatsForCard from '~/components/stats-card/StatsForCard';
 import CardProps from '~/type/cardProps';
 
 import styles from './CardSlider.module.css';
@@ -16,7 +18,9 @@ function CardSlider({ image, title, description, label, favorites, like }: CardP
                     </Heading>
                     <span className={styles['description_card']}>{description}</span>
                     <CardStats label={label} favorites={favorites} like={like} />
+                    <StatsForCard favorites={favorites} like={like} isMobile />
                 </Stack>
+                <LabelTypeFood label={label} isMobile />
             </CardBody>
         </Card>
     );

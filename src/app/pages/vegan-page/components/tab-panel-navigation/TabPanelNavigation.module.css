@@ -45,3 +45,20 @@ button.button {
         justify-content: center;
     }
 }
+
+@media (max-width: 950px) {
+    .container {
+        margin-bottom: 32px;
+    }
+
+    .container_cards {
+        flex-direction: row;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .tab_list .tab {
+        font: var(--font-inter-tab-mobile);
+        padding-block: 4px;
+    }
+}

@@ -26,11 +26,14 @@ function MainPage() {
                 <Heading className={styles.subtitle} as='h2'>
                     Самое сочное
                 </Heading>
-                <Link to='/juicy'>
+                <Link className={styles['button_desktop']} to='/juicy'>
                     <GreenButton text='Вся подборка' />
                 </Link>
             </Flex>
             <JuicyBlock />
+            <Link className={styles['button_mobile']} to='/juicy'>
+                <GreenButton text='Вся подборка' />
+            </Link>
             <AuthorBlock />
             <Divider />
             <LastBlock

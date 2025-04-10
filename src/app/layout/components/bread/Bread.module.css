@@ -22,3 +22,9 @@
 .breadcrumb_item span svg {
     width: 23px;
 }
+
+@media (max-width: 950px) {
+    .breadcrumb {
+        display: none;
+    }
+}

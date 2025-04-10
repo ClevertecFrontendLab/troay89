@@ -8,12 +8,28 @@
     width: 100%;
     justify-content: space-between;
     margin-bottom: 40px;
+    overflow: hidden;
+}
+
+.card_container > div:last-child {
+    display: none;
 }
 
 @media (max-width: 1890px) {
     .card_container {
         min-width: 1144px;
         gap: 12px;
-        overflow: hidden;
+    }
+}
+
+@media (max-width: 950px) {
+    .card_container > div:last-child {
+        display: flex;
+    }
+
+    .card_container {
+        min-width: 838px;
+        gap: 12px;
+        margin-bottom: 32px;
     }
 }

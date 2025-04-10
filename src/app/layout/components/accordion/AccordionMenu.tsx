@@ -18,7 +18,6 @@ import styles from './AccordionMenu.module.css';
 
 function AccordionMenu() {
     const location = useLocation();
-    console.log(location.pathname, 1);
 
     return (
         <Accordion className={styles['navigation']} allowMultiple as='nav'>
@@ -48,7 +47,8 @@ function AccordionMenu() {
                     <AccordionPanel className={styles['accordion_panel']} pb={4}>
                         <List className={styles['list']} spacing={2}>
                             {items.map((item) => (
-                                <ListItem key={item}>
+                                <ListItem className={styles['list_item']} key={item}>
+                                    <Box className={styles['vert_line']} />
                                     <Link
                                         as={RouterLink}
                                         className={`${styles['item_link']} ${item === 'Вторые блюда' && location.pathname === '/vegan' ? styles['item_change'] : ''}`}

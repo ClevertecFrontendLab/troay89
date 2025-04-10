@@ -8,3 +8,21 @@ button.button {
 .icon {
     margin-right: 9px;
 }
+
+@media (max-width: 950px) {
+    button.button {
+        padding-inline: 0;
+        min-width: unset;
+        height: 24px;
+        width: 24px;
+    }
+
+    .button .text {
+        display: none;
+    }
+
+    .button .icon {
+        margin-right: 0;
+        height: 12px;
+    }
+}

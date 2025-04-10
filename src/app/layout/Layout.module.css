@@ -44,3 +44,32 @@
         overflow-x: hidden;
     }
 }
+
+@media (max-width: 1439px) {
+    .main_container {
+        grid-template-areas: 'header' 'main' 'footer';
+        grid-template-rows: 64px 1fr 84px;
+        grid-template-columns: 1fr;
+        height: auto;
+        max-width: 1920px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .navigation {
+        display: none;
+    }
+}
+
+@media (max-width: 950px) {
+    .main {
+        margin-inline: 20px;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--lime-color);
+        padding-inline: 26px;
+    }
+}

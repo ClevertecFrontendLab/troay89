@@ -17,3 +17,9 @@
     font: var(--font-inter-email);
     color: var(--black-alpha);
 }
+
+@media (max-width: 950px) {
+    .avatar_container {
+        display: none;
+    }
+}

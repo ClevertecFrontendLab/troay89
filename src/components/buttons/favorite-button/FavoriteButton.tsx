@@ -1,4 +1,4 @@
-import { Button, Icon } from '@chakra-ui/react';
+import { Button, Icon, Text } from '@chakra-ui/react';
 
 import BookMark from '~/components/icons/BookMark';
 
@@ -8,7 +8,7 @@ function FavoriteButton() {
     return (
         <Button className={styles.button} bg='white' color='blackAlpha.800'>
             <Icon className={styles.icon} as={BookMark} boxSize={4} />
-            Сохранить
+            <Text className={styles.text}>Сохранить</Text>
         </Button>
     );
 }

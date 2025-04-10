@@ -29,3 +29,25 @@
     text-align: center;
     letter-spacing: 0.1px;
 }
+
+@media (max-width: 950px) {
+    .container .title {
+        font: var(--font-inter-header-mobile);
+        letter-spacing: 0.1px;
+    }
+
+    .container_title {
+        margin-block: 16px;
+    }
+
+    .container,
+    .container.extra_space {
+        margin-bottom: 32px;
+    }
+
+    .heading_description {
+        font: var(--font-inter-email);
+        margin-top: 16px;
+        max-width: unset;
+    }
+}

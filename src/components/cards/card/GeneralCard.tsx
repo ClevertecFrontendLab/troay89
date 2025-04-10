@@ -12,6 +12,8 @@ import {
 import FavoriteButton from '~/components/buttons/favorite-button/FavoriteButton';
 import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
 import CardStats from '~/components/card-stats/CardStats';
+import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
+import StatsForCard from '~/components/stats-card/StatsForCard';
 import UserRecomend from '~/components/user-recomend/UserRecomend';
 import CardProps from '~/type/cardProps';
 
@@ -32,6 +34,7 @@ function GeneraCard({
             <Image className={styles.image} src={image} alt='Caffe Latte' />
             <Stack className={styles['card_content']} gap={0}>
                 <CardBody className={styles['card_body']}>
+                    <StatsForCard favorites={favorites} like={like} isMobile />
                     <CardStats label={label} like={like} favorites={favorites} yellow />
                     <Heading className={styles.subtitle} as='h3'>
                         {title}
@@ -45,6 +48,7 @@ function GeneraCard({
                     </ButtonGroup>
                 </CardFooter>
             </Stack>
+            <LabelTypeFood label={label} yellow isMobile />
             {nameRecomend && (
                 <UserRecomend nameRecomend={nameRecomend} avatarRecomend={avatarRecomend} />
             )}

@@ -25,3 +25,9 @@
     font: var(--font-inter-bread);
     color: var(--black-alpha);
 }
+
+@media (max-width: 950px) {
+    div.allergen_container {
+        display: none;
+    }
+}

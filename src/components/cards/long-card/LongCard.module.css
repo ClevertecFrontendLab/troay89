@@ -9,7 +9,6 @@ div.container {
 
 .title_container {
     align-items: center;
-    width: 100%;
     gap: 12px;
     letter-spacing: 0.3px;
 }
@@ -29,7 +28,7 @@ div.container {
     color: var(--lime-color-600);
     border: var(--border-button-cook);
     height: 32px;
-    padding-inline: 15px;
+    padding-inline: 11px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -60,6 +59,22 @@ div.container {
     .container .button {
         font: var(--font-inter-small);
         height: 32px;
-        padding-inline: 13px;
+        width: 70px;
+    }
+}
+
+@media (max-width: 950px) {
+    div.container {
+        padding: 7px 12px 7px 11px;
+    }
+
+    .container .title {
+        font: var(--font-inter-nav);
+        letter-spacing: 0.1px;
+        width: 10ch;
+    }
+
+    .container .button {
+        font: var(--font-inter-small);
     }
 }

@@ -14,7 +14,7 @@ function SimpleCard({ title, description, label, favorites, like }: CardProps) {
             <Text className={styles.content} noOfLines={3}>
                 {description}
             </Text>
-            <CardStats label={label} like={like} favorites={favorites} yellow />
+            <CardStats label={label} like={like} favorites={favorites} yellow isMobile />
         </Card>
     );
 }
