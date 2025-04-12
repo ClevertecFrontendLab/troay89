@@ -1,6 +1,6 @@
 .avatar_container {
     display: flex;
-    margin-right: 80px;
+    margin-right: 68px;
 }
 
 .avatar_info {
@@ -16,4 +16,10 @@
 .avatar_container .avatar_info .avatar_email {
     font: var(--font-inter-email);
     color: var(--black-alpha);
+}
+
+@media (max-width: 950px) {
+    .avatar_container {
+        display: none;
+    }
 }

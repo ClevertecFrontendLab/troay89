@@ -1,0 +1,10 @@
+button.button {
+    font: var(--font-inter-email);
+}
+
+@media (max-width: 950px) {
+    button.button.extra {
+        font: var(--font-inter-small);
+        margin-left: 12px;
+    }
+}

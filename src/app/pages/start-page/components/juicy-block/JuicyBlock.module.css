@@ -1,0 +1,29 @@
+.juicy {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 24px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 1900px) {
+    div.juicy {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 950px) {
+    div.juicy {
+        flex-direction: row;
+        margin-bottom: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    div.juicy {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

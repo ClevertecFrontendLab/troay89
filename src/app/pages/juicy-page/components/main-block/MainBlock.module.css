@@ -1,0 +1,16 @@
+.card_container {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+button.button {
+    background-color: var(--lime-color-400);
+    font: var(--font-inter-button-third);
+    color: var(--black-color);
+}
+
+@media (max-width: 1915px) {
+    .card_container {
+        justify-content: center;
+    }
+}

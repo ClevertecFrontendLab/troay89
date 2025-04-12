@@ -1,0 +1,18 @@
+button.button {
+    display: flex;
+    background-color: var(--lime-color-400);
+    font: var(--font-inter-button);
+    color: var(--black-color);
+    padding-inline: 24px;
+}
+
+.button.changeColor {
+    background-color: var(--lime-color-300);
+}
+
+@media (max-width: 1880px) {
+    button.button {
+        font: var(--font-inter-button-third);
+        padding-inline: 18px 16px;
+    }
+}

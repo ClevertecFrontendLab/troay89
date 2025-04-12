@@ -1,0 +1,24 @@
+.container {
+    position: absolute;
+    bottom: 20px;
+    left: 24px;
+    align-items: center;
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    background-color: var(--lime-color-150);
+    border-radius: 4px;
+    padding: 4px 8px;
+    width: fit-content;
+}
+
+.container .avatar {
+    margin-right: 9px;
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 950px) {
+    div.container {
+        display: none;
+    }
+}

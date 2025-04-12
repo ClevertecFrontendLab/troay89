@@ -14,12 +14,15 @@
 }
 
 .navigation .accordion_button {
-    padding: 11px 2px 11px 19px;
+    width: 242px;
+    margin-inline: 10px 4px;
+    padding: 10px 14px 10px 8px;
 }
 
 .item_menu {
     display: flex;
     align-items: center;
+    white-space: nowrap;
 }
 
 .title_nav {
@@ -31,26 +34,43 @@
     padding-right: 11px;
 }
 
-.accordion_icon {
-    margin-right: 4px;
+.list_item {
+    display: flex;
 }
 
 .item_link {
     display: block;
-    padding: 6px 0 6px 55px;
+    padding: 6px 0 6px 4px;
     font: var(--font-inter-nav);
     color: var(--black-color);
     text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
 }
 
-.item_link:before {
-    content: '';
-    padding-right: 6px;
-    border-left: 1px solid green;
+.vert_line {
+    height: 24px;
+    width: 1px;
+    border-left: 1px solid var(--lime-color-300);
+    margin-inline: 50px 6px;
+    align-self: center;
+}
+
+.item_link.item_change {
+    font-weight: 700;
+    padding-left: 13px;
+}
+
+.vert_line + .item_change {
+    font-weight: 700;
+    border-left: 8px solid var(--lime-color-300);
+    margin-left: -15px;
 }
 
 .navigation .accordion_panel {
+    padding-top: 0;
     padding-bottom: 0;
+    padding-left: 0;
 }
 
 .accordion_panel .list > li {
@@ -59,4 +79,17 @@
 
 .list_items .item_button {
     margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .accordion_item .accordion_button:hover {
+        background-color: var(--lime-color);
+        transition: background-color 0.3s ease;
+    }
+
+    .accordion_item .item_link:hover {
+        background-color: var(--lime-color);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
 }

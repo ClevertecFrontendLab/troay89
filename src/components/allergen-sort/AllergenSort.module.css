@@ -14,7 +14,6 @@
 
 .allergen_label .allergen_switch {
     font: var(--font-inter-nav);
-    color: var(--black-color);
     letter-spacing: 0.1px;
     margin: 0 11px 0 0;
     white-space: nowrap;
@@ -24,4 +23,10 @@
 .allergen_container .select {
     font: var(--font-inter-bread);
     color: var(--black-alpha);
+}
+
+@media (max-width: 1150px) {
+    div.allergen_container {
+        display: none;
+    }
 }
