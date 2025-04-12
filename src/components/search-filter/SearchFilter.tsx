@@ -13,11 +13,15 @@ function SearchFilter() {
             <InputGroup className={styles['search_wrapper']}>
                 <Input className={styles.search} placeholder='Название или ингредиент...' />
                 <InputRightElement className={styles['search_icon']}>
-                    <Icon as={SearchIcon} boxSize={18} />
+                    <Icon
+                        as={SearchIcon}
+                        height={{ bp95: '22px', base: '17px' }}
+                        width={{ bp95: '22px', base: '17px' }}
+                    />
                 </InputRightElement>
             </InputGroup>
         </Flex>
     );
 }
-
+<Icon as={SearchIcon} height='22px' width='22px' />;
 export default SearchFilter;

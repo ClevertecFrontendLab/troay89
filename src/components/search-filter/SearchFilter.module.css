@@ -18,8 +18,8 @@
 }
 
 .search_wrapper .search_icon {
-    top: 5px;
-    right: 5px;
+    top: 6px;
+    right: 2px;
 }
 
 button.filter {
@@ -34,7 +34,7 @@ button.filter {
 @media (max-width: 950px) {
     .search_container button.filter {
         height: 32px;
-        width: 35px;
+        width: 32px;
         padding-inline: 8px;
     }
 
@@ -45,12 +45,12 @@ button.filter {
 
     .search_container .search {
         height: 32px;
-        width: 402px;
+        width: 404px;
     }
 
     .search_wrapper .search_icon {
-        top: -3px;
-        right: -5px;
+        top: -2px;
+        right: -6px;
     }
 
     .search_container .search::placeholder {
@@ -63,6 +63,6 @@ button.filter {
 @media (max-width: 550px) {
     .search_container .search {
         height: 32px;
-        width: 282px;
+        width: 284px;
     }
 }

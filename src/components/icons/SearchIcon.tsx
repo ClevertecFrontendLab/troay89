@@ -2,7 +2,7 @@ import { createIcon } from '@chakra-ui/icons';
 
 const SearchIcon = createIcon({
     displayName: 'Search',
-    viewBox: '0 0 20 20',
+    viewBox: '0 0 22 22',
     path: (
         <path
             d='M13.2098 11.6371C14.2991 10.1506 14.787 8.30766 14.5759 6.47691C14.3647 4.64615 13.4701 2.96262 12.071 1.76313C10.6719 0.563649 8.8715
