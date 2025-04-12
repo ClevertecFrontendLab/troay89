@@ -1,6 +1,6 @@
 import { Button, Icon } from '@chakra-ui/react';
 
-import Arrow from '~/components/icons/arrow';
+import Arrow from '~/components/icons/ArrowSlider';
 
 import styles from './SliderButton.module.css';
 

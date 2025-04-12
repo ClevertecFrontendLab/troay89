@@ -1,7 +1,7 @@
 import { createIcon } from '@chakra-ui/icons';
 
-const Arrow = createIcon({
-    displayName: 'Arrow',
+const ArrowSlider = createIcon({
+    displayName: 'ArrowSlider',
     viewBox: '0 0 22 14',
     path: (
         <path
@@ -13,4 +13,4 @@ const Arrow = createIcon({
     ),
 });
 
-export default Arrow;
+export default ArrowSlider;
