@@ -9,6 +9,22 @@
         0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+.navigation::-webkit-scrollbar {
+    width: 8px;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 362px;
+    border-radius: 8px;
+    background-color: var(--black-alpha-300);
+}
+
+.navigation::-webkit-scrollbar-track {
+    background-color: var(--black-alpha-50);
+    border-radius: 8px;
+}
+
 .navigation .accordion_item {
     border: none;
 }
@@ -16,7 +32,7 @@
 .navigation .accordion_button {
     width: 242px;
     margin-inline: 10px 4px;
-    padding: 10px 14px 10px 8px;
+    padding: 10px 14px 10px 11px;
 }
 
 .item_menu {
@@ -52,19 +68,21 @@
     height: 24px;
     width: 1px;
     border-left: 1px solid var(--lime-color-300);
-    margin-inline: 50px 6px;
+    margin-inline: 53px 6px;
     align-self: center;
 }
 
 .item_link.item_change {
     font-weight: 700;
-    padding-left: 13px;
+    padding-left: 4px;
+    align-self: center;
 }
 
-.vert_line + .item_change {
-    font-weight: 700;
+.line_change.vert_line {
+    height: 28px;
+    width: 1px;
     border-left: 8px solid var(--lime-color-300);
-    margin-left: -15px;
+    margin-inline: 47px 6px;
 }
 
 .navigation .accordion_panel {
