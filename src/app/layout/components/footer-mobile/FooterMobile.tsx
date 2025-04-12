@@ -1,5 +1,5 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import { Avatar, Button, Flex, Icon, Text } from '@chakra-ui/react';
+import { Avatar, Button, Flex, GridItem, Icon, Text } from '@chakra-ui/react';
 
 import { avatar } from '~/assets/images/header';
 import Home from '~/components/icons/footer/Home';
@@ -9,9 +9,9 @@ import styles from './FooterMobile.module.css';
 
 function FooterMobile() {
     return (
-        <>
-            <Flex className={styles.container}>
-                <Button className={styles['home_button']}>
+        <GridItem className={styles.footer} as='footer' data-test-id='footer'>
+            <Flex className={`${styles.container} ${styles.radial}`}>
+                <Button className={`${styles['footer_item']} ${styles['home_button']}`}>
                     <Icon as={Home} />
                 </Button>
                 <Text className={styles.text}>Главная</Text>
@@ -25,10 +25,10 @@ function FooterMobile() {
                 <Text className={styles.text}>Записать</Text>
             </Flex>
             <Flex className={styles.container}>
-                <Avatar src={avatar} boxSize={10} />
+                <Avatar className={styles['footer_item']} src={avatar} boxSize={10} />
                 <Text className={styles.text}>Мой профиль</Text>
             </Flex>
-        </>
+        </GridItem>
     );
 }
 

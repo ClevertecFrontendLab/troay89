@@ -28,11 +28,6 @@
     margin-inline: 24px;
 }
 
-.footer {
-    grid-area: footer;
-    display: none;
-}
-
 @media (max-width: 1890px) {
     .main {
         overflow-x: hidden;
@@ -50,34 +45,16 @@
     .navigation {
         display: none;
     }
-
-    .footer {
-        display: flex;
-        justify-content: space-between;
-        background-color: var(--lime-color);
-        padding-inline: 26px;
-    }
 }
 
 @media screen and (max-width: 950px) {
     .main {
         margin-inline: 20px;
     }
-
-    .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
 }
 
 @media (max-width: 550px) {
     .main {
         margin-inline: 16px;
-    }
-
-    .footer {
-        padding-inline: 0;
     }
 }
