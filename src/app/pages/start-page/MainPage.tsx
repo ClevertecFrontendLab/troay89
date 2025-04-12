@@ -26,12 +26,16 @@ function MainPage() {
                 <Heading className={styles.subtitle} as='h2'>
                     Самое сочное
                 </Heading>
-                <Link className={styles['button_desktop']} to='/juicy'>
+                <Link className={styles['button_desktop']} to='/juicy' data-test-id='juiciest-link'>
                     <GreenButton text='Вся подборка' />
                 </Link>
             </Flex>
             <JuicyBlock />
-            <Link className={styles['button_mobile']} to='/juicy'>
+            <Link
+                className={styles['button_mobile']}
+                to='/juicy'
+                data-test-id='juiciest-link-mobile'
+            >
                 <GreenButton text='Вся подборка' />
             </Link>
             <AuthorBlock />

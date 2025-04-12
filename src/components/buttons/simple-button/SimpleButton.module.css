@@ -1,14 +1,10 @@
 button.button {
     font: var(--font-inter-email);
-    padding-inline: 13px;
-    height: 32px;
 }
 
 @media (max-width: 950px) {
     button.button.extra {
         font: var(--font-inter-small);
-        height: 24px;
-        padding-inline: 8px;
         margin-left: 12px;
     }
 }

@@ -1,28 +1,11 @@
 button.button {
     border: var(--border);
     font: var(--font-inter-email);
-    padding-inline: 10px 12px;
-    height: 32px;
-}
-
-.icon {
-    margin-right: 9px;
 }
 
 @media (max-width: 950px) {
     button.button {
-        padding-inline: 0;
         min-width: unset;
-        height: 24px;
         width: 24px;
-    }
-
-    .button .text {
-        display: none;
-    }
-
-    .button .icon {
-        margin-right: 0;
-        height: 12px;
     }
 }

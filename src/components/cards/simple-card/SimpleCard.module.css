@@ -9,13 +9,7 @@ div.container {
 .container .title {
     font: var(--font-inter-title-card);
     color: var(--black-color);
-    display: inline-block;
-    width: 21ch;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     margin-block: 0 8px;
-    letter-spacing: 0.2px;
 }
 
 .content {
@@ -36,10 +30,6 @@ div.container {
         width: 282px;
         padding: 15px;
     }
-
-    .container .title {
-        width: 19ch;
-    }
 }
 
 @media (max-width: 950px) {
@@ -50,12 +40,23 @@ div.container {
 
     .container .title {
         font: var(--font-inter-button-third);
-        width: 20ch;
         letter-spacing: 0;
     }
 
     .content {
         font: var(--font-inter-email);
         margin-bottom: 28px;
+    }
+}
+
+@media (max-width: 767px) {
+    div.container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 550px) {
+    div.container {
+        width: 100%;
     }
 }

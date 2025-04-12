@@ -28,3 +28,9 @@ button.home_button {
 .footer_icon {
     margin-bottom: 8px;
 }
+
+@media (max-width: 650px) {
+    .container {
+        margin-inline: 0;
+    }
+}

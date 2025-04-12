@@ -7,8 +7,8 @@ import styles from './MainBlock.module.css';
 
 function MainBlock() {
     return (
-        <Flex className={styles.container}>
-            <Flex className={styles['card_container']}>
+        <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
+            <Flex className={styles['card_container']} mb={4} gap={4}>
                 {dataJuicyPageCards.map(
                     ({
                         image,
@@ -17,8 +17,8 @@ function MainBlock() {
                         label,
                         favorites,
                         like,
-                        avatarRecomend,
-                        nameRecomend,
+                        avatarRecommend,
+                        nameRecommend,
                     }) => (
                         <GeneraCard
                             key={title}
@@ -28,13 +28,15 @@ function MainBlock() {
                             label={label}
                             favorites={favorites}
                             like={like}
-                            avatarRecomend={avatarRecomend}
-                            nameRecomend={nameRecomend}
+                            avatarRecommend={avatarRecommend}
+                            nameRecommend={nameRecommend}
                         />
                     ),
                 )}
             </Flex>
-            <Button className={styles.button}>Загрузить ещё</Button>
+            <Button className={styles.button} colorScheme='teal' px='17.5px'>
+                Загрузить еще
+            </Button>
         </Flex>
     );
 }

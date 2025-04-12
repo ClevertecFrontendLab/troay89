@@ -1,24 +1,24 @@
 import { alexAvatar, ekaterinaAvatar, elenaAvatar } from '~/assets/images/main-page';
-import UserRecomendProps from '~/type/userRecomendProps';
+import UserRecommendProps from '~/type/userRecommendProps';
 
-const dataAuthorCards: UserRecomendProps[] = [
+const dataAuthorCards: UserRecommendProps[] = [
     {
-        nameRecomend: 'Елена Высоцкая',
-        avatarRecomend: elenaAvatar,
+        nameRecommend: 'Елена Высоцкая',
+        avatarRecommend: elenaAvatar,
         email: '@elenapovar',
         message:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
     },
     {
-        nameRecomend: 'Alex Cook',
-        avatarRecomend: alexAvatar,
+        nameRecommend: 'Alex Cook',
+        avatarRecommend: alexAvatar,
         email: '@funtasticooking',
         message:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
     },
     {
-        nameRecomend: 'Екатерина Константинопольская',
-        avatarRecomend: ekaterinaAvatar,
+        nameRecommend: 'Екатерина Константинопольская',
+        avatarRecommend: ekaterinaAvatar,
         email: '@bake_and_pie',
         message:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',

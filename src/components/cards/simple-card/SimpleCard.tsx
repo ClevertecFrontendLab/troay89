@@ -8,7 +8,12 @@ import styles from './SimpleCard.module.css';
 function SimpleCard({ title, description, label, favorites, like }: CardProps) {
     return (
         <Card className={styles.container}>
-            <Heading className={styles.title} as='h3'>
+            <Heading
+                className={styles.title}
+                as='h3'
+                isTruncated
+                maxW={{ base: '315px', bp76: '210px', bp95: '260px', bp189: '274px' }}
+            >
                 {title}
             </Heading>
             <Text className={styles.content} noOfLines={3}>

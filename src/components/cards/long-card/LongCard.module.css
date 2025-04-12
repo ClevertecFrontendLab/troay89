@@ -49,11 +49,6 @@ div.container {
 
     .container .title {
         font: var(--font-inter-500);
-        display: inline-block;
-        width: 13.5ch;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .container .button {
@@ -64,14 +59,9 @@ div.container {
 }
 
 @media (max-width: 950px) {
-    div.container {
-        padding: 7px 12px 7px 11px;
-    }
-
     .container .title {
         font: var(--font-inter-nav);
         letter-spacing: 0.1px;
-        width: 10ch;
     }
 
     .container .button {

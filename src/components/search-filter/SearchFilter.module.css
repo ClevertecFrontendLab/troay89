@@ -59,3 +59,10 @@ button.filter {
         letter-spacing: 0;
     }
 }
+
+@media (max-width: 550px) {
+    .search_container .search {
+        height: 32px;
+        width: 282px;
+    }
+}

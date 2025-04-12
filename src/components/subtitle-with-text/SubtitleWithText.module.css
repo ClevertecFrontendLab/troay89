@@ -47,3 +47,9 @@
         padding-block: 7px 16px;
     }
 }
+
+@media (max-width: 550px) {
+    .description {
+        padding-right: 33px;
+    }
+}

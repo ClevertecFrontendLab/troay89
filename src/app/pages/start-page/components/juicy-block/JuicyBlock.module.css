@@ -20,3 +20,10 @@
         margin-bottom: 12px;
     }
 }
+
+@media (max-width: 767px) {
+    div.juicy {
+        flex-direction: column;
+        gap: 12px;
+    }
+}

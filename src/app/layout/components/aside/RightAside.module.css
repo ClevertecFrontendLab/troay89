@@ -3,13 +3,10 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.aside_container .aside_button {
-    height: 48px;
-    width: 48px;
-    border-radius: 50%;
-    background-color: var(--black-color);
+    position: fixed;
+    width: 241px;
+    right: 0;
+    height: calc(100vh - 80px);
 }
 
 .aside_container {
@@ -19,7 +16,7 @@
     justify-content: center;
     align-self: flex-end;
     height: 180px;
-    width: 208px;
+    width: 180px;
     gap: 12px;
     font: var(--font-inter-version);
     color: var(--black-alpha);

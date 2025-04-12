@@ -12,8 +12,8 @@ div.card {
     padding: 0;
 }
 
-.content {
-    border: var(--border-card);
+.card_body .content {
+    border: 1px solid #ebebeb;
     border-top: none;
     padding: 16px 24px 19px;
     border-radius: 0 0 6px 6px;
@@ -23,23 +23,12 @@ div.card {
     font: var(--font-inter-title-card);
     color: var(--black-color);
     letter-spacing: 0.2px;
-    display: inline-block;
-    width: 22ch;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .description_card {
     font: var(--font-inter-email);
     color: var(--black-color);
     margin-bottom: 20px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -54,7 +43,7 @@ div.card {
         width: 279px;
     }
 
-    .content {
+    .card .content {
         padding: 12px 11px 11px;
     }
 
@@ -62,7 +51,7 @@ div.card {
         font: var(--font-inter-500);
     }
 
-    .card_image {
+    .card .card_image {
         height: 230px;
     }
 }
@@ -72,28 +61,20 @@ div.card {
         width: 158px;
     }
 
-    .card_image {
+    .card .card_image {
         height: 128px;
     }
 
-    .description_card {
+    .card .card_body .description_card {
         display: none;
     }
 
     .content .title_card {
         font: var(--font-inter-nav);
         padding-bottom: 5px;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        white-space: wrap;
-        width: auto;
     }
 
-    .content {
+    .card .content {
         padding: 7px 7px 0;
         height: 92px;
     }

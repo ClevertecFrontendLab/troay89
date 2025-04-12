@@ -16,8 +16,8 @@ function JuicyBlock() {
                     label,
                     favorites,
                     like,
-                    nameRecomend,
-                    avatarRecomend,
+                    nameRecommend,
+                    avatarRecommend,
                 }) => (
                     <GeneraCard
                         key={title}
@@ -27,8 +27,8 @@ function JuicyBlock() {
                         label={label}
                         favorites={favorites}
                         like={like}
-                        nameRecomend={nameRecomend}
-                        avatarRecomend={avatarRecomend}
+                        nameRecommend={nameRecommend}
+                        avatarRecommend={avatarRecommend}
                     />
                 ),
             )}

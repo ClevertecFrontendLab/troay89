@@ -10,7 +10,7 @@ function RightAside() {
         <GridItem className={styles.aside} as='aside'>
             <IconStats />
             <div className={styles['aside_container']}>
-                <Button className={styles['aside_button']}>
+                <Button boxSize={12} borderRadius='50%' bg='black' colorScheme='blackAlpha'>
                     <Icon boxSize={6} as={PencilSquare} />
                 </Button>
                 <span>Записать рецепт</span>

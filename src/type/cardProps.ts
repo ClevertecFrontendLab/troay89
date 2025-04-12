@@ -5,8 +5,8 @@ type CardProps = {
     label: string;
     favorites?: number;
     like?: number;
-    avatarRecomend?: string;
-    nameRecomend?: string;
+    avatarRecommend?: string;
+    nameRecommend?: string;
 };
 
 export default CardProps;

@@ -3,7 +3,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import GreenButton from '~/components/buttons/green-button/GreenButton';
 import AuthorCard from '~/components/cards/author-card/AuthorCard';
 import dataAuthorCards from '~/data/dataAuthorCards';
-import UserRecomendProps from '~/type/userRecomendProps';
+import UserRecommendProps from '~/type/userRecommendProps';
 
 import styles from './AuthorBlock.module.css';
 
@@ -21,13 +21,18 @@ function AuthorBlock() {
             <Flex className={styles['cards_container']}>
                 {dataAuthorCards.map(
                     (
-                        { nameRecomend, avatarRecomend, email, message }: UserRecomendProps,
+                        {
+                            nameRecommend: nameRecomend,
+                            avatarRecommend: avatarRecomend,
+                            email,
+                            message,
+                        }: UserRecommendProps,
                         index,
                     ) => (
                         <AuthorCard
                             key={index}
-                            nameRecomend={nameRecomend}
-                            avatarRecomend={avatarRecomend}
+                            nameRecommend={nameRecomend}
+                            avatarRecommend={avatarRecomend}
                             email={email}
                             message={message}
                         />

@@ -1,5 +1,6 @@
 div.card_container {
     width: 668px;
+    flex-direction: row;
     border-radius: 8px;
     box-shadow: none;
     transition: box-shadow 0.3s ease;
@@ -7,10 +8,12 @@ div.card_container {
 
 .image {
     border-radius: 8px 0 0 8px;
+    width: 346px;
+    height: 244px;
 }
 
-.card_content {
-    border: var(--border-card);
+.card_container .card_content {
+    border: 1px solid #ebebeb;
     border-left: none;
     padding: 19px 23px 0 24px;
     border-radius: 0 6px 6px 0;
@@ -20,23 +23,12 @@ h3.subtitle {
     font: var(--font-inter-title-card);
     color: var(--black-color);
     letter-spacing: 0.2px;
-    padding-block: 24px 3px;
-    display: inline-block;
-    width: 21ch;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    padding-block: 24px 8px;
 }
 
 .description {
     font: var(--font-inter-email);
     color: var(--black-color);
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
 }
 
 div.card_body {
@@ -61,17 +53,6 @@ div.card_body {
         width: auto;
         max-width: 880px;
     }
-
-    h3.subtitle {
-        width: 38ch;
-    }
-}
-
-@media (max-width: 1439px) {
-    h3.subtitle {
-        width: auto;
-        white-space: unset;
-    }
 }
 
 @media (max-width: 950px) {
@@ -79,7 +60,7 @@ div.card_body {
         width: 356px;
     }
 
-    .card_content {
+    .card_container .card_content {
         padding: 11px 8px 3px;
         width: 198px;
     }
@@ -88,15 +69,9 @@ div.card_body {
         font: var(--font-inter-button-third);
         padding-block: 4px 3px;
         letter-spacing: 0;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
     }
 
-    .description {
+    .card_body .description {
         display: none;
     }
 
@@ -107,5 +82,22 @@ div.card_body {
 
     .card_container .card_footer {
         padding: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    div.card_container {
+        width: 100%;
+    }
+
+    .card_container .card_content {
+        max-width: 600px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 550px) {
+    div.card_container {
+        align-self: center;
     }
 }

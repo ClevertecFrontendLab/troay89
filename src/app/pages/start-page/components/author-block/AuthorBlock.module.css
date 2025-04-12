@@ -67,3 +67,9 @@
         margin-top: 12px;
     }
 }
+
+@media (max-width: 767px) {
+    .cards_container {
+        flex-direction: column;
+    }
+}

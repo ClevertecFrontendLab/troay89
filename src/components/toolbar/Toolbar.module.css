@@ -16,7 +16,6 @@
 
 .container .title {
     font: var(--font-inter-title);
-    color: var(--black-color);
     letter-spacing: 1px;
     margin: 0;
 }

@@ -25,12 +25,14 @@ function AccordionMenu() {
                 <AccordionItem className={styles['accordion_item']} key={category}>
                     <AccordionButton
                         className={styles['accordion_button']}
-                        as='span'
                         _expanded={{
                             bg: '#eaffc7',
                             font: 'white',
                             fontWeight: 700,
                         }}
+                        as={RouterLink}
+                        to='/vegan'
+                        data-test-id={category === 'Веганская кухня' && 'vegan-cuisine'}
                     >
                         <Box className={styles['item_menu']} flex='1' textAlign='left'>
                             {dataCategoryIcons[category] && (
@@ -50,9 +52,7 @@ function AccordionMenu() {
                                 <ListItem className={styles['list_item']} key={item}>
                                     <Box className={styles['vert_line']} />
                                     <Link
-                                        as={RouterLink}
                                         className={`${styles['item_link']} ${item === 'Вторые блюда' && location.pathname === '/vegan' ? styles['item_change'] : ''}`}
-                                        to='/vegan'
                                     >
                                         {item}
                                     </Link>

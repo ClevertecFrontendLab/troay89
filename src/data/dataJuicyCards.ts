@@ -19,8 +19,8 @@ const dataJuicyCards: CardProps[] = [
         label: 'Вторые блюда',
         favorites: 159,
         like: 257,
-        avatarRecomend: elenaAvatar,
-        nameRecomend: 'Елена Высоцкая рекомендует',
+        avatarRecommend: elenaAvatar,
+        nameRecommend: 'Елена Высоцкая рекомендует',
     },
     {
         image: seven,
@@ -30,8 +30,8 @@ const dataJuicyCards: CardProps[] = [
         label: 'Вторые блюда',
         favorites: 258,
         like: 342,
-        avatarRecomend: alexAvatar,
-        nameRecomend: 'Alex Cook рекомендует',
+        avatarRecommend: alexAvatar,
+        nameRecommend: 'Alex Cook рекомендует',
     },
     {
         image: eight,

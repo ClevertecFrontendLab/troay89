@@ -22,7 +22,7 @@ function Layout({ children }: LayoutProps) {
                 {children}
             </GridItem>
             <RightAside />
-            <GridItem className={styles.footer} as='footer'>
+            <GridItem className={styles.footer} as='footer' data-test-id='footer'>
                 <FooterMobile />
             </GridItem>
         </Grid>

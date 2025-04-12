@@ -1,5 +1,11 @@
 .header {
     grid-area: header;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    height: 80px;
     background-color: var(--lime-color);
     display: flex;
     align-items: center;
@@ -25,9 +31,13 @@ div .second_part {
 }
 
 @media (max-width: 950px) {
+    .header {
+        height: 64px;
+    }
+
     .header .header_container_mobile {
         display: flex;
-        margin: 20px;
+        margin-right: 20px;
         gap: 24px;
     }
 
@@ -38,5 +48,20 @@ div .second_part {
     .header_container {
         margin-left: 20px;
         column-gap: 0;
+    }
+}
+
+@media (max-width: 500px) {
+    div .second_part {
+        display: none;
+    }
+
+    .header_container {
+        margin-left: 16px;
+    }
+
+    .header .header_container_mobile {
+        margin-right: 16px;
+        gap: 16px;
     }
 }

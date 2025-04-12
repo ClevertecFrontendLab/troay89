@@ -4,7 +4,6 @@ button.button {
     font: var(--font-inter-button);
     color: var(--black-color);
     padding-inline: 24px;
-    height: 48px;
 }
 
 .button.changeColor {
@@ -15,6 +14,5 @@ button.button {
     button.button {
         font: var(--font-inter-button-third);
         padding-inline: 18px 16px;
-        height: 40px;
     }
 }

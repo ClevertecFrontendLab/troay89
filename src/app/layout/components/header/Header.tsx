@@ -12,7 +12,7 @@ import styles from './Header.module.css';
 
 function Header() {
     return (
-        <GridItem className={styles.header} as='header'>
+        <GridItem className={styles.header} as='header' data-test-id='header'>
             <Box className={styles['header_container']}>
                 <Flex as={Link} to='/'>
                     <Icon as={FirstPart} boxSize={8} />
