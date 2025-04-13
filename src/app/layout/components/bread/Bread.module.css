@@ -1,0 +1,30 @@
+.breadcrumb {
+    font: var(--font-inter-bread);
+    color: black;
+    padding: 0;
+}
+
+.breadcrumb .breadcrumb_link,
+.breadcrumb .breadcrumb_text {
+    font: var(--font-inter-bread);
+    color: var(--black-alpha);
+}
+
+.breadcrumb .current_page {
+    font: var(--font-inter-bread);
+    color: var(--black-color);
+}
+
+.breadcrumb_item span {
+    margin-inline: 0;
+}
+
+.breadcrumb_item span svg {
+    width: 23px;
+}
+
+@media (max-width: 950px) {
+    .breadcrumb {
+        display: none;
+    }
+}

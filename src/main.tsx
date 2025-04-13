@@ -1,4 +1,6 @@
-import './index.css';
+import './styles/normalize.css';
+import './styles/global.css';
+import './styles/variables.css';
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';

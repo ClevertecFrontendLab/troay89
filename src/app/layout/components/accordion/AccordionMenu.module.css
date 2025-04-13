@@ -1,0 +1,113 @@
+.navigation {
+    margin-top: 34px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    border-radius: 12px;
+    box-shadow:
+        0 2px 4px -1px rgba(0, 0, 0, 0.06),
+        0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.navigation::-webkit-scrollbar {
+    width: 8px;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 362px;
+    border-radius: 8px;
+    background-color: var(--black-alpha-300);
+}
+
+.navigation::-webkit-scrollbar-track {
+    background-color: var(--black-alpha-50);
+    border-radius: 8px;
+}
+
+.navigation .accordion_item {
+    border: none;
+}
+
+.navigation .accordion_button {
+    width: 242px;
+    margin-inline: 10px 4px;
+    padding: 10px 14px 10px 11px;
+}
+
+.item_menu {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.title_nav {
+    font: var(--font-inter-nav);
+    color: var(--black-color);
+}
+
+.icon {
+    padding-right: 11px;
+}
+
+.list_item {
+    display: flex;
+}
+
+.item_link {
+    display: block;
+    padding: 6px 0 6px 4px;
+    font: var(--font-inter-nav);
+    color: var(--black-color);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+}
+
+.vert_line {
+    height: 24px;
+    width: 1px;
+    border-left: 1px solid var(--lime-color-300);
+    margin-inline: 53px 6px;
+    align-self: center;
+}
+
+.item_link.item_change {
+    font-weight: 700;
+    padding-left: 4px;
+    align-self: center;
+}
+
+.line_change.vert_line {
+    height: 28px;
+    width: 1px;
+    border-left: 8px solid var(--lime-color-300);
+    margin-inline: 47px 6px;
+}
+
+.navigation .accordion_panel {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.accordion_panel .list > li {
+    margin: 0;
+}
+
+.list_items .item_button {
+    margin: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .accordion_item .accordion_button:hover {
+        background-color: var(--lime-color);
+        transition: background-color 0.3s ease;
+    }
+
+    .accordion_item .item_link:hover {
+        background-color: var(--lime-color);
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+}

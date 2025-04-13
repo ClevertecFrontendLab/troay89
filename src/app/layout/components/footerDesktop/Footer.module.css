@@ -1,0 +1,26 @@
+.desktop_footer {
+    display: flex;
+    flex-direction: column;
+    font: var(--font-inter-version);
+    padding-left: 24px;
+}
+
+.footer_version {
+    color: var(--black-alpha-400);
+}
+
+.footer_info {
+    color: var(--black-alpha);
+    font-weight: 400;
+    padding-block: 16px;
+    white-space: pre-wrap;
+}
+
+.footer_exit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    padding-bottom: 32px;
+    width: 100px;
+}

@@ -1,0 +1,11 @@
+button.button {
+    border: var(--border);
+    font: var(--font-inter-email);
+}
+
+@media (max-width: 950px) {
+    button.button {
+        min-width: unset;
+        width: 24px;
+    }
+}

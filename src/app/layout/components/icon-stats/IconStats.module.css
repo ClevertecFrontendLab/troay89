@@ -1,0 +1,39 @@
+div.container_user_stats {
+    flex-direction: column;
+    align-items: center;
+    margin: 24px 0 0 72px;
+}
+
+.container_user_stats > *:not(:last-child) {
+    margin-bottom: 40px;
+}
+
+.user_stat {
+    align-items: center;
+    font: var(--font-inter-nav);
+    color: var(--lime-color-600);
+    font-weight: 600;
+    column-gap: 9px;
+}
+
+@media (max-width: 950px) {
+    .container_user_stats.stats_header {
+        flex-direction: row;
+        margin: 0;
+        gap: 15px;
+    }
+
+    .container_user_stats > *:not(:last-child) {
+        margin-bottom: 0;
+    }
+
+    .user_stat {
+        font: var(--font-inter-small);
+        column-gap: 8px;
+    }
+
+    .user_stat .icon {
+        height: 12px;
+        width: 12px;
+    }
+}

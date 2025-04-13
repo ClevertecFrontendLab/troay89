@@ -1,0 +1,36 @@
+.label {
+    align-items: center;
+    background-color: var(--lime-color-150);
+    padding: 2px 8px;
+    border-radius: 4px;
+    gap: 8px;
+}
+
+.label.mobile {
+    display: none;
+}
+
+.label.yellow {
+    background-color: var(--lime-color);
+}
+
+.image {
+    height: 16px;
+}
+
+.text {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    white-space: nowrap;
+}
+
+@media (max-width: 950px) {
+    .label.mobile {
+        display: flex;
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 2px 4px;
+        gap: 2px;
+    }
+}

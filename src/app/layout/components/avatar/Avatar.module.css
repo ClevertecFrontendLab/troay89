@@ -1,0 +1,25 @@
+.avatar_container {
+    display: flex;
+    margin-right: 68px;
+}
+
+.avatar_info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+}
+
+.avatar_name {
+    font: var(--font-inter-500);
+}
+
+.avatar_container .avatar_info .avatar_email {
+    font: var(--font-inter-email);
+    color: var(--black-alpha);
+}
+
+@media (max-width: 950px) {
+    .avatar_container {
+        display: none;
+    }
+}

@@ -1,0 +1,49 @@
+h2.subtitle {
+    font: var(--font-inter-subtitle);
+    color: var(--black-color);
+    margin-bottom: 24px;
+    letter-spacing: 2.1px;
+}
+
+.subtitle_container {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.button_mobile {
+    display: none;
+}
+
+@media (max-width: 1890px) {
+    h2.subtitle {
+        font-size: 36px;
+        line-height: 111%;
+        letter-spacing: 1.1px;
+    }
+
+    .subtitle_container .subtitle {
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 950px) {
+    h2.subtitle {
+        font: var(--font-inter-subtitle-mobile);
+        margin-bottom: 12px;
+        letter-spacing: 0.5px;
+    }
+
+    .subtitle_container .subtitle {
+        margin-bottom: 12px;
+    }
+
+    .button_desktop {
+        display: none;
+    }
+
+    .button_mobile {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 32px;
+    }
+}
