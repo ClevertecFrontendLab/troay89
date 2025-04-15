@@ -7,7 +7,7 @@ import styles from './LongCard.module.css';
 function LongCard({ image, title }: CardLongProps) {
     return (
         <Card className={styles.container}>
-            <Flex className={styles['title_container']}>
+            <Flex className={styles.title_container}>
                 <Image className={styles.image} src={image} />
                 <Heading
                     className={styles.title}

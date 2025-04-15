@@ -8,9 +8,9 @@ import styles from './Slaider.module.css';
 
 function Slider() {
     return (
-        <Flex className={styles['container_slider']}>
+        <Flex className={styles.container_slider}>
             <SliderButton />
-            <Flex className={styles['card_container']}>
+            <Flex className={styles.card_container}>
                 {dataSliderCard.map(({ image, title, description, label, favorites, like }) => (
                     <CardSlider
                         key={title}

@@ -1,5 +1,6 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import { useLocation } from 'react-router';
+import { Link } from 'react-router';
 
 import BreadIcon from '~/components/icons/BreadIcon';
 
@@ -20,7 +21,7 @@ function Bread() {
         <Breadcrumb className={styles.breadcrumb} separator={<BreadIcon boxSize={6} />}>
             {breadcrumbs.map((crumb, index) => (
                 <BreadcrumbItem
-                    className={styles['breadcrumb_item']}
+                    className={styles.breadcrumb_item}
                     key={index}
                     isCurrentPage={index === breadcrumbs.length - 1}
                 >
@@ -32,7 +33,7 @@ function Bread() {
                             {crumb}
                         </span>
                     ) : (
-                        <BreadcrumbLink className={styles['breadcrumb_link']} href='/'>
+                        <BreadcrumbLink className={styles.breadcrumb_link} as={Link} to='/'>
                             {crumb}
                         </BreadcrumbLink>
                     )}

@@ -8,7 +8,7 @@ import styles from './MainBlock.module.css';
 function MainBlock() {
     return (
         <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
-            <Flex className={styles['card_container']} mb={4} gap={4}>
+            <Flex className={styles.card_container} mb={4} gap={4}>
                 {dataJuicyPageCards.map(
                     ({
                         image,

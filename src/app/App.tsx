@@ -3,8 +3,6 @@ import { BrowserRouter } from 'react-router';
 
 import AppRouter from '~/router/AppRoter';
 
-import Layout from './layout/Layout';
-
 const customBreakpoints = {
     ...baseTheme.breakpoints,
     bp189: '1891px',
@@ -21,15 +19,25 @@ const customTheme = extendTheme({
         },
     },
     breakpoints: customBreakpoints,
+    components: {
+        Heading: {
+            baseStyle: {
+                color: 'black',
+            },
+        },
+        Text: {
+            baseStyle: {
+                color: 'black',
+            },
+        },
+    },
 });
 
 function App() {
     return (
         <ChakraProvider theme={customTheme}>
             <BrowserRouter>
-                <Layout>
-                    <AppRouter />
-                </Layout>
+                <AppRouter />
             </BrowserRouter>
         </ChakraProvider>
     );

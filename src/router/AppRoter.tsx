@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { RouteObject, useRoutes } from 'react-router';
 
+import Layout from '~/app/layout/Layout';
 import JuicyPage from '~/app/pages/juicy-page/JuicyPage';
 import MainPage from '~/app/pages/start-page/MainPage';
 import VeganPage from '~/app/pages/vegan-page/VeganPage';
@@ -22,6 +23,7 @@ const paths = {
 
 const allRoutes: RouteObject = {
     path: paths.root.path,
+    element: <Layout />,
     children: [
         { path: paths.root.path, element: <MainPage /> },
         { path: paths.juicy.path, element: <JuicyPage /> },

@@ -13,16 +13,16 @@ import styles from './Header.module.css';
 function Header() {
     return (
         <GridItem className={styles.header} as='header' data-test-id='header'>
-            <Box className={styles['header_container']}>
+            <Box className={styles.header_container}>
                 <Flex as={Link} to='/'>
                     <Icon as={FirstPart} boxSize={8} />
-                    <Icon className={styles['second_part']} as={SecondPart} />
+                    <Icon className={styles.second_part} as={SecondPart} />
                 </Flex>
                 <Center>
                     <Bread />
                 </Center>
             </Box>
-            <Flex className={styles['header_container_mobile']}>
+            <Flex className={styles.header_container_mobile}>
                 <IconStats isHeader />
                 <Burger className={styles.burger} boxSize={6} />
             </Flex>

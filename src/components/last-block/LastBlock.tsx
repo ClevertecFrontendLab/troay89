@@ -20,8 +20,8 @@ function LastBlock({ title, text, simpleCardArray, longCardArray, isChangeTable 
     return (
         <Flex className={styles.container}>
             <SubtitleWithText title={title} text={text} isChangeTable={isChangeTable} />
-            <Flex className={styles['cards_container']}>
-                <Flex className={styles['simple_cards_container']}>
+            <Flex className={styles.cards_container}>
+                <Flex className={styles.simple_cards_container}>
                     {simpleCardArray.map(
                         ({ title, description, label, favorites, like }: CardProps) => (
                             <SimpleCard
@@ -35,7 +35,7 @@ function LastBlock({ title, text, simpleCardArray, longCardArray, isChangeTable 
                         ),
                     )}
                 </Flex>
-                <Flex className={styles['long_cards_container']}>
+                <Flex className={styles.long_cards_container}>
                     {longCardArray.map(({ image, title }: CardLongProps) => (
                         <LongCard key={title} image={image} title={title} />
                     ))}

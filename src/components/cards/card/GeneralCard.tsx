@@ -30,10 +30,17 @@ function GeneraCard({
     nameRecommend,
 }: CardProps) {
     return (
-        <Card className={styles['card_container']}>
-            <Image className={styles.image} src={image} alt='Caffe Latte' />
-            <Stack className={styles['card_content']} gap={0}>
-                <CardBody className={styles['card_body']}>
+        <Card className={styles.card_container}>
+            <Image
+                className={styles.image}
+                src={image}
+                alt='Caffe Latte'
+                loading='lazy'
+                w={{ base: '158px', bp95: '346px' }}
+                h={{ base: '128px', bp95: '244px' }}
+            />
+            <Stack className={styles.card_content} gap={0}>
+                <CardBody className={styles.card_body}>
                     <StatsForCard favorites={favorites} like={like} isMobile />
                     <CardStats label={label} like={like} favorites={favorites} yellow />
                     <Heading className={styles.subtitle} as='h3' noOfLines={{ base: 2, bp95: 1 }}>
@@ -43,7 +50,7 @@ function GeneraCard({
                         {description}
                     </Text>
                 </CardBody>
-                <CardFooter className={styles['card_footer']}>
+                <CardFooter className={styles.card_footer}>
                     <ButtonGroup>
                         <FavoriteButton />
                         <SimpleButton />

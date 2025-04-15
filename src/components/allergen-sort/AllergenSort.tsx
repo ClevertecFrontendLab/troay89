@@ -4,12 +4,12 @@ import styles from './AllergenSort.module.css';
 
 function AllergenSort() {
     return (
-        <Flex className={styles['allergen_container']}>
-            <FormControl className={styles['allergen_label']}>
-                <FormLabel className={styles['allergen_switch']} htmlFor='allergen-switch'>
+        <Flex className={styles.allergen_container}>
+            <FormControl className={styles.allergen_label}>
+                <FormLabel className={styles.allergen_switch} htmlFor='allergen-switch'>
                     Исключить мои аллергены
                 </FormLabel>
-                <Switch id='allergen-switch' colorScheme='red' />
+                <Switch id='allergen-switch' />
             </FormControl>
             <Select className={styles.select} placeholder='Выберите из списка...'>
                 <option value='option1'>Option 1</option>

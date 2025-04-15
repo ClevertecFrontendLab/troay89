@@ -9,7 +9,7 @@ function RightAside() {
     return (
         <GridItem className={styles.aside} as='aside'>
             <IconStats />
-            <div className={styles['aside_container']}>
+            <div className={styles.aside_container}>
                 <Button boxSize={12} borderRadius='50%' bg='black' colorScheme='blackAlpha'>
                     <Icon boxSize={6} as={PencilSquare} />
                 </Button>

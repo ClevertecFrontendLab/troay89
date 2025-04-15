@@ -11,7 +11,7 @@ type SliderButton = {
 function SliderButton({ reverse }: SliderButton) {
     return (
         <Button
-            className={`${styles['slider_button']} ${reverse && styles.reverse}`}
+            className={`${styles.slider_button} ${reverse && styles.reverse}`}
             colorScheme='teal'
             bg='black'
             display={{ bp95: 'flex', base: 'none' }}

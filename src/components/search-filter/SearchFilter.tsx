@@ -6,13 +6,13 @@ import styles from './SearchFilter.module.css';
 
 function SearchFilter() {
     return (
-        <Flex className={styles['search_container']}>
+        <Flex className={styles.search_container}>
             <Button className={styles.filter}>
-                <Icon className={styles['filter_icon']} as={FilterIcon} boxSize={6} />
+                <Icon className={styles.filter_icon} as={FilterIcon} boxSize={6} />
             </Button>
-            <InputGroup className={styles['search_wrapper']}>
+            <InputGroup className={styles.search_wrapper}>
                 <Input className={styles.search} placeholder='Название или ингредиент...' />
-                <InputRightElement className={styles['search_icon']}>
+                <InputRightElement className={styles.search_icon}>
                     <Icon
                         as={SearchIcon}
                         height={{ bp95: '22px', base: '17px' }}

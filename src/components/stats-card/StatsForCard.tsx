@@ -12,7 +12,7 @@ type StatsForCardProps = {
 
 function StatsForCard({ favorites, like, isMobile }: StatsForCardProps) {
     return (
-        <Flex className={`${styles['stats_container']} ${isMobile && styles['mobile']}`}>
+        <Flex className={`${styles.stats_container} ${isMobile && styles.mobile}`}>
             {favorites ? (
                 <Flex className={styles.stats}>
                     <Icon as={BookMark} boxSize='12px' />

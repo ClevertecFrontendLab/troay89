@@ -1,6 +1,5 @@
 h2.subtitle {
     font: var(--font-inter-subtitle);
-    color: var(--black-color);
     margin-bottom: 24px;
     letter-spacing: 2.1px;
 }

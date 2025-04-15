@@ -10,17 +10,19 @@ import styles from './CardSlider.module.css';
 function CardSlider({ image, title, description, label, favorites, like }: CardProps) {
     return (
         <Card className={styles.card}>
-            <CardBody className={styles['card_body']}>
-                <Image className={styles['card_image']} src={image} alt={label} />
+            <CardBody className={styles.card_body}>
+                <Image
+                    className={styles.card_image}
+                    src={image}
+                    alt={label}
+                    w={{ base: '158px', bp95: '279px', bp189: '322px' }}
+                    h={{ base: '128px', bp95: '230px' }}
+                />
                 <Stack className={styles.content}>
-                    <Heading
-                        className={styles['title_card']}
-                        as='h3'
-                        noOfLines={{ bp95: 1, base: 2 }}
-                    >
+                    <Heading className={styles.title_card} as='h3' noOfLines={{ bp95: 1, base: 2 }}>
                         {title}
                     </Heading>
-                    <Text className={styles['description_card']} noOfLines={3}>
+                    <Text className={styles.description_card} noOfLines={3}>
                         {description}
                     </Text>
                     <CardStats label={label} favorites={favorites} like={like} />

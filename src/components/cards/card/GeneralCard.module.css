@@ -21,14 +21,12 @@ div.card_container {
 
 h3.subtitle {
     font: var(--font-inter-title-card);
-    color: var(--black-color);
     letter-spacing: 0.2px;
     padding-block: 24px 8px;
 }
 
 .description {
     font: var(--font-inter-email);
-    color: var(--black-color);
 }
 
 div.card_body {

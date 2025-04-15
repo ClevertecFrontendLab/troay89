@@ -20,7 +20,7 @@
     margin: 0;
 }
 
-.heading_description {
+.container .heading_description {
     font: var(--font-inter-nav);
     color: var(--black-alpha-600);
     margin-top: 12px;
@@ -44,7 +44,7 @@
         margin-bottom: 32px;
     }
 
-    .heading_description {
+    .container .heading_description {
         font: var(--font-inter-email);
         margin-top: 16px;
         max-width: unset;

@@ -1,0 +1,24 @@
+.navigation_button.accordion_button {
+    width: 242px;
+    margin-inline: 6px 4px;
+    padding: 10px 11px;
+}
+
+.item_menu {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.title_nav {
+    font: var(--font-inter-nav);
+    color: var(--black-color);
+    margin-left: 14px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .navigation_button.accordion_button:hover {
+        background-color: var(--lime-color);
+        transition: background-color 0.3s ease;
+    }
+}

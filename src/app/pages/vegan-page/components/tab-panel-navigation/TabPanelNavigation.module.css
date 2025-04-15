@@ -19,12 +19,6 @@ div.tab_list {
     display: none;
 }
 
-.container_cards {
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: 16px;
-}
-
 .tab {
     font: var(--font-inter-nav);
     color: var(--color-lime-800);
@@ -39,22 +33,9 @@ button.button {
     padding: 18px;
 }
 
-@media (max-width: 1880px) {
-    .container_cards {
-        align-items: center;
-        justify-content: center;
-    }
-}
-
 @media (max-width: 950px) {
     .container {
         margin-bottom: 32px;
-    }
-
-    .container_cards {
-        flex-direction: row;
-        justify-content: center;
-        gap: 16px;
     }
 
     .tab_list .tab {

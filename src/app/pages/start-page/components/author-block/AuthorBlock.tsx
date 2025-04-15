@@ -10,36 +10,31 @@ import styles from './AuthorBlock.module.css';
 function AuthorBlock() {
     return (
         <Flex className={styles.container}>
-            <Flex className={styles['subtitle_container']}>
+            <Flex className={styles.subtitle_container}>
                 <Heading className={styles.subtitle} as='h2'>
                     Кулинарные блоги
                 </Heading>
-                <Box className={styles['button_desktop']}>
+                <Box className={styles.button_desktop}>
                     <GreenButton text='Все авторы' changeColor />
                 </Box>
             </Flex>
-            <Flex className={styles['cards_container']}>
+            <Flex className={styles.cards_container}>
                 {dataAuthorCards.map(
                     (
-                        {
-                            nameRecommend: nameRecomend,
-                            avatarRecommend: avatarRecomend,
-                            email,
-                            message,
-                        }: UserRecommendProps,
+                        { nameRecommend, avatarRecommend, email, message }: UserRecommendProps,
                         index,
                     ) => (
                         <AuthorCard
                             key={index}
-                            nameRecommend={nameRecomend}
-                            avatarRecommend={avatarRecomend}
+                            nameRecommend={nameRecommend}
+                            avatarRecommend={avatarRecommend}
                             email={email}
                             message={message}
                         />
                     ),
                 )}
             </Flex>
-            <Box className={styles['button_mobile']}>
+            <Box className={styles.button_mobile}>
                 <GreenButton text='Все авторы' changeColor />
             </Box>
         </Flex>
