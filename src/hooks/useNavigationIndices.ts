@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
@@ -17,10 +17,12 @@ export function useNavigationIndices() {
     const [indexCategory, setIndexCategory] = useState(0);
     const [indexSubcategory, setIndexSubcategory] = useState(0);
 
+    const memoizedKeys = useMemo(() => Array.from(dataPathCategory.keys()), []);
+    const memoizedValues = useMemo(() => Array.from(dataPathCategory.values()), []);
+
     useEffect(() => {
         if (currentIndexButton === undefined) {
-            const keysArray = Array.from(dataPathCategory.keys());
-            const index = keysArray.findIndex(([_, slug]) => slug === category);
+            const index = memoizedKeys.findIndex(([_, slug]) => slug === category);
             if (index !== -1) {
                 setIndexCategory(index);
                 dispatch(setIndexButton(index));
@@ -28,11 +30,11 @@ export function useNavigationIndices() {
         } else {
             setIndexCategory(currentIndexButton);
         }
-    }, [category, currentIndexButton, dispatch]);
+    }, [category, currentIndexButton, dispatch, memoizedKeys]);
 
     useEffect(() => {
         if (currentIndex === undefined) {
-            const valuesArray = Array.from(dataPathCategory.values())[indexCategory];
+            const valuesArray = memoizedValues[indexCategory];
             const index = valuesArray.findIndex((item) => item === subcategories);
             if (index !== -1) {
                 setIndexSubcategory(index);
@@ -41,7 +43,7 @@ export function useNavigationIndices() {
         } else {
             setIndexSubcategory(currentIndex);
         }
-    }, [currentIndex, dispatch, indexCategory, subcategories]);
+    }, [currentIndex, dispatch, indexCategory, memoizedValues, subcategories]);
 
     return {
         indexCategory,
