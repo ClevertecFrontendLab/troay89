@@ -14,7 +14,7 @@ function CardSlider({ image, title, description, label, favorites, like }: CardP
                 <Image
                     className={styles.card_image}
                     src={image}
-                    alt={label}
+                    alt={label[0]}
                     w={{ base: '158px', bp95: '279px', bp189: '322px' }}
                     h={{ base: '128px', bp95: '230px' }}
                 />
@@ -25,10 +25,10 @@ function CardSlider({ image, title, description, label, favorites, like }: CardP
                     <Text className={styles.description_card} noOfLines={3}>
                         {description}
                     </Text>
-                    <CardStats label={label} favorites={favorites} like={like} />
+                    <CardStats label={label[0]} favorites={favorites} like={like} />
                     <StatsForCard favorites={favorites} like={like} isMobile />
                 </Stack>
-                <LabelTypeFood label={label} isMobile />
+                <LabelTypeFood label={label[0]} isMobile />
             </CardBody>
         </Card>
     );
