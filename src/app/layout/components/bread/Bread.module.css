@@ -23,8 +23,16 @@
     width: 23px;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1150px) {
     .breadcrumb {
         display: none;
+    }
+
+    .breadcrumb.mobile {
+        display: block;
+    }
+
+    .breadcrumb.mobile > ol {
+        display: block;
     }
 }

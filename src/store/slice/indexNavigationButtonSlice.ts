@@ -12,7 +12,7 @@ const indexNavigationButtonSlice = createSlice({
     name: 'navigation button index',
     initialState,
     reducers: {
-        setIndexButton: (state, action: PayloadAction<number>) => {
+        setIndexButton: (state, action: PayloadAction<number | undefined>) => {
             state.index = action.payload;
         },
     },

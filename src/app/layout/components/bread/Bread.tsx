@@ -7,11 +7,16 @@ import BreadIcon from '~/components/icons/BreadIcon';
 import dataNavigation from '~/data/dataNavigation';
 import dataPathCategory from '~/data/dataPathCategory';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 
 import styles from './Bread.module.css';
 
-function Bread() {
+type BreadProps = {
+    isMobile?: boolean;
+};
+
+function Bread({ isMobile }: BreadProps) {
     const dispatch = useDispatch();
     const { indexCategory, indexSubcategory } = useNavigationIndices();
     const location = useLocation();
@@ -39,10 +44,14 @@ function Bread() {
 
     const handleCrumbLink = () => {
         dispatch(setIndexTab(0));
+        dispatch(setIndexButton(undefined));
     };
 
     return (
-        <Breadcrumb className={styles.breadcrumb} separator={<BreadIcon boxSize={6} />}>
+        <Breadcrumb
+            className={`${styles.breadcrumb} ${isMobile && styles.mobile}`}
+            separator={<BreadIcon boxSize={6} />}
+        >
             {breadcrumbs.map((crumb, index) => (
                 <BreadcrumbItem
                     className={styles.breadcrumb_item}

@@ -81,3 +81,21 @@
         opacity: 0;
     }
 }
+
+@media (max-width: 1150px) {
+    .navigation {
+        margin-block: 0 8px;
+        box-shadow: none;
+        margin-right: 4px;
+    }
+
+    .navigation::-webkit-scrollbar-thumb {
+        height: 277px;
+    }
+}
+
+@media (max-width: 550px) {
+    .navigation::-webkit-scrollbar-thumb {
+        height: unset;
+    }
+}

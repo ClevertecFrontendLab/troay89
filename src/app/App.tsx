@@ -6,6 +6,7 @@ import AppRouter from '~/router/AppRoter';
 const customBreakpoints = {
     ...baseTheme.breakpoints,
     bp189: '1891px',
+    bp115: '1151px',
     bp95: '951px',
     bp76: '761px',
 };

@@ -22,3 +22,10 @@
         transition: background-color 0.3s ease;
     }
 }
+
+@media (max-width: 1150px) {
+    .navigation_button.accordion_button {
+        width: 314px;
+        margin-inline: 6px 0;
+    }
+}
