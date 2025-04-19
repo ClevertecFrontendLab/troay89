@@ -5,10 +5,11 @@ import Arrow from '~/components/icons/ArrowSlider';
 import styles from './SliderButton.module.css';
 
 type SliderButton = {
+    onClick: () => void;
     reverse?: boolean;
 };
 
-function SliderButton({ reverse }: SliderButton) {
+function SliderButton({ reverse, onClick }: SliderButton) {
     return (
         <Button
             className={`${styles.slider_button} ${reverse && styles.reverse}`}
@@ -18,6 +19,7 @@ function SliderButton({ reverse }: SliderButton) {
             boxSize={{ bp189: 12, base: 10 }}
             top={{ bp189: '147px', base: '150px' }}
             p={0}
+            onClick={onClick}
         >
             <Icon as={Arrow} boxSize='6' />
         </Button>

@@ -24,7 +24,7 @@ function RecipesPage() {
     );
 
     useEffect(() => {
-        if (category && indexNavigationButton) {
+        if (category !== undefined && indexNavigationButton !== undefined) {
             const newTitle = Array.from(dataPathCategory.keys())[indexNavigationButton][0];
             setTitle(newTitle);
         }

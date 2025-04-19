@@ -29,7 +29,7 @@ function TabPanelNavigation() {
     }, []);
 
     useEffect(() => {
-        if (currentIndexButton) {
+        if (currentIndexButton !== undefined) {
             if (category) {
                 const key = Array.from(dataPathCategory.keys())[currentIndexButton][0];
                 setArrayTabs(dataNavigation[key]);
@@ -38,7 +38,7 @@ function TabPanelNavigation() {
     }, [category, currentIndexButton, setArrayTabs]);
 
     useEffect(() => {
-        if (currentIndexButton) {
+        if (currentIndexButton !== undefined) {
             const category: string = Array.from(dataPathCategory)[currentIndexButton][0][1];
             const subcategory = Array.from(dataPathCategory)[currentIndexButton][1];
             const sortCardsCategory = dataRecipes.filter((recipe) =>

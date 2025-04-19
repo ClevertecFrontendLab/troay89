@@ -1,5 +1,4 @@
 import { ButtonGroup, Card, CardHeader, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
 import FavoriteButton from '~/components/buttons/favorite-button/FavoriteButton';
 import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
@@ -7,7 +6,7 @@ import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
 import UserRecommend from '~/components/user-recommend/UserRecommend';
-import dataPathCategory from '~/data/dataPathCategory';
+import useLabelCategory from '~/hooks/useLabelCategory';
 import CardProps from '~/type/cardProps';
 
 import styles from './GeneralCard.module.css';
@@ -22,15 +21,7 @@ function GeneraCard({
     avatarRecommend,
     nameRecommend,
 }: CardProps) {
-    const [arrayCategory, setArrayCategory] = useState<string[]>([]);
-
-    useEffect(() => {
-        const category = Array.from(dataPathCategory.keys());
-        const array = category
-            .map(([rus, eng]) => (label.includes(eng) ? rus : null))
-            .filter((item) => item !== null);
-        setArrayCategory(array);
-    }, [label]);
+    const { arrayCategory } = useLabelCategory({ categories: label });
 
     return (
         <Card className={styles.card_container}>
@@ -72,7 +63,18 @@ function GeneraCard({
                     </ButtonGroup>
                 </Flex>
             </Stack>
-            <LabelTypeFood label={label[0]} yellow isMobile />
+            <Flex
+                direction='column'
+                gap='2px'
+                pos='absolute'
+                top='8px'
+                left='8px'
+                display={{ base: 'flex', bp95: 'none' }}
+            >
+                {arrayCategory.map((item) => (
+                    <LabelTypeFood label={item} yellow isMobile />
+                ))}
+            </Flex>
             {nameRecommend && (
                 <UserRecommend nameRecommend={nameRecommend} avatarRecommend={avatarRecommend} />
             )}

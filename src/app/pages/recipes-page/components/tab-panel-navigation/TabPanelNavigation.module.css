@@ -12,7 +12,7 @@
 
 div.tab_list {
     margin: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
 }
 
 .tab_list::-webkit-scrollbar {
@@ -60,6 +60,15 @@ button.button {
     .tab_panel .container_cards {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+        justify-items: center;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 767px) {
+    .tab_panel .container_cards {
+        display: flex;
+        flex-direction: column;
         justify-items: center;
         gap: 16px;
     }

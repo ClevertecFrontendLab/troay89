@@ -28,7 +28,7 @@ export type RecipeType = {
     likes: number;
     date: string;
     time: string;
-    portions?: number;
+    portions: number;
     nutritionValue: NutritionValue;
     ingredients: Ingredient[];
     steps: Step[];
