@@ -8,12 +8,15 @@
     --black-color: #000;
     --black-alpha: rgba(0, 0, 0, 0.64);
     --black-alpha-50: rgba(0, 0, 0, 0.04);
+    --black-alpha-100: rgba(0, 0, 0, 0.06);
     --black-alpha-300: rgba(0, 0, 0, 0.16);
     --black-alpha-400: rgba(0, 0, 0, 0.24);
     --black-alpha-600: rgba(0, 0, 0, 0.48);
     --black-alpha-800: rgba(0, 0, 0, 0.8);
+    --black-alpha-900: rgba(0, 0, 0, 0.92);
     --white-color: #fff;
     --border: 1px solid rgba(0, 0, 0, 0.48);
+    --second-border: 1px solid rgba(0, 0, 0, 0.08);
     --border-card: 1px solid #ebebeb;
     --border-button-cook: 1px solid #2db100;
     --shadow-hover-cart: 0 2px 4px -1px rgba(32, 126, 0, 0.06), 0 4px 6px -1px rgba(32, 126, 0, 0.1);
@@ -36,4 +39,5 @@
     --font-inter-last-block-table: normal 500 36px/111% 'Inter', sans-serif;
     --font-inter-header-mobile: normal 700 24px/133% 'Inter', sans-serif;
     --font-inter-subtitle-mobile: normal 500 24px/133% 'Inter', sans-serif;
+    --font-inter-title-table: normal 700 12px/133% 'Inter', sans-serif;
 }

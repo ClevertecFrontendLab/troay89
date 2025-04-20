@@ -400,7 +400,7 @@ const dataRecipes: RecipeType[] = [
         likes: 150,
         date: '2023-05-15T00:00:00Z',
         time: '40 минут',
-        portions: 4,
+        portions: 2,
         nutritionValue: { calories: 300, proteins: 30, fats: 8, carbohydrates: 25 },
         ingredients: [
             { title: 'куриная грудка', count: '300', measureUnit: 'г' },
@@ -519,7 +519,7 @@ const dataRecipes: RecipeType[] = [
         likes: 250,
         date: '2023-08-10T00:00:00Z',
         time: '60 минут',
-        portions: 4,
+        portions: 2,
         nutritionValue: { calories: 800, proteins: 35, fats: 22, carbohydrates: 90 },
         ingredients: [
             { title: 'баранина', count: '500', measureUnit: 'г' },

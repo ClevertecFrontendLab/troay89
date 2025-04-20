@@ -11,6 +11,16 @@ const customBreakpoints = {
     bp76: '761px',
 };
 
+const alphaColors = {
+    50: 'rgba(0, 0, 0, 0.04)',
+    100: 'rgba(0, 0, 0, 0.06)',
+    300: 'rgba(0, 0, 0, 0.16)',
+    400: 'rgba(0, 0, 0, 0.24)',
+    600: 'rgba(0, 0, 0, 0.48)',
+    800: 'rgba(0, 0, 0, 0.8)',
+    900: 'rgba(0, 0, 0, 0.92)',
+};
+
 const customTheme = extendTheme({
     styles: {
         global: {
@@ -31,6 +41,9 @@ const customTheme = extendTheme({
                 color: 'black',
             },
         },
+    },
+    colors: {
+        alpha: alphaColors,
     },
 });
 

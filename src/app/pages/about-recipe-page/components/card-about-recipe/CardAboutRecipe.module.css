@@ -1,0 +1,31 @@
+.container .title {
+    font: var(--font-inter-title);
+    margin-block: 32px 24px;
+    max-width: 450px;
+    letter-spacing: 1.2px;
+}
+
+.description {
+    font: var(--font-inter-email);
+    max-width: 530px;
+}
+
+.clock_text {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+}
+
+.time_label {
+    background-color: var(--black-alpha-100);
+    border-radius: 4px;
+}
+
+.group_button > :last-child {
+    background-color: var(--lime-color-400);
+}
+
+button.button {
+    font: var(--font-inter-button);
+    color: var(--black-color);
+    letter-spacing: 0.15px;
+}
