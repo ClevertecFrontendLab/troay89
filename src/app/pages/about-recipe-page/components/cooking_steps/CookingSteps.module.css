@@ -1,0 +1,38 @@
+.container {
+    margin-bottom: 40px;
+}
+
+.container .subtitle {
+    font: var(--font-inter-subtitle);
+    max-width: 668px;
+    width: 100%;
+    letter-spacing: 1.7px;
+}
+
+.container .card {
+    max-width: 668px;
+    width: 100%;
+}
+
+.container .card_body {
+    border: var(--second-border);
+}
+
+.container .card_body.without_image {
+    border: var(--second-border);
+    padding-block: 19px;
+}
+
+.label {
+    font: var(--font-inter-email);
+    color: var(--black-color);
+    width: fit-content;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    background-color: var(--black-alpha-100);
+}
+
+.description {
+    font: var(--font-inter-email);
+}
