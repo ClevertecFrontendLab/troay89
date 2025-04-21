@@ -16,6 +16,12 @@ input.input_portion {
     border: none;
 }
 
+.table_container .table_count {
+    font: var(--font-inter-email);
+    color: var(--black-alpha-900);
+    border: none;
+}
+
 .table_container .form_label {
     position: relative;
     font: var(--font-inter-title-table);
@@ -37,4 +43,17 @@ input.input_portion {
     border-bottom-right-radius: 6px;
     right: 0;
     bottom: 0;
+}
+
+@media (max-width: 950px) {
+    .table_container .table_count,
+    .table_container .table_description {
+        padding-block: 10px;
+    }
+}
+
+@media (max-width: 760px) {
+    input.input_portion {
+        width: 76px;
+    }
 }

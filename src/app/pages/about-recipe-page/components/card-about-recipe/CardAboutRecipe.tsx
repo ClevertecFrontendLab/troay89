@@ -12,16 +12,21 @@ import styles from './CardAboutRecipe.module.css';
 function CardAboutRecipe() {
     const arrayCategory = ['Вторые блюда', 'Национальные', 'Детские блюда'];
     return (
-        <Flex className={styles.container} mt={14} mb={10}>
-            <Image src={image} alt='image recipe' />
-            <Flex direction='column' pl={6} width='100%'>
+        <Flex className={styles.container} mt={{ base: 4, bp95: 14 }} mb={{ base: 6, bp95: 10 }}>
+            <Image className={styles.image} src={image} alt='image recipe' />
+            <Flex
+                direction='column'
+                pl={{ base: 0, bp76: 4, bp95: 6 }}
+                pt={{ base: 4, bp76: 0 }}
+                width='100%'
+            >
                 <Flex gap={5} justify='space-between' alignItems='flex-start'>
-                    <Flex rowGap='8px' columnGap='17px' flexWrap='wrap'>
+                    <Flex rowGap='8px' columnGap={{ base: '9px', bp160: '17px' }} flexWrap='wrap'>
                         {arrayCategory.map((category) => (
                             <LabelTypeFood key={category} label={category} yellow />
                         ))}
                     </Flex>
-                    <Box py='6px' pr='8px'>
+                    <Box py={{ base: '4px', bp160: '6px' }} pr={{ base: 0, bp160: '8px' }}>
                         <StatsForCard
                             favorites={258}
                             like={342}
@@ -42,8 +47,10 @@ function CardAboutRecipe() {
                 <Flex
                     className={styles.bottom}
                     mt='auto'
-                    alignItems='flex-end'
+                    alignItems={{ base: 'flex-start', bp76: 'flex-end' }}
                     justify='space-between'
+                    direction={{ base: 'column', bp76: 'row' }}
+                    gap={{ base: 3, bp76: 0 }}
                 >
                     <Flex
                         className={styles.time_label}
@@ -55,20 +62,28 @@ function CardAboutRecipe() {
                         <Icon as={Clock} />
                         <Text className={styles.clock_text}>20 минут</Text>
                     </Flex>
-                    <Flex className={styles.group_button} gap={4}>
+                    <Flex className={styles.group_button} gap={{ base: '12px', bp160: '16px' }}>
                         <Button
-                            leftIcon={<EmojiHeart />}
+                            leftIcon={
+                                <EmojiHeart
+                                    boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }}
+                                />
+                            }
+                            iconSpacing={{ base: '7px', bp76: '8px' }}
                             className={styles.button}
-                            size='lg'
+                            size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
                             px='23px'
                             variant='outline'
                         >
                             Оценить рецепт
                         </Button>
                         <Button
-                            leftIcon={<BookMark />}
+                            leftIcon={
+                                <BookMark boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }} />
+                            }
+                            iconSpacing={{ base: '7px', bp76: '8px' }}
                             className={styles.button}
-                            size='lg'
+                            size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
                             px='23px'
                         >
                             Сохранить в закладки

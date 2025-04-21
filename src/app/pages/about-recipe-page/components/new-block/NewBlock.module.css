@@ -1,0 +1,18 @@
+.container .title {
+    font: var(--font-inter-subtitle);
+    letter-spacing: 2.1px;
+}
+
+@media (max-width: 1600px) {
+    .container .title {
+        font: var(--font-inter-last-block-table);
+        letter-spacing: 1.5px;
+    }
+}
+
+@media (max-width: 950px) {
+    .container .title {
+        font: var(--font-inter-subtitle-mobile);
+        letter-spacing: 0.5px;
+    }
+}

@@ -28,3 +28,28 @@ div.card {
     font: var(--font-inter-small);
     color: var(--lime-color-600);
 }
+
+@media (max-width: 1600px) {
+    div.card {
+        max-width: 578px;
+    }
+}
+
+@media (max-width: 950px) {
+    div.card {
+        margin-bottom: 40px;
+        max-width: 604px;
+    }
+}
+
+@media (max-width: 760px) {
+    .card .text {
+        font: var(--font-inter-text);
+        margin-bottom: -4px;
+    }
+
+    .card .name {
+        font: var(--font-inter-button);
+        letter-spacing: 0.1px;
+    }
+}

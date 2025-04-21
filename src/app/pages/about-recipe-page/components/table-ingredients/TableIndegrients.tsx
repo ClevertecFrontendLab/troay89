@@ -52,19 +52,26 @@ function TableIngredients() {
     }, [countPortion]);
 
     return (
-        <TableContainer className={styles.table_container} maxW='668px' mx='auto' mb={10}>
-            <Table variant='striped' colorScheme='alpha'>
+        <TableContainer
+            className={styles.table_container}
+            maxW={{ base: '604px', bp95: '578px', bp160: '668px' }}
+            mx='auto'
+            mb={{ base: 6, bp95: 10 }}
+        >
+            <Table variant='striped' colorScheme='alpha' style={{ tableLayout: 'fixed' }}>
                 <Thead>
                     <Tr>
-                        <Th className={styles.table_thead}>ИНГРЕДИЕНТЫ</Th>
-                        <Th className={styles.table_thead} pr={0}>
+                        <Th className={styles.table_thead} px={{ base: 2, bp76: 6 }}>
+                            ИНГРЕДИЕНТЫ
+                        </Th>
+                        <Th className={styles.table_thead} px={0}>
                             <Flex align='center' justify='flex-end'>
                                 <FormLabel className={styles.form_label} m={0}>
                                     ПОРЦИЙ
                                     <Input
                                         className={styles.input_portion}
                                         type='number'
-                                        ml={4}
+                                        ml={{ base: 3, bp76: 4 }}
                                         min={1}
                                         value={countPortion}
                                         onChange={handleChangePortion}
@@ -105,9 +112,17 @@ function TableIngredients() {
                 <Tbody>
                     {arrayIngredients.map(({ title, count, measureUnit }) => (
                         <Tr border='none' key={title}>
-                            <Td className={styles.table_description}>{title}</Td>
                             <Td
                                 className={styles.table_description}
+                                pl={{ base: 2, bp76: 6 }}
+                                pr={{ base: 0, bp76: 6 }}
+                            >
+                                {title}
+                            </Td>
+                            <Td
+                                pl={{ base: 0, bp76: 6 }}
+                                pr={{ base: 3, bp76: 6 }}
+                                className={styles.table_count}
                                 textAlign='right'
                             >{`${count} ${measureUnit}`}</Td>
                         </Tr>

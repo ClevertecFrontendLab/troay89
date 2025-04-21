@@ -45,8 +45,8 @@ function CardSlider({ image, title, description, label, favorites, like }: CardP
                     left='8px'
                     display={{ base: 'flex', bp95: 'none' }}
                 >
-                    {arrayCategory.map((item) => (
-                        <LabelTypeFood label={item} yellow isMobile />
+                    {arrayCategory.map((item, index) => (
+                        <LabelTypeFood key={index} label={item} yellow isMobile />
                     ))}
                 </Flex>
             </CardBody>

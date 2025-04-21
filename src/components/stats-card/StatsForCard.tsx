@@ -30,13 +30,13 @@ function StatsForCard({
         >
             {favorites ? (
                 <Flex className={styles.stats} gap={gapIcon}>
-                    <Icon as={BookMark} boxSize={size} />
+                    <Icon as={BookMark} boxSize={{ bp189: size, base: '12px' }} />
                     <span className={styles.number}>{favorites}</span>
                 </Flex>
             ) : null}
             {like ? (
-                <Flex className={styles.stats} gap={gapIcon}>
-                    <Icon as={EmojiHeart} boxSize={size} />
+                <Flex className={styles.stats} gap={{ bp189: gapIcon, base: '6px' }}>
+                    <Icon as={EmojiHeart} boxSize={{ bp189: size, base: '12px' }} />
                     <span className={styles.number}>{like}</span>
                 </Flex>
             ) : null}

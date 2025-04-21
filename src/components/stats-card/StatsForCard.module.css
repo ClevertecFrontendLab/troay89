@@ -19,6 +19,16 @@
     align-items: center;
 }
 
+@media (max-width: 1890px) {
+    .about_recipe .number {
+        font: var(--font-inter-small);
+    }
+
+    .about_recipe.stats_container {
+        gap: 16px;
+    }
+}
+
 @media (max-width: 950px) {
     .stats_container.mobile {
         display: flex;

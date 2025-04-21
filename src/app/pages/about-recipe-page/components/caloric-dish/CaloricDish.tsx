@@ -4,9 +4,13 @@ import styles from './CaloricDish.module.css';
 
 function CaloricDish() {
     return (
-        <Box mb={10}>
+        <Box mb={{ base: 6, bp95: 10 }}>
             <Text className={styles.note}>* Калорийность на 1 порцию</Text>
-            <Flex gap={6} justify='center'>
+            <Flex
+                gap={{ base: 3, bp160: 6 }}
+                justify='center'
+                direction={{ base: 'column', bp76: 'row' }}
+            >
                 <Flex className={styles.container}>
                     <Text className={styles.type}>калорийность</Text>
                     <Text className={styles.count}>358</Text>
