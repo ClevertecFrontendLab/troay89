@@ -15,41 +15,39 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import UpDown from '~/components/icons/UpDown';
+import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 
 import styles from './TableIndegrients.module.css';
 
-const ingredients = [
-    { title: 'зелёного лука', count: '1', measureUnit: 'пучок' },
-    { title: 'репчатого лука', count: '1', measureUnit: 'шт' },
-    { title: 'чеснока', count: '1', measureUnit: 'зубчик' },
-    { title: 'куриного филе', count: '500', measureUnit: 'г' },
-    { title: 'масла или жира', count: '40', measureUnit: 'г' },
-    { title: 'спагетти', count: '250', measureUnit: 'г' },
-    { title: 'молотого шафрана', count: '1', measureUnit: 'щепотка' },
-    { title: 'молотой корицы', count: '1', measureUnit: 'щепотка' },
-    { title: 'муки', count: '1', measureUnit: 'ст л' },
-    { title: 'сливок', count: '250', measureUnit: 'мл' },
-    { title: 'куриного бульона из кубика', count: '200', measureUnit: 'мл' },
-    { title: 'нарезанной петрушки', count: '2', measureUnit: 'ст л' },
-];
-
 function TableIngredients() {
-    const [countPortion, setCountPortion] = useState(4);
-    const [arrayIngredients, setArrayIngredients] = useState(ingredients);
+    const { recipe } = useNavigationIndices();
+
+    const [countPortion, setCountPortion] = useState(1);
+    const [originalPortions, setOriginalPortions] = useState(recipe?.portions || 1);
+    const [arrayIngredients, setArrayIngredients] = useState(recipe?.ingredients);
     const handleChangePortion = (event: ChangeEvent<HTMLInputElement>) =>
         setCountPortion(+event.target.value);
     const handleChangeClickUp = () => setCountPortion((value) => value + 1);
     const handleChangeClickDown = () => setCountPortion((value) => (value > 1 ? value - 1 : value));
 
     useEffect(() => {
-        setArrayIngredients(
-            ingredients.map(({ title, count, measureUnit }) => ({
-                title,
-                count: (+count / 4) * countPortion + '',
-                measureUnit,
-            })),
-        );
-    }, [countPortion]);
+        if (recipe !== undefined) {
+            setCountPortion(recipe.portions);
+            setOriginalPortions(recipe.portions);
+        }
+    }, [recipe]);
+
+    useEffect(() => {
+        if (recipe !== undefined) {
+            setArrayIngredients(
+                recipe.ingredients.map(({ title, count, measureUnit }) => ({
+                    title,
+                    count: ((+count / originalPortions) * countPortion).toString(),
+                    measureUnit,
+                })),
+            );
+        }
+    }, [countPortion, originalPortions, recipe]);
 
     return (
         <TableContainer
@@ -110,23 +108,24 @@ function TableIngredients() {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {arrayIngredients.map(({ title, count, measureUnit }) => (
-                        <Tr border='none' key={title}>
-                            <Td
-                                className={styles.table_description}
-                                pl={{ base: 2, bp76: 6 }}
-                                pr={{ base: 0, bp76: 6 }}
-                            >
-                                {title}
-                            </Td>
-                            <Td
-                                pl={{ base: 0, bp76: 6 }}
-                                pr={{ base: 3, bp76: 6 }}
-                                className={styles.table_count}
-                                textAlign='right'
-                            >{`${count} ${measureUnit}`}</Td>
-                        </Tr>
-                    ))}
+                    {arrayIngredients &&
+                        arrayIngredients.map(({ title, count, measureUnit }) => (
+                            <Tr border='none' key={title}>
+                                <Td
+                                    className={styles.table_description}
+                                    pl={{ base: 2, bp76: 6 }}
+                                    pr={{ base: 0, bp76: 6 }}
+                                >
+                                    {title}
+                                </Td>
+                                <Td
+                                    pl={{ base: 0, bp76: 6 }}
+                                    pr={{ base: 3, bp76: 6 }}
+                                    className={styles.table_count}
+                                    textAlign='right'
+                                >{`${count} ${measureUnit}`}</Td>
+                            </Tr>
+                        ))}
                 </Tbody>
             </Table>
         </TableContainer>

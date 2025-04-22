@@ -353,7 +353,7 @@ const dataRecipes: RecipeType[] = [
         title: 'Паста Карбонара',
         description:
             'Классическая итальянская паста с кремовым соусом, яйцами, беконом и пармезаном.',
-        category: ['second-dish', 'snacks', 'national'],
+        category: ['national', 'second-dish', 'snacks'],
         subcategory: ['italian-cuisine', 'meat-snacks', 'poultry-dish'],
         image: two,
         bookmarks: 50,
@@ -439,7 +439,7 @@ const dataRecipes: RecipeType[] = [
         id: '11',
         title: 'Шоколадный мусс без выпечки',
         description: 'Воздушный десерт с нежным шоколадным вкусом, приготовленный без выпечки.',
-        category: ['children-dishes', 'desserts-pastries'],
+        category: ['desserts-pastries', 'children-dishes'],
         subcategory: ['pancakes-fritters', 'cakes', 'first-dish', 'side-dishes'],
         image: eight,
         bookmarks: 40,

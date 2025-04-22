@@ -100,6 +100,7 @@ function TabPanelNavigation() {
                                         }) => (
                                             <GeneraCard
                                                 key={id}
+                                                id={id}
                                                 image={image}
                                                 title={title}
                                                 description={description}

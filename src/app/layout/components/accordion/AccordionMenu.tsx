@@ -20,14 +20,19 @@ import styles from './AccordionMenu.module.css';
 
 function AccordionMenu() {
     const dispatch = useDispatch();
-    const { indexCategory, indexSubcategory } = useNavigationIndices();
+    const { indexCategory, indexSubcategory, subcategories } = useNavigationIndices();
 
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));
     };
 
     return (
-        <Accordion className={styles.navigation} allowToggle as='nav'>
+        <Accordion
+            className={styles.navigation}
+            allowMultiple
+            as='nav'
+            index={subcategories === undefined ? [] : [indexCategory]}
+        >
             {Object.entries(dataNavigation).map(([category, items], index) => (
                 <AccordionItem border='none' key={category}>
                     <ButtonAccordion category={category} index={index ?? indexCategory} />

@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+
 import TableIngredients from '~/app/pages/about-recipe-page/components/table-ingredients/TableIndegrients';
 
 import AuthorCard from './components/author-card/AuthorCard';
@@ -7,6 +10,12 @@ import CookingSteps from './components/cooking_steps/CookingSteps';
 import NewBlock from './components/new-block/NewBlock';
 
 function AboutRecipePage() {
+    const { id } = useParams();
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [id]);
+
     return (
         <>
             <CardAboutRecipe />

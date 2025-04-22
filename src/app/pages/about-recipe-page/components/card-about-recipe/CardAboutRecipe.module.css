@@ -5,6 +5,11 @@
     letter-spacing: 1.2px;
 }
 
+.container .image {
+    width: 553px;
+    height: 410px;
+}
+
 .description {
     font: var(--font-inter-email);
     max-width: 530px;

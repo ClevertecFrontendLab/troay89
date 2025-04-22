@@ -67,6 +67,7 @@ function SwipeSlider() {
                             <SwiperSlide key={id} className={styles.swiper_slide}>
                                 <CardSlider
                                     key={id}
+                                    id={id}
                                     image={image}
                                     title={title}
                                     description={description}

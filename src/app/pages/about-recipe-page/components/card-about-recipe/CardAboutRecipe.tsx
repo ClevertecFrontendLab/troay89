@@ -5,15 +5,21 @@ import Clock from '~/components/icons/Clock';
 import EmojiHeart from '~/components/icons/EmojiHeart';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
+import useLabelCategory from '~/hooks/useLabelCategory';
+import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 
-import image from './../../../../../assets/images/aboutRecipe/aboutRecipe.png';
 import styles from './CardAboutRecipe.module.css';
 
 function CardAboutRecipe() {
-    const arrayCategory = ['Вторые блюда', 'Национальные', 'Детские блюда'];
+    const { recipe } = useNavigationIndices();
+    const { arrayCategory } = useLabelCategory({ categories: recipe ? recipe?.category : [] });
+    if (recipe === undefined) {
+        return;
+    }
+
     return (
         <Flex className={styles.container} mt={{ base: 4, bp95: 14 }} mb={{ base: 6, bp95: 10 }}>
-            <Image className={styles.image} src={image} alt='image recipe' />
+            <Image className={styles.image} src={recipe.image} alt={recipe.title} />
             <Flex
                 direction='column'
                 pl={{ base: 0, bp76: 4, bp95: 6 }}
@@ -28,8 +34,8 @@ function CardAboutRecipe() {
                     </Flex>
                     <Box py={{ base: '4px', bp160: '6px' }} pr={{ base: 0, bp160: '8px' }}>
                         <StatsForCard
-                            favorites={258}
-                            like={342}
+                            favorites={recipe.bookmarks}
+                            like={recipe.likes}
                             isForAboutRecipe
                             size='14px'
                             gapContainer='33px'
@@ -38,12 +44,9 @@ function CardAboutRecipe() {
                     </Box>
                 </Flex>
                 <Heading className={styles.title} as='h1'>
-                    Лапша с курицей и шафраном
+                    {recipe.title}
                 </Heading>
-                <Text className={styles.description}>
-                    Как раз после праздников, когда мясные продукты еще остались, но никто их уже не
-                    хочет, время варить солянку.
-                </Text>
+                <Text className={styles.description}>{recipe.description}</Text>
                 <Flex
                     className={styles.bottom}
                     mt='auto'
@@ -60,7 +63,7 @@ function CardAboutRecipe() {
                         gap='8px'
                     >
                         <Icon as={Clock} />
-                        <Text className={styles.clock_text}>20 минут</Text>
+                        <Text className={styles.clock_text}>{recipe.time}</Text>
                     </Flex>
                     <Flex className={styles.group_button} gap={{ base: '12px', bp160: '16px' }}>
                         <Button

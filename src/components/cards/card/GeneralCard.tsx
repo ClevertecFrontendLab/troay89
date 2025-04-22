@@ -5,22 +5,21 @@ import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
 import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
-import UserRecommend from '~/components/user-recommend/UserRecommend';
 import useLabelCategory from '~/hooks/useLabelCategory';
-import CardProps from '~/type/cardProps';
 
 import styles from './GeneralCard.module.css';
 
-function GeneraCard({
-    image,
-    title,
-    description,
-    label,
-    favorites,
-    like,
-    avatarRecommend,
-    nameRecommend,
-}: CardProps) {
+type GeneraCardProps = {
+    id: string;
+    image: string;
+    title: string;
+    description: string;
+    label: string[];
+    favorites: number;
+    like: number;
+};
+
+function GeneraCard({ id, image, title, description, label, favorites, like }: GeneraCardProps) {
     const { arrayCategory } = useLabelCategory({ categories: label });
 
     return (
@@ -28,7 +27,7 @@ function GeneraCard({
             <Image
                 className={styles.image}
                 src={image}
-                alt='Caffe Latte'
+                alt={title}
                 loading='lazy'
                 w={{ base: '158px', bp95: '346px' }}
                 h={{ base: '128px', bp95: '244px' }}
@@ -59,7 +58,7 @@ function GeneraCard({
                     </Text>
                     <ButtonGroup className={styles.card_footer}>
                         <FavoriteButton />
-                        <SimpleButton />
+                        <SimpleButton id={id} />
                     </ButtonGroup>
                 </Flex>
             </Stack>
@@ -72,12 +71,9 @@ function GeneraCard({
                 display={{ base: 'flex', bp95: 'none' }}
             >
                 {arrayCategory.map((item) => (
-                    <LabelTypeFood label={item} yellow isMobile />
+                    <LabelTypeFood key={item} label={item} yellow isMobile />
                 ))}
             </Flex>
-            {nameRecommend && (
-                <UserRecommend nameRecommend={nameRecommend} avatarRecommend={avatarRecommend} />
-            )}
         </Card>
     );
 }

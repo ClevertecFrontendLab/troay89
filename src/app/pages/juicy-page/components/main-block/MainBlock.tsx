@@ -1,35 +1,34 @@
 import { Button, Flex } from '@chakra-ui/react';
+import { useMemo } from 'react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
-import dataJuicyPageCards from '~/data/dataJuicyPageCards';
+import dataRecipes from '~/data/dataRecipes';
 
 import styles from './MainBlock.module.css';
 
 function MainBlock() {
+    const juiceRecipe = useMemo(
+        () =>
+            [...dataRecipes]
+                .sort((firstRecipe, secondRecipe) => secondRecipe.likes - firstRecipe.likes)
+                .slice(0, 8),
+        [],
+    );
+
     return (
         <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
             <Flex className={styles.card_container} mb={4} gap={4}>
-                {dataJuicyPageCards.map(
-                    ({
-                        image,
-                        title,
-                        description,
-                        label,
-                        favorites,
-                        like,
-                        avatarRecommend,
-                        nameRecommend,
-                    }) => (
+                {juiceRecipe.map(
+                    ({ id, image, title, description, category, bookmarks, likes }) => (
                         <GeneraCard
-                            key={title}
+                            key={id}
+                            id={id}
                             image={image}
                             title={title}
                             description={description}
-                            label={label}
-                            favorites={favorites}
-                            like={like}
-                            avatarRecommend={avatarRecommend}
-                            nameRecommend={nameRecommend}
+                            label={category}
+                            favorites={bookmarks}
+                            like={likes}
                         />
                     ),
                 )}

@@ -1,8 +1,34 @@
 import { Button } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router';
+
+import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
+import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
+import { setIndexRecipe, setIndexTab } from '~/store/slice/indexTabsSlice';
 
 import styled from './SimpleButton.module.css';
 
-function SimpleButton() {
+type SimpleButtonProps = {
+    id: string;
+};
+
+function SimpleButton({ id }: SimpleButtonProps) {
+    const dispatch = useDispatch();
+
+    const { indexSubCat, indexCat, firstLink, secondLink, subcategories } = useCreateLinkCard({
+        id: id,
+    });
+
+    function handlingClick() {
+        dispatch(setIndexRecipe(id));
+        if (subcategories === undefined) {
+            dispatch(setIndexButton(indexCat));
+            dispatch(setIndexTab(indexSubCat));
+        }
+    }
+
+    console.log('SimpleButton');
+
     return (
         <Button
             className={`${styled.button} ${styled.extra}`}
@@ -12,6 +38,9 @@ function SimpleButton() {
             colorScheme='teal'
             px={{ bp95: '13px', base: 2 }}
             h={{ bp95: 8, base: 6 }}
+            as={Link}
+            to={subcategories === undefined ? firstLink : secondLink}
+            onClick={handlingClick}
         >
             Готовить
         </Button>

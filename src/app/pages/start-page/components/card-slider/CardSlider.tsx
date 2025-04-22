@@ -1,18 +1,49 @@
 import { Card, CardBody, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router';
 
 import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
+import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
 import useLabelCategory from '~/hooks/useLabelCategory';
-import CardProps from '~/type/cardProps';
+import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
+import { setIndexRecipe, setIndexTab } from '~/store/slice/indexTabsSlice';
 
 import styles from './CardSlider.module.css';
 
-function CardSlider({ image, title, description, label, favorites, like }: CardProps) {
+type CardSliderProps = {
+    id: string;
+    image: string;
+    title: string;
+    description: string;
+    label: string[];
+    favorites: number;
+    like: number;
+};
+
+function CardSlider({ id, image, title, description, label, favorites, like }: CardSliderProps) {
     const { arrayCategory } = useLabelCategory({ categories: label });
 
+    const { indexSubCat, indexCat, firstLink, secondLink, subcategories, pathId } =
+        useCreateLinkCard({ id: id });
+
+    const dispatch = useDispatch();
+    function handlingClick() {
+        dispatch(setIndexRecipe(id));
+        if (subcategories === undefined || pathId !== undefined) {
+            dispatch(setIndexButton(indexCat));
+            dispatch(setIndexTab(indexSubCat));
+        }
+    }
+
     return (
-        <Card className={styles.card}>
+        <Card
+            className={styles.card}
+            as={Link}
+            onClick={handlingClick}
+            to={subcategories === undefined || pathId !== undefined ? firstLink : secondLink}
+        >
             <CardBody className={styles.card_body}>
                 <Image
                     className={styles.card_image}
