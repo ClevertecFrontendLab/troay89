@@ -72,4 +72,8 @@ button.button {
         justify-items: center;
         gap: 16px;
     }
+
+    div.tab_list {
+        margin-inline: -16px;
+    }
 }

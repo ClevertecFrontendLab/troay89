@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -33,13 +34,15 @@ function RecipesPage() {
     return (
         <>
             <Toolbar title={title} description={textToolbar} />
-            <TabPanelNavigation />
-            <LastBlock
-                title='Десерты, выпечка'
-                text={textLastBlock}
-                simpleCardArray={dataSimpleCardVegan}
-                longCardArray={dataLongCardVegan}
-            />
+            <Box px={{ base: 4, bp76: 0 }}>
+                <TabPanelNavigation />
+                <LastBlock
+                    title='Десерты, выпечка'
+                    text={textLastBlock}
+                    simpleCardArray={dataSimpleCardVegan}
+                    longCardArray={dataLongCardVegan}
+                />
+            </Box>
         </>
     );
 }

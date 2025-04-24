@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
 
@@ -17,14 +18,14 @@ function AboutRecipePage() {
     }, [id]);
 
     return (
-        <>
+        <Box px={{ base: 4, bp76: 0 }}>
             <CardAboutRecipe />
             <CaloricDish />
             <TableIngredients />
             <CookingSteps />
             <AuthorCard />
             <NewBlock />
-        </>
+        </Box>
     );
 }
 

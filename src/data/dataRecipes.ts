@@ -1,6 +1,8 @@
 import { eight, five, four, one, seven, six, third, two } from '~/assets/images/juicy-page';
 import RecipeType from '~/type/RecipeType';
 
+// const dataAllergens = ['Молочные продукты', 'Яйцо', 'Рыба', 'Моллюски', 'Орехи', 'Томат (помидор)', 'Цитрусовые', 'Клубника (ягоды)', 'Шоколад'];
+
 const dataRecipes: RecipeType[] = [
     {
         id: '0',
@@ -406,7 +408,6 @@ const dataRecipes: RecipeType[] = [
             { title: 'куриная грудка', count: '300', measureUnit: 'г' },
             { title: 'красная фасоль', count: '150', measureUnit: 'г' },
             { title: 'кукуруза', count: '100', measureUnit: 'г' },
-            { title: 'помидоры', count: '2', measureUnit: 'шт.' },
             { title: 'перец чили', count: '1', measureUnit: 'шт.' },
             { title: 'лук', count: '1', measureUnit: 'шт.' },
             { title: 'чеснок', count: '2', measureUnit: 'зубчика' },
@@ -424,8 +425,7 @@ const dataRecipes: RecipeType[] = [
             },
             {
                 stepNumber: 3,
-                description:
-                    'Добавить фасоль, кукурузу, помидоры и перец чили, варить на медленном огне.',
+                description: 'Добавить фасоль, кукурузу и перец чили, варить на медленном огне.',
                 image: 'url',
             },
             {

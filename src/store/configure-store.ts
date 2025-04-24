@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from '~/query/create-api';
 
 import appReducer, { appSlice } from './slice/app-slice';
+import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
 import indexNavigationButtonReducer from './slice/indexNavigationButtonSlice';
 import indexTabsReducer from './slice/indexTabsSlice';
 
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     [apiSlice.reducerPath]: apiSlice.reducer,
     indexTabs: indexTabsReducer,
     indexNavigationButton: indexNavigationButtonReducer,
+    arrayResultFilter: arrayResultFilterReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

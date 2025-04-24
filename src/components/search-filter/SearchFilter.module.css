@@ -1,5 +1,6 @@
 .search_container {
     gap: 12px;
+    margin-bottom: 16px;
 }
 
 .search_container .search {

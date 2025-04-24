@@ -27,12 +27,7 @@ function AccordionMenu() {
     };
 
     return (
-        <Accordion
-            className={styles.navigation}
-            allowMultiple
-            as='nav'
-            index={subcategories === undefined ? [] : [indexCategory]}
-        >
+        <Accordion className={styles.navigation} allowToggle as='nav'>
             {Object.entries(dataNavigation).map(([category, items], index) => (
                 <AccordionItem border='none' key={category}>
                     <ButtonAccordion category={category} index={index ?? indexCategory} />
@@ -41,10 +36,10 @@ function AccordionMenu() {
                             {items.map((item, index) => (
                                 <ListItem className={styles.list_item} display='flex' key={item}>
                                     <Box
-                                        className={`${styles.vert_line} ${index === indexSubcategory ? styles.line_change : ''}`}
+                                        className={`${styles.vert_line} ${index === indexSubcategory && subcategories ? styles.line_change : ''}`}
                                     />
                                     <Link
-                                        className={`${styles.item_link} ${index === indexSubcategory ? styles.item_change : ''}`}
+                                        className={`${styles.item_link} ${index === indexSubcategory && subcategories ? styles.item_change : ''}`}
                                         onClick={() => handleTabsChange(index)}
                                         as={RouterLink}
                                         to={`/recipes/${Array.from(dataPathCategory.keys())[indexCategory][1]}/${Array.from(dataPathCategory.values())[indexCategory][index]}`}

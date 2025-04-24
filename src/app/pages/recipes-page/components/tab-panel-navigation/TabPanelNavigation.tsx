@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
@@ -8,6 +8,7 @@ import dataNavigation from '~/data/dataNavigation';
 import dataPathCategory from '~/data/dataPathCategory';
 import dataRecipes from '~/data/dataRecipes';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import { ApplicationState } from '~/store/configure-store';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 import RecipeType from '~/type/RecipeType';
 
@@ -19,6 +20,9 @@ function TabPanelNavigation() {
     const [arrayCards, setArrayCards] = useState<RecipeType[][]>([[]]);
     const { indexCategory, indexSubcategory, currentIndex, currentIndexButton, category } =
         useNavigationIndices();
+    const allergenFilter = useSelector(
+        (state: ApplicationState) => state.arrayResultFilter.resultFilter,
+    );
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -45,12 +49,24 @@ function TabPanelNavigation() {
                 recipe.category.includes(category),
             );
             const groupedRecipes = subcategory.map((subcat) =>
-                sortCardsCategory.filter((recipe) => recipe.subcategory.includes(subcat)),
+                sortCardsCategory
+                    .filter((recipe) => recipe.subcategory.includes(subcat))
+                    .filter(
+                        (recipe) =>
+                            !allergenFilter.some((filterStr) => {
+                                const firstWord = filterStr.trim().split(/\s+/)[0];
+                                return recipe.ingredients.some((ingredient) =>
+                                    ingredient.title
+                                        .toLowerCase()
+                                        .includes(firstWord.toLowerCase()),
+                                );
+                            }),
+                    ),
             );
 
             setArrayCards(groupedRecipes);
         }
-    }, [currentIndexButton]);
+    }, [allergenFilter, currentIndexButton]);
 
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));

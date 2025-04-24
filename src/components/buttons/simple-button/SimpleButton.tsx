@@ -27,8 +27,6 @@ function SimpleButton({ id }: SimpleButtonProps) {
         }
     }
 
-    console.log('SimpleButton');
-
     return (
         <Button
             className={`${styled.button} ${styled.extra}`}

@@ -5,6 +5,7 @@
     --lime-color-400: #b1ff2e;
     --lime-color-600: #2db100;
     --color-lime-800: #134b00;
+    --color-gray-800: #1a202c;
     --black-color: #000;
     --black-alpha: rgba(0, 0, 0, 0.64);
     --black-alpha-50: rgba(0, 0, 0, 0.04);
@@ -17,9 +18,12 @@
     --white-color: #fff;
     --border: 1px solid rgba(0, 0, 0, 0.48);
     --second-border: 1px solid rgba(0, 0, 0, 0.08);
+    --third-birder: 1px solid #b1ff2e;
     --border-card: 1px solid #ebebeb;
     --border-button-cook: 1px solid #2db100;
     --shadow-hover-cart: 0 2px 4px -1px rgba(32, 126, 0, 0.06), 0 4px 6px -1px rgba(32, 126, 0, 0.1);
+    --shadow-hover-toolbar: 0 10px 10px -5px rgba(0, 0, 0, 0.04),
+        0 20px 25px -5px rgba(0, 0, 0, 0.1);
     --font-inter-500: normal 500 18px/156% 'Inter', sans-serif;
     --font-inter-nav: normal 500 16px/150% 'Inter', sans-serif;
     --font-inter-version: normal 500 12px/133% 'Inter', sans-serif;

@@ -22,6 +22,10 @@ const alphaColors = {
     900: 'rgba(0, 0, 0, 0.92)',
 };
 
+const limeColors = {
+    400: '#b1ff2e',
+};
+
 const customTheme = extendTheme({
     styles: {
         global: {
@@ -45,6 +49,7 @@ const customTheme = extendTheme({
     },
     colors: {
         alpha: alphaColors,
+        lime: limeColors,
     },
 });
 

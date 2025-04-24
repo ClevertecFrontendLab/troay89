@@ -1,0 +1,49 @@
+button.select {
+    font: var(--font-inter-bread);
+    color: var(--black-alpha);
+    max-width: 234px;
+    width: 100%;
+    min-height: 40px;
+    max-height: 64px;
+    height: fit-content;
+    overflow-y: auto;
+}
+
+button.select:has(.container_label) {
+    border-color: var(--lime-color-300);
+}
+
+button.select::-webkit-scrollbar {
+    display: none;
+}
+
+.container_label {
+    padding-block: 6px;
+}
+
+div.menu_list {
+    border-radius: 0 0 4px 4px;
+}
+
+.menu_list > :nth-child(odd) {
+    background-color: var(--black-alpha-100);
+}
+
+.menu_item p {
+    font: var(--font-inter-email);
+    color: var(--color-gray-800);
+}
+
+.checkbox input:checked + span {
+    border-color: var(--lime-color-400);
+    background-color: var(--lime-color-400);
+    color: black;
+}
+
+.label_allergen {
+    color: var(--lime-color-600);
+    font: var(--font-inter-version);
+    border: var(--third-birder);
+    border-radius: 8px;
+    padding: 2px 8px;
+}
