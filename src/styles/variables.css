@@ -1,9 +1,11 @@
 :root {
     --lime-color: #ffffd3;
+    --lime-color-100: #eaffc7;
     --lime-color-150: #d7ff94;
     --lime-color-300: #c4ff61;
     --lime-color-400: #b1ff2e;
     --lime-color-600: #2db100;
+    --lime-color-700: #207e00;
     --color-lime-800: #134b00;
     --color-gray-800: #1a202c;
     --black-color: #000;

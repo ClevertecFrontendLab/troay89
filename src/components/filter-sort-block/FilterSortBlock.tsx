@@ -14,7 +14,7 @@ function FilterSortBlock({ filterSearchRecipes }: FilterSearchBlockProps) {
         <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
             <Flex className={styles.card_container} mb={4} gap={4}>
                 {filterSearchRecipes.map(
-                    ({ id, image, title, description, category, bookmarks, likes }) => (
+                    ({ id, image, title, description, category, bookmarks, likes }, index) => (
                         <GeneraCard
                             key={id}
                             id={id}
@@ -24,6 +24,8 @@ function FilterSortBlock({ filterSearchRecipes }: FilterSearchBlockProps) {
                             label={category}
                             favorites={bookmarks}
                             like={likes}
+                            dataTest={`food-card-${index}`}
+                            dataTestButton={`card-link-${index}`}
                         />
                     ),
                 )}

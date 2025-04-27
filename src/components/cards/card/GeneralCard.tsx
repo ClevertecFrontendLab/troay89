@@ -1,11 +1,14 @@
 import { ButtonGroup, Card, CardHeader, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 
 import FavoriteButton from '~/components/buttons/favorite-button/FavoriteButton';
 import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
 import CardStats from '~/components/card-stats/CardStats';
+import { HighlightText } from '~/components/highlight-text/HighlightText';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
 import useLabelCategory from '~/hooks/useLabelCategory';
+import { ApplicationState } from '~/store/configure-store';
 
 import styles from './GeneralCard.module.css';
 
@@ -17,13 +20,28 @@ type GeneraCardProps = {
     label: string[];
     favorites: number;
     like: number;
+    dataTestButton: string;
+    dataTest?: string;
 };
 
-function GeneraCard({ id, image, title, description, label, favorites, like }: GeneraCardProps) {
+function GeneraCard({
+    id,
+    image,
+    title,
+    description,
+    label,
+    favorites,
+    like,
+    dataTest,
+    dataTestButton,
+}: GeneraCardProps) {
     const { arrayCategory } = useLabelCategory({ categories: label });
+    const resultSearch = useSelector(
+        (state: ApplicationState) => state.arrayResultFilter.resultSearch,
+    );
 
     return (
-        <Card className={styles.card_container}>
+        <Card className={styles.card_container} data-test-id={dataTest}>
             <Image
                 className={styles.image}
                 src={image}
@@ -51,14 +69,14 @@ function GeneraCard({ id, image, title, description, label, favorites, like }: G
                 </CardHeader>
                 <Flex className={styles.card_body} direction='column' justify='end'>
                     <Heading className={styles.subtitle} as='h3' noOfLines={{ base: 2, bp95: 1 }}>
-                        {title}
+                        <HighlightText text={title} query={resultSearch} />
                     </Heading>
                     <Text as='span' className={styles.description} noOfLines={3}>
                         {description}
                     </Text>
                     <ButtonGroup className={styles.card_footer}>
                         <FavoriteButton />
-                        <SimpleButton id={id} />
+                        <SimpleButton id={id} dataTestButton={dataTestButton} />
                     </ButtonGroup>
                 </Flex>
             </Stack>

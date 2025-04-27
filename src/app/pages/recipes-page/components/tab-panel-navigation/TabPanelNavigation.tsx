@@ -8,6 +8,7 @@ import dataNavigation from '~/data/dataNavigation';
 import dataPathCategory from '~/data/dataPathCategory';
 import dataRecipes from '~/data/dataRecipes';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import usePathCategoryData from '~/hooks/usePathCategoryData';
 import { ApplicationState } from '~/store/configure-store';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 import RecipeType from '~/type/RecipeType';
@@ -23,6 +24,20 @@ function TabPanelNavigation() {
     const allergenFilter = useSelector(
         (state: ApplicationState) => state.arrayResultFilter.resultFilter,
     );
+    const listCategory = useSelector(
+        (state: ApplicationState) => state.arrayResultFilter.listCategory,
+    );
+    const listTypeMeats = useSelector(
+        (state: ApplicationState) => state.arrayResultFilter.listTypeMeats,
+    );
+    const listTypeDishes = useSelector(
+        (state: ApplicationState) => state.arrayResultFilter.listTypeDishes,
+    );
+    const resultSearch = useSelector(
+        (state: ApplicationState) => state.arrayResultFilter.resultSearch,
+    );
+    const subcategory = Array.from(dataPathCategory.values())[indexCategory][indexSubcategory];
+    const { keysPathCategory } = usePathCategoryData();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,38 +50,62 @@ function TabPanelNavigation() {
     useEffect(() => {
         if (currentIndexButton !== undefined) {
             if (category) {
-                const key = Array.from(dataPathCategory.keys())[currentIndexButton][0];
+                const key = keysPathCategory[currentIndexButton][0];
                 setArrayTabs(dataNavigation[key]);
             }
         }
-    }, [category, currentIndexButton, setArrayTabs]);
+    }, [category, currentIndexButton, keysPathCategory, setArrayTabs]);
 
     useEffect(() => {
         if (currentIndexButton !== undefined) {
-            const category: string = Array.from(dataPathCategory)[currentIndexButton][0][1];
-            const subcategory = Array.from(dataPathCategory)[currentIndexButton][1];
+            const dataPathEntries = Array.from(dataPathCategory);
+            const category: string = dataPathEntries[currentIndexButton][0][1];
+            const subcategories = dataPathEntries[currentIndexButton][1];
             const sortCardsCategory = dataRecipes.filter((recipe) =>
                 recipe.category.includes(category),
             );
-            const groupedRecipes = subcategory.map((subcat) =>
+
+            const groupedRecipes = subcategories.map((subcat) =>
                 sortCardsCategory
                     .filter((recipe) => recipe.subcategory.includes(subcat))
-                    .filter(
-                        (recipe) =>
-                            !allergenFilter.some((filterStr) => {
-                                const firstWord = filterStr.trim().split(/\s+/)[0];
-                                return recipe.ingredients.some((ingredient) =>
-                                    ingredient.title
-                                        .toLowerCase()
-                                        .includes(firstWord.toLowerCase()),
-                                );
-                            }),
-                    ),
+                    .filter((recipe) => {
+                        const passesAllergen = !allergenFilter.some((filterStr) => {
+                            const firstWord = filterStr.trim().split(/\s+/)[0];
+                            return recipe.ingredients.some((ingredient) =>
+                                ingredient.title.toLowerCase().includes(firstWord.toLowerCase()),
+                            );
+                        });
+                        const passesCategory =
+                            listCategory.length === 0 ||
+                            listCategory.some((catFilter) => recipe.category.includes(catFilter));
+                        const passesMeat =
+                            listTypeMeats.length === 0 || listTypeMeats.includes(recipe.meat);
+                        const passesSide =
+                            listTypeDishes.length === 0 || listTypeDishes.includes(recipe.side);
+                        const passesSearch =
+                            resultSearch.length < 3 ||
+                            recipe.title.toLowerCase().startsWith(resultSearch.toLowerCase());
+
+                        return (
+                            passesAllergen &&
+                            passesCategory &&
+                            passesMeat &&
+                            passesSide &&
+                            passesSearch
+                        );
+                    }),
             );
 
             setArrayCards(groupedRecipes);
         }
-    }, [allergenFilter, currentIndexButton]);
+    }, [
+        allergenFilter,
+        currentIndexButton,
+        listCategory,
+        listTypeDishes,
+        listTypeMeats,
+        resultSearch,
+    ]);
 
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));
@@ -75,7 +114,13 @@ function TabPanelNavigation() {
     return (
         <Flex className={styles.container}>
             <Box className={styles.container_tabs}>
-                <Tabs variant='unstyled' index={currentIndex} onChange={handleTabsChange}>
+                <Tabs
+                    variant='unstyled'
+                    index={currentIndex}
+                    onChange={handleTabsChange}
+                    isLazy
+                    lazyBehavior='unmount'
+                >
                     <TabList
                         ref={tabListRef}
                         className={styles.tab_list}
@@ -86,6 +131,7 @@ function TabPanelNavigation() {
                     >
                         {arrayTabs.map((tab, index) => (
                             <Tab
+                                data-test-id={`tab-${Array.from(dataPathCategory.values())[indexCategory][index]}-${index}`}
                                 as={Link}
                                 key={index}
                                 className={styles.tab}
@@ -94,7 +140,7 @@ function TabPanelNavigation() {
                                     borderBottom: '2px solid',
                                     borderColor: '#2db100',
                                 }}
-                                to={`/recipes/${category}/${Array.from(dataPathCategory.values())[indexCategory][indexSubcategory]}`}
+                                to={`/recipes/${category}/${subcategory}`}
                             >
                                 {tab}
                             </Tab>
@@ -105,16 +151,21 @@ function TabPanelNavigation() {
                             <TabPanel className={styles.tab_panel} key={index} px={0} pt={6} pb={4}>
                                 <Flex className={styles.container_cards}>
                                     {group.map(
-                                        ({
-                                            id,
-                                            image,
-                                            title,
-                                            description,
-                                            category,
-                                            bookmarks,
-                                            likes,
-                                        }) => (
+                                        (
+                                            {
+                                                id,
+                                                image,
+                                                title,
+                                                description,
+                                                category,
+                                                bookmarks,
+                                                likes,
+                                            },
+                                            i,
+                                        ) => (
                                             <GeneraCard
+                                                dataTest={`food-card-${i}`}
+                                                dataTestButton={`card-link-${i}`}
                                                 key={id}
                                                 id={id}
                                                 image={image}

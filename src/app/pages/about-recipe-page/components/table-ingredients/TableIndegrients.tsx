@@ -76,6 +76,7 @@ function TableIngredients() {
                                     />
                                     <Button
                                         className={styles.button_up}
+                                        data-test-id='increment-stepper'
                                         p={0}
                                         minW='auto'
                                         variant='outline'
@@ -90,6 +91,7 @@ function TableIngredients() {
                                     </Button>
                                     <Button
                                         className={styles.button_down}
+                                        data-test-id='decrement-stepper'
                                         p={0}
                                         minW='auto'
                                         variant='outline'
@@ -109,7 +111,7 @@ function TableIngredients() {
                 </Thead>
                 <Tbody>
                     {arrayIngredients &&
-                        arrayIngredients.map(({ title, count, measureUnit }) => (
+                        arrayIngredients.map(({ title, count, measureUnit }, index) => (
                             <Tr border='none' key={title}>
                                 <Td
                                     className={styles.table_description}
@@ -123,6 +125,7 @@ function TableIngredients() {
                                     pr={{ base: 3, bp76: 6 }}
                                     className={styles.table_count}
                                     textAlign='right'
+                                    data-test-id={`ingredient-quantity-${index}`}
                                 >{`${count} ${measureUnit}`}</Td>
                             </Tr>
                         ))}

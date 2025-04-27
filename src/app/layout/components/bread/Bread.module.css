@@ -24,9 +24,9 @@
 }
 
 @media (max-width: 1150px) {
-    .breadcrumb {
+    /* .breadcrumb {
         display: none;
-    }
+    } */
 
     .breadcrumb.mobile {
         display: block;

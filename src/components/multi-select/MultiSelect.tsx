@@ -8,27 +8,64 @@ import {
     Input,
     Menu,
     MenuButton,
-    MenuItem,
     MenuList,
+    Stack,
     Text,
 } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import dataAllergens from '~/data/dataAllergens';
 import { setResultFilter } from '~/store/slice/arrayResultFilterSlice';
 
 import GreenPlus from '../icons/GreenPlus';
 import styles from './MultiSelect.module.css';
 
 type MultiSelectProps = {
+    widthMenu: string;
+    textPlaceHolder: string;
+    listItem: string[];
     isDisable: boolean;
+    isBottomInput?: boolean;
+    immediate?: boolean;
+    dataTest?: string;
+    onSelectionChange?: (selected: string[]) => void;
 };
 
-function MultiSelect({ isDisable }: MultiSelectProps) {
+function MultiSelect({
+    widthMenu,
+    textPlaceHolder,
+    isDisable,
+    listItem,
+    isBottomInput,
+    immediate = false,
+    onSelectionChange,
+    dataTest,
+}: MultiSelectProps) {
     const dispatch = useDispatch();
     const [selected, setSelected] = useState<string[]>([]);
     const [customAllergen, setCustomAllergen] = useState('');
+
+    useEffect(() => {
+        if (immediate) {
+            dispatch(setResultFilter(selected));
+        }
+        if (onSelectionChange) {
+            onSelectionChange(selected);
+        }
+    }, [selected, immediate, dispatch, onSelectionChange]);
+
+    const getSelectedLabel = () => {
+        if (!selected.length || !isDisable) {
+            return textPlaceHolder;
+        }
+        return selected;
+    };
+
+    useEffect(() => {
+        if (!isDisable) {
+            setSelected([]);
+        }
+    }, [isDisable]);
 
     const toggleOption = (value: string) => {
         setSelected((prev) =>
@@ -48,22 +85,11 @@ function MultiSelect({ isDisable }: MultiSelectProps) {
         setCustomAllergen('');
     };
 
-    const getSelectedLabel = () => {
-        if (!selected.length || !isDisable) {
-            return 'Выберите из списка...';
+    const handleEnterKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleClickPlus();
         }
-        return selected;
     };
-
-    useEffect(() => {
-        dispatch(setResultFilter(selected));
-    }, [dispatch, selected]);
-
-    useEffect(() => {
-        if (!isDisable) {
-            setSelected([]);
-        }
-    }, [isDisable]);
 
     const selectedLabel = getSelectedLabel();
 
@@ -76,10 +102,10 @@ function MultiSelect({ isDisable }: MultiSelectProps) {
                         className={styles.select}
                         pr={2}
                         variant='outline'
-                        disabled={!isDisable}
-                        pointerEvents={!isDisable ? 'none' : 'auto'}
+                        isDisabled={!isDisable}
                         _hover={{ bg: 'transparent' }}
                         _active={{ bg: 'white' }}
+                        data-test-id={dataTest}
                         rightIcon={
                             isOpen ? <ChevronUpIcon boxSize={6} /> : <ChevronDownIcon boxSize={6} />
                         }
@@ -100,14 +126,30 @@ function MultiSelect({ isDisable }: MultiSelectProps) {
                                 : selectedLabel}
                         </Flex>
                     </MenuButton>
-                    <MenuList className={styles.menu_list} zIndex={10} py={0} width='234px'>
-                        {dataAllergens.map((allergen) => (
-                            <MenuItem
+                    <MenuList
+                        className={styles.menu_list}
+                        zIndex={10}
+                        py={0}
+                        width={{ base: '308px', bp95: widthMenu }}
+                        data-test-id='allergens-menu'
+                    >
+                        {listItem.map((allergen, index) => (
+                            <Stack
                                 className={styles.menu_item}
                                 key={allergen}
                                 onClick={() => toggleOption(allergen)}
                                 display='flex'
                                 alignItems='center'
+                                direction='row'
+                                px='16px'
+                                py='6px'
+                                data-test-id={
+                                    textPlaceHolder.startsWith('Выберите из спи')
+                                        ? isDisable
+                                            ? `allergen-${index}`
+                                            : ''
+                                        : `checkbox-${allergen.toLocaleLowerCase()}`
+                                }
                             >
                                 <Checkbox
                                     className={styles.checkbox}
@@ -119,26 +161,35 @@ function MultiSelect({ isDisable }: MultiSelectProps) {
                                     borderColor='lime.400'
                                 />
                                 <Text>{allergen}</Text>
-                            </MenuItem>
+                            </Stack>
                         ))}
-                        <Flex align='center' ml={6} mt={2} mb={3}>
-                            <Input
-                                size='sm'
-                                placeholder='Другой аллерген'
-                                value={customAllergen}
-                                onChange={handleChangeInput}
-                            />
-                            <Button
-                                variant='ghost'
-                                mr='10px'
-                                ml='6px'
-                                size='xs'
-                                py={0}
-                                _hover={{ bg: 'transparent' }}
-                            >
-                                <Icon as={GreenPlus} boxSize={3} onClick={handleClickPlus} />
-                            </Button>
-                        </Flex>
+                        {isBottomInput && (
+                            <Flex align='center' ml={6} mt={2} mb={3}>
+                                <Input
+                                    size='sm'
+                                    placeholder='Другой аллерген'
+                                    value={customAllergen}
+                                    onChange={handleChangeInput}
+                                    onKeyDown={handleEnterKeyPress}
+                                    data-test-id={isDisable ? 'add-other-allergen' : ''}
+                                />
+                                <Button
+                                    variant='ghost'
+                                    mr='10px'
+                                    ml='6px'
+                                    size='xs'
+                                    py={0}
+                                    _hover={{ bg: 'transparent' }}
+                                >
+                                    <Icon
+                                        as={GreenPlus}
+                                        boxSize={3}
+                                        onClick={handleClickPlus}
+                                        data-test-id={isDisable ? 'add-allergen-button' : ''}
+                                    />
+                                </Button>
+                            </Flex>
+                        )}
                     </MenuList>
                 </>
             )}

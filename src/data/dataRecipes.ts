@@ -1,8 +1,6 @@
 import { eight, five, four, one, seven, six, third, two } from '~/assets/images/juicy-page';
 import RecipeType from '~/type/RecipeType';
 
-// const dataAllergens = ['Молочные продукты', 'Яйцо', 'Рыба', 'Моллюски', 'Орехи', 'Томат (помидор)', 'Цитрусовые', 'Клубника (ягоды)', 'Шоколад'];
-
 const dataRecipes: RecipeType[] = [
     {
         id: '0',
@@ -88,6 +86,7 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
         side: 'potatoes',
     },
     {
@@ -127,6 +126,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '3',
@@ -165,6 +166,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '4',
@@ -203,6 +206,7 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
         side: 'potatoes',
     },
     {
@@ -241,6 +245,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '6',
@@ -279,6 +285,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
 
     {
@@ -317,6 +325,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '8',
@@ -349,10 +359,12 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '9',
-        title: 'Паста Карбонара',
+        title: 'Паста Барбонара',
         description:
             'Классическая итальянская паста с кремовым соусом, яйцами, беконом и пармезаном.',
         category: ['national', 'second-dish', 'snacks'],
@@ -389,6 +401,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '10',
@@ -434,6 +448,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '11',
@@ -472,6 +488,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '12',
@@ -506,6 +524,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '13',
@@ -547,6 +567,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
     {
         id: '14',
@@ -580,6 +602,8 @@ const dataRecipes: RecipeType[] = [
                 image: 'url',
             },
         ],
+        meat: '',
+        side: '',
     },
 ];
 

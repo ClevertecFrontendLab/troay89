@@ -15,7 +15,7 @@ const paths = {
         path: '/',
     },
     juicy: {
-        path: '/juicy',
+        path: '/the-juiciest',
     },
     recipes: {
         path: '/recipes/:category/:subcategories',

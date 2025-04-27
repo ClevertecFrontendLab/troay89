@@ -45,9 +45,10 @@ function SwipeSlider() {
 
     return (
         <Box className={styles.wrapper}>
-            <SliderButton onClick={handlePrev} />
+            <SliderButton dataTest='carousel-back' onClick={handlePrev} />
             <Box className={styles.container}>
                 <Swiper
+                    data-test-id='carousel'
                     loop={true}
                     className={styles.swiper}
                     slidesPerView='auto'
@@ -63,8 +64,12 @@ function SwipeSlider() {
                     }}
                 >
                     {arraySliderCard.map(
-                        ({ id, image, title, description, category, bookmarks, likes }) => (
-                            <SwiperSlide key={id} className={styles.swiper_slide}>
+                        ({ id, image, title, description, category, bookmarks, likes }, index) => (
+                            <SwiperSlide
+                                key={id}
+                                className={styles.swiper_slide}
+                                data-test-id={`carousel-card-${index}`}
+                            >
                                 <CardSlider
                                     key={id}
                                     id={id}
@@ -80,7 +85,7 @@ function SwipeSlider() {
                     )}
                 </Swiper>
             </Box>
-            <SliderButton reverse onClick={handleNext} />
+            <SliderButton dataTest='carousel-forward' reverse onClick={handleNext} />
         </Box>
     );
 }

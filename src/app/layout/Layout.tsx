@@ -1,4 +1,4 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, useMediaQuery } from '@chakra-ui/react';
 import { Outlet } from 'react-router';
 
 import AccordionMenu from './components/accordion/AccordionMenu';
@@ -9,17 +9,20 @@ import Header from './components/header/Header';
 import styles from './Layout.module.css';
 
 function Layout() {
+    const [isDesktop] = useMediaQuery('(min-width: 1440px)');
     return (
         <Grid className={styles.main_container}>
             <Header />
-            <GridItem className={styles.navigation} as='aside'>
-                <AccordionMenu />
-                <FooterDesktop />
-            </GridItem>
+            {isDesktop && (
+                <GridItem className={styles.navigation} as='aside'>
+                    <AccordionMenu />
+                    <FooterDesktop />
+                </GridItem>
+            )}
             <GridItem className={styles.main} as='main'>
                 <Outlet />
             </GridItem>
-            <RightAside />
+            {isDesktop && <RightAside />}
             <FooterMobile />
         </Grid>
     );

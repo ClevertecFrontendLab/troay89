@@ -12,18 +12,21 @@ function JuicyBlock() {
 
     return (
         <Flex className={styles.juicy}>
-            {juiceRecipe.map(({ id, image, title, description, category, bookmarks, likes }) => (
-                <GeneraCard
-                    key={id}
-                    id={id}
-                    image={image}
-                    title={title}
-                    description={description}
-                    label={category}
-                    favorites={bookmarks}
-                    like={likes}
-                />
-            ))}
+            {juiceRecipe.map(
+                ({ id, image, title, description, category, bookmarks, likes }, index) => (
+                    <GeneraCard
+                        key={id}
+                        id={id}
+                        image={image}
+                        title={title}
+                        description={description}
+                        label={category}
+                        favorites={bookmarks}
+                        like={likes}
+                        dataTestButton={`card-link-${index}`}
+                    />
+                ),
+            )}
         </Flex>
     );
 }

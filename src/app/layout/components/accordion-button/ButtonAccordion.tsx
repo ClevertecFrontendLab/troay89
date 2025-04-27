@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
 import dataCategoryIcons from '~/data/dataCategoryIcons';
-import dataPathCategory from '~/data/dataPathCategory';
+import usePathCategoryData from '~/hooks/usePathCategoryData';
 import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 
@@ -17,10 +17,14 @@ type ButtonAccordionProps = {
 
 const ButtonAccordion = memo(function ButtonAccordion({ category, index }: ButtonAccordionProps) {
     const dispatch = useDispatch();
+    const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
     const handleAccordionButtonClick = (index: number) => {
         dispatch(setIndexTab(0));
         dispatch(setIndexButton(index));
     };
+
+    const pathCategory = keysPathCategory[index][1];
+    const pathSubcategory = valuesPathCategory[index][0];
 
     return (
         <AccordionButton
@@ -31,9 +35,9 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
                 fontWeight: 700,
             }}
             as={RouterLink}
-            to={`/recipes/${Array.from(dataPathCategory.keys())[index][1]}/${Array.from(dataPathCategory.values())[index][0]}`}
+            to={`/recipes/${pathCategory}/${pathSubcategory}`}
             onClick={() => handleAccordionButtonClick(index)}
-            data-test-id={category === 'Веганская кухня' && 'vegan-cuisine'}
+            data-test-id={`${pathCategory}-cuisine`}
         >
             <Box className={styles.item_menu} flex='1' textAlign='left'>
                 {dataCategoryIcons[category] && (

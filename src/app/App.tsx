@@ -10,6 +10,7 @@ const customBreakpoints = {
     bp115: '1151px',
     bp95: '951px',
     bp76: '761px',
+    bp55: '551px',
 };
 
 const alphaColors = {
@@ -24,6 +25,7 @@ const alphaColors = {
 
 const limeColors = {
     400: '#b1ff2e',
+    600: '#2db100',
 };
 
 const customTheme = extendTheme({

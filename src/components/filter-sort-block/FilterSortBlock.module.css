@@ -1,6 +1,8 @@
-.card_container {
-    flex-wrap: wrap;
-    justify-content: space-between;
+div.card_container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    gap: 16px;
 }
 
 button.button {
@@ -9,8 +11,10 @@ button.button {
     color: var(--black-color);
 }
 
-@media (max-width: 1915px) {
-    .card_container {
+@media (max-width: 1910px) {
+    div.card_container {
+        display: flex;
         justify-content: center;
+        flex-wrap: wrap;
     }
 }

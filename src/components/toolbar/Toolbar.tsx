@@ -23,7 +23,7 @@ function Toolbar({ title, description, isExtraSpace }: ToolbarProps) {
                 {description && <Text className={styles.heading_description}>{description}</Text>}
             </Flex>
             <SearchFilter />
-            <AllergenSort />
+            <AllergenSort dataTestSwitch='allergens-switcher' dataTest='allergens-menu-button' />
         </Flex>
     );
 }

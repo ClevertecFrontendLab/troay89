@@ -19,7 +19,7 @@ function MainBlock() {
         <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
             <Flex className={styles.card_container} mb={4} gap={4}>
                 {juiceRecipe.map(
-                    ({ id, image, title, description, category, bookmarks, likes }) => (
+                    ({ id, image, title, description, category, bookmarks, likes }, index) => (
                         <GeneraCard
                             key={id}
                             id={id}
@@ -29,6 +29,7 @@ function MainBlock() {
                             label={category}
                             favorites={bookmarks}
                             like={likes}
+                            dataTestButton={`card-link-${index}`}
                         />
                     ),
                 )}

@@ -10,7 +10,6 @@
 .allergen_label {
     display: flex;
     align-items: center;
-    margin-top: 8px;
 }
 
 .allergen_label .allergen_switch {
@@ -23,10 +22,4 @@
 
 .switch input:checked + span {
     background-color: var(--lime-color-400);
-}
-
-@media (max-width: 1150px) {
-    div.allergen_container {
-        display: none;
-    }
 }

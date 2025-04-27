@@ -14,9 +14,10 @@ import styles from './Bread.module.css';
 
 type BreadProps = {
     isMobile?: boolean;
+    onClose?: () => void;
 };
 
-function Bread({ isMobile }: BreadProps) {
+function Bread({ isMobile, onClose }: BreadProps) {
     const dispatch = useDispatch();
     const { indexCategory, indexSubcategory, idRecipe } = useNavigationIndices();
     const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
@@ -36,7 +37,7 @@ function Bread({ isMobile }: BreadProps) {
 
     if (location.pathname === '/') {
         breadcrumbs = [{ title: 'Главная', link: '/' }];
-    } else if (location.pathname === '/juicy') {
+    } else if (location.pathname === '/the-juiciest') {
         breadcrumbs = [{ title: 'Главная', link: '/' }, { title: 'Самое сочное' }];
     } else if (location.pathname.startsWith('/recipes')) {
         const pathParts = location.pathname.split('/').filter(Boolean);
@@ -69,6 +70,7 @@ function Bread({ isMobile }: BreadProps) {
         <Breadcrumb
             className={`${styles.breadcrumb} ${isMobile && styles.mobile}`}
             separator={<BreadIcon boxSize={6} />}
+            data-test-id='breadcrumbs'
         >
             {breadcrumbs &&
                 breadcrumbs.map((crumb, index) => (
@@ -88,7 +90,10 @@ function Bread({ isMobile }: BreadProps) {
                                 className={styles.breadcrumb_link}
                                 as={Link}
                                 to={crumb.link}
-                                onClick={crumb.onClick}
+                                onClick={() => {
+                                    crumb.onClick && crumb.onClick();
+                                    onClose && onClose();
+                                }}
                             >
                                 {crumb.title}
                             </BreadcrumbLink>

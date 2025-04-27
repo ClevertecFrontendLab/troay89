@@ -32,8 +32,8 @@ export type RecipeType = {
     nutritionValue: NutritionValue;
     ingredients: Ingredient[];
     steps: Step[];
-    meat?: string;
-    side?: string;
+    meat: string;
+    side: string;
 };
 
 export default RecipeType;

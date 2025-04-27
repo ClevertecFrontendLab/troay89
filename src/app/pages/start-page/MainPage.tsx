@@ -33,7 +33,7 @@ function MainPage() {
                         </Heading>
                         <Link
                             className={styles.button_desktop}
-                            to='/juicy'
+                            to='/the-juiciest'
                             data-test-id='juiciest-link'
                         >
                             <GreenButton text='Вся подборка' />
@@ -42,7 +42,7 @@ function MainPage() {
                     <JuicyBlock />
                     <Link
                         className={styles.button_mobile}
-                        to='/juicy'
+                        to='/the-juiciest'
                         data-test-id='juiciest-link-mobile'
                     >
                         <GreenButton text='Вся подборка' />

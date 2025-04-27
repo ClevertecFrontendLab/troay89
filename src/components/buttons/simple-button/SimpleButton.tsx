@@ -10,9 +10,10 @@ import styled from './SimpleButton.module.css';
 
 type SimpleButtonProps = {
     id: string;
+    dataTestButton: string;
 };
 
-function SimpleButton({ id }: SimpleButtonProps) {
+function SimpleButton({ id, dataTestButton }: SimpleButtonProps) {
     const dispatch = useDispatch();
 
     const { indexSubCat, indexCat, firstLink, secondLink, subcategories } = useCreateLinkCard({
@@ -29,6 +30,7 @@ function SimpleButton({ id }: SimpleButtonProps) {
 
     return (
         <Button
+            data-test-id={dataTestButton}
             className={`${styled.button} ${styled.extra}`}
             bg='blackAlpha.900'
             color='white'
