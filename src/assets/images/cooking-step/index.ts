@@ -4,4 +4,4 @@ export { default as three } from './3.png';
 export { default as four } from './4.png';
 export { default as six } from './6.png';
 export { default as eight } from './8.png';
-export { default as avatar } from './Avatar.png';
+export { default as avatar } from './avatar.png';
