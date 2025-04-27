@@ -2,25 +2,21 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import dataRecipes from '~/data/dataRecipes';
-import { ApplicationState } from '~/store/configure-store';
+import {
+    allergenFilterSelector,
+    listCategorySelector,
+    listTypeDishesSelector,
+    listTypeMeatsSelector,
+    resultSearchSelector,
+} from '~/store/selectors/arrayResultFilterSelector';
 import RecipeType from '~/type/RecipeType';
 
 function useShouldShowFilterResults() {
-    const filterAllergen = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultFilter,
-    );
-    const listCategory = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.listCategory,
-    );
-    const listTypeMeats = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.listTypeMeats,
-    );
-    const listTypeDishes = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.listTypeDishes,
-    );
-    const resultSearch = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultSearch,
-    );
+    const filterAllergen = useSelector(allergenFilterSelector);
+    const listCategory = useSelector(listCategorySelector);
+    const listTypeMeats = useSelector(listTypeMeatsSelector);
+    const listTypeDishes = useSelector(listTypeDishesSelector);
+    const resultSearch = useSelector(resultSearchSelector);
 
     const recipesFilter: RecipeType[] = useMemo(
         () =>

@@ -11,8 +11,11 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
-import { ApplicationState } from '~/store/configure-store';
+import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
+import { countCardActiveTabSelector } from '~/store/selectors/countCardActiveTabSliceSelector';
 import {
     setListCategory,
     setListTypeDishes,
@@ -28,11 +31,13 @@ import styles from './SearchFilter.module.css';
 
 function SearchFilter() {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { shouldShowFilterResults } = useShouldShowFilterResults();
     const dispatch = useDispatch();
-    const resultSearch = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultSearch,
-    );
+    const resultSearch = useSelector(resultSearchSelector);
+    const countActiveTabCard = useSelector(countCardActiveTabSelector);
+    const [isSearchRecipes, setSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
+    const { subcategories } = useParams();
 
     const handleFilterButton = () => {
         onOpen();
@@ -43,13 +48,23 @@ function SearchFilter() {
 
     const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
         setTextSearch(event.target.value);
+        if (isSearchRecipes === true) {
+            setSearchRecipes(false);
+        }
     };
 
     const handleClickIconSearch = () => {
+        if (subcategories) {
+            setSearchRecipes(shouldShowFilterResults);
+        } else {
+            setSearchRecipes(!!countActiveTabCard);
+        }
+
         dispatch(setResultSearch(textSearch));
     };
 
     const handleClickIconClear = () => {
+        setSearchRecipes(false);
         setTextSearch('');
         dispatch(setResultSearch(''));
     };
@@ -59,6 +74,12 @@ function SearchFilter() {
             handleClickIconSearch();
         }
     };
+
+    useEffect(() => {
+        if (resultSearch.length > 2) {
+            setSearchRecipes(shouldShowFilterResults);
+        }
+    }, [resultSearch.length, shouldShowFilterResults]);
 
     useEffect(() => {
         dispatch(setZIndex(isOpen));
@@ -75,12 +96,13 @@ function SearchFilter() {
             </Button>
             <InputGroup className={styles.search_wrapper}>
                 <Input
-                    className={styles.search}
+                    className={`${styles.search} ${isSearchRecipes ? styles.not_found : ''}`}
                     data-test-id='search-input'
                     placeholder='Название или ингредиент...'
                     value={textSearch}
                     onChange={handleChangeSearch}
                     onKeyDown={handleEnterKeyPress}
+                    _focus={{ boxShadow: 'none' }}
                 />
 
                 {textSearch.length > 0 && (

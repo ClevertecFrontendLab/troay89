@@ -8,7 +8,7 @@ import { HighlightText } from '~/components/highlight-text/HighlightText';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
 import useLabelCategory from '~/hooks/useLabelCategory';
-import { ApplicationState } from '~/store/configure-store';
+import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 
 import styles from './GeneralCard.module.css';
 
@@ -36,9 +36,7 @@ function GeneraCard({
     dataTestButton,
 }: GeneraCardProps) {
     const { arrayCategory } = useLabelCategory({ categories: label });
-    const resultSearch = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultSearch,
-    );
+    const resultSearch = useSelector(resultSearchSelector);
 
     return (
         <Card className={styles.card_container} data-test-id={dataTest}>

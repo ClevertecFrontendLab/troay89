@@ -9,7 +9,14 @@ import dataPathCategory from '~/data/dataPathCategory';
 import dataRecipes from '~/data/dataRecipes';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import usePathCategoryData from '~/hooks/usePathCategoryData';
-import { ApplicationState } from '~/store/configure-store';
+import {
+    allergenFilterSelector,
+    listCategorySelector,
+    listTypeDishesSelector,
+    listTypeMeatsSelector,
+    resultSearchSelector,
+} from '~/store/selectors/arrayResultFilterSelector';
+import { setCountCard } from '~/store/slice/countCardActiveTabSlice';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 import RecipeType from '~/type/RecipeType';
 
@@ -19,23 +26,14 @@ function TabPanelNavigation() {
     const tabListRef = useRef<HTMLDivElement | null>(null);
     const [arrayTabs, setArrayTabs] = useState<string[]>([]);
     const [arrayCards, setArrayCards] = useState<RecipeType[][]>([[]]);
+    const [activeCardsCount, setActiveCardsCount] = useState<number>(0);
     const { indexCategory, indexSubcategory, currentIndex, currentIndexButton, category } =
         useNavigationIndices();
-    const allergenFilter = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultFilter,
-    );
-    const listCategory = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.listCategory,
-    );
-    const listTypeMeats = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.listTypeMeats,
-    );
-    const listTypeDishes = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.listTypeDishes,
-    );
-    const resultSearch = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultSearch,
-    );
+    const allergenFilter = useSelector(allergenFilterSelector);
+    const listCategory = useSelector(listCategorySelector);
+    const listTypeMeats = useSelector(listTypeMeatsSelector);
+    const listTypeDishes = useSelector(listTypeDishesSelector);
+    const resultSearch = useSelector(resultSearchSelector);
     const subcategory = Array.from(dataPathCategory.values())[indexCategory][indexSubcategory];
     const { keysPathCategory } = usePathCategoryData();
     const dispatch = useDispatch();
@@ -95,7 +93,6 @@ function TabPanelNavigation() {
                         );
                     }),
             );
-
             setArrayCards(groupedRecipes);
         }
     }, [
@@ -106,6 +103,15 @@ function TabPanelNavigation() {
         listTypeMeats,
         resultSearch,
     ]);
+
+    useEffect(() => {
+        if (typeof currentIndex === 'number' && arrayCards[currentIndex]) {
+            setActiveCardsCount(arrayCards[currentIndex].length);
+            dispatch(setCountCard(activeCardsCount));
+        } else {
+            setActiveCardsCount(0);
+        }
+    }, [activeCardsCount, arrayCards, currentIndex, dispatch]);
 
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));

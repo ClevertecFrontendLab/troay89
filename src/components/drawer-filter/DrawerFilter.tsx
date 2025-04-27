@@ -19,7 +19,7 @@ import dataCategory from '~/data/dataCategory';
 import dataGarnish from '~/data/dataGarnish';
 import dataPathCategory from '~/data/dataPathCategory';
 import dataTypeMeat from '~/data/dataTypeMeat';
-import { ApplicationState } from '~/store/configure-store';
+import { allergenFilterSelector } from '~/store/selectors/arrayResultFilterSelector';
 import {
     setListCategory,
     setListTypeDishes,
@@ -47,9 +47,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
     const [typeDishesRus, setTypeDishesRus] = useState<string[]>([]);
     const [typeAll, setTypeAll] = useState<string[]>([]);
     const [resetKey, setResetKey] = useState(0);
-    const resultFilter = useSelector(
-        (state: ApplicationState) => state.arrayResultFilter.resultFilter,
-    );
+    const resultFilter = useSelector(allergenFilterSelector);
 
     const dispatch = useDispatch();
     const handleReset = () => {

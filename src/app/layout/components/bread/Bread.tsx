@@ -11,11 +11,12 @@ import usePathCategoryData from '~/hooks/usePathCategoryData';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 
 import styles from './Bread.module.css';
+import { getBreadcrumbs } from './Breadcrumbs';
 
-type BreadProps = {
-    isMobile?: boolean;
-    onClose?: () => void;
-};
+type BreadProps = Partial<{
+    isMobile: boolean;
+    onClose: () => void;
+}>;
 
 function Bread({ isMobile, onClose }: BreadProps) {
     const dispatch = useDispatch();
@@ -29,42 +30,20 @@ function Bread({ isMobile, onClose }: BreadProps) {
     const pathSubcategory = valuesPathCategory[indexCategory][indexSubcategory];
     const pathFirstSubcategory = valuesPathCategory[indexCategory][0];
 
-    let breadcrumbs;
-
     const handleCrumbLink = () => {
         dispatch(setIndexTab(0));
     };
 
-    if (location.pathname === '/') {
-        breadcrumbs = [{ title: 'Главная', link: '/' }];
-    } else if (location.pathname === '/the-juiciest') {
-        breadcrumbs = [{ title: 'Главная', link: '/' }, { title: 'Самое сочное' }];
-    } else if (location.pathname.startsWith('/recipes')) {
-        const pathParts = location.pathname.split('/').filter(Boolean);
-
-        if (pathParts.length === 3) {
-            breadcrumbs = [
-                { title: 'Главная', link: '/' },
-                {
-                    title: category,
-                    link: `/recipes/${pathCategory}/${pathFirstSubcategory}`,
-                    onClick: handleCrumbLink,
-                },
-                { title: subcategory },
-            ];
-        } else if (pathParts.length === 4) {
-            breadcrumbs = [
-                { title: 'Главная', link: '/' },
-                {
-                    title: category,
-                    link: `/recipes/${pathCategory}/${pathFirstSubcategory}`,
-                    onClick: handleCrumbLink,
-                },
-                { title: subcategory, link: `/recipes/${pathCategory}/${pathSubcategory}` },
-                { title: titleRecipe },
-            ];
-        }
-    }
+    const breadcrumbs = getBreadcrumbs(
+        location.pathname,
+        category,
+        subcategory,
+        titleRecipe,
+        pathCategory,
+        pathSubcategory,
+        pathFirstSubcategory,
+        handleCrumbLink,
+    );
 
     return (
         <Breadcrumb

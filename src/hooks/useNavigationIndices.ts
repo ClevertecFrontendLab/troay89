@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
 import dataRecipes from '~/data/dataRecipes';
-import { ApplicationState } from '~/store/configure-store';
+import { indexNavigationButtonSelector } from '~/store/selectors/indexNavigationButtonSelector';
+import { currentIndexSelector, idRecipeSelector } from '~/store/selectors/indexTabsSelector';
 import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 import RecipeType from '~/type/RecipeType';
@@ -15,11 +16,9 @@ export function useNavigationIndices() {
 
     const { category, subcategories, id } = useParams();
 
-    const currentIndexButton = useSelector(
-        (state: ApplicationState) => state.indexNavigationButton.index,
-    );
-    const currentIndex = useSelector((state: ApplicationState) => state.indexTabs.index);
-    const idRecipe = useSelector((state: ApplicationState) => state.indexTabs.idRecipe);
+    const currentIndexButton = useSelector(indexNavigationButtonSelector);
+    const currentIndex = useSelector(currentIndexSelector);
+    const idRecipe = useSelector(idRecipeSelector);
 
     const [indexCategory, setIndexCategory] = useState(0);
     const [indexSubcategory, setIndexSubcategory] = useState(0);

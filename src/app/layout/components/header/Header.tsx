@@ -8,7 +8,7 @@ import BurgerMenu from '~/components/burger-menu/BurgerMemu';
 import Burger from '~/components/icons/burger';
 import FirstPart from '~/components/icons/logo/FirstPart';
 import SecondPart from '~/components/icons/logo/SecondPart';
-import { ApplicationState } from '~/store/configure-store';
+import { zIndexLessSelector } from '~/store/selectors/zIndexLessSelector';
 
 import Avatar from '../avatar/Avatar';
 import Bread from '../bread/Bread';
@@ -18,7 +18,7 @@ import styles from './Header.module.css';
 function Header() {
     const { isOpen, onToggle, onClose } = useDisclosure();
     const btnRef = useRef<SVGSVGElement | null>(null);
-    const zIndexLess = useSelector((state: ApplicationState) => state.headerZIndex.zIndexLess);
+    const zIndexLess = useSelector(zIndexLessSelector);
     const [isDesktop] = useMediaQuery('(min-width: 1151px)');
 
     return (
@@ -35,8 +35,7 @@ function Header() {
                 </Flex>
                 {isDesktop && (
                     <Center>
-                        {' '}
-                        <Bread />{' '}
+                        <Bread />
                     </Center>
                 )}
             </Box>

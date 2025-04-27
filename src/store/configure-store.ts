@@ -4,6 +4,7 @@ import { apiSlice } from '~/query/create-api';
 
 import appReducer, { appSlice } from './slice/app-slice';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
+import countCardActiveTabReducer from './slice/countCardActiveTabSlice';
 import headerZIndexReducer from './slice/headerZIndex';
 import indexNavigationButtonReducer from './slice/indexNavigationButtonSlice';
 import indexTabsReducer from './slice/indexTabsSlice';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     indexNavigationButton: indexNavigationButtonReducer,
     arrayResultFilter: arrayResultFilterReducer,
     headerZIndex: headerZIndexReducer,
+    countCardActiveTab: countCardActiveTabReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

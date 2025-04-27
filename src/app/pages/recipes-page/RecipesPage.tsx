@@ -8,7 +8,7 @@ import Toolbar from '~/components/toolbar/Toolbar';
 import dataLongCardVegan from '~/data/dataLongCardVegan';
 import dataPathCategory from '~/data/dataPathCategory';
 import dataSimpleCardVegan from '~/data/dataSimpleCardVegan';
-import { ApplicationState } from '~/store/configure-store';
+import { indexNavigationButtonSelector } from '~/store/selectors/indexNavigationButtonSelector';
 
 import TabPanelNavigation from './components/tab-panel-navigation/TabPanelNavigation';
 
@@ -20,9 +20,7 @@ function RecipesPage() {
 
     const [title, setTitle] = useState('');
     const { category } = useParams();
-    const indexNavigationButton = useSelector(
-        (state: ApplicationState) => state.indexNavigationButton.index,
-    );
+    const indexNavigationButton = useSelector(indexNavigationButtonSelector);
 
     useEffect(() => {
         if (category !== undefined && indexNavigationButton !== undefined) {
