@@ -18,9 +18,9 @@ type IconStatsProps = {
 
 function IconStats({ isHeader }: IconStatsProps) {
     return (
-        <Flex className={`${styles['container_user_stats']} ${isHeader && styles['stats_header']}`}>
+        <Flex className={`${styles.container_user_stats} ${isHeader && styles.stats_header}`}>
             {stats.map((stat, index) => (
-                <Flex key={index} className={styles['user_stat']}>
+                <Flex key={index} className={styles.user_stat}>
                     <Icon className={styles.icon} as={stat.icon} />
                     <span>{stat.label}</span>
                 </Flex>

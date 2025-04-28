@@ -5,11 +5,10 @@
 
 .subtitle_container .subtitle {
     font: var(--font-inter-subtitle);
-    color: var(--black-color);
     letter-spacing: 1.6px;
 }
 
-.description {
+.subtitle_container .description {
     font: var(--font-inter-nav);
     color: var(--black-alpha);
     width: 668px;
@@ -22,7 +21,7 @@
         width: 300px;
     }
 
-    .description {
+    .subtitle_container .description {
         width: 578px;
     }
 }
@@ -36,7 +35,7 @@
         letter-spacing: 0.5px;
     }
 
-    .description {
+    .subtitle_container .description {
         width: unset;
         font: var(--font-inter-button-second);
         letter-spacing: 0;
@@ -49,7 +48,7 @@
 }
 
 @media (max-width: 550px) {
-    .description {
+    .subtitle_container .description {
         padding-right: 33px;
     }
 }

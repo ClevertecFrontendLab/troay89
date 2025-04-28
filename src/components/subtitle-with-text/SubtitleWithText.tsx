@@ -10,9 +10,9 @@ type SubtitleWithTextProps = {
 
 function SubtitleWithText({ title, text, isChangeTable }: SubtitleWithTextProps) {
     return (
-        <Flex className={styles['subtitle_container']}>
+        <Flex className={styles.subtitle_container}>
             <Heading
-                className={`${styles.subtitle} ${isChangeTable && styles['change_table']}`}
+                className={`${styles.subtitle} ${isChangeTable && styles.change_table}`}
                 as='h2'
             >
                 {title}

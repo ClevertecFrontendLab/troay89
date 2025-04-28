@@ -14,6 +14,7 @@
     font-weight: 400;
     padding-block: 16px;
     white-space: pre-wrap;
+    width: 167px;
 }
 
 .footer_exit {
@@ -23,4 +24,18 @@
     font-weight: 600;
     padding-bottom: 32px;
     width: 100px;
+}
+
+@media (max-width: 1150px) {
+    .desktop_footer {
+        padding-left: 0;
+    }
+
+    .footer_exit {
+        padding-bottom: 0;
+    }
+
+    .footer_info {
+        width: 250px;
+    }
 }

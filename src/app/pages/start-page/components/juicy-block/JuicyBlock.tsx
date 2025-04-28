@@ -1,34 +1,29 @@
 import { Flex } from '@chakra-ui/react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
-import dataJuicyCards from '~/data/dataJuicyCards';
+import dataRecipes from '~/data/dataRecipes';
 
 import styles from './JuicyBlock.module.css';
 
 function JuicyBlock() {
+    const juiceRecipe = [...dataRecipes]
+        .sort((firstRecipe, secondRecipe) => secondRecipe.likes - firstRecipe.likes)
+        .slice(0, 4);
+
     return (
         <Flex className={styles.juicy}>
-            {dataJuicyCards.map(
-                ({
-                    image,
-                    title,
-                    description,
-                    label,
-                    favorites,
-                    like,
-                    nameRecommend,
-                    avatarRecommend,
-                }) => (
+            {juiceRecipe.map(
+                ({ id, image, title, description, category, bookmarks, likes }, index) => (
                     <GeneraCard
-                        key={title}
+                        key={id}
+                        id={id}
                         image={image}
                         title={title}
                         description={description}
-                        label={label}
-                        favorites={favorites}
-                        like={like}
-                        nameRecommend={nameRecommend}
-                        avatarRecommend={avatarRecommend}
+                        label={category}
+                        favorites={bookmarks}
+                        like={likes}
+                        dataTestButton={`card-link-${index}`}
                     />
                 ),
             )}

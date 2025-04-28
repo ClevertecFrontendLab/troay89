@@ -1,32 +1,85 @@
-import { Card, CardBody, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { Card, CardBody, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router';
 
 import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
-import CardProps from '~/type/cardProps';
+import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
+import useLabelCategory from '~/hooks/useLabelCategory';
+import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
+import { setIndexRecipe, setIndexTab } from '~/store/slice/indexTabsSlice';
 
 import styles from './CardSlider.module.css';
 
-function CardSlider({ image, title, description, label, favorites, like }: CardProps) {
+type CardSliderProps = {
+    id: string;
+    image: string;
+    title: string;
+    description: string;
+    label: string[];
+    favorites: number;
+    like: number;
+};
+
+function CardSlider({ id, image, title, description, label, favorites, like }: CardSliderProps) {
+    const { arrayCategory } = useLabelCategory({ categories: label });
+
+    const { indexSubCat, indexCat, firstLink, secondLink, subcategories, pathId } =
+        useCreateLinkCard({ id: id });
+
+    const dispatch = useDispatch();
+    function handlingClick() {
+        dispatch(setIndexRecipe(id));
+        if (subcategories === undefined || pathId !== undefined) {
+            dispatch(setIndexButton(indexCat));
+            dispatch(setIndexTab(indexSubCat));
+        }
+    }
+
     return (
-        <Card className={styles.card}>
-            <CardBody className={styles['card_body']}>
-                <Image className={styles['card_image']} src={image} alt={label} />
+        <Card
+            className={styles.card}
+            as={Link}
+            onClick={handlingClick}
+            to={subcategories === undefined || pathId !== undefined ? firstLink : secondLink}
+        >
+            <CardBody className={styles.card_body}>
+                <Image
+                    className={styles.card_image}
+                    src={image}
+                    alt={label[0]}
+                    w={{ base: '158px', bp95: '279px', bp189: '322px' }}
+                    h={{ base: '128px', bp95: '230px' }}
+                />
                 <Stack className={styles.content}>
-                    <Heading
-                        className={styles['title_card']}
-                        as='h3'
-                        noOfLines={{ bp95: 1, base: 2 }}
-                    >
+                    <Heading className={styles.title_card} as='h3' noOfLines={{ bp95: 1, base: 2 }}>
                         {title}
                     </Heading>
-                    <Text className={styles['description_card']} noOfLines={3}>
+                    <Text className={styles.description_card} noOfLines={3}>
                         {description}
                     </Text>
-                    <CardStats label={label} favorites={favorites} like={like} />
+                    <Flex direction='column' gap='2px' display={{ base: 'none', bp95: 'flex' }}>
+                        <CardStats label={arrayCategory[0]} favorites={favorites} like={like} />
+                        {arrayCategory.map(
+                            (item, index) =>
+                                index !== 0 && <LabelTypeFood label={item} key={item} />,
+                        )}
+                    </Flex>
                     <StatsForCard favorites={favorites} like={like} isMobile />
                 </Stack>
-                <LabelTypeFood label={label} isMobile />
+                <Flex
+                    direction='column'
+                    gap='2px'
+                    pos='absolute'
+                    top='8px'
+                    left='8px'
+                    display={{ base: 'flex', bp95: 'none' }}
+                >
+                    {arrayCategory.map((item, index) => (
+                        <LabelTypeFood key={index} label={item} yellow isMobile />
+                    ))}
+                </Flex>
             </CardBody>
         </Card>
     );

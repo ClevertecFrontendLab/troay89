@@ -1,0 +1,59 @@
+input.input_portion {
+    width: 90px;
+    color: var(--black-color);
+}
+
+.table_container .table_thead {
+    font: var(--font-inter-title-table);
+    color: var(--lime-color-600);
+    border: none;
+    padding-block: 8px;
+}
+
+.table_container .table_description {
+    font: var(--font-inter-tab-mobile);
+    color: var(--black-alpha-900);
+    border: none;
+}
+
+.table_container .table_count {
+    font: var(--font-inter-email);
+    color: var(--black-alpha-900);
+    border: none;
+}
+
+.table_container .form_label {
+    position: relative;
+    font: var(--font-inter-title-table);
+}
+
+.form_label .button_up {
+    transform: rotate(180deg);
+    position: absolute;
+    border-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-bottom: 'none';
+    right: 0;
+    top: 0;
+}
+
+.form_label .button_down {
+    position: absolute;
+    border-radius: 0;
+    border-bottom-right-radius: 6px;
+    right: 0;
+    bottom: 0;
+}
+
+@media (max-width: 950px) {
+    .table_container .table_count,
+    .table_container .table_description {
+        padding-block: 10px;
+    }
+}
+
+@media (max-width: 760px) {
+    input.input_portion {
+        width: 76px;
+    }
+}

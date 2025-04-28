@@ -1,0 +1,51 @@
+h2.drawer_header {
+    font: var(--font-inter-header-mobile);
+}
+
+.form_filter {
+    justify-content: space-between;
+}
+
+button.button {
+    font: var(--font-inter-button);
+}
+
+.drawer_overlay {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.16);
+}
+
+.drawer_body {
+    scrollbar-gutter: stable;
+}
+
+.drawer_body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.drawer_body::-webkit-scrollbar-thumb {
+    width: 8px;
+    height: 362px;
+    border-radius: 8px;
+    background-color: var(--black-alpha-300);
+}
+
+.drawer_body::-webkit-scrollbar-track {
+    background-color: var(--black-alpha-50);
+    border-radius: 8px;
+}
+.label_change {
+    border: var(--third-birder);
+    border-radius: 6px;
+    padding: 0 8px;
+    background: var(--lime-color-100);
+    font: var(--font-inter-tab-mobile);
+    color: var(--lime-color-700);
+}
+
+@media (max-width: 950px) {
+    button.button {
+        font: var(--font-inter-button-second);
+    }
+}

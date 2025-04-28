@@ -17,17 +17,15 @@ div.container {
 
 .name {
     font: var(--font-inter-500);
-    color: var(--black-color);
 }
 
-.email {
+.container .email {
     font: var(--font-inter-email);
     color: var(--black-alpha);
 }
 
 .container .content {
     font: var(--font-inter-email);
-    color: var(--black-color);
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -59,7 +57,7 @@ div.container {
         font: var(--font-inter-nav);
     }
 
-    .email {
+    .container .email {
         font: var(--font-inter-small);
     }
 

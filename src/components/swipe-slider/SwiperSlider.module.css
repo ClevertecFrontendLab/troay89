@@ -1,0 +1,36 @@
+.wrapper {
+    position: relative;
+}
+
+.container {
+    max-width: 1360px;
+    overflow-x: hidden;
+}
+
+.swiper {
+    width: '100%';
+    max-width: '1360px';
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.swiper_slide {
+    width: 322px;
+}
+
+@media (max-width: 1890px) {
+    .swiper_slide {
+        width: 279px;
+    }
+}
+
+@media (max-width: 950px) {
+    .swiper {
+        max-width: '728px';
+        margin-bottom: 32px;
+    }
+
+    .swiper_slide {
+        width: 158px;
+    }
+}

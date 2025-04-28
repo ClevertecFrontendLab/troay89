@@ -1,5 +1,4 @@
 .stats_container {
-    gap: 18px;
     margin-right: 4px;
 }
 
@@ -12,9 +11,22 @@
     color: var(--lime-color-600);
 }
 
+.about_recipe .number {
+    font: var(--font-inter-button-second);
+}
+
 .stats {
     align-items: center;
-    gap: 5px;
+}
+
+@media (max-width: 1890px) {
+    .about_recipe .number {
+        font: var(--font-inter-small);
+    }
+
+    .about_recipe.stats_container {
+        gap: 16px;
+    }
 }
 
 @media (max-width: 950px) {

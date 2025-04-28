@@ -1,0 +1,13 @@
+.checkbox input:checked + span {
+    border-color: var(--lime-color-400);
+    background-color: var(--lime-color-400);
+    color: black;
+}
+
+h3.subtitle {
+    font: var(--font-inter-nav);
+}
+
+.description {
+    font: var(--font-inter-email);
+}

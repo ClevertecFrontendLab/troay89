@@ -1,7 +1,5 @@
 import {
     Accordion,
-    AccordionButton,
-    AccordionIcon,
     AccordionItem,
     AccordionPanel,
     Box,
@@ -9,57 +7,58 @@ import {
     List,
     ListItem,
 } from '@chakra-ui/react';
-import { Link as RouterLink, useLocation } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { Link as RouterLink } from 'react-router';
 
-import dataCategoryIcons from '~/data/dataCategoryIcons';
 import dataNavigation from '~/data/dataNavigation';
+import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import usePathCategoryData from '~/hooks/usePathCategoryData';
+import { setIndexTab } from '~/store/slice/indexTabsSlice';
 
+import ButtonAccordion from '../accordion-button/ButtonAccordion';
 import styles from './AccordionMenu.module.css';
 
 function AccordionMenu() {
-    const location = useLocation();
+    const dispatch = useDispatch();
+    const { indexCategory, indexSubcategory, subcategories } = useNavigationIndices();
+    const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
+
+    const handleTabsChange = (index: number) => {
+        dispatch(setIndexTab(index));
+    };
 
     return (
-        <Accordion className={styles['navigation']} allowMultiple as='nav'>
-            {Object.entries(dataNavigation).map(([category, items]) => (
-                <AccordionItem className={styles['accordion_item']} key={category}>
-                    <AccordionButton
-                        className={styles['accordion_button']}
-                        _expanded={{
-                            bg: '#eaffc7',
-                            font: 'white',
-                            fontWeight: 700,
-                        }}
-                        as={RouterLink}
-                        to='/vegan'
-                        data-test-id={category === 'Веганская кухня' && 'vegan-cuisine'}
-                    >
-                        <Box className={styles['item_menu']} flex='1' textAlign='left'>
-                            {dataCategoryIcons[category] && (
-                                <img
-                                    src={dataCategoryIcons[category]}
-                                    alt={`${category} icon`}
-                                    className={styles.icon}
-                                />
-                            )}
-                            <span className={styles['title_nav']}>{category}</span>
-                        </Box>
-                        <AccordionIcon className={styles['accordion_icon']} boxSize={7} />
-                    </AccordionButton>
-                    <AccordionPanel className={styles['accordion_panel']} pb={4}>
-                        <List className={styles['list']} spacing={2}>
-                            {items.map((item) => (
-                                <ListItem className={styles['list_item']} key={item}>
-                                    <Box
-                                        className={`${styles['vert_line']} ${item === 'Вторые блюда' && location.pathname === '/vegan' ? styles['line_change'] : ''}`}
-                                    />
-                                    <Link
-                                        className={`${styles['item_link']} ${item === 'Вторые блюда' && location.pathname === '/vegan' ? styles['item_change'] : ''}`}
+        <Accordion className={styles.navigation} allowToggle as='nav' data-test-id='nav'>
+            {Object.entries(dataNavigation).map(([category, items], index) => (
+                <AccordionItem border='none' key={category}>
+                    <ButtonAccordion category={category} index={index ?? indexCategory} />
+                    <AccordionPanel className={styles.accordion_panel} pb={4}>
+                        <List className={styles.list} spacing={2}>
+                            {items.map((item, index) => {
+                                const isActive = index === indexSubcategory && subcategories;
+                                const categoryPath = keysPathCategory[indexCategory][1];
+                                const subcategoryPath = valuesPathCategory[indexCategory][index];
+                                return (
+                                    <ListItem
+                                        className={styles.list_item}
+                                        display='flex'
+                                        key={item}
+                                        data-test-id={isActive ? `${subcategoryPath}-active` : ''}
                                     >
-                                        {item}
-                                    </Link>
-                                </ListItem>
-                            ))}
+                                        <Box
+                                            className={`${styles.vert_line} ${isActive ? styles.line_change : ''}`}
+                                        />
+                                        <Link
+                                            className={`${styles.item_link} ${isActive ? styles.item_change : ''}`}
+                                            onClick={() => handleTabsChange(index)}
+                                            as={RouterLink}
+                                            to={`/recipes/${categoryPath}/${subcategoryPath}`}
+                                        >
+                                            {item}
+                                        </Link>
+                                    </ListItem>
+                                );
+                            })}
                         </List>
                     </AccordionPanel>
                 </AccordionItem>

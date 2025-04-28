@@ -3,13 +3,29 @@ import { BrowserRouter } from 'react-router';
 
 import AppRouter from '~/router/AppRoter';
 
-import Layout from './layout/Layout';
-
 const customBreakpoints = {
     ...baseTheme.breakpoints,
     bp189: '1891px',
+    bp160: '1601px',
+    bp115: '1151px',
     bp95: '951px',
     bp76: '761px',
+    bp55: '551px',
+};
+
+const alphaColors = {
+    50: 'rgba(0, 0, 0, 0.04)',
+    100: 'rgba(0, 0, 0, 0.06)',
+    300: 'rgba(0, 0, 0, 0.16)',
+    400: 'rgba(0, 0, 0, 0.24)',
+    600: 'rgba(0, 0, 0, 0.48)',
+    800: 'rgba(0, 0, 0, 0.8)',
+    900: 'rgba(0, 0, 0, 0.92)',
+};
+
+const limeColors = {
+    400: '#b1ff2e',
+    600: '#2db100',
 };
 
 const customTheme = extendTheme({
@@ -21,15 +37,29 @@ const customTheme = extendTheme({
         },
     },
     breakpoints: customBreakpoints,
+    components: {
+        Heading: {
+            baseStyle: {
+                color: 'black',
+            },
+        },
+        Text: {
+            baseStyle: {
+                color: 'black',
+            },
+        },
+    },
+    colors: {
+        alpha: alphaColors,
+        lime: limeColors,
+    },
 });
 
 function App() {
     return (
         <ChakraProvider theme={customTheme}>
             <BrowserRouter>
-                <Layout>
-                    <AppRouter />
-                </Layout>
+                <AppRouter />
             </BrowserRouter>
         </ChakraProvider>
     );

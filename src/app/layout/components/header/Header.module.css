@@ -4,7 +4,6 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
     height: 80px;
     background-color: var(--lime-color);
     display: flex;
@@ -30,9 +29,13 @@ div .second_part {
     padding-top: 4px;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1150px) {
     .header {
         height: 64px;
+    }
+
+    .header.mobile_open_drawer {
+        background-color: var(--white-color);
     }
 
     .header .header_container_mobile {

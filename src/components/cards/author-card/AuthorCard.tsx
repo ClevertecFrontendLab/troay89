@@ -7,7 +7,7 @@ import styles from './AuthorCard.module.css';
 function AuthorCard({ nameRecommend, avatarRecommend, email, message }: UserRecommendProps) {
     return (
         <Card className={styles.container}>
-            <Flex className={styles['container_about']}>
+            <Flex className={styles.container_about}>
                 <Avatar className={styles.avatar} name={nameRecommend} src={avatarRecommend} />
                 <Flex className={styles.about}>
                     <Text
@@ -20,7 +20,7 @@ function AuthorCard({ nameRecommend, avatarRecommend, email, message }: UserReco
                     <Text className={styles.email}>{email}</Text>
                 </Flex>
             </Flex>
-            <Flex className={styles.content}>{message}</Flex>
+            <Text className={styles.content}>{message}</Text>
         </Card>
     );
 }

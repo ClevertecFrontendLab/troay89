@@ -15,7 +15,6 @@ div.container {
 
 .container .title {
     font: var(--font-inter-title-card);
-    color: var(--black-color);
 }
 
 .image {

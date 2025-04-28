@@ -15,7 +15,6 @@
 .subtitle_container .subtitle {
     justify-content: space-between;
     font: var(--font-inter-subtitle-second);
-    color: var(--black-color);
 }
 
 .cards_container {

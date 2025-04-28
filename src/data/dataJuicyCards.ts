@@ -7,7 +7,7 @@ const dataJuicyCards: CardProps[] = [
         title: 'Кнели со спагетти',
         description:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
-        label: 'Вторые блюда',
+        label: ['Вторые блюда'],
         favorites: 85,
         like: 152,
     },
@@ -16,7 +16,7 @@ const dataJuicyCards: CardProps[] = [
         title: 'Пряная ветчина по итальянски',
         description:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
-        label: 'Вторые блюда',
+        label: ['Вторые блюда'],
         favorites: 159,
         like: 257,
         avatarRecommend: elenaAvatar,
@@ -27,7 +27,7 @@ const dataJuicyCards: CardProps[] = [
         title: 'Лапша с курицей и шафраном',
         description:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
-        label: 'Вторые блюда',
+        label: ['Вторые блюда'],
         favorites: 258,
         like: 342,
         avatarRecommend: alexAvatar,
@@ -38,7 +38,7 @@ const dataJuicyCards: CardProps[] = [
         title: 'Том-ям с капустой кимчи',
         description:
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
-        label: 'Национальные',
+        label: ['Национальные'],
         favorites: 124,
         like: 324,
     },

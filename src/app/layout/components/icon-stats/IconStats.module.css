@@ -16,7 +16,7 @@ div.container_user_stats {
     column-gap: 9px;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1150px) {
     .container_user_stats.stats_header {
         flex-direction: row;
         margin: 0;

@@ -25,35 +25,6 @@
     border-radius: 8px;
 }
 
-.navigation .accordion_item {
-    border: none;
-}
-
-.navigation .accordion_button {
-    width: 242px;
-    margin-inline: 10px 4px;
-    padding: 10px 14px 10px 11px;
-}
-
-.item_menu {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-}
-
-.title_nav {
-    font: var(--font-inter-nav);
-    color: var(--black-color);
-}
-
-.icon {
-    padding-right: 11px;
-}
-
-.list_item {
-    display: flex;
-}
-
 .item_link {
     display: block;
     padding: 6px 0 6px 4px;
@@ -68,7 +39,7 @@
     height: 24px;
     width: 1px;
     border-left: 1px solid var(--lime-color-300);
-    margin-inline: 53px 6px;
+    margin-inline: 50px 6px;
     align-self: center;
 }
 
@@ -82,7 +53,7 @@
     height: 28px;
     width: 1px;
     border-left: 8px solid var(--lime-color-300);
-    margin-inline: 47px 6px;
+    margin-inline: 44px 6px;
 }
 
 .navigation .accordion_panel {
@@ -100,14 +71,31 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .accordion_item .accordion_button:hover {
-        background-color: var(--lime-color);
-        transition: background-color 0.3s ease;
-    }
-
-    .accordion_item .item_link:hover {
+    .navigation .item_link:hover {
         background-color: var(--lime-color);
         text-decoration: none;
         transition: background-color 0.3s ease;
+    }
+
+    .list_item:has(> .item_link:hover) .vert_line {
+        opacity: 0;
+    }
+}
+
+@media (max-width: 1150px) {
+    .navigation {
+        margin-block: 0 8px;
+        box-shadow: none;
+        margin-right: 4px;
+    }
+
+    .navigation::-webkit-scrollbar-thumb {
+        height: 277px;
+    }
+}
+
+@media (max-width: 550px) {
+    .navigation::-webkit-scrollbar-thumb {
+        height: unset;
     }
 }
