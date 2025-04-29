@@ -1,9 +1,8 @@
 .header {
     grid-area: header;
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
     height: 80px;
     background-color: var(--lime-color);
     display: flex;
@@ -29,7 +28,7 @@ div .second_part {
     padding-top: 4px;
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 1439px) {
     .header {
         height: 64px;
     }

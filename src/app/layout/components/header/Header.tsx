@@ -19,7 +19,7 @@ function Header() {
     const { isOpen, onToggle, onClose } = useDisclosure();
     const btnRef = useRef<SVGSVGElement | null>(null);
     const zIndexLess = useSelector(zIndexLessSelector);
-    const [isDesktop] = useMediaQuery('(min-width: 1151px)');
+    const [isDesktop] = useMediaQuery('(min-width: 1440px)');
 
     return (
         <GridItem

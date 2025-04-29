@@ -1,15 +1,15 @@
 .wrapper {
     position: relative;
+    max-width: 1360px;
 }
 
 .container {
     max-width: 1360px;
-    overflow-x: hidden;
 }
 
 .swiper {
-    width: '100%';
-    max-width: '1360px';
+    width: 100%;
+    max-width: 1360px;
     margin-bottom: 40px;
     position: relative;
 }
@@ -26,7 +26,7 @@
 
 @media (max-width: 950px) {
     .swiper {
-        max-width: '728px';
+        max-width: 728px;
         margin-bottom: 32px;
     }
 
