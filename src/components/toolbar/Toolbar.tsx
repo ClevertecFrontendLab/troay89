@@ -5,7 +5,7 @@ import SearchFilter from '../search-filter/SearchFilter';
 import styles from './Toolbar.module.css';
 
 type ToolbarProps = {
-    title: string;
+    title: string | undefined;
     description?: string;
     isExtraSpace?: boolean;
 };

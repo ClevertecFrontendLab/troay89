@@ -3,42 +3,46 @@ import { Flex } from '@chakra-ui/react';
 import LongCard from '~/components/cards/long-card/LongCard';
 import SimpleCard from '~/components/cards/simple-card/SimpleCard';
 import SubtitleWithText from '~/components/subtitle-with-text/SubtitleWithText';
-import CardLongProps from '~/type/cardLongCardProps';
-import CardProps from '~/type/cardProps';
+import { Category } from '~/type/Category';
+import RecipeType from '~/type/RecipeType';
 
 import styles from './LastBlock.module.css';
 
-type LastBlockProps = {
-    title: string;
-    text: string;
-    simpleCardArray: CardProps[];
-    longCardArray: CardLongProps[];
-    isChangeTable?: boolean;
+type LastBlockType = {
+    randomCategory: Category | null;
+    lastBlockData: RecipeType[] | undefined;
 };
 
-function LastBlock({ title, text, simpleCardArray, longCardArray, isChangeTable }: LastBlockProps) {
+function LastBlock({ lastBlockData, randomCategory }: LastBlockType) {
     return (
         <Flex className={styles.container}>
-            <SubtitleWithText title={title} text={text} isChangeTable={isChangeTable} />
+            {randomCategory && (
+                <SubtitleWithText title={randomCategory.title} text={randomCategory.description} />
+            )}
             <Flex className={styles.cards_container}>
                 <Flex className={styles.simple_cards_container}>
-                    {simpleCardArray.map(
-                        ({ title, description, label, favorites, like }: CardProps) => (
-                            <SimpleCard
-                                key={title}
-                                title={title}
-                                description={description}
-                                label={label}
-                                favorites={favorites}
-                                like={like}
-                            />
-                        ),
-                    )}
+                    {lastBlockData &&
+                        lastBlockData
+                            .slice(0, 2)
+                            .map(({ _id, title, description, bookmarks, likes }: RecipeType) => (
+                                <SimpleCard
+                                    key={_id}
+                                    _id={_id}
+                                    title={title}
+                                    description={description}
+                                    category={randomCategory}
+                                    bookmarks={bookmarks}
+                                    likes={likes}
+                                />
+                            ))}
                 </Flex>
                 <Flex className={styles.long_cards_container}>
-                    {longCardArray.map(({ image, title }: CardLongProps) => (
-                        <LongCard key={title} image={image} title={title} />
-                    ))}
+                    {lastBlockData &&
+                        lastBlockData
+                            .slice(2)
+                            .map(({ _id, title }: RecipeType) => (
+                                <LongCard key={_id} image={randomCategory?.icon} title={title} />
+                            ))}
                 </Flex>
             </Flex>
         </Flex>

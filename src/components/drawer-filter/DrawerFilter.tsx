@@ -174,6 +174,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                                 }
                             />
                             <AllergenSort
+                                widthMenu='399px'
                                 direction='column'
                                 isHiddenMobile
                                 dataTestSwitch='allergens-switcher-filter'

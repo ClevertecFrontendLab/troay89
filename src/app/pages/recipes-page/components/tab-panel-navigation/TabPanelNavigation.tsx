@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
-import dataNavigation from '~/data/dataNavigation';
 import dataPathCategory from '~/data/dataPathCategory';
 import dataRecipes from '~/data/dataRecipes';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import usePathCategoryData from '~/hooks/usePathCategoryData';
 import {
     allergenFilterSelector,
     listCategorySelector,
@@ -17,25 +15,37 @@ import {
     resultSearchSelector,
 } from '~/store/selectors/arrayResultFilterSelector';
 import { setCountCard } from '~/store/slice/countCardActiveTabSlice';
-import { setIndexTab } from '~/store/slice/indexTabsSlice';
-import RecipeType from '~/type/RecipeType';
+import { setActiveSubcategoryId, setIndexTab } from '~/store/slice/indexTabsSlice';
+import { Category } from '~/type/Category';
+import RecipeType, { PaginationMeta } from '~/type/RecipeType';
 
 import styles from './TabPanelNavigation.module.css';
 
-function TabPanelNavigation() {
+type TabPanelNavigationType = {
+    getCategory: Category | undefined;
+    recipes: RecipeType[] | undefined;
+    meta: PaginationMeta | undefined;
+    page: number;
+    onLoadMore: () => void;
+};
+
+function TabPanelNavigation({
+    getCategory,
+    recipes,
+    page,
+    onLoadMore,
+    meta,
+}: TabPanelNavigationType) {
     const tabListRef = useRef<HTMLDivElement | null>(null);
-    const [arrayTabs, setArrayTabs] = useState<string[]>([]);
+    const [arrayTabs, setArrayTabs] = useState<Category[]>([]);
     const [arrayCards, setArrayCards] = useState<RecipeType[][]>([[]]);
     const [activeCardsCount, setActiveCardsCount] = useState<number>(0);
-    const { indexCategory, indexSubcategory, currentIndex, currentIndexButton, category } =
-        useNavigationIndices();
+    const { indexCategory, currentIndex, currentIndexButton } = useNavigationIndices();
     const allergenFilter = useSelector(allergenFilterSelector);
     const listCategory = useSelector(listCategorySelector);
     const listTypeMeats = useSelector(listTypeMeatsSelector);
     const listTypeDishes = useSelector(listTypeDishesSelector);
     const resultSearch = useSelector(resultSearchSelector);
-    const subcategory = Array.from(dataPathCategory.values())[indexCategory][indexSubcategory];
-    const { keysPathCategory } = usePathCategoryData();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -46,13 +56,10 @@ function TabPanelNavigation() {
     }, []);
 
     useEffect(() => {
-        if (currentIndexButton !== undefined) {
-            if (category) {
-                const key = keysPathCategory[currentIndexButton][0];
-                setArrayTabs(dataNavigation[key]);
-            }
+        if (getCategory && getCategory.subCategories) {
+            setArrayTabs(getCategory?.subCategories);
         }
-    }, [category, currentIndexButton, keysPathCategory, setArrayTabs]);
+    }, [getCategory]);
 
     useEffect(() => {
         if (currentIndexButton !== undefined) {
@@ -113,6 +120,10 @@ function TabPanelNavigation() {
         }
     }, [activeCardsCount, arrayCards, currentIndex, dispatch]);
 
+    const handleTabClick = (_id: string) => {
+        dispatch(setActiveSubcategoryId(_id));
+    };
+
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));
     };
@@ -146,50 +157,63 @@ function TabPanelNavigation() {
                                     borderBottom: '2px solid',
                                     borderColor: '#2db100',
                                 }}
-                                to={`/recipes/${category}/${subcategory}`}
+                                onClick={() => handleTabClick(tab._id)}
+                                to={`/recipes/${getCategory?.category}/${tab.category}`}
                             >
-                                {tab}
+                                {tab.title}
                             </Tab>
                         ))}
                     </TabList>
                     <TabPanels>
-                        {arrayCards.map((group, index) => (
-                            <TabPanel className={styles.tab_panel} key={index} px={0} pt={6} pb={4}>
+                        {arrayTabs.map((tab) => (
+                            <TabPanel
+                                className={styles.tab_panel}
+                                key={tab._id}
+                                px={0}
+                                pt={6}
+                                pb={4}
+                            >
                                 <Flex className={styles.container_cards}>
-                                    {group.map(
-                                        (
-                                            {
-                                                id,
-                                                image,
-                                                title,
-                                                description,
-                                                category,
-                                                bookmarks,
-                                                likes,
-                                            },
-                                            i,
-                                        ) => (
-                                            <GeneraCard
-                                                dataTest={`food-card-${i}`}
-                                                dataTestButton={`card-link-${i}`}
-                                                key={id}
-                                                id={id}
-                                                image={image}
-                                                title={title}
-                                                description={description}
-                                                favorites={bookmarks}
-                                                label={category}
-                                                like={likes}
-                                            />
-                                        ),
-                                    )}
+                                    {recipes &&
+                                        recipes.map(
+                                            (
+                                                {
+                                                    _id,
+                                                    image,
+                                                    title,
+                                                    description,
+                                                    categoriesIds,
+                                                    bookmarks,
+                                                    likes,
+                                                },
+                                                i,
+                                            ) => (
+                                                <GeneraCard
+                                                    dataTest={`food-card-${i}`}
+                                                    dataTestButton={`card-link-${i}`}
+                                                    key={_id}
+                                                    _id={_id}
+                                                    image={image}
+                                                    title={title}
+                                                    description={description}
+                                                    favorites={bookmarks}
+                                                    categoriesIds={categoriesIds}
+                                                    like={likes}
+                                                />
+                                            ),
+                                        )}
                                 </Flex>
                             </TabPanel>
                         ))}
+                        ;
                     </TabPanels>
                 </Tabs>
             </Box>
-            <Button className={styles.button}>Загрузить ещё</Button>
+            {meta && page < meta.totalPages && (
+                <Button className={styles.button} onClick={onLoadMore}>
+                    Загрузить ещё
+                </Button>
+            )}
         </Flex>
     );
 }

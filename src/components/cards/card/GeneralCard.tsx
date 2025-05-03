@@ -1,23 +1,26 @@
 import { ButtonGroup, Card, CardHeader, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { fallback } from '~/assets/images/header';
 import FavoriteButton from '~/components/buttons/favorite-button/FavoriteButton';
 import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
 import CardStats from '~/components/card-stats/CardStats';
 import { HighlightText } from '~/components/highlight-text/HighlightText';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
-import useLabelCategory from '~/hooks/useLabelCategory';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
+import { Category } from '~/type/Category';
 
 import styles from './GeneralCard.module.css';
 
 type GeneraCardProps = {
-    id: string;
+    _id: string;
     image: string;
     title: string;
     description: string;
-    label: string[];
+    categoriesIds: string[];
     favorites: number;
     like: number;
     dataTestButton: string;
@@ -25,41 +28,66 @@ type GeneraCardProps = {
 };
 
 function GeneraCard({
-    id,
+    _id,
     image,
     title,
     description,
-    label,
+    categoriesIds,
     favorites,
     like,
     dataTest,
     dataTestButton,
 }: GeneraCardProps) {
-    const { arrayCategory } = useLabelCategory({ categories: label });
+    const categories = useSelector(getArrayCategorySelector);
+    const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
+
+    useEffect(() => {
+        const subcategoryFilter = categories.filter((category) =>
+            categoriesIds.includes(category._id),
+        );
+        const filteredCategories = categories.filter((category) =>
+            subcategoryFilter.some((item) => item.rootCategoryId === category._id),
+        );
+        setCategoriesCard(filteredCategories);
+    }, [categories, categoriesIds]);
     const resultSearch = useSelector(resultSearchSelector);
 
     return (
         <Card className={styles.card_container} data-test-id={dataTest}>
             <Image
                 className={styles.image}
-                src={image}
+                src={`https://training-api.clevertec.ru${image}`}
                 alt={title}
-                loading='lazy'
+                flexShrink={0}
+                background='alpha.200'
+                fallbackSrc={fallback}
                 w={{ base: '158px', bp95: '346px' }}
                 h={{ base: '128px', bp95: '244px' }}
+                objectFit='none'
+                objectPosition='center'
             />
             <Stack className={styles.card_content} gap={0}>
                 <CardHeader className={styles.card_header}>
                     <Flex direction='column' gap='2px' display={{ base: 'none', bp95: 'flex' }}>
-                        <CardStats
-                            label={arrayCategory[0]}
-                            like={like}
-                            favorites={favorites}
-                            yellow
-                        />
-                        {arrayCategory.map(
+                        {categoriesCard.length && (
+                            <CardStats
+                                title={categoriesCard[0].title}
+                                icon={categoriesCard[0].icon}
+                                like={like}
+                                favorites={favorites}
+                                yellow
+                            />
+                        )}
+                        {categoriesCard.map(
                             (item, index) =>
-                                index !== 0 && <LabelTypeFood label={item} key={item} yellow />,
+                                index !== 0 && (
+                                    <LabelTypeFood
+                                        title={item.title}
+                                        icon={item.icon}
+                                        key={item._id}
+                                        yellow
+                                    />
+                                ),
                         )}
                     </Flex>
 
@@ -74,7 +102,11 @@ function GeneraCard({
                     </Text>
                     <ButtonGroup className={styles.card_footer}>
                         <FavoriteButton />
-                        <SimpleButton id={id} dataTestButton={dataTestButton} />
+                        <SimpleButton
+                            _id={_id}
+                            dataTestButton={dataTestButton}
+                            titleRecipe={title}
+                        />
                     </ButtonGroup>
                 </Flex>
             </Stack>
@@ -86,8 +118,14 @@ function GeneraCard({
                 left='8px'
                 display={{ base: 'flex', bp95: 'none' }}
             >
-                {arrayCategory.map((item) => (
-                    <LabelTypeFood key={item} label={item} yellow isMobile />
+                {categoriesCard.map((item) => (
+                    <LabelTypeFood
+                        key={item._id}
+                        title={item.title}
+                        icon={item.icon}
+                        yellow
+                        isMobile
+                    />
                 ))}
             </Flex>
         </Card>

@@ -17,7 +17,7 @@ function FilterSortBlock({ filterSearchRecipes }: FilterSearchBlockProps) {
                     ({ id, image, title, description, category, bookmarks, likes }, index) => (
                         <GeneraCard
                             key={id}
-                            id={id}
+                            _id={id}
                             image={image}
                             title={title}
                             description={description}

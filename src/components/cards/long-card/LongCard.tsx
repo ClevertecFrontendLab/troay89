@@ -1,14 +1,17 @@
 import { Button, Card, Flex, Heading, Image } from '@chakra-ui/react';
 
-import CardLongProps from '~/type/cardLongCardProps';
-
 import styles from './LongCard.module.css';
 
-function LongCard({ image, title }: CardLongProps) {
+type LongCard = {
+    title: string;
+    image: string | undefined;
+};
+
+function LongCard({ image, title }: LongCard) {
     return (
         <Card className={styles.container}>
             <Flex className={styles.title_container}>
-                <Image className={styles.image} src={image} />
+                <Image className={styles.image} src={`https://training-api.clevertec.ru${image}`} />
                 <Heading
                     className={styles.title}
                     as='h3'

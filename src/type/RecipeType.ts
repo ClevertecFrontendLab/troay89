@@ -18,22 +18,37 @@ export type Step = {
 };
 
 export type RecipeType = {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     category: string[];
     subcategory: string[];
+    categoriesIds: string[];
     image: string;
+    views: number;
     bookmarks: number;
     likes: number;
-    date: string;
+    createdAt: string;
     time: string;
     portions: number;
+    authorId: string;
     nutritionValue: NutritionValue;
     ingredients: Ingredient[];
     steps: Step[];
     meat: string;
-    side: string;
+    garnish: string;
 };
 
 export default RecipeType;
+
+export type PaginationMeta = {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+};
+
+export type RecipeTypeResponse = {
+    data: RecipeType[];
+    meta: PaginationMeta;
+};

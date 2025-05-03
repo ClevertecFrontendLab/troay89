@@ -1,30 +1,34 @@
-import { AccordionButton, AccordionIcon, Box } from '@chakra-ui/react';
+import { AccordionButton, AccordionIcon, Box, useAccordionItemState } from '@chakra-ui/react';
 import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
-import dataCategoryIcons from '~/data/dataCategoryIcons';
-import usePathCategoryData from '~/hooks/usePathCategoryData';
 import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
-import { setIndexTab } from '~/store/slice/indexTabsSlice';
+import { setActiveSubcategoryId, setIndexTab } from '~/store/slice/indexTabsSlice';
+import { Category } from '~/type/Category';
 
 import styles from './ButtonAccordion.module.css';
 
 type ButtonAccordionProps = {
-    category: string;
+    category: Category;
     index: number;
 };
 
 const ButtonAccordion = memo(function ButtonAccordion({ category, index }: ButtonAccordionProps) {
     const dispatch = useDispatch();
-    const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
-    const handleAccordionButtonClick = (index: number) => {
-        dispatch(setIndexTab(0));
-        dispatch(setIndexButton(index));
+    const { isOpen } = useAccordionItemState();
+
+    const handleAccordionButtonClick = async () => {
+        if (!isOpen) {
+            dispatch(setIndexTab(0));
+            dispatch(setIndexButton(index));
+            const subcategory = category.subCategories?.[0]?._id;
+            if (!subcategory) return;
+            dispatch(setActiveSubcategoryId(subcategory));
+        }
     };
 
-    const pathCategory = keysPathCategory[index][1];
-    const pathSubcategory = valuesPathCategory[index][0];
+    const pathSubcategory = category.subCategories && category.subCategories[0].category;
 
     return (
         <AccordionButton
@@ -35,19 +39,21 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
                 fontWeight: 700,
             }}
             as={RouterLink}
-            to={`/recipes/${pathCategory}/${pathSubcategory}`}
-            onClick={() => handleAccordionButtonClick(index)}
-            data-test-id={`${pathCategory}-cuisine`}
+            to={`/recipes/${category.category}/${pathSubcategory}`}
+            onClick={() => handleAccordionButtonClick()}
+            data-test-id={`${category.category}-cuisine`}
         >
             <Box className={styles.item_menu} flex='1' textAlign='left'>
-                {dataCategoryIcons[category] && (
-                    <img
-                        src={dataCategoryIcons[category]}
-                        alt={`${category} icon`}
-                        className={styles.icon}
-                    />
-                )}
-                <span className={styles.title_nav}>{category}</span>
+                <img
+                    src={
+                        category.icon?.startsWith('/media/i')
+                            ? `https://training-api.clevertec.ru${category.icon}`
+                            : category.icon
+                    }
+                    alt={`${category.title} icon`}
+                    className={styles.icon}
+                />
+                <span className={styles.title_nav}>{category.title}</span>
             </Box>
             <AccordionIcon className={styles.accordion_icon} boxSize={7} />
         </AccordionButton>

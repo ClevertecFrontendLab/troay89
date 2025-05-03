@@ -1,13 +1,13 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router';
 
 import BreadIcon from '~/components/icons/BreadIcon';
-import dataNavigation from '~/data/dataNavigation';
-import dataRecipes from '~/data/dataRecipes';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import usePathCategoryData from '~/hooks/usePathCategoryData';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { nameRecipeSelector } from '~/store/selectors/indexTabsSelector';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 
 import styles from './Bread.module.css';
@@ -20,15 +20,20 @@ type BreadProps = Partial<{
 
 function Bread({ isMobile, onClose }: BreadProps) {
     const dispatch = useDispatch();
-    const { indexCategory, indexSubcategory, idRecipe } = useNavigationIndices();
-    const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
+    const { indexCategory, indexSubcategory } = useNavigationIndices();
+    const titleRecipe = useSelector(nameRecipeSelector);
     const location = useLocation();
-    const category = Object.keys(dataNavigation)[indexCategory];
-    const subcategory = dataNavigation[category][indexSubcategory];
-    const titleRecipe = dataRecipes.find((recipe) => recipe.id === idRecipe)?.title;
-    const pathCategory = keysPathCategory[indexCategory][1];
-    const pathSubcategory = valuesPathCategory[indexCategory][indexSubcategory];
-    const pathFirstSubcategory = valuesPathCategory[indexCategory][0];
+    const categories = useSelector(getArrayCategorySelector);
+    const categoriesFilter = useMemo(
+        () => categories.filter((cat) => cat.subCategories !== undefined),
+        [categories],
+    );
+    const activeCategory = categoriesFilter[indexCategory];
+    const titleCategory = activeCategory.title;
+    const titleSubcategory = activeCategory?.subCategories?.[indexSubcategory].title;
+    const pathCategory = activeCategory.category;
+    const pathSubcategory = activeCategory?.subCategories?.[indexSubcategory].category;
+    const pathFirstSubcategory = activeCategory?.subCategories?.[0]?.category;
 
     const handleCrumbLink = () => {
         dispatch(setIndexTab(0));
@@ -36,8 +41,8 @@ function Bread({ isMobile, onClose }: BreadProps) {
 
     const breadcrumbs = getBreadcrumbs(
         location.pathname,
-        category,
-        subcategory,
+        titleCategory,
+        titleSubcategory,
         titleRecipe,
         pathCategory,
         pathSubcategory,

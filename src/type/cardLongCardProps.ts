@@ -1,5 +1,5 @@
 type CardLongProps = {
-    image: string;
+    image: string | undefined;
     title: string;
 };
 

@@ -11,6 +11,7 @@ type AllergenSortProps = {
     isHiddenMobile?: boolean;
     dataTestSwitch: string;
     dataTest: string;
+    widthMenu?: string;
 };
 
 function AllergenSort({
@@ -18,6 +19,7 @@ function AllergenSort({
     dataTestSwitch,
     dataTest,
     direction = 'row',
+    widthMenu = '234px',
 }: AllergenSortProps) {
     const [isDisable, setDisable] = useState(false);
 
@@ -39,7 +41,7 @@ function AllergenSort({
                 />
             </FormControl>
             <MultiSelect
-                widthMenu='234px'
+                widthMenu={widthMenu}
                 textPlaceHolder={
                     direction === 'row'
                         ? 'Выберите из списка...'

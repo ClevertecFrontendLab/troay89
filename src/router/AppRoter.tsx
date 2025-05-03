@@ -14,8 +14,14 @@ const paths = {
     main: {
         path: '/',
     },
+    mainAboutRecipe: {
+        path: '/:id',
+    },
     juicy: {
         path: '/the-juiciest',
+    },
+    juicyAboutRecipe: {
+        path: '/the-juiciest/:id',
     },
     recipes: {
         path: '/recipes/:category/:subcategories',
@@ -33,6 +39,8 @@ const allRoutes: RouteObject = {
         { path: paths.juicy.path, element: <JuicyPage /> },
         { path: paths.recipes.path, element: <RecipesPage /> },
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
+        { path: paths.mainAboutRecipe.path, element: <AboutRecipePage /> },
+        { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
     ],
 };
 

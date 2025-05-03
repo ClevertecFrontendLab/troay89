@@ -1,28 +1,29 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { apiSlice } from '~/query/create-api';
-
-import appReducer, { appSlice } from './slice/app-slice';
+import { appSlice } from './slice/app-slice';
+import getArrayCategoryReducer from './slice/arrayCategory';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
 import countCardActiveTabReducer from './slice/countCardActiveTabSlice';
+import getFirstCardTabReducer from './slice/getFirstCardTabSlice';
 import headerZIndexReducer from './slice/headerZIndex';
 import indexNavigationButtonReducer from './slice/indexNavigationButtonSlice';
 import indexTabsReducer from './slice/indexTabsSlice';
 
 const isProduction = false;
 const rootReducer = combineReducers({
-    [appSlice.name]: appReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    [appSlice.reducerPath]: appSlice.reducer,
     indexTabs: indexTabsReducer,
     indexNavigationButton: indexNavigationButtonReducer,
     arrayResultFilter: arrayResultFilterReducer,
     headerZIndex: headerZIndexReducer,
     countCardActiveTab: countCardActiveTabReducer,
+    setArrayCategory: getArrayCategoryReducer,
+    getFirstCardTab: getFirstCardTabReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(appSlice.middleware),
     devTools: !isProduction,
 });

@@ -1,5 +1,11 @@
 import { Grid, GridItem, useMediaQuery } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router';
+
+import dataNavigation from '~/data/dataNavigation';
+import { useGetCategoriesQuery } from '~/store/slice/app-slice';
+import { setArrayCategory } from '~/store/slice/arrayCategory';
 
 import AccordionMenu from './components/accordion/AccordionMenu';
 import RightAside from './components/aside/RightAside';
@@ -10,6 +16,18 @@ import styles from './Layout.module.css';
 
 function Layout() {
     const [isDesktop] = useMediaQuery('(min-width: 1440px)');
+    const dispatch = useDispatch();
+
+    const { data, error, isLoading } = useGetCategoriesQuery();
+
+    useEffect(() => {
+        if (isLoading || error) {
+            dispatch(setArrayCategory(dataNavigation));
+        } else if (isLoading === false && error === undefined && data !== undefined) {
+            dispatch(setArrayCategory(data));
+        }
+    }, [data, dispatch, error, isLoading]);
+
     return (
         <Grid className={styles.main_container}>
             <Header />

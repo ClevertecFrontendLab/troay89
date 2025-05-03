@@ -1,31 +1,27 @@
 import { Button } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 
 import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
-import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
-import { setIndexRecipe, setIndexTab } from '~/store/slice/indexTabsSlice';
+import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexTabsSlice';
 
 import styled from './SimpleButton.module.css';
 
 type SimpleButtonProps = {
-    id: string;
+    _id: string;
+    titleRecipe: string;
     dataTestButton: string;
 };
 
-function SimpleButton({ id, dataTestButton }: SimpleButtonProps) {
+function SimpleButton({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) {
     const dispatch = useDispatch();
 
-    const { indexSubCat, indexCat, firstLink, secondLink, subcategories } = useCreateLinkCard({
-        id: id,
-    });
+    const { secondLink, subcategories } = useCreateLinkCard({ id: _id });
+    const location = useLocation();
 
     function handlingClick() {
-        dispatch(setIndexRecipe(id));
-        if (subcategories === undefined) {
-            dispatch(setIndexButton(indexCat));
-            dispatch(setIndexTab(indexSubCat));
-        }
+        dispatch(setIndexRecipe(_id));
+        dispatch(setNameRecipe(titleRecipe));
     }
 
     return (
@@ -39,7 +35,11 @@ function SimpleButton({ id, dataTestButton }: SimpleButtonProps) {
             px={{ bp95: '13px', base: 2 }}
             h={{ bp95: 8, base: 6 }}
             as={Link}
-            to={subcategories === undefined ? firstLink : secondLink}
+            to={
+                subcategories === undefined
+                    ? `${location.pathname.startsWith('/the-juiciest') ? location.pathname.replace(/\/$/, '') : '/the-juiciest'}/${_id}`
+                    : secondLink
+            }
             onClick={handlingClick}
         >
             Готовить

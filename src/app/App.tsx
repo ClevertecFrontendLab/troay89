@@ -16,6 +16,7 @@ const customBreakpoints = {
 const alphaColors = {
     50: 'rgba(0, 0, 0, 0.04)',
     100: 'rgba(0, 0, 0, 0.06)',
+    200: 'rgba(0, 0, 0, 0.08)',
     300: 'rgba(0, 0, 0, 0.16)',
     400: 'rgba(0, 0, 0, 0.24)',
     600: 'rgba(0, 0, 0, 0.48)',
@@ -24,6 +25,7 @@ const alphaColors = {
 };
 
 const limeColors = {
+    300: '#c4ff61',
     400: '#b1ff2e',
     600: '#2db100',
 };

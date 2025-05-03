@@ -1,0 +1,36 @@
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton } from '@chakra-ui/react';
+
+import styles from './ErrorModal.module.css';
+
+type ErrorModalType = {
+    onClose: () => void;
+};
+
+export const ErrorModal = ({ onClose }: ErrorModalType) => (
+    <Alert
+        status='error'
+        w={{ base: '328px', bp95: '400px' }}
+        justifyContent='space-between'
+        background='red.500'
+        position='fixed'
+        bottom='80px'
+        left='50%'
+        ml={{ base: '-164px', bp95: '-200px' }}
+    >
+        <AlertIcon color='white' />
+        <Box>
+            <AlertTitle className={styles.title}>Ошибка сервера</AlertTitle>
+            <AlertDescription className={styles.message}>
+                Попробуйте поискать снова попозже{' '}
+            </AlertDescription>
+        </Box>
+        <CloseButton
+            color='white'
+            alignSelf='flex-start'
+            position='relative'
+            right='-14px'
+            top='-10px'
+            onClick={onClose}
+        />
+    </Alert>
+);

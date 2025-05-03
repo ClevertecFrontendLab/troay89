@@ -1,32 +1,76 @@
 import { Box, Divider, Flex, Heading } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 
 import GreenButton from '~/components/buttons/green-button/GreenButton';
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import LastBlock from '~/components/last-block/LastBlock';
+import { Overlay } from '~/components/overlay/Overlay';
 import SwipeSlider from '~/components/swipe-slider/SwipeSlider';
 import Toolbar from '~/components/toolbar/Toolbar';
-import dataLongCard from '~/data/dataLongCardMain';
-import dataSimpleCard from '~/data/dataSimpleCard';
+import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useGetRecipesQuery } from '~/store/slice/app-slice';
 
 import AuthorBlock from './components/author-block/AuthorBlock';
 import JuicyBlock from './components/juicy-block/JuicyBlock';
 import styles from './MaingPage.module.css';
 
 function MainPage() {
-    const text =
-        'Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.';
     const { shouldShowFilterResults, recipesFilter } = useShouldShowFilterResults();
+    const {
+        data: juicyData,
+        error: juiceError,
+        isLoading: isJuiceLoading,
+        isFetching: isJuiceFetching,
+    } = useGetRecipesQuery({ limit: 4, sortBy: 'likes', sortOrder: 'desc' });
+    const {
+        data: swiperData,
+        error: swiperError,
+        isLoading: isSwiperLoading,
+        isFetching: isSwiperFetching,
+    } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'asc' });
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 13));
+    const {
+        randomCategory,
+        lastBlockData,
+        isLastBlockLoading,
+        isLastBlockFetching,
+        errorLastBlock,
+    } = useGetRandomDataCategory(randomNumber);
+
+    const isPending =
+        isJuiceLoading ||
+        isJuiceFetching ||
+        isSwiperLoading ||
+        isSwiperFetching ||
+        isLastBlockLoading ||
+        isLastBlockFetching;
+
+    const hasError = juiceError || swiperError || errorLastBlock;
+
+    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
+
+    useEffect(() => {
+        setIsErrorOpen(!!hasError);
+    }, [hasError]);
+
+    if (isPending) {
+        return <Overlay />;
+    }
+
     return (
         <>
             <Toolbar title='Приятного аппетита!' isExtraSpace />
-            {shouldShowFilterResults ? (
+            {isErrorOpen ? (
+                <ErrorModal onClose={() => setIsErrorOpen(false)} />
+            ) : shouldShowFilterResults && !hasError ? (
                 <Box px={{ base: 4, bp76: 0 }}>
                     <Heading className={styles.subtitle} as='h2'>
                         Новые рецепты
                     </Heading>
-                    <SwipeSlider />
+                    <SwipeSlider swipeData={swiperData?.data} />
                     <Flex className={styles.subtitle_container}>
                         <Heading className={styles.subtitle} as='h2'>
                             Самое сочное
@@ -39,7 +83,7 @@ function MainPage() {
                             <GreenButton text='Вся подборка' />
                         </Link>
                     </Flex>
-                    <JuicyBlock />
+                    <JuicyBlock juicyData={juicyData?.data} />
                     <Link
                         className={styles.button_mobile}
                         to='/the-juiciest'
@@ -50,15 +94,12 @@ function MainPage() {
                     <AuthorBlock />
                     <Divider />
                     <LastBlock
-                        title='Веганская кухня'
-                        text={text}
-                        simpleCardArray={dataSimpleCard}
-                        longCardArray={dataLongCard}
-                        isChangeTable
+                        randomCategory={randomCategory}
+                        lastBlockData={lastBlockData?.data}
                     />
                 </Box>
             ) : (
-                <FilterSortBlock filterSearchRecipes={recipesFilter} />
+                !hasError && <FilterSortBlock filterSearchRecipes={recipesFilter} />
             )}
         </>
     );

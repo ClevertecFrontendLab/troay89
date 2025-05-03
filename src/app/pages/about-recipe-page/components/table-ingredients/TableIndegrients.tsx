@@ -15,39 +15,38 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import UpDown from '~/components/icons/UpDown';
-import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import { Ingredient } from '~/type/RecipeType';
 
 import styles from './TableIndegrients.module.css';
 
-function TableIngredients() {
-    const { recipe } = useNavigationIndices();
+type TableIngredients = {
+    portions: number;
+    ingredients: Ingredient[];
+};
 
+function TableIngredients({ portions, ingredients }: TableIngredients) {
     const [countPortion, setCountPortion] = useState(1);
-    const [originalPortions, setOriginalPortions] = useState(recipe?.portions || 1);
-    const [arrayIngredients, setArrayIngredients] = useState(recipe?.ingredients);
+    const [originalPortions, setOriginalPortions] = useState(portions);
+    const [arrayIngredients, setArrayIngredients] = useState(ingredients);
     const handleChangePortion = (event: ChangeEvent<HTMLInputElement>) =>
         setCountPortion(+event.target.value);
     const handleChangeClickUp = () => setCountPortion((value) => value + 1);
     const handleChangeClickDown = () => setCountPortion((value) => (value > 1 ? value - 1 : value));
 
     useEffect(() => {
-        if (recipe !== undefined) {
-            setCountPortion(recipe.portions);
-            setOriginalPortions(recipe.portions);
-        }
-    }, [recipe]);
+        setCountPortion(portions);
+        setOriginalPortions(portions);
+    }, [portions]);
 
     useEffect(() => {
-        if (recipe !== undefined) {
-            setArrayIngredients(
-                recipe.ingredients.map(({ title, count, measureUnit }) => ({
-                    title,
-                    count: ((+count / originalPortions) * countPortion).toString(),
-                    measureUnit,
-                })),
-            );
-        }
-    }, [countPortion, originalPortions, recipe]);
+        setArrayIngredients(
+            ingredients.map(({ title, count, measureUnit }) => ({
+                title,
+                count: ((+count / originalPortions) * countPortion).toString(),
+                measureUnit,
+            })),
+        );
+    }, [countPortion, ingredients, originalPortions]);
 
     return (
         <TableContainer

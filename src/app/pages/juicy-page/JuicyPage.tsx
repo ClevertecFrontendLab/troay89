@@ -1,36 +1,98 @@
 import { Box, Divider } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
+import LastBlock from '~/components/last-block/LastBlock';
+import { Overlay } from '~/components/overlay/Overlay';
 import Toolbar from '~/components/toolbar/Toolbar';
-import dataLongCard from '~/data/dataLongCardMain';
-import dataSimpleCard from '~/data/dataSimpleCard';
+import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import RecipeType from '~/type/RecipeType';
 
-import LastBlock from '../../../components/last-block/LastBlock';
 import MainBlock from './components/main-block/MainBlock';
 
 function JuicyPage() {
-    const text =
-        'Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.';
+    const [page, setPage] = useState(1);
+    const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const { shouldShowFilterResults, recipesFilter } = useShouldShowFilterResults();
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 13));
+
+    const {
+        data: juicyData,
+        error: juiceError,
+        isLoading: isJuiceLoading,
+    } = useGetRecipesQuery({
+        page,
+        limit: 8,
+        sortBy: 'likes',
+        sortOrder: 'desc',
+    });
+
+    const {
+        randomCategory,
+        lastBlockData,
+        isLastBlockLoading,
+        isLastBlockFetching,
+        errorLastBlock,
+    } = useGetRandomDataCategory(randomNumber);
+
+    useEffect(() => {
+        if (juicyData) {
+            if (page === 1) {
+                setRecipes(juicyData.data);
+            } else {
+                setRecipes((prev) => {
+                    const existingIds = new Set(prev.map((recipe) => recipe._id));
+                    const newRecipes = juicyData.data.filter(
+                        (recipe) => !existingIds.has(recipe._id),
+                    );
+                    return [...prev, ...newRecipes];
+                });
+            }
+        }
+    }, [juicyData, page]);
+
+    const hasError = juiceError || errorLastBlock;
+
+    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
+
+    useEffect(() => {
+        setIsErrorOpen(!!hasError);
+    }, [hasError]);
+
+    const handleLoadMore = () => {
+        setPage((prev) => prev + 1);
+    };
+
+    const isPending = isJuiceLoading || isLastBlockLoading || isLastBlockFetching;
+
+    if (isPending) {
+        return <Overlay />;
+    }
 
     return (
         <>
             <Toolbar title='Самое сочное' />
-            {shouldShowFilterResults ? (
+            {isErrorOpen ? (
+                <ErrorModal onClose={() => setIsErrorOpen(false)} />
+            ) : shouldShowFilterResults && !hasError ? (
                 <Box px={{ base: 4, bp76: 0 }}>
-                    <MainBlock />
+                    <MainBlock
+                        recipes={recipes}
+                        page={page}
+                        meta={juicyData?.meta}
+                        onLoadMore={handleLoadMore}
+                    />
                     <Divider />
                     <LastBlock
-                        title='Веганская кухня'
-                        text={text}
-                        simpleCardArray={dataSimpleCard}
-                        longCardArray={dataLongCard}
-                        isChangeTable
+                        randomCategory={randomCategory}
+                        lastBlockData={lastBlockData?.data}
                     />
                 </Box>
             ) : (
-                <FilterSortBlock filterSearchRecipes={recipesFilter} />
+                !hasError && <FilterSortBlock filterSearchRecipes={recipesFilter} />
             )}
         </>
     );

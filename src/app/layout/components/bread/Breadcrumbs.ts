@@ -1,5 +1,5 @@
 type Breadcrumb = {
-    title: string;
+    title: string | undefined;
     link?: string;
     onClick?: () => void;
 };
@@ -7,11 +7,11 @@ type Breadcrumb = {
 export function getBreadcrumbs(
     pathname: string,
     category: string,
-    subcategory: string,
-    titleRecipe: string | undefined,
+    subcategory: string | undefined,
+    titleRecipe: string | null,
     pathCategory: string,
-    pathSubcategory: string,
-    pathFirstSubcategory: string,
+    pathSubcategory: string | undefined,
+    pathFirstSubcategory: string | undefined,
     handleCrumbLink: () => void,
 ) {
     let breadcrumbs: Breadcrumb[] = [];
@@ -20,6 +20,16 @@ export function getBreadcrumbs(
         breadcrumbs = [{ title: 'Главная', link: '/' }];
     } else if (pathname === '/the-juiciest') {
         breadcrumbs = [{ title: 'Главная', link: '/' }, { title: 'Самое сочное' }];
+    } else if (pathname.startsWith('/the-juiciest/')) {
+        const pathParts = pathname.split('/').filter(Boolean);
+
+        if (pathParts.length === 2) {
+            breadcrumbs = [
+                { title: 'Главная', link: '/' },
+                { title: 'Самое сочное', link: '/the-juiciest' },
+                { title: titleRecipe ?? '' },
+            ];
+        }
     } else if (pathname.startsWith('/recipes')) {
         const pathParts = pathname.split('/').filter(Boolean);
 

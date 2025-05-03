@@ -1,25 +1,61 @@
 import { Box, Button, Flex, Heading, Icon, Image, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
+import { fallback } from '~/assets/images/header';
 import BookMark from '~/components/icons/BookMark';
 import Clock from '~/components/icons/Clock';
 import EmojiHeart from '~/components/icons/EmojiHeart';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
-import useLabelCategory from '~/hooks/useLabelCategory';
-import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { Category } from '~/type/Category';
 
 import styles from './CardAboutRecipe.module.css';
 
-function CardAboutRecipe() {
-    const { recipe } = useNavigationIndices();
-    const { arrayCategory } = useLabelCategory({ categories: recipe ? recipe?.category : [] });
-    if (recipe === undefined) {
-        return;
-    }
+type CardAboutRecipe = {
+    title: string;
+    categoriesIds: string[];
+    image: string;
+    bookmarks: number;
+    likes: number;
+    description: string;
+    time: string;
+};
+
+function CardAboutRecipe({
+    title,
+    image,
+    bookmarks,
+    likes,
+    description,
+    time,
+    categoriesIds,
+}: CardAboutRecipe) {
+    const categories = useSelector(getArrayCategorySelector);
+    const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
+
+    useEffect(() => {
+        const subcategoryFilter = categories.filter((category) =>
+            categoriesIds.includes(category._id),
+        );
+        const filteredCategories = categories.filter((category) =>
+            subcategoryFilter.some((item) => item.rootCategoryId === category._id),
+        );
+        setCategoriesCard(filteredCategories);
+    }, [categories, categoriesIds]);
 
     return (
         <Flex className={styles.container} mt={{ base: 4, bp95: 14 }} mb={{ base: 6, bp95: 10 }}>
-            <Image className={styles.image} src={recipe.image} alt={recipe.title} />
+            <Image
+                className={styles.image}
+                src={`https://training-api.clevertec.ru${image}`}
+                alt={title}
+                background='alpha.200'
+                fallbackSrc={fallback}
+                objectFit='none'
+                objectPosition='center'
+            />
             <Flex
                 direction='column'
                 pl={{ base: 0, bp76: 4, bp95: 6 }}
@@ -28,14 +64,19 @@ function CardAboutRecipe() {
             >
                 <Flex gap={5} justify='space-between' alignItems='flex-start'>
                     <Flex rowGap='8px' columnGap={{ base: '9px', bp160: '17px' }} flexWrap='wrap'>
-                        {arrayCategory.map((category) => (
-                            <LabelTypeFood key={category} label={category} yellow />
+                        {categoriesCard.map((item) => (
+                            <LabelTypeFood
+                                title={item.title}
+                                icon={item.icon}
+                                key={item._id}
+                                yellow
+                            />
                         ))}
                     </Flex>
                     <Box py={{ base: '4px', bp160: '6px' }} pr={{ base: 0, bp160: '8px' }}>
                         <StatsForCard
-                            favorites={recipe.bookmarks}
-                            like={recipe.likes}
+                            favorites={bookmarks}
+                            like={likes}
                             isForAboutRecipe
                             size='14px'
                             gapContainer='33px'
@@ -44,9 +85,9 @@ function CardAboutRecipe() {
                     </Box>
                 </Flex>
                 <Heading className={styles.title} as='h1'>
-                    {recipe.title}
+                    {title}
                 </Heading>
-                <Text className={styles.description}>{recipe.description}</Text>
+                <Text className={styles.description}>{description}</Text>
                 <Flex
                     className={styles.bottom}
                     mt='auto'
@@ -63,7 +104,7 @@ function CardAboutRecipe() {
                         gap='8px'
                     >
                         <Icon as={Clock} />
-                        <Text className={styles.clock_text}>{recipe.time}</Text>
+                        <Text className={styles.clock_text}>{time}</Text>
                     </Flex>
                     <Flex className={styles.group_button} gap={{ base: '12px', bp160: '16px' }}>
                         <Button
