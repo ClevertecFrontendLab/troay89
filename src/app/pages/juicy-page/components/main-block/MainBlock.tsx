@@ -42,6 +42,7 @@ function MainBlock({ recipes, meta, page, onLoadMore }: MainBlockType) {
                     colorScheme='teal'
                     px='17.5px'
                     onClick={onLoadMore}
+                    data-test-id='load-more-button'
                 >
                     Загрузить еще
                 </Button>

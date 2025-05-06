@@ -45,7 +45,7 @@ function Toolbar({ title, description, isExtraSpace }: ToolbarProps) {
                     justify='center'
                     background='radial-gradient(50% 50% at 50% 50%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%);'
                 >
-                    <Spinner />
+                    <Spinner data-test-id='loader-search-block' />
                 </Flex>
             ) : (
                 <>

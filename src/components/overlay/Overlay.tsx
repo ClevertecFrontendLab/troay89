@@ -17,6 +17,6 @@ export const Overlay = () => (
         zIndex={2000}
         background='radial-gradient(circle at 50% 50%, #c4ff61 0%, rgba(255, 255, 255, 0) 3%)'
     >
-        <Spinner />
+        <Spinner data-test-id='app-loader' />
     </Box>
 );

@@ -38,6 +38,7 @@ function FilterSortBlock({ filterSearchRecipes, meta, page, onLoadMore }: Filter
             </Flex>
             {meta && page < meta.totalPages && (
                 <Button
+                    data-test-id='load-more-button'
                     className={styles.button}
                     colorScheme='teal'
                     px='17.5px'

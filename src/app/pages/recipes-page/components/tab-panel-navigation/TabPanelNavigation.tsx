@@ -176,7 +176,11 @@ function TabPanelNavigation({
                 </Tabs>
             </Box>
             {meta && page < meta.totalPages && shouldShowFilterResults && (
-                <Button className={styles.button} onClick={onLoadMore}>
+                <Button
+                    className={styles.button}
+                    data-test-id='load-more-button'
+                    onClick={onLoadMore}
+                >
                     Загрузить ещё
                 </Button>
             )}

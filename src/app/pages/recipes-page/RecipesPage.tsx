@@ -9,7 +9,7 @@ import Toolbar from '~/components/toolbar/Toolbar';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { ApplicationState } from '~/store/configure-store';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { useLazyGetRecipesQuery } from '~/store/slice/app-slice';
+import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
 import { setIndexTab } from '~/store/slice/indexTabsSlice';
 import { Category } from '~/type/Category';
 import RecipeType from '~/type/RecipeType';
@@ -23,7 +23,7 @@ function RecipesPage() {
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [page, setPage] = useState(1);
     const { category, subcategories } = useParams();
-    const [trigger, { data, error }] = useLazyGetRecipesQuery();
+    const [trigger, { data, error }] = useLazyGetRecipeByCategoryQuery();
     const { randomCategory, lastBlockData, errorLastBlock } =
         useGetRandomDataCategory(randomNumber);
     const activeSubcategoryId = useSelector(
@@ -73,11 +73,9 @@ function RecipesPage() {
 
     useEffect(() => {
         if (subcategoryFind?._id) {
-            console.log(subcategoryFind, 'subcategoryFind2');
             const subcategoryId = activeSubcategoryId || subcategoryFind._id;
-            console.log(subcategoryId, 'subcategoryId');
             if (subcategoryId) {
-                trigger({ limit: 4, page, subcategoriesIds: subcategoryId });
+                trigger({ page, limit: 4, id: subcategoryId });
             }
         }
     }, [subcategoryFind?._id, page, trigger]);

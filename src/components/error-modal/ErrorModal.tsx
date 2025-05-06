@@ -17,6 +17,7 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
         left='50%'
         ml={{ base: '-164px', bp95: '-200px' }}
         zIndex={20}
+        data-test-id='error-notification'
     >
         <AlertIcon color='white' />
         <Box>
@@ -32,6 +33,7 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
             right='-14px'
             top='-10px'
             onClick={onClose}
+            data-test-id='close-alert-button'
         />
     </Alert>
 );

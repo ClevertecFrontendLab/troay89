@@ -15,6 +15,14 @@ type RecipesQueryParams = {
     garnish?: string;
 };
 
+type RecipesCategoryQueryParams = {
+    id: string;
+    page?: number;
+    limit?: number;
+    allergens?: string;
+    searchString?: string;
+};
+
 type CategoryPath = {
     id: string | undefined;
 };
@@ -33,6 +41,27 @@ export const appSlice = createApi({
         }),
         getRecipe: build.query<RecipeType, CategoryPath>({
             query: ({ id }) => `recipe/${id}`,
+        }),
+        getRecipeByCategory: build.query<RecipeTypeResponse, RecipesCategoryQueryParams>({
+            query: ({ id, page, limit, allergens, searchString }) => {
+                const params = new URLSearchParams();
+
+                if (limit !== undefined) {
+                    params.append('limit', String(limit));
+                }
+                if (page !== undefined) {
+                    params.append('page', String(page));
+                }
+                if (allergens) {
+                    params.append('allergens', allergens);
+                }
+                if (searchString) {
+                    params.append('searchString', searchString);
+                }
+
+                const queryString = params.toString() ? `?${params.toString()}` : '';
+                return `recipe/category/${id}${queryString}`;
+            },
         }),
         getRecipes: build.query<RecipeTypeResponse, RecipesQueryParams>({
             query: ({
@@ -85,4 +114,5 @@ export const {
     useLazyGetRecipesQuery,
     useGetRecipeQuery,
     useLazyGetRecipeQuery,
+    useLazyGetRecipeByCategoryQuery,
 } = appSlice;

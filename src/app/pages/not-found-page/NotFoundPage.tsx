@@ -25,7 +25,12 @@ export const NotFoundPage = () => (
         </Text>
         <Text className={styles.text}>
             Можете поискать другой рецепт{' '}
-            <Link as={RouterLink} to='/' textDecoration='underline'>
+            <Link
+                data-test-id='error-page-go-home'
+                as={RouterLink}
+                to='/'
+                textDecoration='underline'
+            >
                 здесь
             </Link>
         </Text>
