@@ -16,7 +16,7 @@ type RecipesQueryParams = {
 };
 
 type RecipesCategoryQueryParams = {
-    id: string;
+    id: string | undefined;
     page?: number;
     limit?: number;
     allergens?: string;
@@ -114,5 +114,6 @@ export const {
     useLazyGetRecipesQuery,
     useGetRecipeQuery,
     useLazyGetRecipeQuery,
+    useGetRecipeByCategoryQuery,
     useLazyGetRecipeByCategoryQuery,
 } = appSlice;

@@ -2,35 +2,37 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import { useGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
 
 export function useGetRandomDataCategory(randomNumber: number) {
     const category = useSelector(getArrayCategorySelector);
-    const categoriesFilter = useMemo(
-        () => category.filter((cat) => cat.subCategories !== undefined),
+
+    const categoriesFilter = useMemo(() => category.filter((cat) => cat.subCategories), [category]);
+    const subcategoriesFilter = useMemo(
+        () => category.filter((cat) => !cat.subCategories),
         [category],
     );
 
-    const randomCategory = useMemo(() => {
-        if (categoriesFilter.length === 0) return null;
-        return categoriesFilter[randomNumber];
-    }, [categoriesFilter, randomNumber]);
-
-    const subcategoriesIds = useMemo(() => {
-        if (randomCategory?.subCategories) {
-            return randomCategory.subCategories.map((sub) => sub._id).join(',');
+    const randomSubcategory = useMemo(() => {
+        if (subcategoriesFilter.length !== 0) {
+            return subcategoriesFilter[randomNumber];
         }
-        return null;
-    }, [randomCategory]);
+    }, [subcategoriesFilter, randomNumber]);
+
+    const randomCategory = useMemo(
+        () =>
+            categoriesFilter.find((category) => category._id === randomSubcategory?.rootCategoryId),
+        [categoriesFilter, randomSubcategory?.rootCategoryId],
+    );
 
     const {
         data: lastBlockData,
         isLoading: isLastBlockLoading,
         error: errorLastBlock,
         isFetching: isLastBlockFetching,
-    } = useGetRecipesQuery(
-        { limit: 5, subcategoriesIds: subcategoriesIds! },
-        { skip: !subcategoriesIds },
+    } = useGetRecipeByCategoryQuery(
+        { limit: 5, id: randomSubcategory?._id },
+        { skip: !randomSubcategory?._id },
     );
 
     return {

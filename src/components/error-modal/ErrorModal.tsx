@@ -23,7 +23,7 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
         <Box>
             <AlertTitle className={styles.title}>Ошибка сервера</AlertTitle>
             <AlertDescription className={styles.message}>
-                Попробуйте поискать снова попозже{' '}
+                Попробуйте поискать снова попозже
             </AlertDescription>
         </Box>
         <CloseButton

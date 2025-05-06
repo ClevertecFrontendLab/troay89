@@ -42,13 +42,15 @@ function GeneraCard({
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
 
     useEffect(() => {
-        const subcategoryFilter = categories.filter((category) =>
-            categoriesIds.includes(category._id),
-        );
-        const filteredCategories = categories.filter((category) =>
-            subcategoryFilter.some((item) => item.rootCategoryId === category._id),
-        );
-        setCategoriesCard(filteredCategories);
+        if (categoriesIds !== undefined || categoriesIds !== undefined) {
+            const subcategoryFilter = categories.filter((category) =>
+                categoriesIds.includes(category._id),
+            );
+            const filteredCategories = categories.filter((category) =>
+                subcategoryFilter.some((item) => item.rootCategoryId === category._id),
+            );
+            setCategoriesCard(filteredCategories);
+        }
     }, [categories, categoriesIds]);
     const resultSearch = useSelector(resultSearchSelector);
 

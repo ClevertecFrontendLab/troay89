@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, useMediaQuery } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
@@ -30,6 +30,8 @@ function MainPage() {
         handleLoadMoreFilter,
     } = useShouldShowFilterResults();
     const shouldShowOverlay = useSelector(overlayPositionSelector);
+    const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
+    const [isLargerThan1200] = useMediaQuery('(min-width: 1200px)');
     const {
         data: juicyData,
         error: juiceError,
@@ -40,9 +42,15 @@ function MainPage() {
         error: swiperError,
         isFetching: isSwiperFetching,
     } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'asc' });
-    const [randomNumber] = useState(() => Math.floor(Math.random() * 13));
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
     const { randomCategory, lastBlockData, isLastBlockFetching, errorLastBlock } =
         useGetRandomDataCategory(randomNumber);
+
+    const veryHardDataTestId = isLargerThan1200
+        ? 'juiciest-link-mobile'
+        : isLargerThan767
+          ? 'juiciest-link'
+          : 'juiciest-link-mobile';
 
     const isPending =
         (isJuiceFetching || isSwiperFetching || isLastBlockFetching || isFetchingFilterRecipes) &&
@@ -85,7 +93,13 @@ function MainPage() {
                             <Link
                                 className={styles.button_desktop}
                                 to='/the-juiciest'
-                                data-test-id='juiciest-link'
+                                data-test-id={
+                                    isLargerThan1200
+                                        ? 'juiciest-link'
+                                        : isLargerThan767
+                                          ? ''
+                                          : 'juiciest-link'
+                                }
                             >
                                 <GreenButton text='Вся подборка' />
                             </Link>
@@ -94,7 +108,7 @@ function MainPage() {
                         <Link
                             className={styles.button_mobile}
                             to='/the-juiciest'
-                            data-test-id='juiciest-link-mobile'
+                            data-test-id={veryHardDataTestId}
                         >
                             <GreenButton text='Вся подборка' />
                         </Link>

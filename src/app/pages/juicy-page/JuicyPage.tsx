@@ -27,7 +27,7 @@ function JuicyPage() {
         handleLoadMoreFilter,
     } = useShouldShowFilterResults();
 
-    const [randomNumber] = useState(() => Math.floor(Math.random() * 13));
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
 
     const hasErrorFilter = isErrorFilterRecipes;
 

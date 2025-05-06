@@ -19,7 +19,7 @@ import TabPanelNavigation from './components/tab-panel-navigation/TabPanelNaviga
 function RecipesPage() {
     const arrayCategory = useSelector(getArrayCategorySelector);
     const [getCategory, setCategory] = useState<Category | undefined>();
-    const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 13));
+    const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 110));
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [page, setPage] = useState(1);
     const { category, subcategories } = useParams();

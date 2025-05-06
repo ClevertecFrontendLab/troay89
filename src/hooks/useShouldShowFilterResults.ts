@@ -69,6 +69,7 @@ function useShouldShowFilterResults(limit: number = 8) {
                 stringTypeDishes ||
                 stringFilterAllergen ||
                 stringFilterAllergen ||
+                subcategoriesIds ||
                 resultSearch
             ),
         },

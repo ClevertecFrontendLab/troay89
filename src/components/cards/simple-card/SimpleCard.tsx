@@ -11,7 +11,7 @@ type SimpleCardType = {
     description: string;
     bookmarks: number;
     likes: number;
-    category: Category | null;
+    category: Category | undefined;
 };
 
 function SimpleCard({ _id, title, description, category, bookmarks, likes }: SimpleCardType) {
