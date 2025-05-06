@@ -1,38 +1,27 @@
 import { Box, Checkbox, Flex, Heading, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
 
 import styles from './ListItemWithCheckBox.module.css';
 
 type ListItemWithCheckBox = {
     title: string;
-    selectedTitle: Map<string, string>;
-    onSelectionChangeEng: (selected: string[]) => void;
-    onSelectionChangeRus: (selected: string[]) => void;
+    selectedTitle: string[];
+    value: string[];
+    onSelectionChange: (selected: string[]) => void;
 };
 
 function ListItemWithCheckBox({
     title,
     selectedTitle,
-    onSelectionChangeEng,
-    onSelectionChangeRus,
+    value,
+    onSelectionChange,
 }: ListItemWithCheckBox) {
-    const [selected, setSelected] = useState<string[]>([]);
-
-    const toggleOption = (rusValue: string) => {
-        setSelected((prev) =>
-            prev.includes(rusValue)
-                ? prev.filter((item) => item !== rusValue)
-                : [...prev, rusValue],
-        );
+    const toggleOption = (option: string) => {
+        if (value.includes(option)) {
+            onSelectionChange(value.filter((item) => item !== option));
+        } else {
+            onSelectionChange([...value, option]);
+        }
     };
-
-    useEffect(() => {
-        const selectedEng = selected
-            .map((rus) => selectedTitle.get(rus))
-            .filter((eng): eng is string => eng !== undefined);
-        onSelectionChangeEng(selectedEng);
-        onSelectionChangeRus(selected);
-    }, [selected, selectedTitle]);
 
     return (
         <Box>
@@ -40,22 +29,22 @@ function ListItemWithCheckBox({
                 {title}
             </Heading>
             <Flex direction='column' gap={3}>
-                {[...selectedTitle.entries()].map(([rus, eng]) => (
+                {selectedTitle.map((title) => (
                     <Flex
-                        key={eng}
-                        onClick={() => toggleOption(rus)}
+                        key={title}
+                        onClick={() => toggleOption(title)}
                         alignItems='center'
-                        data-test-id={`checkbox-${rus.toLocaleLowerCase()}`}
+                        data-test-id={`checkbox-${title.toLocaleLowerCase()}`}
                     >
                         <Checkbox
                             className={styles.checkbox}
                             size='md'
                             mr={2}
-                            isChecked={selected.includes(rus)}
+                            isChecked={value.includes(title)}
                             pointerEvents='none'
                             borderColor='lime.400'
                         />
-                        <Text className={styles.description}>{rus}</Text>
+                        <Text className={styles.description}>{title}</Text>
                     </Flex>
                 ))}
             </Flex>

@@ -16,6 +16,7 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
         bottom='80px'
         left='50%'
         ml={{ base: '-164px', bp95: '-200px' }}
+        zIndex={20}
     >
         <AlertIcon color='white' />
         <Box>

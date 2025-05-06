@@ -11,39 +11,33 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 
-import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
-import { countCardActiveTabSelector } from '~/store/selectors/countCardActiveTabSliceSelector';
-import {
-    setListCategory,
-    setListTypeDishes,
-    setListTypeMeats,
-    setResultSearch,
-} from '~/store/slice/arrayResultFilterSlice';
+import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
+import { setResultFilter, setResultSearch } from '~/store/slice/arrayResultFilterSlice';
 import { setZIndex } from '~/store/slice/headerZIndex';
+import { setOverlayPosition } from '~/store/slice/overlayPosition';
 
 import DrawerFilter from '../drawer-filter/DrawerFilter';
 import FilterIcon from '../icons/FilterIcon';
 import SearchIcon from '../icons/SearchIcon';
 import styles from './SearchFilter.module.css';
 
-function SearchFilter() {
+type SearchFilter = {
+    listAllergin: string[];
+};
+
+function SearchFilter({ listAllergin }: SearchFilter) {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const { shouldShowFilterResults } = useShouldShowFilterResults();
+    const shouldShowFilterResults = useSelector(shouldShowFilterResultsSelector);
     const dispatch = useDispatch();
     const resultSearch = useSelector(resultSearchSelector);
-    const countActiveTabCard = useSelector(countCardActiveTabSelector);
     const [isSearchRecipes, setSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
-    const { subcategories } = useParams();
 
     const handleFilterButton = () => {
         onOpen();
-        dispatch(setListCategory([]));
-        dispatch(setListTypeMeats([]));
-        dispatch(setListTypeDishes([]));
+        dispatch(setOverlayPosition(true));
     };
 
     const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,13 +48,9 @@ function SearchFilter() {
     };
 
     const handleClickIconSearch = () => {
-        if (subcategories) {
-            setSearchRecipes(shouldShowFilterResults);
-        } else {
-            setSearchRecipes(!!countActiveTabCard);
-        }
-
+        dispatch(setOverlayPosition(false));
         dispatch(setResultSearch(textSearch));
+        dispatch(setResultFilter(listAllergin));
     };
 
     const handleClickIconClear = () => {
@@ -121,7 +111,7 @@ function SearchFilter() {
                 <InputRightElement
                     className={styles.search_icon}
                     onClick={handleClickIconSearch}
-                    pointerEvents={textSearch.length > 2 ? 'auto' : 'none'}
+                    pointerEvents={textSearch.length > 2 || listAllergin.length ? 'auto' : 'none'}
                 >
                     <Icon
                         data-test-id='search-button'

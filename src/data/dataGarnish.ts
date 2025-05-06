@@ -1,12 +1,12 @@
-const dataGarnish = new Map([
-    ['Картошка', 'potatoes'],
-    ['Гречка', 'buckwheat'],
-    ['Паста', 'paste'],
-    ['Спагетти', 'Spaghetti'],
-    ['Рис', 'rice'],
-    ['Капуста', 'cabbage'],
-    ['Фасоль', 'beans'],
-    ['Другие овощи', 'other vegetables'],
-]);
+const dataGarnish = [
+    'Картошка',
+    'Гречка',
+    'Паста',
+    'Спагетти',
+    'Рис',
+    'Капуста',
+    'Фасоль',
+    'Другие овощи',
+];
 
 export default dataGarnish;

@@ -1,9 +1,3 @@
-const dataTypeMeat = new Map([
-    ['Курица', 'chicken'],
-    ['Свинина', 'pork'],
-    ['Говядина', 'beef'],
-    ['Индейка', 'turkey'],
-    ['Утка', 'duck'],
-]);
+const dataTypeMeat = ['Курица', 'Свинина', 'Говядина', 'Индейка', 'Утка'];
 
 export default dataTypeMeat;

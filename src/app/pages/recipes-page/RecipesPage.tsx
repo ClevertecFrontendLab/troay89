@@ -50,9 +50,9 @@ function RecipesPage() {
         setPage((prev) => prev + 1);
     };
 
-    const subcategoryFind = categories.find(
-        (subcategory) => subcategory.category === subcategories,
-    );
+    const subcategoryFind = categories
+        .filter((subcategory) => subcategory.rootCategoryId)
+        .find((subcategory) => subcategory.category === subcategories);
     const categoriesFind = categories.filter((category) => !category.rootCategoryId);
     const categoryFind = categoriesFind.find((cat) => cat.category === category);
 
@@ -72,9 +72,13 @@ function RecipesPage() {
     ]);
 
     useEffect(() => {
-        const subcategoryId = activeSubcategoryId || subcategoryFind?._id;
-        if (subcategoryId) {
-            trigger({ limit: 4, page, subcategoriesIds: subcategoryId });
+        if (subcategoryFind?._id) {
+            console.log(subcategoryFind, 'subcategoryFind2');
+            const subcategoryId = activeSubcategoryId || subcategoryFind._id;
+            console.log(subcategoryId, 'subcategoryId');
+            if (subcategoryId) {
+                trigger({ limit: 4, page, subcategoriesIds: subcategoryId });
+            }
         }
     }, [subcategoryFind?._id, page, trigger]);
 

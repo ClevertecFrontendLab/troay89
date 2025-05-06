@@ -1,9 +1,10 @@
 import { memo } from 'react';
-import { RouteObject, useRoutes } from 'react-router';
+import { Navigate, RouteObject, useRoutes } from 'react-router';
 
 import Layout from '~/app/layout/Layout';
 import AboutRecipePage from '~/app/pages/about-recipe-page/AboutRecipePage';
 import JuicyPage from '~/app/pages/juicy-page/JuicyPage';
+import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
 import RecipesPage from '~/app/pages/recipes-page/RecipesPage';
 import MainPage from '~/app/pages/start-page/MainPage';
 
@@ -29,6 +30,9 @@ const paths = {
     aboutRecipe: {
         path: '/recipes/:category/:subcategories/:id',
     },
+    notFound: {
+        path: '/not-found',
+    },
 };
 
 const allRoutes: RouteObject = {
@@ -41,6 +45,8 @@ const allRoutes: RouteObject = {
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.mainAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
+        { path: paths.notFound.path, element: <NotFoundPage /> },
+        { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };
 

@@ -17,13 +17,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import dataAuthor from '~/data/dataAuthor';
 import dataCategory from '~/data/dataCategory';
 import dataGarnish from '~/data/dataGarnish';
-import dataPathCategory from '~/data/dataPathCategory';
 import dataTypeMeat from '~/data/dataTypeMeat';
-import { allergenFilterSelector } from '~/store/selectors/arrayResultFilterSelector';
+import {
+    allergenFilterSelector,
+    listCategorySelector,
+    listTypeDishesSelector,
+    listTypeMeatsSelector,
+} from '~/store/selectors/arrayResultFilterSelector';
 import {
     setListCategory,
     setListTypeDishes,
     setListTypeMeats,
+    setResultFilter,
 } from '~/store/slice/arrayResultFilterSlice';
 
 import AllergenSort from '../allergen-sort/AllergenSort';
@@ -39,49 +44,50 @@ type DrawerFilterProps = {
 };
 
 function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
+    const listTypeMeats = useSelector(listTypeMeatsSelector);
+    const listTypeDishes = useSelector(listTypeDishesSelector);
+    const listAllergen = useSelector(allergenFilterSelector);
+    const listCategory = useSelector(listCategorySelector);
     const [authors, setAuthors] = useState<string[]>([]);
-    const [categories, setCategories] = useState<string[]>([]);
-    const [typeMeats, setTypeMeats] = useState<string[]>([]);
-    const [typeDishes, setTypeDishes] = useState<string[]>([]);
-    const [typeMeatsRus, setTypeMeatsRus] = useState<string[]>([]);
-    const [typeDishesRus, setTypeDishesRus] = useState<string[]>([]);
+    const [categories, setCategories] = useState<string[]>(listCategory);
+    const [typeMeats, setTypeMeats] = useState<string[]>(listTypeMeats);
+    const [typeDishes, setTypeDishes] = useState<string[]>(listTypeDishes);
+    const [typeAllergin, setTypeAllergin] = useState<string[]>(listAllergen);
     const [typeAll, setTypeAll] = useState<string[]>([]);
-    const [resetKey, setResetKey] = useState(0);
-    const resultFilter = useSelector(allergenFilterSelector);
 
     const dispatch = useDispatch();
-    const handleReset = () => {
-        setResetKey((prev) => prev + 1);
+    const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(setListCategory([]));
+        dispatch(setListTypeMeats([]));
+        dispatch(setListTypeDishes([]));
+        dispatch(setResultFilter([]));
+        setCategories([]);
+        setTypeMeats([]);
+        setTypeDishes([]);
+        setTypeAllergin([]);
+        setTypeAll([]);
     };
 
     const isDisabled = !(
         authors.length ||
         categories.length ||
         typeMeats.length ||
-        typeDishes.length
+        typeDishes.length ||
+        typeAllergin.length
     );
 
     useEffect(() => {
-        setTypeAll([...typeMeatsRus, ...typeDishesRus, ...categories, ...resultFilter]);
-    }, [categories, resultFilter, typeDishesRus, typeMeatsRus]);
+        setTypeAll([...typeMeats, ...typeDishes, ...categories, ...typeAllergin]);
+    }, [categories, typeAllergin, typeDishes, typeMeats]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const englishCategories = categories.map(translateCategory);
-        dispatch(setListCategory(englishCategories));
+        dispatch(setListCategory(categories));
         dispatch(setListTypeMeats(typeMeats));
         dispatch(setListTypeDishes(typeDishes));
+        dispatch(setResultFilter(typeAllergin));
     };
-
-    function translateCategory(category: string): string {
-        for (const [key] of dataPathCategory.entries()) {
-            const [ru, en] = key;
-            if (ru.toLowerCase() === category.toLowerCase()) {
-                return en;
-            }
-        }
-        return category;
-    }
 
     return (
         <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
@@ -125,7 +131,6 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                 >
                     <Box className={styles.container} flex='1' overflowY='auto'>
                         <DrawerBody
-                            key={`listitem-${resetKey}`}
                             className={styles.drawer_body}
                             display='flex'
                             flexDirection='column'
@@ -141,6 +146,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                                 textPlaceHolder='Категория'
                                 isDisable={true}
                                 listItem={dataCategory}
+                                value={categories}
                                 onSelectionChange={(selectedCategories) =>
                                     setCategories(selectedCategories)
                                 }
@@ -149,6 +155,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                             <MultiSelect
                                 widthMenu='399px'
                                 textPlaceHolder='Поиск по автору'
+                                value={[]}
                                 isDisable={true}
                                 listItem={dataAuthor}
                                 onSelectionChange={(selectedAuthors) => setAuthors(selectedAuthors)}
@@ -156,29 +163,27 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                             <ListItemWithCheckBox
                                 title='Тип мяса:'
                                 selectedTitle={dataTypeMeat}
-                                onSelectionChangeEng={(selectedMeats) =>
-                                    setTypeMeats(selectedMeats)
-                                }
-                                onSelectionChangeRus={(selectedMeats) =>
-                                    setTypeMeatsRus(selectedMeats)
-                                }
+                                value={typeMeats}
+                                onSelectionChange={(selectedMeats) => setTypeMeats(selectedMeats)}
                             />
                             <ListItemWithCheckBox
                                 title='Тип гарнира:'
                                 selectedTitle={dataGarnish}
-                                onSelectionChangeEng={(selectedDishes) =>
+                                value={typeDishes}
+                                onSelectionChange={(selectedDishes) =>
                                     setTypeDishes(selectedDishes)
-                                }
-                                onSelectionChangeRus={(selectedDishes) =>
-                                    setTypeDishesRus(selectedDishes)
                                 }
                             />
                             <AllergenSort
                                 widthMenu='399px'
                                 direction='column'
                                 isHiddenMobile
+                                value={typeAllergin}
                                 dataTestSwitch='allergens-switcher-filter'
                                 dataTest='allergens-menu-button-filter'
+                                onSelectionChange={(selectedAllergens) =>
+                                    setTypeAllergin(selectedAllergens)
+                                }
                             />
                             <Flex flexWrap='wrap' mt='auto' gap='16px' pt={2}>
                                 {typeAll &&

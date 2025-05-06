@@ -18,7 +18,7 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
     const dispatch = useDispatch();
     const { isOpen } = useAccordionItemState();
 
-    const handleAccordionButtonClick = async () => {
+    const handleAccordionButtonClick = () => {
         if (!isOpen) {
             dispatch(setIndexTab(0));
             dispatch(setIndexButton(index));

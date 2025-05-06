@@ -13,6 +13,7 @@
 div.tab_list {
     margin: auto;
     overflow-x: auto;
+    margin-bottom: 24px;
 }
 
 .tab_list::-webkit-scrollbar {

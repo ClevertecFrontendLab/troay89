@@ -9,6 +9,10 @@ type RecipesQueryParams = {
     sortBy?: 'createdAt' | 'likes';
     sortOrder?: 'asc' | 'desc';
     subcategoriesIds?: string;
+    allergens?: string;
+    searchString?: string;
+    meat?: string;
+    garnish?: string;
 };
 
 type CategoryPath = {
@@ -31,7 +35,17 @@ export const appSlice = createApi({
             query: ({ id }) => `recipe/${id}`,
         }),
         getRecipes: build.query<RecipeTypeResponse, RecipesQueryParams>({
-            query: ({ limit, page, sortBy, sortOrder, subcategoriesIds }) => {
+            query: ({
+                limit,
+                page,
+                sortBy,
+                sortOrder,
+                subcategoriesIds,
+                allergens,
+                searchString,
+                meat,
+                garnish,
+            }) => {
                 const params = new URLSearchParams({ limit: String(limit) });
 
                 if (sortBy) {
@@ -45,6 +59,18 @@ export const appSlice = createApi({
                 }
                 if (subcategoriesIds) {
                     params.append('subcategoriesIds', subcategoriesIds);
+                }
+                if (allergens) {
+                    params.append('allergens', allergens);
+                }
+                if (searchString) {
+                    params.append('searchString', searchString);
+                }
+                if (meat) {
+                    params.append('meat', meat);
+                }
+                if (garnish) {
+                    params.append('garnish', garnish);
                 }
 
                 return `recipe?${params.toString()}`;

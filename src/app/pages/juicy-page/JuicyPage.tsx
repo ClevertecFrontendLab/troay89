@@ -16,8 +16,26 @@ import MainBlock from './components/main-block/MainBlock';
 function JuicyPage() {
     const [page, setPage] = useState(1);
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
-    const { shouldShowFilterResults, recipesFilter } = useShouldShowFilterResults();
+    const {
+        shouldShowFilterResults,
+        filterRecipes,
+        isErrorFilterRecipes,
+        isLoadingFilterRecipes,
+        isFetchingFilterRecipes,
+        pageFilter,
+        dataFilterRecipes,
+        handleLoadMoreFilter,
+    } = useShouldShowFilterResults();
+
     const [randomNumber] = useState(() => Math.floor(Math.random() * 13));
+
+    const hasErrorFilter = isErrorFilterRecipes;
+
+    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!hasErrorFilter);
+
+    useEffect(() => {
+        setIsErrorOpenFilter(!!hasErrorFilter);
+    }, [hasErrorFilter]);
 
     const {
         data: juicyData,
@@ -66,7 +84,12 @@ function JuicyPage() {
         setPage((prev) => prev + 1);
     };
 
-    const isPending = isJuiceLoading || isLastBlockLoading || isLastBlockFetching;
+    const isPending =
+        isJuiceLoading ||
+        isLastBlockLoading ||
+        isLastBlockFetching ||
+        isLoadingFilterRecipes ||
+        isFetchingFilterRecipes;
 
     if (isPending) {
         return <Overlay />;
@@ -78,21 +101,34 @@ function JuicyPage() {
             {isErrorOpen ? (
                 <ErrorModal onClose={() => setIsErrorOpen(false)} />
             ) : shouldShowFilterResults && !hasError ? (
-                <Box px={{ base: 4, bp76: 0 }}>
-                    <MainBlock
-                        recipes={recipes}
-                        page={page}
-                        meta={juicyData?.meta}
-                        onLoadMore={handleLoadMore}
-                    />
-                    <Divider />
-                    <LastBlock
-                        randomCategory={randomCategory}
-                        lastBlockData={lastBlockData?.data}
-                    />
-                </Box>
+                <>
+                    <Box px={{ base: 4, bp76: 0 }}>
+                        <MainBlock
+                            recipes={recipes}
+                            page={page}
+                            meta={juicyData?.meta}
+                            onLoadMore={handleLoadMore}
+                        />
+                        <Divider />
+                        <LastBlock
+                            randomCategory={randomCategory}
+                            lastBlockData={lastBlockData?.data}
+                        />
+                    </Box>
+                    {isErrorOpenFilter && (
+                        <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
+                    )}
+                </>
             ) : (
-                !hasError && <FilterSortBlock filterSearchRecipes={recipesFilter} />
+                !hasError &&
+                filterRecipes.length > 0 && (
+                    <FilterSortBlock
+                        filterSearchRecipes={filterRecipes}
+                        page={pageFilter}
+                        meta={dataFilterRecipes?.meta}
+                        onLoadMore={handleLoadMoreFilter}
+                    />
+                )
             )}
         </>
     );

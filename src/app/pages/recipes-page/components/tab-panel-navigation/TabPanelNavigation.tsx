@@ -1,19 +1,14 @@
 import { Box, Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import dataPathCategory from '~/data/dataPathCategory';
-import dataRecipes from '~/data/dataRecipes';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import {
-    allergenFilterSelector,
-    listCategorySelector,
-    listTypeDishesSelector,
-    listTypeMeatsSelector,
-    resultSearchSelector,
-} from '~/store/selectors/arrayResultFilterSelector';
+import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
 import { setCountCard } from '~/store/slice/countCardActiveTabSlice';
 import { setActiveSubcategoryId, setIndexTab } from '~/store/slice/indexTabsSlice';
 import { Category } from '~/type/Category';
@@ -38,14 +33,16 @@ function TabPanelNavigation({
 }: TabPanelNavigationType) {
     const tabListRef = useRef<HTMLDivElement | null>(null);
     const [arrayTabs, setArrayTabs] = useState<Category[]>([]);
-    const [arrayCards, setArrayCards] = useState<RecipeType[][]>([[]]);
     const [activeCardsCount, setActiveCardsCount] = useState<number>(0);
-    const { indexCategory, currentIndex, currentIndexButton } = useNavigationIndices();
-    const allergenFilter = useSelector(allergenFilterSelector);
-    const listCategory = useSelector(listCategorySelector);
-    const listTypeMeats = useSelector(listTypeMeatsSelector);
-    const listTypeDishes = useSelector(listTypeDishesSelector);
-    const resultSearch = useSelector(resultSearchSelector);
+    const {
+        shouldShowFilterResults,
+        filterRecipes,
+        isErrorFilterRecipes,
+        pageFilter,
+        dataFilterRecipes,
+        handleLoadMoreFilter,
+    } = useShouldShowFilterResults(4);
+    const { indexCategory, currentIndex } = useNavigationIndices();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -62,63 +59,12 @@ function TabPanelNavigation({
     }, [getCategory]);
 
     useEffect(() => {
-        if (currentIndexButton !== undefined) {
-            const dataPathEntries = Array.from(dataPathCategory);
-            const category: string = dataPathEntries[currentIndexButton][0][1];
-            const subcategories = dataPathEntries[currentIndexButton][1];
-            const sortCardsCategory = dataRecipes.filter((recipe) =>
-                recipe.category.includes(category),
-            );
-
-            const groupedRecipes = subcategories.map((subcat) =>
-                sortCardsCategory
-                    .filter((recipe) => recipe.subcategory.includes(subcat))
-                    .filter((recipe) => {
-                        const passesAllergen = !allergenFilter.some((filterStr) => {
-                            const firstWord = filterStr.trim().split(/\s+/)[0];
-                            return recipe.ingredients.some((ingredient) =>
-                                ingredient.title.toLowerCase().includes(firstWord.toLowerCase()),
-                            );
-                        });
-                        const passesCategory =
-                            listCategory.length === 0 ||
-                            listCategory.some((catFilter) => recipe.category.includes(catFilter));
-                        const passesMeat =
-                            listTypeMeats.length === 0 || listTypeMeats.includes(recipe.meat);
-                        const passesSide =
-                            listTypeDishes.length === 0 || listTypeDishes.includes(recipe.side);
-                        const passesSearch =
-                            resultSearch.length < 3 ||
-                            recipe.title.toLowerCase().startsWith(resultSearch.toLowerCase());
-
-                        return (
-                            passesAllergen &&
-                            passesCategory &&
-                            passesMeat &&
-                            passesSide &&
-                            passesSearch
-                        );
-                    }),
-            );
-            setArrayCards(groupedRecipes);
-        }
-    }, [
-        allergenFilter,
-        currentIndexButton,
-        listCategory,
-        listTypeDishes,
-        listTypeMeats,
-        resultSearch,
-    ]);
-
-    useEffect(() => {
-        if (typeof currentIndex === 'number' && arrayCards[currentIndex]) {
-            setActiveCardsCount(arrayCards[currentIndex].length);
+        if (typeof currentIndex === 'number') {
             dispatch(setCountCard(activeCardsCount));
         } else {
             setActiveCardsCount(0);
         }
-    }, [activeCardsCount, arrayCards, currentIndex, dispatch]);
+    }, [activeCardsCount, currentIndex, dispatch]);
 
     const handleTabClick = (_id: string) => {
         dispatch(setActiveSubcategoryId(_id));
@@ -127,6 +73,12 @@ function TabPanelNavigation({
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));
     };
+
+    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!isErrorFilterRecipes);
+
+    useEffect(() => {
+        setIsErrorOpenFilter(!!isErrorFilterRecipes);
+    }, [isErrorFilterRecipes]);
 
     return (
         <Flex className={styles.container}>
@@ -164,52 +116,66 @@ function TabPanelNavigation({
                             </Tab>
                         ))}
                     </TabList>
-                    <TabPanels>
-                        {arrayTabs.map((tab) => (
-                            <TabPanel
-                                className={styles.tab_panel}
-                                key={tab._id}
-                                px={0}
-                                pt={6}
-                                pb={4}
-                            >
-                                <Flex className={styles.container_cards}>
-                                    {recipes &&
-                                        recipes.map(
-                                            (
-                                                {
-                                                    _id,
-                                                    image,
-                                                    title,
-                                                    description,
-                                                    categoriesIds,
-                                                    bookmarks,
-                                                    likes,
-                                                },
-                                                i,
-                                            ) => (
-                                                <GeneraCard
-                                                    dataTest={`food-card-${i}`}
-                                                    dataTestButton={`card-link-${i}`}
-                                                    key={_id}
-                                                    _id={_id}
-                                                    image={image}
-                                                    title={title}
-                                                    description={description}
-                                                    favorites={bookmarks}
-                                                    categoriesIds={categoriesIds}
-                                                    like={likes}
-                                                />
-                                            ),
-                                        )}
-                                </Flex>
-                            </TabPanel>
-                        ))}
-                        ;
-                    </TabPanels>
+                    {isErrorOpenFilter ? (
+                        <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
+                    ) : shouldShowFilterResults ? (
+                        <TabPanels>
+                            {arrayTabs.map((tab) => (
+                                <TabPanel
+                                    className={styles.tab_panel}
+                                    key={tab._id}
+                                    px={0}
+                                    pt={0}
+                                    pb={4}
+                                >
+                                    <Flex className={styles.container_cards}>
+                                        {recipes &&
+                                            recipes.map(
+                                                (
+                                                    {
+                                                        _id,
+                                                        image,
+                                                        title,
+                                                        description,
+                                                        categoriesIds,
+                                                        bookmarks,
+                                                        likes,
+                                                    },
+                                                    i,
+                                                ) => (
+                                                    <GeneraCard
+                                                        dataTest={`food-card-${i}`}
+                                                        dataTestButton={`card-link-${i}`}
+                                                        key={_id}
+                                                        _id={_id}
+                                                        image={image}
+                                                        title={title}
+                                                        description={description}
+                                                        favorites={bookmarks}
+                                                        categoriesIds={categoriesIds}
+                                                        like={likes}
+                                                    />
+                                                ),
+                                            )}
+                                    </Flex>
+                                </TabPanel>
+                            ))}
+                            ;
+                        </TabPanels>
+                    ) : (
+                        !isErrorFilterRecipes &&
+                        filterRecipes.length > 0 && (
+                            <FilterSortBlock
+                                filterSearchRecipes={filterRecipes}
+                                page={pageFilter}
+                                meta={dataFilterRecipes?.meta}
+                                onLoadMore={handleLoadMoreFilter}
+                            />
+                        )
+                    )}
                 </Tabs>
             </Box>
-            {meta && page < meta.totalPages && (
+            {meta && page < meta.totalPages && shouldShowFilterResults && (
                 <Button className={styles.button} onClick={onLoadMore}>
                     Загрузить ещё
                 </Button>

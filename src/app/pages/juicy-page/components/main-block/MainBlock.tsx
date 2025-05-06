@@ -12,7 +12,7 @@ type MainBlockType = {
     onLoadMore: () => void;
 };
 
-function MainBlock({ recipes, onLoadMore, meta, page }: MainBlockType) {
+function MainBlock({ recipes, meta, page, onLoadMore }: MainBlockType) {
     return (
         <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
             <Flex className={styles.card_container} mb={4} gap={4}>

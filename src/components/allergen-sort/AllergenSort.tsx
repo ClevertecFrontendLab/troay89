@@ -1,7 +1,10 @@
 import { Flex, FormControl, FormLabel, Switch } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import dataAllergens from '~/data/dataAllergens';
+import { getStateSwitchAllergen } from '~/store/selectors/stateSwitchAllergenSelector';
+import { setStateSwitch } from '~/store/slice/stateSwitchAllergenSlice';
 
 import MultiSelect from '../multi-select/MultiSelect';
 import styles from './AllergenSort.module.css';
@@ -11,17 +14,28 @@ type AllergenSortProps = {
     isHiddenMobile?: boolean;
     dataTestSwitch: string;
     dataTest: string;
+    value: string[];
     widthMenu?: string;
+    onSelectionChange: (selected: string[]) => void;
 };
 
 function AllergenSort({
     isHiddenMobile,
     dataTestSwitch,
     dataTest,
+    value,
     direction = 'row',
     widthMenu = '234px',
+    onSelectionChange,
 }: AllergenSortProps) {
-    const [isDisable, setDisable] = useState(false);
+    const stateSwitch = useSelector(getStateSwitchAllergen);
+    const [isDisable, setDisable] = useState(stateSwitch);
+    const dispatch = useDispatch();
+
+    const handleChangeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
+        setDisable(event.target.checked);
+        dispatch(setStateSwitch(event.target.checked));
+    };
 
     return (
         <Flex
@@ -37,7 +51,8 @@ function AllergenSort({
                     data-test-id={dataTestSwitch}
                     className={styles.switch}
                     id='allergen-switch'
-                    onChange={(event) => setDisable(event.target.checked)}
+                    isChecked={stateSwitch}
+                    onChange={handleChangeSwitch}
                 />
             </FormControl>
             <MultiSelect
@@ -49,9 +64,10 @@ function AllergenSort({
                 }
                 isDisable={isDisable}
                 listItem={dataAllergens}
+                value={value}
                 isBottomInput
-                immediate
                 dataTest={dataTest}
+                onSelectionChange={onSelectionChange}
             />
         </Flex>
     );
