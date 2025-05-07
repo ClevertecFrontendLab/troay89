@@ -90,16 +90,10 @@ function useShouldShowFilterResults(limit: number = 8) {
             if (pageFilter === 1) {
                 setFilterRecipes(dataFilterRecipes.data);
             } else {
-                setFilterRecipes((prev) => {
-                    const existingIds = new Set(prev.map((recipe) => recipe._id));
-                    const newRecipes = dataFilterRecipes.data.filter(
-                        (recipe) => !existingIds.has(recipe._id),
-                    );
-                    return [...prev, ...newRecipes];
-                });
+                setFilterRecipes((prev) => [...prev, ...dataFilterRecipes.data]);
             }
         }
-    }, [dataFilterRecipes, pageFilter]);
+    }, [dataFilterRecipes]);
 
     const handleLoadMoreFilter = () => {
         setPageFilter((prev) => prev + 1);

@@ -12,18 +12,12 @@ import {
     Icon,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import dataAuthor from '~/data/dataAuthor';
 import dataCategory from '~/data/dataCategory';
 import dataGarnish from '~/data/dataGarnish';
 import dataTypeMeat from '~/data/dataTypeMeat';
-import {
-    allergenFilterSelector,
-    listCategorySelector,
-    listTypeDishesSelector,
-    listTypeMeatsSelector,
-} from '~/store/selectors/arrayResultFilterSelector';
 import {
     setListCategory,
     setListTypeDishes,
@@ -44,15 +38,11 @@ type DrawerFilterProps = {
 };
 
 function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
-    const listTypeMeats = useSelector(listTypeMeatsSelector);
-    const listTypeDishes = useSelector(listTypeDishesSelector);
-    const listAllergen = useSelector(allergenFilterSelector);
-    const listCategory = useSelector(listCategorySelector);
     const [authors, setAuthors] = useState<string[]>([]);
-    const [categories, setCategories] = useState<string[]>(listCategory);
-    const [typeMeats, setTypeMeats] = useState<string[]>(listTypeMeats);
-    const [typeDishes, setTypeDishes] = useState<string[]>(listTypeDishes);
-    const [typeAllergin, setTypeAllergin] = useState<string[]>(listAllergen);
+    const [categories, setCategories] = useState<string[]>([]);
+    const [typeMeats, setTypeMeats] = useState<string[]>([]);
+    const [typeDishes, setTypeDishes] = useState<string[]>([]);
+    const [typeAllergin, setTypeAllergin] = useState<string[]>([]);
     const [typeAll, setTypeAll] = useState<string[]>([]);
 
     const dispatch = useDispatch();

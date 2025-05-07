@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
-import dataPathCategory from '~/data/dataPathCategory';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
 import { setCountCard } from '~/store/slice/countCardActiveTabSlice';
@@ -42,7 +41,7 @@ function TabPanelNavigation({
         dataFilterRecipes,
         handleLoadMoreFilter,
     } = useShouldShowFilterResults(4);
-    const { indexCategory, currentIndex } = useNavigationIndices();
+    const { currentIndex } = useNavigationIndices();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -100,7 +99,7 @@ function TabPanelNavigation({
                     >
                         {arrayTabs.map((tab, index) => (
                             <Tab
-                                data-test-id={`tab-${Array.from(dataPathCategory.values())[indexCategory][index]}-${index}`}
+                                data-test-id={`tab-${tab.category}-${index}`}
                                 as={Link}
                                 key={index}
                                 className={styles.tab}

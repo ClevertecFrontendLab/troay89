@@ -8,7 +8,8 @@ import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexTabsSlice';
+import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
+import { setIndexRecipe, setIndexTab, setNameRecipe } from '~/store/slice/indexTabsSlice';
 import { Category } from '~/type/Category';
 
 import styles from './CardSlider.module.css';
@@ -34,6 +35,23 @@ function CardSlider({
 }: CardSliderProps) {
     const categories = useSelector(getArrayCategorySelector);
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
+    const allCategoriesSubcategories = useSelector(getArrayCategorySelector);
+    const allCategory = allCategoriesSubcategories.filter((categoty) => categoty.subCategories);
+    const allSubcategories = allCategoriesSubcategories.filter(
+        (categoty) => !categoty.subCategories,
+    );
+    const currentSubcategory = allSubcategories.find((subcategories) =>
+        categoriesIds.includes(subcategories._id),
+    );
+    const currentCategory = allCategory.find(
+        (categoty) => categoty._id === currentSubcategory?.rootCategoryId,
+    );
+    const currentSubcategoryIndex =
+        currentCategory?.subCategories?.findIndex((index) => categoriesIds.includes(index._id)) ??
+        1;
+    const currentCategoryIndex = allCategory.findIndex(
+        (categoty) => categoty._id === currentSubcategory?.rootCategoryId,
+    );
 
     useEffect(() => {
         const subcategoryFilter = categories.filter((category) =>
@@ -49,10 +67,19 @@ function CardSlider({
     function handlingClick() {
         dispatch(setIndexRecipe(_id));
         dispatch(setNameRecipe(title));
+        console.log(currentSubcategoryIndex, 'currentSubcategoryIndex');
+        console.log(currentCategoryIndex, 'currentCategoryIndex');
+        dispatch(setIndexTab(currentSubcategoryIndex));
+        dispatch(setIndexButton(currentCategoryIndex));
     }
 
     return (
-        <Card className={styles.card} as={Link} onClick={handlingClick} to={`/the-juiciest/${_id}`}>
+        <Card
+            className={styles.card}
+            as={Link}
+            onClick={handlingClick}
+            to={`recipes/${currentCategory?.category}/${currentSubcategory?.category}/${_id}`}
+        >
             <CardBody className={styles.card_body}>
                 <Image
                     background='alpha.200'

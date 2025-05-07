@@ -28,7 +28,7 @@ export function useGetRandomDataCategory(randomNumber: number) {
     const {
         data: lastBlockData,
         isLoading: isLastBlockLoading,
-        error: errorLastBlock,
+        isError: isErrorLastBlock,
         isFetching: isLastBlockFetching,
     } = useGetRecipeByCategoryQuery(
         { limit: 5, id: randomSubcategory?._id },
@@ -40,6 +40,6 @@ export function useGetRandomDataCategory(randomNumber: number) {
         lastBlockData,
         isLastBlockLoading,
         isLastBlockFetching,
-        errorLastBlock,
+        isErrorLastBlock,
     };
 }

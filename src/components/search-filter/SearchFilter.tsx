@@ -14,7 +14,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
-import { setResultFilter, setResultSearch } from '~/store/slice/arrayResultFilterSlice';
+import {
+    setListCategory,
+    setListTypeDishes,
+    setListTypeMeats,
+    setResultFilter,
+    setResultSearch,
+} from '~/store/slice/arrayResultFilterSlice';
 import { setZIndex } from '~/store/slice/headerZIndex';
 import { setOverlayPosition } from '~/store/slice/overlayPosition';
 
@@ -36,6 +42,9 @@ function SearchFilter({ listAllergin }: SearchFilter) {
     const [textSearch, setTextSearch] = useState(resultSearch);
 
     const handleFilterButton = () => {
+        dispatch(setListCategory([]));
+        dispatch(setListTypeMeats([]));
+        dispatch(setListTypeDishes([]));
         onOpen();
         dispatch(setOverlayPosition(true));
     };

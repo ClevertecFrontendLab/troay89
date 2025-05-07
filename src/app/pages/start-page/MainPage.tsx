@@ -34,16 +34,18 @@ function MainPage() {
     const [isLargerThan1200] = useMediaQuery('(min-width: 1200px)');
     const {
         data: juicyData,
-        error: juiceError,
+        isError: isJuiceError,
         isFetching: isJuiceFetching,
     } = useGetRecipesQuery({ limit: 4, sortBy: 'likes', sortOrder: 'desc' });
     const {
         data: swiperData,
-        error: swiperError,
+        isError: isSwiperError,
         isFetching: isSwiperFetching,
     } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'asc' });
     const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
-    const { randomCategory, lastBlockData, isLastBlockFetching, errorLastBlock } =
+    const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
+        useGetRandomDataCategory(randomNumber);
+    const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
 
     const veryHardDataTestId = isLargerThan1200
@@ -56,18 +58,20 @@ function MainPage() {
         (isJuiceFetching || isSwiperFetching || isLastBlockFetching || isFetchingFilterRecipes) &&
         shouldShowOverlay;
 
-    const hasError = juiceError || swiperError || errorLastBlock;
+    const hasError = isJuiceError || isSwiperError || isErrorLastBlock;
     const hasErrorFilter = isErrorFilterRecipes;
 
-    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
+    const [isErrorOpen, setErrorOpen] = useState(false);
     const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!hasErrorFilter);
+
+    console.log(hasError, 'hasError');
 
     useEffect(() => {
         setIsErrorOpenFilter(!!hasErrorFilter);
     }, [hasErrorFilter]);
 
     useEffect(() => {
-        setIsErrorOpen(!!hasError);
+        setErrorOpen(hasError);
     }, [hasError]);
 
     if (isPending) {
@@ -76,9 +80,14 @@ function MainPage() {
 
     return (
         <>
-            <Toolbar title='Приятного аппетита!' isExtraSpace />
+            <Toolbar
+                title='Приятного аппетита!'
+                isExtraSpace
+                dateTestSwitch={isLargerThan1200 ? 'allergens-switcher' : ''}
+                dataTestMenu={isLargerThan1200 ? 'allergens-menu-button' : ''}
+            />
             {isErrorOpen ? (
-                <ErrorModal onClose={() => setIsErrorOpen(false)} />
+                <ErrorModal onClose={() => setErrorOpen(false)} />
             ) : shouldShowFilterResults && !hasError ? (
                 <>
                     <Box px={{ base: 4, bp76: 0 }}>

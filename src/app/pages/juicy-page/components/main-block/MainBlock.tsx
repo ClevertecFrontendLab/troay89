@@ -31,6 +31,7 @@ function MainBlock({ recipes, meta, page, onLoadMore }: MainBlockType) {
                                 categoriesIds={categoriesIds}
                                 favorites={bookmarks}
                                 like={likes}
+                                dataTest={`food-card-${index}`}
                                 dataTestButton={`card-link-${index}`}
                             />
                         ),
@@ -44,7 +45,7 @@ function MainBlock({ recipes, meta, page, onLoadMore }: MainBlockType) {
                     onClick={onLoadMore}
                     data-test-id='load-more-button'
                 >
-                    Загрузить еще
+                    Загрузка
                 </Button>
             )}
         </Flex>

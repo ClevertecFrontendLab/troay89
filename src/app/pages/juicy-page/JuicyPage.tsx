@@ -59,18 +59,13 @@ function JuicyPage() {
     useEffect(() => {
         if (juicyData) {
             if (page === 1) {
+                console.log(page, 111);
                 setRecipes(juicyData.data);
             } else {
-                setRecipes((prev) => {
-                    const existingIds = new Set(prev.map((recipe) => recipe._id));
-                    const newRecipes = juicyData.data.filter(
-                        (recipe) => !existingIds.has(recipe._id),
-                    );
-                    return [...prev, ...newRecipes];
-                });
+                setRecipes((prev) => [...prev, ...juicyData.data]);
             }
         }
-    }, [juicyData, page]);
+    }, [juicyData]);
 
     const hasError = juiceError || errorLastBlock;
 

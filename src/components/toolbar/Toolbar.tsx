@@ -15,9 +15,17 @@ type ToolbarProps = {
     title: string | undefined;
     description?: string;
     isExtraSpace?: boolean;
+    dateTestSwitch?: string;
+    dataTestMenu?: string;
 };
 
-function Toolbar({ title, description, isExtraSpace }: ToolbarProps) {
+function Toolbar({
+    title,
+    description,
+    isExtraSpace,
+    dateTestSwitch = 'allergens-switcher',
+    dataTestMenu = 'allergens-menu-button',
+}: ToolbarProps) {
     const [listAllergin, setListAllergin] = useState<string[]>([]);
     const isFetchingFilterRecipes = useSelector(fetchingFilterSelector);
     const shouldShowOverlay = useSelector(overlayPositionSelector);
@@ -51,8 +59,8 @@ function Toolbar({ title, description, isExtraSpace }: ToolbarProps) {
                 <>
                     <SearchFilter listAllergin={listAllergin} />
                     <AllergenSort
-                        dataTestSwitch='allergens-switcher'
-                        dataTest='allergens-menu-button'
+                        dataTestSwitch={dateTestSwitch}
+                        dataTest={dataTestMenu}
                         value={listAllergin}
                         onSelectionChange={(selectedAllergens) =>
                             setListAllergin(selectedAllergens)
