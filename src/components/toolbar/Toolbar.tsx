@@ -2,12 +2,14 @@ import { Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { listAllFiltersSelector } from '~/store/selectors/arrayResultFilterSelector';
 import {
     fetchingFilterSelector,
     overlayPositionSelector,
 } from '~/store/selectors/overlayPositionSelector';
 
 import AllergenSort from '../allergen-sort/AllergenSort';
+import { GreenTags } from '../green-tags/GreenTags';
 import SearchFilter from '../search-filter/SearchFilter';
 import styles from './Toolbar.module.css';
 
@@ -29,6 +31,7 @@ function Toolbar({
     const [listAllergin, setListAllergin] = useState<string[]>([]);
     const isFetchingFilterRecipes = useSelector(fetchingFilterSelector);
     const shouldShowOverlay = useSelector(overlayPositionSelector);
+    const allChangeFilter = useSelector(listAllFiltersSelector);
 
     const isPending = isFetchingFilterRecipes && !shouldShowOverlay;
 
@@ -66,6 +69,7 @@ function Toolbar({
                             setListAllergin(selectedAllergens)
                         }
                     />
+                    {allChangeFilter && <GreenTags typeAll={allChangeFilter} />}
                 </>
             )}
         </Flex>

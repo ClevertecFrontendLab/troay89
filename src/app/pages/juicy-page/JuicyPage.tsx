@@ -53,7 +53,7 @@ function JuicyPage() {
         lastBlockData,
         isLastBlockLoading,
         isLastBlockFetching,
-        errorLastBlock,
+        isErrorLastBlock,
     } = useGetRandomDataCategory(randomNumber);
 
     useEffect(() => {
@@ -67,7 +67,7 @@ function JuicyPage() {
         }
     }, [juicyData]);
 
-    const hasError = juiceError || errorLastBlock;
+    const hasError = juiceError || isErrorLastBlock;
 
     const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
 

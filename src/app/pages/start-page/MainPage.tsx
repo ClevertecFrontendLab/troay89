@@ -45,8 +45,6 @@ function MainPage() {
     const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
-    const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
-        useGetRandomDataCategory(randomNumber);
 
     const veryHardDataTestId = isLargerThan1200
         ? 'juiciest-link-mobile'

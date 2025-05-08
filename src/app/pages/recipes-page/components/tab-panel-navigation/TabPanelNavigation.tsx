@@ -1,4 +1,14 @@
-import { Box, Button, Flex, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import {
+    Box,
+    Button,
+    Flex,
+    Spinner,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+} from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
@@ -19,6 +29,7 @@ type TabPanelNavigationType = {
     getCategory: Category | undefined;
     recipes: RecipeType[] | undefined;
     meta: PaginationMeta | undefined;
+    isFetching: boolean;
     page: number;
     onLoadMore: () => void;
 };
@@ -27,6 +38,7 @@ function TabPanelNavigation({
     getCategory,
     recipes,
     page,
+    isFetching,
     onLoadMore,
     meta,
 }: TabPanelNavigationType) {
@@ -117,6 +129,11 @@ function TabPanelNavigation({
                     </TabList>
                     {isErrorOpenFilter ? (
                         <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
+                    ) : isFetching ? (
+                        <Flex h='250px' justifyContent='center' alignItems='center'>
+                            {' '}
+                            <Spinner />
+                        </Flex>
                     ) : shouldShowFilterResults ? (
                         <TabPanels>
                             {arrayTabs.map((tab) => (

@@ -23,8 +23,8 @@ function RecipesPage() {
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [page, setPage] = useState(1);
     const { category, subcategories } = useParams();
-    const [trigger, { data, error }] = useLazyGetRecipeByCategoryQuery();
-    const { randomCategory, lastBlockData, errorLastBlock } =
+    const [trigger, { data, error, isFetching }] = useLazyGetRecipeByCategoryQuery();
+    const { randomCategory, lastBlockData, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
     const activeSubcategoryId = useSelector(
         (state: ApplicationState) => state.indexTabs.activeSubcategoryId,
@@ -88,7 +88,7 @@ function RecipesPage() {
         }
     }, [arrayCategory, category, newCategory]);
 
-    const hasError = error || errorLastBlock;
+    const hasError = error || isErrorLastBlock;
 
     const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
 
@@ -108,6 +108,7 @@ function RecipesPage() {
                             getCategory={getCategory}
                             recipes={recipes}
                             page={page}
+                            isFetching={isFetching}
                             onLoadMore={handleLoadMore}
                             meta={data?.meta}
                         />

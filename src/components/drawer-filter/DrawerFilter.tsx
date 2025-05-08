@@ -7,7 +7,6 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
-    Flex,
     Heading,
     Icon,
 } from '@chakra-ui/react';
@@ -19,6 +18,7 @@ import dataCategory from '~/data/dataCategory';
 import dataGarnish from '~/data/dataGarnish';
 import dataTypeMeat from '~/data/dataTypeMeat';
 import {
+    setAllResult,
     setListCategory,
     setListTypeDishes,
     setListTypeMeats,
@@ -26,8 +26,8 @@ import {
 } from '~/store/slice/arrayResultFilterSlice';
 
 import AllergenSort from '../allergen-sort/AllergenSort';
+import { GreenTags } from '../green-tags/GreenTags';
 import CloseDrawer from '../icons/CloseDrawer';
-import CloseGreen from '../icons/CloseGreen';
 import ListItemWithCheckBox from '../list_Item_with_checkbox/ListItemWithCheckBox';
 import MultiSelect from '../multi-select/MultiSelect';
 import styles from './DrawerFilter.module.css';
@@ -52,6 +52,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
         dispatch(setListTypeMeats([]));
         dispatch(setListTypeDishes([]));
         dispatch(setResultFilter([]));
+        dispatch(setAllResult([]));
         setCategories([]);
         setTypeMeats([]);
         setTypeDishes([]);
@@ -77,6 +78,14 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
         dispatch(setListTypeMeats(typeMeats));
         dispatch(setListTypeDishes(typeDishes));
         dispatch(setResultFilter(typeAllergin));
+        dispatch(setAllResult(typeAll));
+    };
+
+    const handleRemoveTag = (item: string) => {
+        setCategories((prev) => prev.filter((category) => category !== item));
+        setTypeMeats((prev) => prev.filter((meat) => meat !== item));
+        setTypeDishes((prev) => prev.filter((dishes) => dishes !== item));
+        setTypeAllergin((prev) => prev.filter((allergin) => allergin !== item));
     };
 
     return (
@@ -175,20 +184,11 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                                     setTypeAllergin(selectedAllergens)
                                 }
                             />
-                            <Flex flexWrap='wrap' mt='auto' gap='16px' pt={2}>
-                                {typeAll &&
-                                    typeAll.map((item) => (
-                                        <Flex
-                                            key={item}
-                                            className={styles.label_change}
-                                            gap={2}
-                                            align='center'
-                                            data-test-id='filter-tag'
-                                        >
-                                            {item} <Icon as={CloseGreen} boxSize={2.5} />
-                                        </Flex>
-                                    ))}
-                            </Flex>
+                            <GreenTags
+                                typeAll={typeAll}
+                                dataTestId='filter-tag'
+                                handleRemoveTag={handleRemoveTag}
+                            />
                         </DrawerBody>
                     </Box>
                     <DrawerFooter
