@@ -42,7 +42,7 @@ function GeneraCard({
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
 
     useEffect(() => {
-        if (categoriesIds !== undefined || categoriesIds !== undefined) {
+        if (categoriesIds !== undefined) {
             const subcategoryFilter = categories.filter((category) =>
                 categoriesIds.includes(category._id),
             );

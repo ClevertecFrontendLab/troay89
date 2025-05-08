@@ -7,30 +7,39 @@ import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import LastBlock from '~/components/last-block/LastBlock';
 import Toolbar from '~/components/toolbar/Toolbar';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
-import { ApplicationState } from '~/store/configure-store';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
 import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
-import { setIndexTab } from '~/store/slice/indexTabsSlice';
+import { setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
 import { Category } from '~/type/Category';
 import RecipeType from '~/type/RecipeType';
 
 import TabPanelNavigation from './components/tab-panel-navigation/TabPanelNavigation';
 
 function RecipesPage() {
-    const arrayCategory = useSelector(getArrayCategorySelector);
+    const dispatch = useDispatch();
+    const { category, subcategories } = useParams();
+    const categories = useSelector(getArrayCategorySelector);
+    const activeSubcategoryId = useSelector(activeSubcategoryIdSelector);
     const [getCategory, setCategory] = useState<Category | undefined>();
     const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 110));
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [page, setPage] = useState(1);
-    const { category, subcategories } = useParams();
-    const [trigger, { data, error, isFetching }] = useLazyGetRecipeByCategoryQuery();
     const { randomCategory, lastBlockData, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
-    const activeSubcategoryId = useSelector(
-        (state: ApplicationState) => state.indexTabs.activeSubcategoryId,
-    );
-    const categories = useSelector(getArrayCategorySelector);
-    const dispatch = useDispatch();
+    const [trigger, { data, error, isFetching }] = useLazyGetRecipeByCategoryQuery();
+
+    const newCategory = categories.find((cat) => cat.category === category);
+
+    const hasError = error || isErrorLastBlock;
+
+    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
+
+    const subcategoryFind = categories
+        .filter((subcategory) => subcategory.rootCategoryId)
+        .find((subcategory) => subcategory.category === subcategories);
+    const categoriesFind = categories.filter((category) => !category.rootCategoryId);
+    const categoryFind = categoriesFind.find((cat) => cat.category === category);
 
     useEffect(() => {
         if (page === 1 && data) {
@@ -49,12 +58,6 @@ function RecipesPage() {
     const handleLoadMore = () => {
         setPage((prev) => prev + 1);
     };
-
-    const subcategoryFind = categories
-        .filter((subcategory) => subcategory.rootCategoryId)
-        .find((subcategory) => subcategory.category === subcategories);
-    const categoriesFind = categories.filter((category) => !category.rootCategoryId);
-    const categoryFind = categoriesFind.find((cat) => cat.category === category);
 
     useEffect(() => {
         if (!activeSubcategoryId && subcategoryFind?._id && categoryFind?.subCategories) {
@@ -80,17 +83,12 @@ function RecipesPage() {
         }
     }, [subcategoryFind?._id, page, trigger]);
 
-    const newCategory = arrayCategory.find((cat) => cat.category === category);
     useEffect(() => {
         if (category !== undefined) {
-            setRandomNumber(Math.floor(Math.random() * 13));
+            setRandomNumber(Math.floor(Math.random() * 110));
             setCategory(newCategory);
         }
-    }, [arrayCategory, category, newCategory]);
-
-    const hasError = error || isErrorLastBlock;
-
-    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
+    }, [categories, category, newCategory]);
 
     useEffect(() => {
         setIsErrorOpen(!!hasError);

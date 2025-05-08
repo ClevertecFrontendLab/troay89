@@ -30,7 +30,10 @@ export function useGetRandomDataCategory(randomNumber: number) {
         isLoading: isLastBlockLoading,
         isError: isErrorLastBlock,
         isFetching: isLastBlockFetching,
-    } = useGetRecipeByCategoryQuery({ limit: 5, id: randomSubcategory?._id });
+    } = useGetRecipeByCategoryQuery({
+        limit: 5,
+        id: randomSubcategory ? randomSubcategory._id : '67c4a0eced67ca980917d67e',
+    });
 
     return {
         randomCategory,

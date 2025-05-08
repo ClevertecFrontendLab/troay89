@@ -16,6 +16,7 @@ import MainBlock from './components/main-block/MainBlock';
 function JuicyPage() {
     const [page, setPage] = useState(1);
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
+    const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
     const {
         shouldShowFilterResults,
         filterRecipes,
@@ -27,19 +28,9 @@ function JuicyPage() {
         handleLoadMoreFilter,
     } = useShouldShowFilterResults();
 
-    const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
-
-    const hasErrorFilter = isErrorFilterRecipes;
-
-    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!hasErrorFilter);
-
-    useEffect(() => {
-        setIsErrorOpenFilter(!!hasErrorFilter);
-    }, [hasErrorFilter]);
-
     const {
         data: juicyData,
-        error: juiceError,
+        isError: isJuiceError,
         isLoading: isJuiceLoading,
     } = useGetRecipesQuery({
         page,
@@ -56,10 +47,20 @@ function JuicyPage() {
         isErrorLastBlock,
     } = useGetRandomDataCategory(randomNumber);
 
+    const hasError = isJuiceError || isErrorLastBlock;
+    const hasErrorFilter = isErrorFilterRecipes;
+
+    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(hasErrorFilter);
+
+    const [isErrorOpen, setIsErrorOpen] = useState(hasError);
+
+    useEffect(() => {
+        setIsErrorOpenFilter(hasErrorFilter);
+    }, [hasErrorFilter]);
+
     useEffect(() => {
         if (juicyData) {
             if (page === 1) {
-                console.log(page, 111);
                 setRecipes(juicyData.data);
             } else {
                 setRecipes((prev) => [...prev, ...juicyData.data]);
@@ -67,12 +68,8 @@ function JuicyPage() {
         }
     }, [juicyData]);
 
-    const hasError = juiceError || isErrorLastBlock;
-
-    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
-
     useEffect(() => {
-        setIsErrorOpen(!!hasError);
+        setIsErrorOpen(hasError);
     }, [hasError]);
 
     const handleLoadMore = () => {

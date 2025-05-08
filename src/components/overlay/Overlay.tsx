@@ -1,5 +1,7 @@
 import { Box, Spinner } from '@chakra-ui/react';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
+
 export const Overlay = () => (
     <Box
         position='fixed'
@@ -17,6 +19,6 @@ export const Overlay = () => (
         zIndex={2000}
         background='radial-gradient(circle at 50% 50%, #c4ff61 0%, rgba(255, 255, 255, 0) 3%)'
     >
-        <Spinner data-test-id='app-loader' />
+        <Spinner data-test-id={DATA_TEST_ID.APP_LOADER} />
     </Box>
 );

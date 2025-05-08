@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
+
 import GreenPlus from '../icons/GreenPlus';
 import styles from './MultiSelect.module.css';
 
@@ -119,7 +121,7 @@ function MultiSelect({
                         zIndex={10}
                         py={0}
                         width={{ base: '308px', bp95: widthMenu }}
-                        data-test-id='allergens-menu'
+                        data-test-id={DATA_TEST_ID.ALLERGENS_MENU}
                     >
                         {listItem.map((allergen, index) => (
                             <Stack
@@ -159,7 +161,7 @@ function MultiSelect({
                                     value={customAllergen}
                                     onChange={handleChangeInput}
                                     onKeyDown={handleEnterKeyPress}
-                                    data-test-id={isDisable ? 'add-other-allergen' : ''}
+                                    data-test-id={isDisable ? DATA_TEST_ID.ADD_OTHER_ALLERGEN : ''}
                                 />
                                 <Button
                                     variant='ghost'
@@ -173,7 +175,9 @@ function MultiSelect({
                                         as={GreenPlus}
                                         boxSize={3}
                                         onClick={handleClickPlus}
-                                        data-test-id={isDisable ? 'add-allergen-button' : ''}
+                                        data-test-id={
+                                            isDisable ? DATA_TEST_ID.ADD_ALLERGEN_BUTTON : ''
+                                        }
                                     />
                                 </Button>
                             </Flex>

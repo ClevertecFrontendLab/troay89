@@ -1,5 +1,5 @@
 import { Grid, GridItem, useMediaQuery } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router';
 
@@ -20,13 +20,14 @@ function Layout() {
 
     const { data, error, isLoading } = useGetCategoriesQuery();
 
+    const categories = useMemo(
+        () => (!isLoading && !error && data ? data : dataNavigation),
+        [data, error, isLoading],
+    );
+
     useEffect(() => {
-        if (isLoading || error) {
-            dispatch(setArrayCategory(dataNavigation));
-        } else if (isLoading === false && error === undefined && data !== undefined) {
-            dispatch(setArrayCategory(data));
-        }
-    }, [data, dispatch, error, isLoading]);
+        dispatch(setArrayCategory(categories));
+    }, [categories, dispatch]);
 
     return (
         <Grid className={styles.main_container}>

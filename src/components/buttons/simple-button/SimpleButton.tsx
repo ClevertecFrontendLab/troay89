@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
 import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
-import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexTabsSlice';
+import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategorisSubcategoriesSlice';
 
 import styled from './SimpleButton.module.css';
 
@@ -14,15 +14,21 @@ type SimpleButtonProps = {
 };
 
 function SimpleButton({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) {
+    const location = useLocation();
+
     const dispatch = useDispatch();
 
     const { secondLink, subcategories } = useCreateLinkCard({ id: _id });
-    const location = useLocation();
 
     function handlingClick() {
         dispatch(setIndexRecipe(_id));
         dispatch(setNameRecipe(titleRecipe));
     }
+
+    const pathButton =
+        subcategories === undefined
+            ? `${location.pathname.startsWith('/the-juiciest') ? location.pathname.replace(/\/$/, '') : '/the-juiciest'}/${_id}`
+            : secondLink;
 
     return (
         <Button
@@ -35,11 +41,7 @@ function SimpleButton({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) {
             px={{ bp95: '13px', base: 2 }}
             h={{ bp95: 8, base: 6 }}
             as={Link}
-            to={
-                subcategories === undefined
-                    ? `${location.pathname.startsWith('/the-juiciest') ? location.pathname.replace(/\/$/, '') : '/the-juiciest'}/${_id}`
-                    : secondLink
-            }
+            to={pathButton}
             onClick={handlingClick}
         >
             Готовить

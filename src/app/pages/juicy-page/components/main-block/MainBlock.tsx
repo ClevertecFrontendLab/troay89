@@ -1,6 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import RecipeType, { PaginationMeta } from '~/type/RecipeType';
 
 import styles from './MainBlock.module.css';
@@ -31,8 +32,8 @@ function MainBlock({ recipes, meta, page, onLoadMore }: MainBlockType) {
                                 categoriesIds={categoriesIds}
                                 favorites={bookmarks}
                                 like={likes}
-                                dataTest={`food-card-${index}`}
-                                dataTestButton={`card-link-${index}`}
+                                dataTest={`${DATA_TEST_ID.FOOD_CARD}-${index}`}
+                                dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${index}`}
                             />
                         ),
                     )}

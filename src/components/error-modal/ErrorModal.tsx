@@ -1,5 +1,7 @@
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton } from '@chakra-ui/react';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
+
 import styles from './ErrorModal.module.css';
 
 type ErrorModalType = {
@@ -17,7 +19,7 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
         left='50%'
         ml={{ base: '-164px', bp95: '-200px' }}
         zIndex={20}
-        data-test-id='error-notification'
+        data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION}
     >
         <AlertIcon color='white' />
         <Box>
@@ -33,7 +35,7 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
             right='-14px'
             top='-10px'
             onClick={onClose}
-            data-test-id='close-alert-button'
+            data-test-id={DATA_TEST_ID.CLOSE_ALERT_BUTTON}
         />
     </Alert>
 );

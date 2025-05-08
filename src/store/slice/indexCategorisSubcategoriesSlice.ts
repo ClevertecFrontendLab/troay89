@@ -5,6 +5,7 @@ type InitialState = {
     idRecipe: string | undefined;
     activeSubcategoryId: string | null;
     title: string | null;
+    indexCategory: number | undefined;
 };
 
 const initialState: InitialState = {
@@ -12,6 +13,7 @@ const initialState: InitialState = {
     idRecipe: undefined,
     activeSubcategoryId: null,
     title: null,
+    indexCategory: undefined,
 };
 
 const indexTabsSlice = createSlice({
@@ -30,9 +32,17 @@ const indexTabsSlice = createSlice({
         setActiveSubcategoryId(state, action: PayloadAction<string>) {
             state.activeSubcategoryId = action.payload;
         },
+        setIndexButton: (state, action: PayloadAction<number | undefined>) => {
+            state.indexCategory = action.payload;
+        },
     },
 });
 
 export default indexTabsSlice.reducer;
-export const { setIndexTab, setIndexRecipe, setActiveSubcategoryId, setNameRecipe } =
-    indexTabsSlice.actions;
+export const {
+    setIndexTab,
+    setIndexRecipe,
+    setActiveSubcategoryId,
+    setNameRecipe,
+    setIndexButton,
+} = indexTabsSlice.actions;

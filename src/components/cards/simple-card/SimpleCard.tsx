@@ -14,7 +14,7 @@ type SimpleCardType = {
     category: Category | undefined;
 };
 
-function SimpleCard({ _id, title, description, category, bookmarks, likes }: SimpleCardType) {
+function SimpleCard({ title, description, category, bookmarks, likes }: SimpleCardType) {
     return (
         <Card className={styles.container}>
             <Heading

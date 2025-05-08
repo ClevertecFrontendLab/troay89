@@ -1,10 +1,13 @@
 import { AccordionButton, AccordionIcon, Box, useAccordionItemState } from '@chakra-ui/react';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
-import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
-import { setActiveSubcategoryId, setIndexTab } from '~/store/slice/indexTabsSlice';
+import {
+    setActiveSubcategoryId,
+    setIndexButton,
+    setIndexTab,
+} from '~/store/slice/indexCategorisSubcategoriesSlice';
 import { Category } from '~/type/Category';
 
 import styles from './ButtonAccordion.module.css';
@@ -18,7 +21,7 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
     const dispatch = useDispatch();
     const { isOpen } = useAccordionItemState();
 
-    const handleAccordionButtonClick = () => {
+    const handleAccordionButtonClick = useCallback(() => {
         if (!isOpen) {
             dispatch(setIndexTab(0));
             dispatch(setIndexButton(index));
@@ -26,9 +29,13 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
             if (!subcategory) return;
             dispatch(setActiveSubcategoryId(subcategory));
         }
-    };
+    }, [category.subCategories, dispatch, index, isOpen]);
 
     const pathSubcategory = category.subCategories && category.subCategories[0].category;
+    const pathAccordionButton = `/recipes/${category.category}/${pathSubcategory}`;
+    const pathIconAccordionButton = category.icon?.startsWith('/media/i')
+        ? `https://training-api.clevertec.ru${category.icon}`
+        : category.icon;
 
     return (
         <AccordionButton
@@ -39,17 +46,13 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
                 fontWeight: 700,
             }}
             as={RouterLink}
-            to={`/recipes/${category.category}/${pathSubcategory}`}
+            to={pathAccordionButton}
             onClick={() => handleAccordionButtonClick()}
             data-test-id={`${category.category}-cuisine`}
         >
             <Box className={styles.item_menu} flex='1' textAlign='left'>
                 <img
-                    src={
-                        category.icon?.startsWith('/media/i')
-                            ? `https://training-api.clevertec.ru${category.icon}`
-                            : category.icon
-                    }
+                    src={pathIconAccordionButton}
                     alt={`${category.title} icon`}
                     className={styles.icon}
                 />

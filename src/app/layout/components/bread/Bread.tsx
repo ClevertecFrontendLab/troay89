@@ -5,10 +5,11 @@ import { useLocation } from 'react-router';
 import { Link } from 'react-router';
 
 import BreadIcon from '~/components/icons/BreadIcon';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { nameRecipeSelector } from '~/store/selectors/indexTabsSelector';
-import { setIndexTab } from '~/store/slice/indexTabsSlice';
+import { nameRecipeSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
 
 import styles from './Bread.module.css';
 import { getBreadcrumbs } from './Breadcrumbs';
@@ -21,13 +22,15 @@ type BreadProps = Partial<{
 function Bread({ isMobile, onClose }: BreadProps) {
     const dispatch = useDispatch();
     const { indexCategory, indexSubcategory } = useNavigationIndices();
-    const titleRecipe = useSelector(nameRecipeSelector);
     const location = useLocation();
+    const titleRecipe = useSelector(nameRecipeSelector);
     const categories = useSelector(getArrayCategorySelector);
+
     const categoriesFilter = useMemo(
-        () => categories.filter((cat) => cat.subCategories !== undefined),
+        () => categories.filter((category) => category.subCategories !== undefined),
         [categories],
     );
+
     const activeCategory = categoriesFilter[indexCategory];
     const titleCategory = activeCategory.title;
     const titleSubcategory = activeCategory?.subCategories?.[indexSubcategory].title;
@@ -37,6 +40,11 @@ function Bread({ isMobile, onClose }: BreadProps) {
 
     const handleCrumbLink = () => {
         dispatch(setIndexTab(0));
+    };
+
+    const handleClick = (crumbOnClick?: () => void) => {
+        if (crumbOnClick) crumbOnClick();
+        if (onClose) onClose();
     };
 
     const breadcrumbs = getBreadcrumbs(
@@ -54,36 +62,32 @@ function Bread({ isMobile, onClose }: BreadProps) {
         <Breadcrumb
             className={`${styles.breadcrumb} ${isMobile && styles.mobile}`}
             separator={<BreadIcon boxSize={6} />}
-            data-test-id='breadcrumbs'
+            data-test-id={DATA_TEST_ID.BREADCRUMBS}
         >
-            {breadcrumbs &&
-                breadcrumbs.map((crumb, index) => (
-                    <BreadcrumbItem
-                        className={styles.breadcrumb_item}
-                        key={index}
-                        isCurrentPage={index === breadcrumbs.length - 1}
-                    >
-                        {index === breadcrumbs.length - 1 ? (
-                            <span
-                                className={`${styles.breadcrumb_text} ${index === breadcrumbs.length - 1 && styles.current_page}`}
-                            >
-                                {crumb.title}
-                            </span>
-                        ) : (
-                            <BreadcrumbLink
-                                className={styles.breadcrumb_link}
-                                as={Link}
-                                to={crumb.link}
-                                onClick={() => {
-                                    crumb.onClick && crumb.onClick();
-                                    onClose && onClose();
-                                }}
-                            >
-                                {crumb.title}
-                            </BreadcrumbLink>
-                        )}
-                    </BreadcrumbItem>
-                ))}
+            {breadcrumbs.map((crumb, index) => (
+                <BreadcrumbItem
+                    className={styles.breadcrumb_item}
+                    key={index}
+                    isCurrentPage={index === breadcrumbs.length - 1}
+                >
+                    {index === breadcrumbs.length - 1 ? (
+                        <span
+                            className={`${styles.breadcrumb_text} ${index === breadcrumbs.length - 1 && styles.current_page}`}
+                        >
+                            {crumb.title}
+                        </span>
+                    ) : (
+                        <BreadcrumbLink
+                            className={styles.breadcrumb_link}
+                            as={Link}
+                            to={crumb.link}
+                            onClick={() => handleClick(crumb.onClick)}
+                        >
+                            {crumb.title}
+                        </BreadcrumbLink>
+                    )}
+                </BreadcrumbItem>
+            ))}
         </Breadcrumb>
     );
 }

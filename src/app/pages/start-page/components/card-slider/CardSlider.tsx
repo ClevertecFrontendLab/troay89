@@ -8,8 +8,12 @@ import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
-import { setIndexRecipe, setIndexTab, setNameRecipe } from '~/store/slice/indexTabsSlice';
+import {
+    setIndexButton,
+    setIndexRecipe,
+    setIndexTab,
+    setNameRecipe,
+} from '~/store/slice/indexCategorisSubcategoriesSlice';
 import { Category } from '~/type/Category';
 
 import styles from './CardSlider.module.css';
@@ -33,24 +37,26 @@ function CardSlider({
     favorites,
     like,
 }: CardSliderProps) {
-    const categories = useSelector(getArrayCategorySelector);
+    const dispatch = useDispatch();
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
+    const categories = useSelector(getArrayCategorySelector);
     const allCategoriesSubcategories = useSelector(getArrayCategorySelector);
-    const allCategory = allCategoriesSubcategories.filter((categoty) => categoty.subCategories);
+
+    const allCategory = allCategoriesSubcategories.filter((category) => category.subCategories);
     const allSubcategories = allCategoriesSubcategories.filter(
-        (categoty) => !categoty.subCategories,
+        (category) => !category.subCategories,
     );
     const currentSubcategory = allSubcategories.find((subcategories) =>
         categoriesIds.includes(subcategories._id),
     );
     const currentCategory = allCategory.find(
-        (categoty) => categoty._id === currentSubcategory?.rootCategoryId,
+        (category) => category._id === currentSubcategory?.rootCategoryId,
     );
     const currentSubcategoryIndex =
         currentCategory?.subCategories?.findIndex((index) => categoriesIds.includes(index._id)) ??
         1;
     const currentCategoryIndex = allCategory.findIndex(
-        (categoty) => categoty._id === currentSubcategory?.rootCategoryId,
+        (category) => category._id === currentSubcategory?.rootCategoryId,
     );
 
     useEffect(() => {
@@ -63,28 +69,23 @@ function CardSlider({
         setCategoriesCard(filteredCategories);
     }, [categories, categoriesIds]);
 
-    const dispatch = useDispatch();
-    function handlingClick() {
+    function handleCardClick() {
         dispatch(setIndexRecipe(_id));
         dispatch(setNameRecipe(title));
-        console.log(currentSubcategoryIndex, 'currentSubcategoryIndex');
-        console.log(currentCategoryIndex, 'currentCategoryIndex');
         dispatch(setIndexTab(currentSubcategoryIndex));
         dispatch(setIndexButton(currentCategoryIndex));
     }
 
+    const pathCard = `recipes/${currentCategory?.category}/${currentSubcategory?.category}/${_id}`;
+    const pathCardImage = `https://training-api.clevertec.ru${image}`;
+
     return (
-        <Card
-            className={styles.card}
-            as={Link}
-            onClick={handlingClick}
-            to={`recipes/${currentCategory?.category}/${currentSubcategory?.category}/${_id}`}
-        >
+        <Card className={styles.card} as={Link} onClick={handleCardClick} to={pathCard}>
             <CardBody className={styles.card_body}>
                 <Image
                     background='alpha.200'
                     className={styles.card_image}
-                    src={`https://training-api.clevertec.ru${image}`}
+                    src={pathCardImage}
                     fallbackSrc={fallback}
                     alt={title}
                     w={{ base: '158px', bp95: '279px', bp189: '322px' }}
@@ -129,9 +130,9 @@ function CardSlider({
                     left='8px'
                     display={{ base: 'flex', bp95: 'none' }}
                 >
-                    {categoriesCard.map((item, index) => (
+                    {categoriesCard.map((item) => (
                         <LabelTypeFood
-                            key={index}
+                            key={item._id}
                             title={item.title}
                             icon={item.icon}
                             yellow

@@ -12,6 +12,7 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
 import {
@@ -29,17 +30,19 @@ import FilterIcon from '../icons/FilterIcon';
 import SearchIcon from '../icons/SearchIcon';
 import styles from './SearchFilter.module.css';
 
-type SearchFilter = {
+type SearchFilterType = {
     listAllergin: string[];
 };
 
-function SearchFilter({ listAllergin }: SearchFilter) {
+function SearchFilter({ listAllergin }: SearchFilterType) {
+    const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const shouldShowFilterResults = useSelector(shouldShowFilterResultsSelector);
-    const dispatch = useDispatch();
     const resultSearch = useSelector(resultSearchSelector);
     const [isSearchRecipes, setSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
+
+    const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
 
     const handleFilterButton = () => {
         dispatch(setListCategory([]));
@@ -89,14 +92,14 @@ function SearchFilter({ listAllergin }: SearchFilter) {
             <Button
                 className={styles.filter}
                 onClick={handleFilterButton}
-                data-test-id='filter-button'
+                data-test-id={DATA_TEST_ID.FILTER_BUTTON}
             >
                 <Icon className={styles.filter_icon} as={FilterIcon} boxSize={6} />
             </Button>
             <InputGroup className={styles.search_wrapper}>
                 <Input
                     className={`${styles.search} ${isSearchRecipes ? styles.not_found : ''}`}
-                    data-test-id='search-input'
+                    data-test-id={DATA_TEST_ID.SEARCH_INPUT}
                     placeholder='Название или ингредиент...'
                     value={textSearch}
                     onChange={handleChangeSearch}
@@ -120,10 +123,10 @@ function SearchFilter({ listAllergin }: SearchFilter) {
                 <InputRightElement
                     className={styles.search_icon}
                     onClick={handleClickIconSearch}
-                    pointerEvents={textSearch.length > 2 || listAllergin.length ? 'auto' : 'none'}
+                    pointerEvents={pointerEventsSearchIcon}
                 >
                     <Icon
-                        data-test-id='search-button'
+                        data-test-id={DATA_TEST_ID.SEARCH_BUTTON}
                         as={SearchIcon}
                         height={{ bp95: '22px', base: '17px' }}
                         width={{ bp95: '22px', base: '17px' }}

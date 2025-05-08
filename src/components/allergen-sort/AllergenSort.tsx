@@ -10,11 +10,11 @@ import MultiSelect from '../multi-select/MultiSelect';
 import styles from './AllergenSort.module.css';
 
 type AllergenSortProps = {
-    direction?: 'row' | 'column';
-    isHiddenMobile?: boolean;
     dataTestSwitch: string;
     dataTest: string;
     value: string[];
+    isHiddenMobile?: boolean;
+    direction?: 'row' | 'column';
     widthMenu?: string;
     onSelectionChange: (selected: string[]) => void;
 };
@@ -28,14 +28,17 @@ function AllergenSort({
     widthMenu = '234px',
     onSelectionChange,
 }: AllergenSortProps) {
+    const dispatch = useDispatch();
     const stateSwitch = useSelector(getStateSwitchAllergen);
     const [isDisable, setDisable] = useState(stateSwitch);
-    const dispatch = useDispatch();
 
     const handleChangeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
         setDisable(event.target.checked);
         dispatch(setStateSwitch(event.target.checked));
     };
+
+    const textPlaceHolder =
+        direction === 'row' ? 'Выберите из списка...' : 'Выберите из списка аллергенов...';
 
     return (
         <Flex
@@ -57,11 +60,7 @@ function AllergenSort({
             </FormControl>
             <MultiSelect
                 widthMenu={widthMenu}
-                textPlaceHolder={
-                    direction === 'row'
-                        ? 'Выберите из списка...'
-                        : 'Выберите из списка аллергенов...'
-                }
+                textPlaceHolder={textPlaceHolder}
                 isDisable={isDisable}
                 listItem={dataAllergens}
                 value={value}

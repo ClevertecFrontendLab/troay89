@@ -46,11 +46,17 @@ function MainPage() {
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
 
-    const veryHardDataTestId = isLargerThan1200
+    const veryCrazyHardDataTestMobileId = isLargerThan1200
         ? 'juiciest-link-mobile'
         : isLargerThan767
           ? 'juiciest-link'
           : 'juiciest-link-mobile';
+
+    const veryCrazyHardDataTestIdDesktop = isLargerThan1200
+        ? 'juiciest-link'
+        : isLargerThan767
+          ? ''
+          : 'juiciest-link';
 
     const isPending =
         (isJuiceFetching || isSwiperFetching || isLastBlockFetching || isFetchingFilterRecipes) &&
@@ -61,8 +67,6 @@ function MainPage() {
 
     const [isErrorOpen, setErrorOpen] = useState(false);
     const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!hasErrorFilter);
-
-    console.log(hasError, 'hasError');
 
     useEffect(() => {
         setIsErrorOpenFilter(!!hasErrorFilter);
@@ -100,13 +104,7 @@ function MainPage() {
                             <Link
                                 className={styles.button_desktop}
                                 to='/the-juiciest'
-                                data-test-id={
-                                    isLargerThan1200
-                                        ? 'juiciest-link'
-                                        : isLargerThan767
-                                          ? ''
-                                          : 'juiciest-link'
-                                }
+                                data-test-id={veryCrazyHardDataTestIdDesktop}
                             >
                                 <GreenButton text='Вся подборка' />
                             </Link>
@@ -115,7 +113,7 @@ function MainPage() {
                         <Link
                             className={styles.button_mobile}
                             to='/the-juiciest'
-                            data-test-id={veryHardDataTestId}
+                            data-test-id={veryCrazyHardDataTestMobileId}
                         >
                             <GreenButton text='Вся подборка' />
                         </Link>

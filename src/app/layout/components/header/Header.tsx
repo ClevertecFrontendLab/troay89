@@ -8,6 +8,7 @@ import BurgerMenu from '~/components/burger-menu/BurgerMemu';
 import Burger from '~/components/icons/burger';
 import FirstPart from '~/components/icons/logo/FirstPart';
 import SecondPart from '~/components/icons/logo/SecondPart';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { zIndexLessSelector } from '~/store/selectors/zIndexLessSelector';
 
 import Avatar from '../avatar/Avatar';
@@ -18,15 +19,16 @@ import styles from './Header.module.css';
 function Header() {
     const { isOpen, onToggle, onClose } = useDisclosure();
     const btnRef = useRef<SVGSVGElement | null>(null);
-    const zIndexLess = useSelector(zIndexLessSelector);
     const [isDesktop] = useMediaQuery('(min-width: 1440px)');
+    const zIndexLess = useSelector(zIndexLessSelector);
+    const zIndex = zIndexLess ? 400 : 1401;
 
     return (
         <GridItem
             className={`${styles.header} ${isOpen && styles.mobile_open_drawer}`}
             as='header'
-            data-test-id='header'
-            zIndex={zIndexLess ? '400' : '1401'}
+            data-test-id={DATA_TEST_ID.HEADER}
+            zIndex={zIndex}
         >
             <Box className={styles.header_container}>
                 <Flex as={Link} to='/'>
@@ -47,7 +49,7 @@ function Header() {
                         boxSize={3}
                         my='18px'
                         mx='10px'
-                        data-test-id='close-icon'
+                        data-test-id={DATA_TEST_ID.CLOSE_ICON}
                     />
                 ) : (
                     <Burger
@@ -55,7 +57,7 @@ function Header() {
                         className={styles.burger}
                         boxSize={6}
                         onClick={onToggle}
-                        data-test-id='hamburger-icon'
+                        data-test-id={DATA_TEST_ID.HAMBURGER_ICON}
                     />
                 )}
             </Flex>

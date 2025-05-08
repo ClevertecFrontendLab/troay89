@@ -9,17 +9,20 @@ import {
     TabPanels,
     Tabs,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
-import { setCountCard } from '~/store/slice/countCardActiveTabSlice';
-import { setActiveSubcategoryId, setIndexTab } from '~/store/slice/indexTabsSlice';
+import {
+    setActiveSubcategoryId,
+    setIndexTab,
+} from '~/store/slice/indexCategorisSubcategoriesSlice';
 import { Category } from '~/type/Category';
 import RecipeType, { PaginationMeta } from '~/type/RecipeType';
 
@@ -42,9 +45,10 @@ function TabPanelNavigation({
     onLoadMore,
     meta,
 }: TabPanelNavigationType) {
+    const dispatch = useDispatch();
+    const { currentIndex } = useNavigationIndices();
     const tabListRef = useRef<HTMLDivElement | null>(null);
-    const [arrayTabs, setArrayTabs] = useState<Category[]>([]);
-    const [activeCardsCount, setActiveCardsCount] = useState<number>(0);
+
     const {
         shouldShowFilterResults,
         filterRecipes,
@@ -53,8 +57,9 @@ function TabPanelNavigation({
         dataFilterRecipes,
         handleLoadMoreFilter,
     } = useShouldShowFilterResults(4);
-    const { currentIndex } = useNavigationIndices();
-    const dispatch = useDispatch();
+    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(isErrorFilterRecipes);
+
+    const arrayTabs = useMemo(() => getCategory?.subCategories || [], [getCategory]);
 
     useEffect(() => {
         if (tabListRef.current) {
@@ -64,18 +69,8 @@ function TabPanelNavigation({
     }, []);
 
     useEffect(() => {
-        if (getCategory && getCategory.subCategories) {
-            setArrayTabs(getCategory?.subCategories);
-        }
-    }, [getCategory]);
-
-    useEffect(() => {
-        if (typeof currentIndex === 'number') {
-            dispatch(setCountCard(activeCardsCount));
-        } else {
-            setActiveCardsCount(0);
-        }
-    }, [activeCardsCount, currentIndex, dispatch]);
+        setIsErrorOpenFilter(!!isErrorFilterRecipes);
+    }, [isErrorFilterRecipes]);
 
     const handleTabClick = (_id: string) => {
         dispatch(setActiveSubcategoryId(_id));
@@ -84,12 +79,6 @@ function TabPanelNavigation({
     const handleTabsChange = (index: number) => {
         dispatch(setIndexTab(index));
     };
-
-    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!isErrorFilterRecipes);
-
-    useEffect(() => {
-        setIsErrorOpenFilter(!!isErrorFilterRecipes);
-    }, [isErrorFilterRecipes]);
 
     return (
         <Flex className={styles.container}>
@@ -160,8 +149,8 @@ function TabPanelNavigation({
                                                     i,
                                                 ) => (
                                                     <GeneraCard
-                                                        dataTest={`food-card-${i}`}
-                                                        dataTestButton={`card-link-${i}`}
+                                                        dataTest={`${DATA_TEST_ID.FOOD_CARD}-${i}`}
+                                                        dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${i}`}
                                                         key={_id}
                                                         _id={_id}
                                                         image={image}
@@ -194,7 +183,7 @@ function TabPanelNavigation({
             {meta && page < meta.totalPages && shouldShowFilterResults && (
                 <Button
                     className={styles.button}
-                    data-test-id='load-more-button'
+                    data-test-id={DATA_TEST_ID.LOAD_MORE_BUTTON}
                     onClick={onLoadMore}
                 >
                     Загрузить ещё

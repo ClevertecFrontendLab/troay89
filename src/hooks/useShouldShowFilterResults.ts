@@ -10,7 +10,7 @@ import {
     listTypeMeatsSelector,
     resultSearchSelector,
 } from '~/store/selectors/arrayResultFilterSelector';
-import { indexNavigationButtonSelector } from '~/store/selectors/indexNavigationButtonSelector';
+import { indexNavigationButtonSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
 import { useGetRecipesQuery } from '~/store/slice/app-slice';
 import {
     setFetchingFilterRecipes,
@@ -105,6 +105,7 @@ function useShouldShowFilterResults(limit: number = 8) {
         listTypeMeats.length > 0 ||
         resultSearch.length > 2 ||
         listTypeDishes.length > 0;
+
     const shouldShowFilterResults = !(
         filtersActive &&
         dataFilterRecipes &&

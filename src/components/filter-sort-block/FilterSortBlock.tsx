@@ -1,6 +1,7 @@
 import { Button, Flex } from '@chakra-ui/react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import RecipeType, { PaginationMeta } from '~/type/RecipeType';
 
 import styles from './FilterSortBlock.module.css';
@@ -30,15 +31,15 @@ function FilterSortBlock({ filterSearchRecipes, meta, page, onLoadMore }: Filter
                             categoriesIds={categoriesIds}
                             favorites={bookmarks}
                             like={likes}
-                            dataTest={`food-card-${index}`}
-                            dataTestButton={`card-link-${index}`}
+                            dataTest={`${DATA_TEST_ID.FOOD_CARD}-${index}`}
+                            dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${index}`}
                         />
                     ),
                 )}
             </Flex>
             {meta && page < meta.totalPages && (
                 <Button
-                    data-test-id='load-more-button'
+                    data-test-id={DATA_TEST_ID.LOAD_MORE_BUTTON}
                     className={styles.button}
                     colorScheme='teal'
                     px='17.5px'

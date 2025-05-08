@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import dataAuthor from '~/data/dataAuthor';
 import dataCategory from '~/data/dataCategory';
 import dataGarnish from '~/data/dataGarnish';
@@ -38,6 +39,7 @@ type DrawerFilterProps = {
 };
 
 function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
+    const dispatch = useDispatch();
     const [authors, setAuthors] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [typeMeats, setTypeMeats] = useState<string[]>([]);
@@ -45,7 +47,18 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
     const [typeAllergin, setTypeAllergin] = useState<string[]>([]);
     const [typeAll, setTypeAll] = useState<string[]>([]);
 
-    const dispatch = useDispatch();
+    const isDisabled = !(
+        authors.length ||
+        categories.length ||
+        typeMeats.length ||
+        typeDishes.length ||
+        typeAllergin.length
+    );
+
+    useEffect(() => {
+        setTypeAll([...typeMeats, ...typeDishes, ...categories, ...typeAllergin]);
+    }, [categories, typeAllergin, typeDishes, typeMeats]);
+
     const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(setListCategory([]));
@@ -59,18 +72,6 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
         setTypeAllergin([]);
         setTypeAll([]);
     };
-
-    const isDisabled = !(
-        authors.length ||
-        categories.length ||
-        typeMeats.length ||
-        typeDishes.length ||
-        typeAllergin.length
-    );
-
-    useEffect(() => {
-        setTypeAll([...typeMeats, ...typeDishes, ...categories, ...typeAllergin]);
-    }, [categories, typeAllergin, typeDishes, typeMeats]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -96,7 +97,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                 className={styles.drawer_content}
                 maxW={{ base: '344px', bp95: '463px' }}
                 h='100vh'
-                data-test-id='filter-drawer'
+                data-test-id={DATA_TEST_ID.FILTER_DRAWER}
             >
                 <DrawerHeader
                     display='flex'
@@ -114,7 +115,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                         onClick={onClose}
                         boxSize={6}
                         mr={{ base: 3, bp95: 0 }}
-                        data-test-id='close-filter-drawer'
+                        data-test-id={DATA_TEST_ID.CLOSE_FILTER_DRAWER}
                     />
                 </DrawerHeader>
 
@@ -149,7 +150,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                                 onSelectionChange={(selectedCategories) =>
                                     setCategories(selectedCategories)
                                 }
-                                dataTest='filter-menu-button-категория'
+                                dataTest={DATA_TEST_ID.FILTER_MENU_BUTTON_CATEGORY}
                             />
                             <MultiSelect
                                 widthMenu='399px'
@@ -178,15 +179,15 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                                 direction='column'
                                 isHiddenMobile
                                 value={typeAllergin}
-                                dataTestSwitch='allergens-switcher-filter'
-                                dataTest='allergens-menu-button-filter'
+                                dataTestSwitch={DATA_TEST_ID.ALLERGENS_SWITCHER_FILTER}
+                                dataTest={DATA_TEST_ID.ALLERGENS_MENU_BUTTON_FILTER}
                                 onSelectionChange={(selectedAllergens) =>
                                     setTypeAllergin(selectedAllergens)
                                 }
                             />
                             <GreenTags
                                 typeAll={typeAll}
-                                dataTestId='filter-tag'
+                                dataTestId={DATA_TEST_ID.FILTER_TAG}
                                 handleRemoveTag={handleRemoveTag}
                             />
                         </DrawerBody>
@@ -198,18 +199,17 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                     >
                         <Button
                             className={styles.button}
-                            data-test-id='clear-filter-button'
+                            data-test-id={DATA_TEST_ID.CLEAR_FILTER_BUTTON}
                             size={{ base: 'sm', bp95: 'lg' }}
                             variant='outline'
                             mr={2}
                             type='reset'
                         >
-                            {' '}
                             Очистить фильтр
                         </Button>
                         <Button
                             className={styles.button}
-                            data-test-id='find-recipe-button'
+                            data-test-id={DATA_TEST_ID.FIND_RECIPE_BUTTON}
                             size={{ base: 'sm', bp95: 'lg' }}
                             bg='alpha.900'
                             color='white'

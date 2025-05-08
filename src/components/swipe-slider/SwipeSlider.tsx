@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import CardSlider from '~/app/pages/start-page/components/card-slider/CardSlider';
 import SliderButton from '~/app/pages/start-page/components/slider-button/SliderButton';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import RecipeType from '~/type/RecipeType';
 
 import styles from './SwiperSlider.module.css';
@@ -39,10 +40,10 @@ function SwipeSlider({ swipeData }: SwipeSlideType) {
 
     return (
         <Box className={styles.wrapper}>
-            <SliderButton dataTest='carousel-back' onClick={handlePrev} />
+            <SliderButton dataTest={DATA_TEST_ID.CAROUSEL_BACK} onClick={handlePrev} />
             <Box className={styles.container}>
                 <Swiper
-                    data-test-id='carousel'
+                    data-test-id={DATA_TEST_ID.CAROUSEL}
                     loop={true}
                     className={styles.swiper}
                     slidesPerView='auto'
@@ -66,7 +67,7 @@ function SwipeSlider({ swipeData }: SwipeSlideType) {
                                 <SwiperSlide
                                     key={_id}
                                     className={styles.swiper_slide}
-                                    data-test-id={`carousel-card-${index}`}
+                                    data-test-id={`${DATA_TEST_ID.CAROUSEL_CARD}-${index}`}
                                 >
                                     <CardSlider
                                         key={_id}
@@ -83,7 +84,7 @@ function SwipeSlider({ swipeData }: SwipeSlideType) {
                         )}
                 </Swiper>
             </Box>
-            <SliderButton dataTest='carousel-forward' reverse onClick={handleNext} />
+            <SliderButton dataTest={DATA_TEST_ID.CAROUSEL_FORWARD} reverse onClick={handleNext} />
         </Box>
     );
 }

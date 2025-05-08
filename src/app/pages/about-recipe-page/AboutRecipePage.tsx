@@ -5,9 +5,9 @@ import { useNavigate, useParams } from 'react-router';
 
 import TableIngredients from '~/app/pages/about-recipe-page/components/table-ingredients/TableIndegrients';
 import { Overlay } from '~/components/overlay/Overlay';
-import { idRecipeSelector } from '~/store/selectors/indexTabsSelector';
+import { idRecipeSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
 import { useGetRecipesQuery, useLazyGetRecipeQuery } from '~/store/slice/app-slice';
-import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexTabsSlice';
+import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategorisSubcategoriesSlice';
 
 import AuthorCard from './components/author-card/AuthorCard';
 import CaloricDish from './components/caloric-dish/CaloricDish';
@@ -16,16 +16,17 @@ import CookingSteps from './components/cooking_steps/CookingSteps';
 import NewBlock from './components/new-block/NewBlock';
 
 function AboutRecipePage() {
-    const idRecipe = useSelector(idRecipeSelector);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [trigger, { data, isLoading, isError }] = useLazyGetRecipeQuery();
     const { id } = useParams();
+    const idRecipe = useSelector(idRecipeSelector);
+    const [trigger, { data, isLoading, isError }] = useLazyGetRecipeQuery();
+
     const { data: swiperData, error: swiperError } = useGetRecipesQuery({
         limit: 10,
         sortBy: 'createdAt',
         sortOrder: 'asc',
     });
-    const dispatch = useDispatch();
 
     useEffect(() => {
         if (idRecipe && !data) {

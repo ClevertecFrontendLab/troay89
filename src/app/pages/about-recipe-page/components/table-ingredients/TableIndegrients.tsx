@@ -15,6 +15,7 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import UpDown from '~/components/icons/UpDown';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { Ingredient } from '~/type/RecipeType';
 
 import styles from './TableIndegrients.module.css';
@@ -75,33 +76,27 @@ function TableIngredients({ portions, ingredients }: TableIngredients) {
                                     />
                                     <Button
                                         className={styles.button_up}
-                                        data-test-id='increment-stepper'
+                                        data-test-id={DATA_TEST_ID.INCREMENT_STEPPER}
+                                        onClick={handleChangeClickUp}
                                         p={0}
                                         minW='auto'
                                         variant='outline'
                                         w='24px'
                                         h='20px'
                                     >
-                                        <Icon
-                                            as={UpDown}
-                                            boxSize={3}
-                                            onClick={handleChangeClickUp}
-                                        />
+                                        <Icon as={UpDown} boxSize={3} />
                                     </Button>
                                     <Button
                                         className={styles.button_down}
-                                        data-test-id='decrement-stepper'
+                                        data-test-id={DATA_TEST_ID.DECREMENT_STEPPER}
+                                        onClick={handleChangeClickDown}
                                         p={0}
                                         minW='auto'
                                         variant='outline'
                                         w='24px'
                                         h='20px'
                                     >
-                                        <Icon
-                                            as={UpDown}
-                                            boxSize={3}
-                                            onClick={handleChangeClickDown}
-                                        />
+                                        <Icon as={UpDown} boxSize={3} />
                                     </Button>
                                 </FormLabel>
                             </Flex>
@@ -124,7 +119,7 @@ function TableIngredients({ portions, ingredients }: TableIngredients) {
                                     pr={{ base: 3, bp76: 6 }}
                                     className={styles.table_count}
                                     textAlign='right'
-                                    data-test-id={`ingredient-quantity-${index}`}
+                                    data-test-id={`${DATA_TEST_ID.INGREDIENT_QUANTITY}-${index}`}
                                 >{`${count} ${measureUnit}`}</Td>
                             </Tr>
                         ))}

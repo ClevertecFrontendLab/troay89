@@ -15,9 +15,6 @@ const paths = {
     main: {
         path: '/',
     },
-    mainAboutRecipe: {
-        path: '/:id',
-    },
     juicy: {
         path: '/the-juiciest',
     },
@@ -43,7 +40,6 @@ const allRoutes: RouteObject = {
         { path: paths.juicy.path, element: <JuicyPage /> },
         { path: paths.recipes.path, element: <RecipesPage /> },
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
-        { path: paths.mainAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },

@@ -11,15 +11,20 @@ import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { setActiveSubcategoryId, setIndexTab } from '~/store/slice/indexTabsSlice';
+import {
+    setActiveSubcategoryId,
+    setIndexTab,
+} from '~/store/slice/indexCategorisSubcategoriesSlice';
 
 import ButtonAccordion from '../accordion-button/ButtonAccordion';
 import styles from './AccordionMenu.module.css';
 
 function AccordionMenu() {
     const dispatch = useDispatch();
+    const categories = useSelector(getArrayCategorySelector);
     const { indexCategory, indexSubcategory, subcategories } = useNavigationIndices();
 
     const handleLinkClick = (index: number, subcategoryId: string) => {
@@ -27,14 +32,18 @@ function AccordionMenu() {
         dispatch(setActiveSubcategoryId(subcategoryId));
     };
 
-    const categories = useSelector(getArrayCategorySelector);
     const categoriesFilter = useMemo(
         () => categories.filter((cat) => cat.subCategories !== undefined),
         [categories],
     );
 
     return (
-        <Accordion className={styles.navigation} allowToggle as='nav' data-test-id='nav'>
+        <Accordion
+            className={styles.navigation}
+            allowToggle
+            as='nav'
+            data-test-id={DATA_TEST_ID.NAV}
+        >
             {categoriesFilter.map((category, index) => (
                 <AccordionItem border='none' key={category._id}>
                     <ButtonAccordion category={category} index={index ?? indexCategory} />
