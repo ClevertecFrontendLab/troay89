@@ -7,28 +7,28 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerOverlay,
-    Flex,
     Heading,
     Icon,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import dataAuthor from '~/data/dataAuthor';
 import dataCategory from '~/data/dataCategory';
 import dataGarnish from '~/data/dataGarnish';
-import dataPathCategory from '~/data/dataPathCategory';
 import dataTypeMeat from '~/data/dataTypeMeat';
-import { allergenFilterSelector } from '~/store/selectors/arrayResultFilterSelector';
 import {
+    setAllResult,
     setListCategory,
     setListTypeDishes,
     setListTypeMeats,
+    setResultFilter,
 } from '~/store/slice/arrayResultFilterSlice';
 
 import AllergenSort from '../allergen-sort/AllergenSort';
+import { GreenTags } from '../green-tags/GreenTags';
 import CloseDrawer from '../icons/CloseDrawer';
-import CloseGreen from '../icons/CloseGreen';
 import ListItemWithCheckBox from '../list_Item_with_checkbox/ListItemWithCheckBox';
 import MultiSelect from '../multi-select/MultiSelect';
 import styles from './DrawerFilter.module.css';
@@ -39,49 +39,55 @@ type DrawerFilterProps = {
 };
 
 function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
+    const dispatch = useDispatch();
     const [authors, setAuthors] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [typeMeats, setTypeMeats] = useState<string[]>([]);
     const [typeDishes, setTypeDishes] = useState<string[]>([]);
-    const [typeMeatsRus, setTypeMeatsRus] = useState<string[]>([]);
-    const [typeDishesRus, setTypeDishesRus] = useState<string[]>([]);
+    const [typeAllergin, setTypeAllergin] = useState<string[]>([]);
     const [typeAll, setTypeAll] = useState<string[]>([]);
-    const [resetKey, setResetKey] = useState(0);
-    const resultFilter = useSelector(allergenFilterSelector);
-
-    const dispatch = useDispatch();
-    const handleReset = () => {
-        setResetKey((prev) => prev + 1);
-    };
 
     const isDisabled = !(
         authors.length ||
         categories.length ||
         typeMeats.length ||
-        typeDishes.length
+        typeDishes.length ||
+        typeAllergin.length
     );
 
     useEffect(() => {
-        setTypeAll([...typeMeatsRus, ...typeDishesRus, ...categories, ...resultFilter]);
-    }, [categories, resultFilter, typeDishesRus, typeMeatsRus]);
+        setTypeAll([...typeMeats, ...typeDishes, ...categories, ...typeAllergin]);
+    }, [categories, typeAllergin, typeDishes, typeMeats]);
+
+    const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(setListCategory([]));
+        dispatch(setListTypeMeats([]));
+        dispatch(setListTypeDishes([]));
+        dispatch(setResultFilter([]));
+        dispatch(setAllResult([]));
+        setCategories([]);
+        setTypeMeats([]);
+        setTypeDishes([]);
+        setTypeAllergin([]);
+        setTypeAll([]);
+    };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const englishCategories = categories.map(translateCategory);
-        dispatch(setListCategory(englishCategories));
+        dispatch(setListCategory(categories));
         dispatch(setListTypeMeats(typeMeats));
         dispatch(setListTypeDishes(typeDishes));
+        dispatch(setResultFilter(typeAllergin));
+        dispatch(setAllResult(typeAll));
     };
 
-    function translateCategory(category: string): string {
-        for (const [key] of dataPathCategory.entries()) {
-            const [ru, en] = key;
-            if (ru.toLowerCase() === category.toLowerCase()) {
-                return en;
-            }
-        }
-        return category;
-    }
+    const handleRemoveTag = (item: string) => {
+        setCategories((prev) => prev.filter((category) => category !== item));
+        setTypeMeats((prev) => prev.filter((meat) => meat !== item));
+        setTypeDishes((prev) => prev.filter((dishes) => dishes !== item));
+        setTypeAllergin((prev) => prev.filter((allergin) => allergin !== item));
+    };
 
     return (
         <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
@@ -91,7 +97,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                 className={styles.drawer_content}
                 maxW={{ base: '344px', bp95: '463px' }}
                 h='100vh'
-                data-test-id='filter-drawer'
+                data-test-id={DATA_TEST_ID.FILTER_DRAWER}
             >
                 <DrawerHeader
                     display='flex'
@@ -109,7 +115,7 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                         onClick={onClose}
                         boxSize={6}
                         mr={{ base: 3, bp95: 0 }}
-                        data-test-id='close-filter-drawer'
+                        data-test-id={DATA_TEST_ID.CLOSE_FILTER_DRAWER}
                     />
                 </DrawerHeader>
 
@@ -125,7 +131,6 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                 >
                     <Box className={styles.container} flex='1' overflowY='auto'>
                         <DrawerBody
-                            key={`listitem-${resetKey}`}
                             className={styles.drawer_body}
                             display='flex'
                             flexDirection='column'
@@ -141,14 +146,16 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                                 textPlaceHolder='Категория'
                                 isDisable={true}
                                 listItem={dataCategory}
+                                value={categories}
                                 onSelectionChange={(selectedCategories) =>
                                     setCategories(selectedCategories)
                                 }
-                                dataTest='filter-menu-button-категория'
+                                dataTest={DATA_TEST_ID.FILTER_MENU_BUTTON_CATEGORY}
                             />
                             <MultiSelect
                                 widthMenu='399px'
                                 textPlaceHolder='Поиск по автору'
+                                value={[]}
                                 isDisable={true}
                                 listItem={dataAuthor}
                                 onSelectionChange={(selectedAuthors) => setAuthors(selectedAuthors)}
@@ -156,43 +163,33 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                             <ListItemWithCheckBox
                                 title='Тип мяса:'
                                 selectedTitle={dataTypeMeat}
-                                onSelectionChangeEng={(selectedMeats) =>
-                                    setTypeMeats(selectedMeats)
-                                }
-                                onSelectionChangeRus={(selectedMeats) =>
-                                    setTypeMeatsRus(selectedMeats)
-                                }
+                                value={typeMeats}
+                                onSelectionChange={(selectedMeats) => setTypeMeats(selectedMeats)}
                             />
                             <ListItemWithCheckBox
                                 title='Тип гарнира:'
                                 selectedTitle={dataGarnish}
-                                onSelectionChangeEng={(selectedDishes) =>
+                                value={typeDishes}
+                                onSelectionChange={(selectedDishes) =>
                                     setTypeDishes(selectedDishes)
-                                }
-                                onSelectionChangeRus={(selectedDishes) =>
-                                    setTypeDishesRus(selectedDishes)
                                 }
                             />
                             <AllergenSort
+                                widthMenu='399px'
                                 direction='column'
                                 isHiddenMobile
-                                dataTestSwitch='allergens-switcher-filter'
-                                dataTest='allergens-menu-button-filter'
+                                value={typeAllergin}
+                                dataTestSwitch={DATA_TEST_ID.ALLERGENS_SWITCHER_FILTER}
+                                dataTest={DATA_TEST_ID.ALLERGENS_MENU_BUTTON_FILTER}
+                                onSelectionChange={(selectedAllergens) =>
+                                    setTypeAllergin(selectedAllergens)
+                                }
                             />
-                            <Flex flexWrap='wrap' mt='auto' gap='16px' pt={2}>
-                                {typeAll &&
-                                    typeAll.map((item) => (
-                                        <Flex
-                                            key={item}
-                                            className={styles.label_change}
-                                            gap={2}
-                                            align='center'
-                                            data-test-id='filter-tag'
-                                        >
-                                            {item} <Icon as={CloseGreen} boxSize={2.5} />
-                                        </Flex>
-                                    ))}
-                            </Flex>
+                            <GreenTags
+                                typeAll={typeAll}
+                                dataTestId={DATA_TEST_ID.FILTER_TAG}
+                                handleRemoveTag={handleRemoveTag}
+                            />
                         </DrawerBody>
                     </Box>
                     <DrawerFooter
@@ -202,18 +199,17 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
                     >
                         <Button
                             className={styles.button}
-                            data-test-id='clear-filter-button'
+                            data-test-id={DATA_TEST_ID.CLEAR_FILTER_BUTTON}
                             size={{ base: 'sm', bp95: 'lg' }}
                             variant='outline'
                             mr={2}
                             type='reset'
                         >
-                            {' '}
                             Очистить фильтр
                         </Button>
                         <Button
                             className={styles.button}
-                            data-test-id='find-recipe-button'
+                            data-test-id={DATA_TEST_ID.FIND_RECIPE_BUTTON}
                             size={{ base: 'sm', bp95: 'lg' }}
                             bg='alpha.900'
                             color='white'

@@ -15,39 +15,39 @@ import {
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import UpDown from '~/components/icons/UpDown';
-import { useNavigationIndices } from '~/hooks/useNavigationIndices';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { Ingredient } from '~/type/RecipeType';
 
 import styles from './TableIndegrients.module.css';
 
-function TableIngredients() {
-    const { recipe } = useNavigationIndices();
+type TableIngredients = {
+    portions: number;
+    ingredients: Ingredient[];
+};
 
+function TableIngredients({ portions, ingredients }: TableIngredients) {
     const [countPortion, setCountPortion] = useState(1);
-    const [originalPortions, setOriginalPortions] = useState(recipe?.portions || 1);
-    const [arrayIngredients, setArrayIngredients] = useState(recipe?.ingredients);
+    const [originalPortions, setOriginalPortions] = useState(portions);
+    const [arrayIngredients, setArrayIngredients] = useState(ingredients);
     const handleChangePortion = (event: ChangeEvent<HTMLInputElement>) =>
         setCountPortion(+event.target.value);
     const handleChangeClickUp = () => setCountPortion((value) => value + 1);
     const handleChangeClickDown = () => setCountPortion((value) => (value > 1 ? value - 1 : value));
 
     useEffect(() => {
-        if (recipe !== undefined) {
-            setCountPortion(recipe.portions);
-            setOriginalPortions(recipe.portions);
-        }
-    }, [recipe]);
+        setCountPortion(portions);
+        setOriginalPortions(portions);
+    }, [portions]);
 
     useEffect(() => {
-        if (recipe !== undefined) {
-            setArrayIngredients(
-                recipe.ingredients.map(({ title, count, measureUnit }) => ({
-                    title,
-                    count: ((+count / originalPortions) * countPortion).toString(),
-                    measureUnit,
-                })),
-            );
-        }
-    }, [countPortion, originalPortions, recipe]);
+        setArrayIngredients(
+            ingredients.map(({ title, count, measureUnit }) => ({
+                title,
+                count: ((+count / originalPortions) * countPortion).toString(),
+                measureUnit,
+            })),
+        );
+    }, [countPortion, ingredients, originalPortions]);
 
     return (
         <TableContainer
@@ -76,33 +76,27 @@ function TableIngredients() {
                                     />
                                     <Button
                                         className={styles.button_up}
-                                        data-test-id='increment-stepper'
+                                        data-test-id={DATA_TEST_ID.INCREMENT_STEPPER}
+                                        onClick={handleChangeClickUp}
                                         p={0}
                                         minW='auto'
                                         variant='outline'
                                         w='24px'
                                         h='20px'
                                     >
-                                        <Icon
-                                            as={UpDown}
-                                            boxSize={3}
-                                            onClick={handleChangeClickUp}
-                                        />
+                                        <Icon as={UpDown} boxSize={3} />
                                     </Button>
                                     <Button
                                         className={styles.button_down}
-                                        data-test-id='decrement-stepper'
+                                        data-test-id={DATA_TEST_ID.DECREMENT_STEPPER}
+                                        onClick={handleChangeClickDown}
                                         p={0}
                                         minW='auto'
                                         variant='outline'
                                         w='24px'
                                         h='20px'
                                     >
-                                        <Icon
-                                            as={UpDown}
-                                            boxSize={3}
-                                            onClick={handleChangeClickDown}
-                                        />
+                                        <Icon as={UpDown} boxSize={3} />
                                     </Button>
                                 </FormLabel>
                             </Flex>
@@ -125,7 +119,7 @@ function TableIngredients() {
                                     pr={{ base: 3, bp76: 6 }}
                                     className={styles.table_count}
                                     textAlign='right'
-                                    data-test-id={`ingredient-quantity-${index}`}
+                                    data-test-id={`${DATA_TEST_ID.INGREDIENT_QUANTITY}-${index}`}
                                 >{`${count} ${measureUnit}`}</Td>
                             </Tr>
                         ))}

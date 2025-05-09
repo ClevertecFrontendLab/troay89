@@ -52,11 +52,6 @@ button.home_button {
         justify-content: space-between;
         background-color: var(--lime-color);
         padding-inline: 26px;
-    }
-}
-
-@media screen and (max-width: 950px) {
-    .footer {
         position: fixed;
         bottom: 0;
         left: 0;

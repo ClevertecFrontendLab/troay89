@@ -2,27 +2,24 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-import dataRecipes from '~/data/dataRecipes';
-import { indexNavigationButtonSelector } from '~/store/selectors/indexNavigationButtonSelector';
-import { currentIndexSelector, idRecipeSelector } from '~/store/selectors/indexTabsSelector';
-import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
-import { setIndexTab } from '~/store/slice/indexTabsSlice';
-import RecipeType from '~/type/RecipeType';
+import {
+    currentIndexSelector,
+    indexNavigationButtonSelector,
+} from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { setIndexButton, setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
 
 import usePathCategoryData from './usePathCategoryData';
 
 export function useNavigationIndices() {
     const dispatch = useDispatch();
 
-    const { category, subcategories, id } = useParams();
+    const { category, subcategories } = useParams();
 
     const currentIndexButton = useSelector(indexNavigationButtonSelector);
     const currentIndex = useSelector(currentIndexSelector);
-    const idRecipe = useSelector(idRecipeSelector);
 
     const [indexCategory, setIndexCategory] = useState(0);
     const [indexSubcategory, setIndexSubcategory] = useState(0);
-    const [recipe, setRecipe] = useState<RecipeType>();
 
     const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
 
@@ -51,23 +48,11 @@ export function useNavigationIndices() {
         }
     }, [currentIndex, dispatch, indexCategory, valuesPathCategory, subcategories]);
 
-    useEffect(() => {
-        if (idRecipe !== undefined) {
-            setRecipe(dataRecipes[+idRecipe]);
-        } else if (id !== undefined) {
-            setRecipe(dataRecipes[+id]);
-        }
-    }, [idRecipe]);
-
     return {
         indexCategory,
         indexSubcategory,
         category,
         subcategories,
         currentIndex,
-        currentIndexButton,
-        idRecipe,
-        recipe,
-        id,
     };
 }

@@ -16,7 +16,7 @@ function BurgerMenu({ isOpen, onClose }: BurgerMenuProps) {
                 <DrawerOverlay backgroundColor='rgba(0, 0, 0, 0.16)' backdropFilter='blur(4px)' />
                 <DrawerContent
                     h='calc(100vh - 84px)'
-                    w='344px !important'
+                    maxW='344px'
                     right={{ base: '8px !important', bp76: '12px !important' }}
                     borderBottomRadius='12px'
                     boxShadow='0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);'

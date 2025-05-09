@@ -4,17 +4,13 @@ import styles from './SubtitleWithText.module.css';
 
 type SubtitleWithTextProps = {
     title: string;
-    text: string;
-    isChangeTable?: boolean;
+    text?: string;
 };
 
-function SubtitleWithText({ title, text, isChangeTable }: SubtitleWithTextProps) {
+function SubtitleWithText({ title, text }: SubtitleWithTextProps) {
     return (
         <Flex className={styles.subtitle_container}>
-            <Heading
-                className={`${styles.subtitle} ${isChangeTable && styles.change_table}`}
-                as='h2'
-            >
+            <Heading className={styles.subtitle} as='h2'>
                 {title}
             </Heading>
             <Text className={styles.description}>{text}</Text>

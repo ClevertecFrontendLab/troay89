@@ -11,60 +11,62 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
 
-import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
-import { countCardActiveTabSelector } from '~/store/selectors/countCardActiveTabSliceSelector';
+import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
 import {
     setListCategory,
     setListTypeDishes,
     setListTypeMeats,
+    setResultFilter,
     setResultSearch,
 } from '~/store/slice/arrayResultFilterSlice';
 import { setZIndex } from '~/store/slice/headerZIndex';
+import { setOverlayPosition } from '~/store/slice/overlayPosition';
 
 import DrawerFilter from '../drawer-filter/DrawerFilter';
 import FilterIcon from '../icons/FilterIcon';
 import SearchIcon from '../icons/SearchIcon';
 import styles from './SearchFilter.module.css';
 
-function SearchFilter() {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const { shouldShowFilterResults } = useShouldShowFilterResults();
+type SearchFilterType = {
+    listAllergin: string[];
+};
+
+function SearchFilter({ listAllergin }: SearchFilterType) {
     const dispatch = useDispatch();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const shouldShowFilterResults = useSelector(shouldShowFilterResultsSelector);
     const resultSearch = useSelector(resultSearchSelector);
-    const countActiveTabCard = useSelector(countCardActiveTabSelector);
-    const [isSearchRecipes, setSearchRecipes] = useState(false);
+    const [isSearchRecipes, setIsSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
-    const { subcategories } = useParams();
+
+    const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
 
     const handleFilterButton = () => {
-        onOpen();
         dispatch(setListCategory([]));
         dispatch(setListTypeMeats([]));
         dispatch(setListTypeDishes([]));
+        onOpen();
+        dispatch(setOverlayPosition(true));
     };
 
     const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
         setTextSearch(event.target.value);
         if (isSearchRecipes === true) {
-            setSearchRecipes(false);
+            setIsSearchRecipes(false);
         }
     };
 
     const handleClickIconSearch = () => {
-        if (subcategories) {
-            setSearchRecipes(shouldShowFilterResults);
-        } else {
-            setSearchRecipes(!!countActiveTabCard);
-        }
-
+        dispatch(setOverlayPosition(false));
         dispatch(setResultSearch(textSearch));
+        dispatch(setResultFilter(listAllergin));
     };
 
     const handleClickIconClear = () => {
-        setSearchRecipes(false);
+        setIsSearchRecipes(false);
         setTextSearch('');
         dispatch(setResultSearch(''));
     };
@@ -77,7 +79,7 @@ function SearchFilter() {
 
     useEffect(() => {
         if (resultSearch.length > 2) {
-            setSearchRecipes(shouldShowFilterResults);
+            setIsSearchRecipes(shouldShowFilterResults);
         }
     }, [resultSearch.length, shouldShowFilterResults]);
 
@@ -90,14 +92,14 @@ function SearchFilter() {
             <Button
                 className={styles.filter}
                 onClick={handleFilterButton}
-                data-test-id='filter-button'
+                data-test-id={DATA_TEST_ID.FILTER_BUTTON}
             >
                 <Icon className={styles.filter_icon} as={FilterIcon} boxSize={6} />
             </Button>
             <InputGroup className={styles.search_wrapper}>
                 <Input
                     className={`${styles.search} ${isSearchRecipes ? styles.not_found : ''}`}
-                    data-test-id='search-input'
+                    data-test-id={DATA_TEST_ID.SEARCH_INPUT}
                     placeholder='Название или ингредиент...'
                     value={textSearch}
                     onChange={handleChangeSearch}
@@ -121,10 +123,10 @@ function SearchFilter() {
                 <InputRightElement
                     className={styles.search_icon}
                     onClick={handleClickIconSearch}
-                    pointerEvents={textSearch.length > 2 ? 'auto' : 'none'}
+                    pointerEvents={pointerEventsSearchIcon}
                 >
                     <Icon
-                        data-test-id='search-button'
+                        data-test-id={DATA_TEST_ID.SEARCH_BUTTON}
                         as={SearchIcon}
                         height={{ bp95: '22px', base: '17px' }}
                         width={{ bp95: '22px', base: '17px' }}

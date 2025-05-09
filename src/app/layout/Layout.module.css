@@ -4,7 +4,6 @@
         'nav main aside';
     grid-template-rows: 80px 1fr;
     grid-template-columns: 256px 1fr 241px;
-    max-width: 1920px;
     margin: auto;
     position: relative;
 }
@@ -27,13 +26,11 @@
 
 .main {
     grid-area: main;
-    margin-inline: 24px;
-}
-
-@media (max-width: 1890px) {
-    .main {
-        overflow-x: hidden;
-    }
+    max-width: 1410px;
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 24px;
+    overflow-x: hidden;
 }
 
 @media (max-width: 1439px) {
@@ -51,12 +48,12 @@
 
 @media screen and (max-width: 950px) {
     .main {
-        margin-inline: 20px;
+        padding-inline: 20px;
     }
 }
 
 @media (max-width: 550px) {
     .main {
-        margin-inline: 0;
+        padding-inline: 0;
     }
 }

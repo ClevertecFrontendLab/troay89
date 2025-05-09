@@ -1,0 +1,12 @@
+h1.header {
+    font: var(--font-inter-subtitle-mobile);
+    letter-spacing: 0.9px;
+    text-align: center;
+}
+
+p.text {
+    font: var(--font-inter-bread);
+    color: var(--black-alpha);
+    letter-spacing: 0.1px;
+    text-align: center;
+}

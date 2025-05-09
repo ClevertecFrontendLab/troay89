@@ -1,5 +1,7 @@
+import { BREADCRUMBS } from '~/constants/breadcrumb';
+
 type Breadcrumb = {
-    title: string;
+    title: string | undefined;
     link?: string;
     onClick?: () => void;
 };
@@ -7,41 +9,57 @@ type Breadcrumb = {
 export function getBreadcrumbs(
     pathname: string,
     category: string,
-    subcategory: string,
-    titleRecipe: string | undefined,
     pathCategory: string,
-    pathSubcategory: string,
-    pathFirstSubcategory: string,
     handleCrumbLink: () => void,
+    titleRecipe: string | null,
+    subcategory?: string,
+    pathSubcategory?: string,
+    pathFirstSubcategory?: string,
 ) {
     let breadcrumbs: Breadcrumb[] = [];
 
     if (pathname === '/') {
-        breadcrumbs = [{ title: 'Главная', link: '/' }];
-    } else if (pathname === '/the-juiciest') {
-        breadcrumbs = [{ title: 'Главная', link: '/' }, { title: 'Самое сочное' }];
-    } else if (pathname.startsWith('/recipes')) {
+        breadcrumbs = [{ title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH }];
+    } else if (pathname === BREADCRUMBS.THE_JUICIEST_PATH) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: BREADCRUMBS.THE_JUICIEST_TITLE },
+        ];
+    } else if (pathname.startsWith(BREADCRUMBS.THE_JUICIEST_PATH + '/')) {
+        const pathParts = pathname.split('/').filter(Boolean);
+
+        if (pathParts.length === 2) {
+            breadcrumbs = [
+                { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+                { title: BREADCRUMBS.THE_JUICIEST_TITLE, link: BREADCRUMBS.THE_JUICIEST_PATH },
+                { title: titleRecipe ?? '' },
+            ];
+        }
+    } else if (pathname.startsWith(BREADCRUMBS.RECIPES)) {
         const pathParts = pathname.split('/').filter(Boolean);
 
         if (pathParts.length === 3) {
             breadcrumbs = [
-                { title: 'Главная', link: '/' },
+                { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
                 {
                     title: category,
-                    link: `/recipes/${pathCategory}/${pathFirstSubcategory}`,
+                    link: `${BREADCRUMBS.RECIPES}/${pathCategory}/${pathFirstSubcategory}`,
                     onClick: handleCrumbLink,
                 },
                 { title: subcategory },
             ];
         } else if (pathParts.length === 4) {
             breadcrumbs = [
-                { title: 'Главная', link: '/' },
+                { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
                 {
                     title: category,
-                    link: `/recipes/${pathCategory}/${pathFirstSubcategory}`,
+                    link: `${BREADCRUMBS.RECIPES}/${pathCategory}/${pathFirstSubcategory}`,
                     onClick: handleCrumbLink,
                 },
-                { title: subcategory, link: `/recipes/${pathCategory}/${pathSubcategory}` },
+                {
+                    title: subcategory,
+                    link: `${BREADCRUMBS.RECIPES}/${pathCategory}/${pathSubcategory}`,
+                },
                 { title: titleRecipe ?? '' },
             ];
         }

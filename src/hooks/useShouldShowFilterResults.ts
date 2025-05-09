@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
-import dataRecipes from '~/data/dataRecipes';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import {
     allergenFilterSelector,
     listCategorySelector,
@@ -9,51 +10,94 @@ import {
     listTypeMeatsSelector,
     resultSearchSelector,
 } from '~/store/selectors/arrayResultFilterSelector';
+import { indexNavigationButtonSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import {
+    setFetchingFilterRecipes,
+    setShouldShowFilterResults,
+} from '~/store/slice/overlayPosition';
 import RecipeType from '~/type/RecipeType';
 
-function useShouldShowFilterResults() {
+function useShouldShowFilterResults(limit: number = 8) {
+    const { category } = useParams();
     const filterAllergen = useSelector(allergenFilterSelector);
     const listCategory = useSelector(listCategorySelector);
     const listTypeMeats = useSelector(listTypeMeatsSelector);
     const listTypeDishes = useSelector(listTypeDishesSelector);
+    const indexActiveCategory = useSelector(indexNavigationButtonSelector);
     const resultSearch = useSelector(resultSearchSelector);
+    const [pageFilter, setPageFilter] = useState(1);
+    const [filterRecipes, setFilterRecipes] = useState<RecipeType[]>([]);
 
-    const recipesFilter: RecipeType[] = useMemo(
-        () =>
-            dataRecipes
-                .filter((recipe) => {
-                    const passesAllergen =
-                        filterAllergen.length === 0 ||
-                        !filterAllergen.some((filterStr) => {
-                            const firstWord = filterStr.trim().split(/\s+/)[0];
-                            return recipe.ingredients.some((ingredient) =>
-                                ingredient.title.toLowerCase().includes(firstWord.toLowerCase()),
-                            );
-                        });
-
-                    const passesCategory =
-                        listCategory.length === 0 ||
-                        listCategory.some((catFilter) => recipe.category.includes(catFilter));
-
-                    const passesMeat =
-                        listTypeMeats.length === 0 || listTypeMeats.includes(recipe.meat);
-
-                    const passesSide =
-                        listTypeDishes.length === 0 || listTypeDishes.includes(recipe.side);
-
-                    const passesSearch =
-                        resultSearch.length < 3 ||
-                        recipe.title
-                            .toLowerCase()
-                            .split(/\s+/)
-                            .some((word) => word.startsWith(resultSearch.toLowerCase()));
-                    return (
-                        passesAllergen && passesCategory && passesMeat && passesSide && passesSearch
-                    );
-                })
-                .slice(0, 8),
-        [filterAllergen, listCategory, listTypeMeats, listTypeDishes, resultSearch],
+    const categories = useSelector(getArrayCategorySelector);
+    const categoriesFilter = categories.filter((category) => !category.rootCategoryId);
+    const categoryFilter = categoriesFilter.filter((category) =>
+        listCategory.includes(category.title),
     );
+    const subcategoriesIds =
+        category && indexActiveCategory
+            ? categoriesFilter[indexActiveCategory].subCategories
+                  ?.map((subcategory) => subcategory._id)
+                  .flat()
+                  .join(',')
+            : categoryFilter
+                  .map((category) => category.subCategories?.map((subcategory) => subcategory._id))
+                  .flat()
+                  .join(',');
+    const stringTypeMeats = listTypeMeats.join(',');
+    const stringTypeDishes = listTypeDishes.join(',');
+    const stringFilterAllergen = filterAllergen.join(',');
+
+    const {
+        data: dataFilterRecipes,
+        isError: isErrorFilterRecipes,
+        isLoading: isLoadingFilterRecipes,
+        isFetching: isFetchingFilterRecipes,
+    } = useGetRecipesQuery(
+        {
+            page: pageFilter,
+            limit: limit,
+            meat: stringTypeMeats,
+            garnish: stringTypeDishes,
+            allergens: stringFilterAllergen,
+            subcategoriesIds: subcategoriesIds,
+            searchString: resultSearch,
+        },
+        {
+            skip: !(
+                stringTypeMeats ||
+                stringTypeDishes ||
+                stringFilterAllergen ||
+                stringFilterAllergen ||
+                subcategoriesIds ||
+                resultSearch
+            ),
+        },
+    );
+
+    useEffect(() => {
+        setPageFilter(1);
+    }, [stringTypeMeats, stringTypeDishes, stringFilterAllergen, subcategoriesIds, resultSearch]);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setFetchingFilterRecipes(isFetchingFilterRecipes));
+    }, [isFetchingFilterRecipes, dispatch]);
+
+    useEffect(() => {
+        if (dataFilterRecipes) {
+            if (pageFilter === 1) {
+                setFilterRecipes(dataFilterRecipes.data);
+            } else {
+                setFilterRecipes((prev) => [...prev, ...dataFilterRecipes.data]);
+            }
+        }
+    }, [dataFilterRecipes]);
+
+    const handleLoadMoreFilter = () => {
+        setPageFilter((prev) => prev + 1);
+    };
 
     const filtersActive =
         filterAllergen.length > 0 ||
@@ -61,8 +105,27 @@ function useShouldShowFilterResults() {
         listTypeMeats.length > 0 ||
         resultSearch.length > 2 ||
         listTypeDishes.length > 0;
-    const shouldShowFilterResults = !(filtersActive && recipesFilter?.length > 0);
-    return { shouldShowFilterResults, recipesFilter };
+
+    const shouldShowFilterResults = !(
+        filtersActive &&
+        dataFilterRecipes &&
+        dataFilterRecipes.data &&
+        dataFilterRecipes.data?.length > 0
+    );
+
+    useEffect(() => {
+        dispatch(setShouldShowFilterResults(shouldShowFilterResults));
+    }, [dispatch, shouldShowFilterResults]);
+    return {
+        shouldShowFilterResults,
+        filterRecipes,
+        isErrorFilterRecipes,
+        isLoadingFilterRecipes,
+        isFetchingFilterRecipes,
+        pageFilter,
+        dataFilterRecipes,
+        handleLoadMoreFilter,
+    };
 }
 
 export default useShouldShowFilterResults;

@@ -1,37 +1,144 @@
 import { Box, Divider } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
+import LastBlock from '~/components/last-block/LastBlock';
+import { Overlay } from '~/components/overlay/Overlay';
 import Toolbar from '~/components/toolbar/Toolbar';
-import dataLongCard from '~/data/dataLongCardMain';
-import dataSimpleCard from '~/data/dataSimpleCard';
+import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
+import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import RecipeType from '~/type/RecipeType';
 
-import LastBlock from '../../../components/last-block/LastBlock';
 import MainBlock from './components/main-block/MainBlock';
 
 function JuicyPage() {
-    const text =
-        'Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.';
-    const { shouldShowFilterResults, recipesFilter } = useShouldShowFilterResults();
+    const [page, setPage] = useState(1);
+    const [recipes, setRecipes] = useState<RecipeType[]>([]);
+    const { contSubcategory } = useGetCountSubcategory();
+    const [randomNumber, setRandomNumber] = useState(0);
+    const {
+        shouldShowFilterResults,
+        filterRecipes,
+        isErrorFilterRecipes,
+        isLoadingFilterRecipes,
+        isFetchingFilterRecipes,
+        pageFilter,
+        dataFilterRecipes,
+        handleLoadMoreFilter,
+    } = useShouldShowFilterResults();
+
+    const {
+        data: juicyData,
+        isError: isJuiceError,
+        isLoading: isJuiceLoading,
+    } = useGetRecipesQuery({
+        page,
+        limit: 8,
+        sortBy: 'likes',
+        sortOrder: 'desc',
+    });
+
+    const {
+        randomCategory,
+        lastBlockData,
+        isLastBlockLoading,
+        isLastBlockFetching,
+        isErrorLastBlock,
+    } = useGetRandomDataCategory(randomNumber);
+
+    const hasError = isJuiceError || isErrorLastBlock;
+    const hasErrorFilter = isErrorFilterRecipes;
+
+    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(hasErrorFilter);
+
+    const [isErrorOpen, setIsErrorOpen] = useState(hasError);
+
+    useEffect(() => {
+        setIsErrorOpenFilter(hasErrorFilter);
+    }, [hasErrorFilter]);
+
+    useEffect(() => {
+        if (juicyData) {
+            if (page === 1) {
+                setRecipes(juicyData.data);
+            } else {
+                setRecipes((prev) => [...prev, ...juicyData.data]);
+            }
+        }
+    }, [juicyData]);
+
+    useEffect(() => {
+        setIsErrorOpen(hasError);
+    }, [hasError]);
+
+    useEffect(() => {
+        setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
+    }, [contSubcategory]);
+
+    const handleLoadMore = () => {
+        setPage((prev) => prev + 1);
+    };
+
+    const isPending =
+        isJuiceLoading ||
+        isLastBlockLoading ||
+        isLastBlockFetching ||
+        isLoadingFilterRecipes ||
+        isFetchingFilterRecipes;
+
+    if (isPending) {
+        return <Overlay />;
+    }
+
+    const renderContent = () => {
+        if (isErrorOpen) {
+            return <ErrorModal onClose={() => setIsErrorOpen(false)} />;
+        }
+
+        if (shouldShowFilterResults && !hasError) {
+            return (
+                <>
+                    <Box px={{ base: 4, bp76: 0 }}>
+                        <MainBlock
+                            recipes={recipes}
+                            page={page}
+                            meta={juicyData?.meta}
+                            onLoadMore={handleLoadMore}
+                        />
+                        <Divider />
+                        <LastBlock
+                            randomCategory={randomCategory}
+                            lastBlockData={lastBlockData?.data}
+                        />
+                    </Box>
+                    {isErrorOpenFilter && (
+                        <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
+                    )}
+                </>
+            );
+        }
+
+        if (!hasError && filterRecipes.length > 0) {
+            return (
+                <FilterSortBlock
+                    filterSearchRecipes={filterRecipes}
+                    page={pageFilter}
+                    meta={dataFilterRecipes?.meta}
+                    onLoadMore={handleLoadMoreFilter}
+                />
+            );
+        }
+
+        return null;
+    };
 
     return (
         <>
             <Toolbar title='Самое сочное' />
-            {shouldShowFilterResults ? (
-                <Box px={{ base: 4, bp76: 0 }}>
-                    <MainBlock />
-                    <Divider />
-                    <LastBlock
-                        title='Веганская кухня'
-                        text={text}
-                        simpleCardArray={dataSimpleCard}
-                        longCardArray={dataLongCard}
-                        isChangeTable
-                    />
-                </Box>
-            ) : (
-                <FilterSortBlock filterSearchRecipes={recipesFilter} />
-            )}
+            {renderContent()}
         </>
     );
 }

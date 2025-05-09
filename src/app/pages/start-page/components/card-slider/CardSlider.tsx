@@ -1,56 +1,98 @@
 import { Card, CardBody, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
+import { fallback } from '~/assets/images/header';
 import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
-import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
-import useLabelCategory from '~/hooks/useLabelCategory';
-import { setIndexButton } from '~/store/slice/indexNavigationButtonSlice';
-import { setIndexRecipe, setIndexTab } from '~/store/slice/indexTabsSlice';
+import { URLS } from '~/constants/url';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import {
+    setIndexButton,
+    setIndexRecipe,
+    setIndexTab,
+    setNameRecipe,
+} from '~/store/slice/indexCategorisSubcategoriesSlice';
+import { Category } from '~/type/Category';
 
 import styles from './CardSlider.module.css';
 
 type CardSliderProps = {
-    id: string;
-    image: string;
+    _id: string;
     title: string;
     description: string;
-    label: string[];
+    categoriesIds: string[];
     favorites: number;
     like: number;
+    image?: string;
 };
 
-function CardSlider({ id, image, title, description, label, favorites, like }: CardSliderProps) {
-    const { arrayCategory } = useLabelCategory({ categories: label });
-
-    const { indexSubCat, indexCat, firstLink, secondLink, subcategories, pathId } =
-        useCreateLinkCard({ id: id });
-
+function CardSlider({
+    _id,
+    image,
+    title,
+    description,
+    categoriesIds,
+    favorites,
+    like,
+}: CardSliderProps) {
     const dispatch = useDispatch();
-    function handlingClick() {
-        dispatch(setIndexRecipe(id));
-        if (subcategories === undefined || pathId !== undefined) {
-            dispatch(setIndexButton(indexCat));
-            dispatch(setIndexTab(indexSubCat));
-        }
+    const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
+    const categories = useSelector(getArrayCategorySelector);
+    const allCategoriesSubcategories = useSelector(getArrayCategorySelector);
+
+    const allCategory = allCategoriesSubcategories.filter((category) => category.subCategories);
+    const allSubcategories = allCategoriesSubcategories.filter(
+        (category) => !category.subCategories,
+    );
+    const currentSubcategory = allSubcategories.find((subcategories) =>
+        categoriesIds.includes(subcategories._id),
+    );
+    const currentCategory = allCategory.find(
+        (category) => category._id === currentSubcategory?.rootCategoryId,
+    );
+    const currentSubcategoryIndex =
+        currentCategory?.subCategories?.findIndex((index) => categoriesIds.includes(index._id)) ??
+        1;
+    const currentCategoryIndex = allCategory.findIndex(
+        (category) => category._id === currentSubcategory?.rootCategoryId,
+    );
+
+    useEffect(() => {
+        const subcategoryFilter = categories.filter((category) =>
+            categoriesIds.includes(category._id),
+        );
+        const filteredCategories = categories.filter((category) =>
+            subcategoryFilter.some((item) => item.rootCategoryId === category._id),
+        );
+        setCategoriesCard(filteredCategories);
+    }, [categories, categoriesIds]);
+
+    function handleCardClick() {
+        dispatch(setIndexRecipe(_id));
+        dispatch(setNameRecipe(title));
+        dispatch(setIndexTab(currentSubcategoryIndex));
+        dispatch(setIndexButton(currentCategoryIndex));
     }
 
+    const pathCard = `recipes/${currentCategory?.category}/${currentSubcategory?.category}/${_id}`;
+    const pathCardImage = `${URLS.IMAGE_URL}${image}`;
+
     return (
-        <Card
-            className={styles.card}
-            as={Link}
-            onClick={handlingClick}
-            to={subcategories === undefined || pathId !== undefined ? firstLink : secondLink}
-        >
+        <Card className={styles.card} as={Link} onClick={handleCardClick} to={pathCard}>
             <CardBody className={styles.card_body}>
                 <Image
+                    background='alpha.200'
                     className={styles.card_image}
-                    src={image}
-                    alt={label[0]}
+                    src={pathCardImage}
+                    fallbackSrc={fallback}
+                    alt={title}
                     w={{ base: '158px', bp95: '279px', bp189: '322px' }}
                     h={{ base: '128px', bp95: '230px' }}
+                    objectFit='none'
+                    objectPosition='center'
                 />
                 <Stack className={styles.content}>
                     <Heading className={styles.title_card} as='h3' noOfLines={{ bp95: 1, base: 2 }}>
@@ -60,10 +102,23 @@ function CardSlider({ id, image, title, description, label, favorites, like }: C
                         {description}
                     </Text>
                     <Flex direction='column' gap='2px' display={{ base: 'none', bp95: 'flex' }}>
-                        <CardStats label={arrayCategory[0]} favorites={favorites} like={like} />
-                        {arrayCategory.map(
+                        {categoriesCard.length && (
+                            <CardStats
+                                title={categoriesCard[0].title}
+                                icon={categoriesCard[0].icon}
+                                favorites={favorites}
+                                like={like}
+                            />
+                        )}
+                        {categoriesCard.map(
                             (item, index) =>
-                                index !== 0 && <LabelTypeFood label={item} key={item} />,
+                                index !== 0 && (
+                                    <LabelTypeFood
+                                        title={item.title}
+                                        icon={item.icon}
+                                        key={item._id}
+                                    />
+                                ),
                         )}
                     </Flex>
                     <StatsForCard favorites={favorites} like={like} isMobile />
@@ -76,8 +131,14 @@ function CardSlider({ id, image, title, description, label, favorites, like }: C
                     left='8px'
                     display={{ base: 'flex', bp95: 'none' }}
                 >
-                    {arrayCategory.map((item, index) => (
-                        <LabelTypeFood key={index} label={item} yellow isMobile />
+                    {categoriesCard.map((item) => (
+                        <LabelTypeFood
+                            key={item._id}
+                            title={item.title}
+                            icon={item.icon}
+                            yellow
+                            isMobile
+                        />
                     ))}
                 </Flex>
             </CardBody>

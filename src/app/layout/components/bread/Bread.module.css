@@ -23,11 +23,7 @@
     width: 23px;
 }
 
-@media (max-width: 1150px) {
-    /* .breadcrumb {
-        display: none;
-    } */
-
+@media (max-width: 1440px) {
     .breadcrumb.mobile {
         display: block;
     }

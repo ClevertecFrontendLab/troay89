@@ -13,9 +13,8 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { setResultFilter } from '~/store/slice/arrayResultFilterSlice';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 
 import GreenPlus from '../icons/GreenPlus';
 import styles from './MultiSelect.module.css';
@@ -23,12 +22,12 @@ import styles from './MultiSelect.module.css';
 type MultiSelectProps = {
     widthMenu: string;
     textPlaceHolder: string;
+    value: string[];
     listItem: string[];
     isDisable: boolean;
+    onSelectionChange: (selected: string[]) => void;
     isBottomInput?: boolean;
-    immediate?: boolean;
     dataTest?: string;
-    onSelectionChange?: (selected: string[]) => void;
 };
 
 function MultiSelect({
@@ -36,41 +35,32 @@ function MultiSelect({
     textPlaceHolder,
     isDisable,
     listItem,
+    value,
     isBottomInput,
-    immediate = false,
     onSelectionChange,
     dataTest,
 }: MultiSelectProps) {
-    const dispatch = useDispatch();
-    const [selected, setSelected] = useState<string[]>([]);
     const [customAllergen, setCustomAllergen] = useState('');
 
-    useEffect(() => {
-        if (immediate) {
-            dispatch(setResultFilter(selected));
-        }
-        if (onSelectionChange) {
-            onSelectionChange(selected);
-        }
-    }, [selected, immediate, dispatch, onSelectionChange]);
-
     const getSelectedLabel = () => {
-        if (!selected.length || !isDisable) {
+        if (!value.length || !isDisable) {
             return textPlaceHolder;
         }
-        return selected;
+        return value;
     };
 
     useEffect(() => {
         if (!isDisable) {
-            setSelected([]);
+            onSelectionChange([]);
         }
     }, [isDisable]);
 
-    const toggleOption = (value: string) => {
-        setSelected((prev) =>
-            prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value],
-        );
+    const toggleOption = (option: string) => {
+        if (value.includes(option)) {
+            onSelectionChange(value.filter((item) => item !== option));
+        } else {
+            onSelectionChange([...value, option]);
+        }
     };
 
     const handleChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +69,7 @@ function MultiSelect({
 
     const handleClickPlus = () => {
         const allergenToAdd = customAllergen.trim();
-        if (allergenToAdd && !selected.includes(allergenToAdd)) {
+        if (allergenToAdd && !value.includes(allergenToAdd)) {
             toggleOption(allergenToAdd);
         }
         setCustomAllergen('');
@@ -131,7 +121,7 @@ function MultiSelect({
                         zIndex={10}
                         py={0}
                         width={{ base: '308px', bp95: widthMenu }}
-                        data-test-id='allergens-menu'
+                        data-test-id={DATA_TEST_ID.ALLERGENS_MENU}
                     >
                         {listItem.map((allergen, index) => (
                             <Stack
@@ -154,7 +144,7 @@ function MultiSelect({
                                 <Checkbox
                                     className={styles.checkbox}
                                     size='sm'
-                                    isChecked={selected.includes(allergen)}
+                                    isChecked={value.includes(allergen)}
                                     mr={2}
                                     ml={1}
                                     pointerEvents='none'
@@ -171,7 +161,7 @@ function MultiSelect({
                                     value={customAllergen}
                                     onChange={handleChangeInput}
                                     onKeyDown={handleEnterKeyPress}
-                                    data-test-id={isDisable ? 'add-other-allergen' : ''}
+                                    data-test-id={isDisable ? DATA_TEST_ID.ADD_OTHER_ALLERGEN : ''}
                                 />
                                 <Button
                                     variant='ghost'
@@ -185,7 +175,9 @@ function MultiSelect({
                                         as={GreenPlus}
                                         boxSize={3}
                                         onClick={handleClickPlus}
-                                        data-test-id={isDisable ? 'add-allergen-button' : ''}
+                                        data-test-id={
+                                            isDisable ? DATA_TEST_ID.ADD_ALLERGEN_BUTTON : ''
+                                        }
                                     />
                                 </Button>
                             </Flex>

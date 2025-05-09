@@ -1,11 +1,20 @@
 import { Card, Heading, Text } from '@chakra-ui/react';
 
 import CardStats from '~/components/card-stats/CardStats';
-import CardProps from '~/type/cardProps';
+import { Category } from '~/type/Category';
 
 import styles from './SimpleCard.module.css';
 
-function SimpleCard({ title, description, label, favorites, like }: CardProps) {
+type SimpleCardType = {
+    _id: string;
+    title: string;
+    description: string;
+    bookmarks: number;
+    likes: number;
+    category?: Category;
+};
+
+function SimpleCard({ title, description, category, bookmarks, likes }: SimpleCardType) {
     return (
         <Card className={styles.container}>
             <Heading
@@ -19,7 +28,16 @@ function SimpleCard({ title, description, label, favorites, like }: CardProps) {
             <Text className={styles.content} noOfLines={3}>
                 {description}
             </Text>
-            <CardStats label={label} like={like} favorites={favorites} yellow isMobile />
+            {category && (
+                <CardStats
+                    title={category.title}
+                    icon={category.icon}
+                    like={likes}
+                    favorites={bookmarks}
+                    yellow
+                    isMobile
+                />
+            )}
         </Card>
     );
 }

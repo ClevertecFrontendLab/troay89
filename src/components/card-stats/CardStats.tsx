@@ -5,17 +5,18 @@ import StatsForCard from '../stats-card/StatsForCard';
 import styles from './CardStats.module.css';
 
 type CardStatsProps = {
-    label: string;
+    title: string;
+    icon?: string;
     favorites?: number;
     like?: number;
     yellow?: boolean;
     isMobile?: boolean;
 };
 
-function CardStats({ label, favorites, like, yellow, isMobile }: CardStatsProps) {
+function CardStats({ title, icon, favorites, like, yellow, isMobile }: CardStatsProps) {
     return (
         <Flex className={`${styles.container} ${isMobile && styles.mobile}`}>
-            <LabelTypeFood label={label} yellow={yellow} />
+            <LabelTypeFood title={title} icon={icon} yellow={yellow} />
             <StatsForCard favorites={favorites} like={like} />
         </Flex>
     );

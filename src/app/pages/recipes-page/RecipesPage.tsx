@@ -1,46 +1,134 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import LastBlock from '~/components/last-block/LastBlock';
 import Toolbar from '~/components/toolbar/Toolbar';
-import dataLongCardVegan from '~/data/dataLongCardVegan';
-import dataPathCategory from '~/data/dataPathCategory';
-import dataSimpleCardVegan from '~/data/dataSimpleCardVegan';
-import { indexNavigationButtonSelector } from '~/store/selectors/indexNavigationButtonSelector';
+import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
+import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
+import { setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
+import { Category } from '~/type/Category';
+import RecipeType from '~/type/RecipeType';
 
 import TabPanelNavigation from './components/tab-panel-navigation/TabPanelNavigation';
 
 function RecipesPage() {
-    const textToolbar =
-        'Интересны не только убеждённым вегетарианцам, но и тем, кто хочет  попробовать вегетарианскую диету и готовить вкусные  вегетарианские блюда.';
-    const textLastBlock =
-        'Без них невозможно представить себе ни современную, ни традиционную  кулинарию. Пироги и печенья, блины, пончики, вареники и, конечно, хлеб - рецепты изделий из теста многообразны и невероятно популярны.';
+    const dispatch = useDispatch();
+    const { category, subcategories } = useParams();
+    const categories = useSelector(getArrayCategorySelector);
+    const activeSubcategoryId = useSelector(activeSubcategoryIdSelector);
+    const [getCategory, setCategory] = useState<Category | undefined>();
+    const { contSubcategory } = useGetCountSubcategory();
+    const [randomNumber, setRandomNumber] = useState(
+        Math.floor(Math.random() * contSubcategory - 1),
+    );
+    const [recipes, setRecipes] = useState<RecipeType[]>([]);
+    const [page, setPage] = useState(1);
+    const { randomCategory, lastBlockData, isErrorLastBlock } =
+        useGetRandomDataCategory(randomNumber);
+    const [getRecipeByCategory, { data, isError, isFetching }] = useLazyGetRecipeByCategoryQuery();
 
-    const [title, setTitle] = useState('');
-    const { category } = useParams();
-    const indexNavigationButton = useSelector(indexNavigationButtonSelector);
+    const newCategory = categories.find((cat) => cat.category === category);
+
+    const hasError = isError || isErrorLastBlock;
+
+    const [isErrorOpen, setIsErrorOpen] = useState(hasError);
+
+    const subcategoryFind = categories
+        .filter((subcategory) => subcategory.rootCategoryId)
+        .find((subcategory) => subcategory.category === subcategories);
+    const categoriesFind = categories.filter((category) => !category.rootCategoryId);
+    const categoryFind = categoriesFind.find((cat) => cat.category === category);
 
     useEffect(() => {
-        if (category !== undefined && indexNavigationButton !== undefined) {
-            const newTitle = Array.from(dataPathCategory.keys())[indexNavigationButton][0];
-            setTitle(newTitle);
+        if (page === 1 && data) {
+            setRecipes(data.data);
+        } else {
+            if (data) {
+                setRecipes((prev) => {
+                    const existingIds = new Set(prev.map((recipe) => recipe._id));
+                    const newRecipes = data.data.filter((recipe) => !existingIds.has(recipe._id));
+                    return [...prev, ...newRecipes];
+                });
+            }
         }
-    }, [category, indexNavigationButton]);
+    }, [data, page]);
+
+    const handleLoadMore = () => {
+        setPage((prev) => prev + 1);
+    };
+
+    useEffect(() => {
+        if (!activeSubcategoryId && subcategoryFind?._id && categoryFind?.subCategories) {
+            const subcategoryIndex = categoryFind.subCategories.findIndex(
+                (subcategory) => subcategory.category === subcategories,
+            );
+            dispatch(setIndexTab(subcategoryIndex));
+        }
+    }, [
+        activeSubcategoryId,
+        subcategoryFind?._id,
+        categoryFind?.subCategories,
+        subcategories,
+        dispatch,
+    ]);
+
+    useEffect(() => {
+        if (subcategoryFind?._id) {
+            const subcategoryId = activeSubcategoryId || subcategoryFind._id;
+            if (subcategoryId) {
+                getRecipeByCategory({ page, limit: 4, id: subcategoryId });
+            }
+        }
+    }, [subcategoryFind?._id, page, getRecipeByCategory]);
+
+    useEffect(() => {
+        if (category) {
+            setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
+            setCategory(newCategory);
+        }
+    }, [category, contSubcategory, newCategory]);
+
+    useEffect(() => {
+        setIsErrorOpen(hasError);
+    }, [hasError]);
+
+    const renderMainContent = () => {
+        if (isErrorOpen) {
+            return <ErrorModal onClose={() => setIsErrorOpen(false)} />;
+        }
+
+        if (!hasError) {
+            return (
+                <Box px={{ base: 4, bp76: 0 }}>
+                    <TabPanelNavigation
+                        getCategory={getCategory}
+                        recipes={recipes}
+                        page={page}
+                        isFetching={isFetching}
+                        onLoadMore={handleLoadMore}
+                        meta={data?.meta}
+                    />
+                    <LastBlock
+                        lastBlockData={lastBlockData?.data}
+                        randomCategory={randomCategory}
+                    />
+                </Box>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <>
-            <Toolbar title={title} description={textToolbar} />
-            <Box px={{ base: 4, bp76: 0 }}>
-                <TabPanelNavigation />
-                <LastBlock
-                    title='Десерты, выпечка'
-                    text={textLastBlock}
-                    simpleCardArray={dataSimpleCardVegan}
-                    longCardArray={dataLongCardVegan}
-                />
-            </Box>
+            <Toolbar title={getCategory?.title} description={getCategory?.description} />
+            {renderMainContent()}
         </>
     );
 }

@@ -1,25 +1,44 @@
 import { Flex, FormControl, FormLabel, Switch } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import dataAllergens from '~/data/dataAllergens';
+import { getStateSwitchAllergen } from '~/store/selectors/stateSwitchAllergenSelector';
+import { setStateSwitch } from '~/store/slice/stateSwitchAllergenSlice';
 
 import MultiSelect from '../multi-select/MultiSelect';
 import styles from './AllergenSort.module.css';
 
 type AllergenSortProps = {
-    direction?: 'row' | 'column';
-    isHiddenMobile?: boolean;
     dataTestSwitch: string;
     dataTest: string;
+    value: string[];
+    isHiddenMobile?: boolean;
+    onSelectionChange: (selected: string[]) => void;
+    direction?: 'row' | 'column';
+    widthMenu?: string;
 };
 
 function AllergenSort({
     isHiddenMobile,
     dataTestSwitch,
     dataTest,
+    value,
     direction = 'row',
+    widthMenu = '234px',
+    onSelectionChange,
 }: AllergenSortProps) {
-    const [isDisable, setDisable] = useState(false);
+    const dispatch = useDispatch();
+    const stateSwitch = useSelector(getStateSwitchAllergen);
+    const [isDisable, setIsDisable] = useState(stateSwitch);
+
+    const handleChangeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
+        setIsDisable(event.target.checked);
+        dispatch(setStateSwitch(event.target.checked));
+    };
+
+    const textPlaceHolder =
+        direction === 'row' ? 'Выберите из списка...' : 'Выберите из списка аллергенов...';
 
     return (
         <Flex
@@ -35,21 +54,19 @@ function AllergenSort({
                     data-test-id={dataTestSwitch}
                     className={styles.switch}
                     id='allergen-switch'
-                    onChange={(event) => setDisable(event.target.checked)}
+                    isChecked={stateSwitch}
+                    onChange={handleChangeSwitch}
                 />
             </FormControl>
             <MultiSelect
-                widthMenu='234px'
-                textPlaceHolder={
-                    direction === 'row'
-                        ? 'Выберите из списка...'
-                        : 'Выберите из списка аллергенов...'
-                }
+                widthMenu={widthMenu}
+                textPlaceHolder={textPlaceHolder}
                 isDisable={isDisable}
                 listItem={dataAllergens}
+                value={value}
                 isBottomInput
-                immediate
                 dataTest={dataTest}
+                onSelectionChange={onSelectionChange}
             />
         </Flex>
     );

@@ -1,14 +1,15 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
+import { useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router';
 
 import BreadIcon from '~/components/icons/BreadIcon';
-import dataNavigation from '~/data/dataNavigation';
-import dataRecipes from '~/data/dataRecipes';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import usePathCategoryData from '~/hooks/usePathCategoryData';
-import { setIndexTab } from '~/store/slice/indexTabsSlice';
+import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { nameRecipeSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
 
 import styles from './Bread.module.css';
 import { getBreadcrumbs } from './Breadcrumbs';
@@ -20,65 +21,73 @@ type BreadProps = Partial<{
 
 function Bread({ isMobile, onClose }: BreadProps) {
     const dispatch = useDispatch();
-    const { indexCategory, indexSubcategory, idRecipe } = useNavigationIndices();
-    const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
+    const { indexCategory, indexSubcategory } = useNavigationIndices();
     const location = useLocation();
-    const category = Object.keys(dataNavigation)[indexCategory];
-    const subcategory = dataNavigation[category][indexSubcategory];
-    const titleRecipe = dataRecipes.find((recipe) => recipe.id === idRecipe)?.title;
-    const pathCategory = keysPathCategory[indexCategory][1];
-    const pathSubcategory = valuesPathCategory[indexCategory][indexSubcategory];
-    const pathFirstSubcategory = valuesPathCategory[indexCategory][0];
+    const titleRecipe = useSelector(nameRecipeSelector);
+    const categories = useSelector(getArrayCategorySelector);
+
+    const categoriesFilter = useMemo(
+        () => categories.filter((category) => Boolean(category.subCategories)),
+        [categories],
+    );
+
+    const activeCategory = categoriesFilter[indexCategory];
+    const titleCategory = activeCategory.title;
+    const titleSubcategory = activeCategory?.subCategories?.[indexSubcategory].title;
+    const pathCategory = activeCategory.category;
+    const pathSubcategory = activeCategory?.subCategories?.[indexSubcategory].category;
+    const pathFirstSubcategory = activeCategory?.subCategories?.[0]?.category;
 
     const handleCrumbLink = () => {
         dispatch(setIndexTab(0));
     };
 
+    const handleClick = (crumbOnClick?: () => void) => {
+        if (crumbOnClick) crumbOnClick();
+        if (onClose) onClose();
+    };
+
     const breadcrumbs = getBreadcrumbs(
         location.pathname,
-        category,
-        subcategory,
-        titleRecipe,
+        titleCategory,
         pathCategory,
+        handleCrumbLink,
+        titleRecipe,
+        titleSubcategory,
         pathSubcategory,
         pathFirstSubcategory,
-        handleCrumbLink,
     );
 
     return (
         <Breadcrumb
             className={`${styles.breadcrumb} ${isMobile && styles.mobile}`}
             separator={<BreadIcon boxSize={6} />}
-            data-test-id='breadcrumbs'
+            data-test-id={DATA_TEST_ID.BREADCRUMBS}
         >
-            {breadcrumbs &&
-                breadcrumbs.map((crumb, index) => (
-                    <BreadcrumbItem
-                        className={styles.breadcrumb_item}
-                        key={index}
-                        isCurrentPage={index === breadcrumbs.length - 1}
-                    >
-                        {index === breadcrumbs.length - 1 ? (
-                            <span
-                                className={`${styles.breadcrumb_text} ${index === breadcrumbs.length - 1 && styles.current_page}`}
-                            >
-                                {crumb.title}
-                            </span>
-                        ) : (
-                            <BreadcrumbLink
-                                className={styles.breadcrumb_link}
-                                as={Link}
-                                to={crumb.link}
-                                onClick={() => {
-                                    crumb.onClick && crumb.onClick();
-                                    onClose && onClose();
-                                }}
-                            >
-                                {crumb.title}
-                            </BreadcrumbLink>
-                        )}
-                    </BreadcrumbItem>
-                ))}
+            {breadcrumbs.map((crumb, index) => (
+                <BreadcrumbItem
+                    className={styles.breadcrumb_item}
+                    key={index}
+                    isCurrentPage={index === breadcrumbs.length - 1}
+                >
+                    {index === breadcrumbs.length - 1 ? (
+                        <span
+                            className={`${styles.breadcrumb_text} ${index === breadcrumbs.length - 1 && styles.current_page}`}
+                        >
+                            {crumb.title}
+                        </span>
+                    ) : (
+                        <BreadcrumbLink
+                            className={styles.breadcrumb_link}
+                            as={Link}
+                            to={crumb.link}
+                            onClick={() => handleClick(crumb.onClick)}
+                        >
+                            {crumb.title}
+                        </BreadcrumbLink>
+                    )}
+                </BreadcrumbItem>
+            ))}
         </Breadcrumb>
     );
 }

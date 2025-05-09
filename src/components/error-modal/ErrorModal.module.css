@@ -1,0 +1,9 @@
+.title {
+    color: var(--white-color);
+    font: var(--font-inter-title-error);
+}
+
+.message {
+    color: var(--white-color);
+    font: var(--font-inter-bread);
+}

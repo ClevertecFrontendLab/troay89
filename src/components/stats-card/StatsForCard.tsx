@@ -4,15 +4,15 @@ import BookMark from '../icons/BookMark';
 import EmojiHeart from '../icons/EmojiHeart';
 import styles from './StatsForCard.module.css';
 
-type StatsForCardProps = {
-    favorites?: number;
-    like?: number;
-    isMobile?: boolean;
-    isForAboutRecipe?: boolean;
-    size?: string;
-    gapContainer?: string;
-    gapIcon?: string;
-};
+type StatsForCardProps = Partial<{
+    favorites: number;
+    like: number;
+    isMobile: boolean;
+    isForAboutRecipe: boolean;
+    size: string;
+    gapContainer: string;
+    gapIcon: string;
+}>;
 
 function StatsForCard({
     favorites,

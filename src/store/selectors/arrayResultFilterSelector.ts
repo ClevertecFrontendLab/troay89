@@ -10,3 +10,5 @@ export const listTypeDishesSelector = (state: ApplicationState) =>
     state.arrayResultFilter.listTypeDishes;
 export const resultSearchSelector = (state: ApplicationState) =>
     state.arrayResultFilter.resultSearch;
+export const listAllFiltersSelector = (state: ApplicationState) =>
+    state.arrayResultFilter.allResult;

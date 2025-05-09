@@ -35,14 +35,6 @@ button.button {
     background-color: var(--black-alpha-50);
     border-radius: 8px;
 }
-.label_change {
-    border: var(--third-birder);
-    border-radius: 6px;
-    padding: 0 8px;
-    background: var(--lime-color-100);
-    font: var(--font-inter-tab-mobile);
-    color: var(--lime-color-700);
-}
 
 @media (max-width: 950px) {
     button.button {

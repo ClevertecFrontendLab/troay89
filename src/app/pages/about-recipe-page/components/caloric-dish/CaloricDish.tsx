@@ -1,12 +1,15 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-
 import styles from './CaloricDish.module.css';
 
-function CaloricDish() {
-    const { recipe } = useNavigationIndices();
+type CaloricDishType = {
+    calories: number;
+    protein: number;
+    fats: number;
+    carbohydrates: number;
+};
 
+function CaloricDish({ calories, protein, fats, carbohydrates }: CaloricDishType) {
     return (
         <Box mb={{ base: 6, bp95: 10 }}>
             <Text className={styles.note}>* Калорийность на 1 порцию</Text>
@@ -17,22 +20,22 @@ function CaloricDish() {
             >
                 <Flex className={styles.container}>
                     <Text className={styles.type}>калорийность</Text>
-                    <Text className={styles.count}>{recipe?.nutritionValue.calories}</Text>
+                    <Text className={styles.count}>{calories}</Text>
                     <Text className={styles.unit}>ККАЛ</Text>
                 </Flex>
                 <Flex className={styles.container}>
                     <Text className={styles.type}>белки</Text>
-                    <Text className={styles.count}>{recipe?.nutritionValue.proteins}</Text>
+                    <Text className={styles.count}>{protein}</Text>
                     <Text className={styles.unit}>ГРАММ</Text>
                 </Flex>
                 <Flex className={styles.container}>
                     <Text className={styles.type}>жиры</Text>
-                    <Text className={styles.count}>{recipe?.nutritionValue.fats}</Text>
+                    <Text className={styles.count}>{fats}</Text>
                     <Text className={styles.unit}>ГРАММ</Text>
                 </Flex>
                 <Flex className={styles.container}>
                     <Text className={styles.type}>углеводы</Text>
-                    <Text className={styles.count}>{recipe?.nutritionValue.carbohydrates}</Text>
+                    <Text className={styles.count}>{carbohydrates}</Text>
                     <Text className={styles.unit}>ГРАММ</Text>
                 </Flex>
             </Flex>

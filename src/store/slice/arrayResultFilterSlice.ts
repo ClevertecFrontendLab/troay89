@@ -6,6 +6,7 @@ type InitialState = {
     listAuthors: string[];
     listTypeMeats: string[];
     listTypeDishes: string[];
+    allResult: string[];
     resultSearch: string;
 };
 
@@ -15,6 +16,7 @@ const initialState: InitialState = {
     listAuthors: [],
     listTypeMeats: [],
     listTypeDishes: [],
+    allResult: [],
     resultSearch: '',
 };
 
@@ -40,6 +42,9 @@ const arrayResultFilterSlice = createSlice({
         setResultSearch: (state, action: PayloadAction<string>) => {
             state.resultSearch = action.payload;
         },
+        setAllResult: (state, action: PayloadAction<string[]>) => {
+            state.allResult = action.payload;
+        },
     },
 });
 
@@ -51,4 +56,5 @@ export const {
     setListTypeDishes,
     setListAuthors,
     setResultSearch,
+    setAllResult,
 } = arrayResultFilterSlice.actions;
