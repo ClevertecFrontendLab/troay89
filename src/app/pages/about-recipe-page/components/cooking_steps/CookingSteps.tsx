@@ -1,6 +1,7 @@
 import { Box, Card, CardBody, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
 import { fallback } from '~/assets/images/header';
+import { URLS } from '~/constants/url';
 import { Step } from '~/type/RecipeType';
 
 import styles from './CookingSteps.module.css';
@@ -19,7 +20,7 @@ function CookingSteps({ steps }: CookingStepsType) {
                 <Card key={stepNumber} className={styles.card} shadow='none' direction='row'>
                     {image && (
                         <Image
-                            src={`https://training-api.clevertec.ru${image}`}
+                            src={`${URLS.IMAGE_URL}${image}`}
                             w={{ base: '158px', bp95: '346px' }}
                             h={{ base: '128px', bp95: '244px' }}
                             borderTopLeftRadius='8px'

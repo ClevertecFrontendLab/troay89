@@ -9,6 +9,7 @@ import CardStats from '~/components/card-stats/CardStats';
 import { HighlightText } from '~/components/highlight-text/HighlightText';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
+import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { Category } from '~/type/Category';
@@ -42,7 +43,7 @@ function GeneraCard({
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
 
     useEffect(() => {
-        if (categoriesIds !== undefined) {
+        if (categoriesIds) {
             const subcategoryFilter = categories.filter((category) =>
                 categoriesIds.includes(category._id),
             );
@@ -58,7 +59,7 @@ function GeneraCard({
         <Card className={styles.card_container} data-test-id={dataTest}>
             <Image
                 className={styles.image}
-                src={`https://training-api.clevertec.ru${image}`}
+                src={`${URLS.IMAGE_URL}${image}`}
                 alt={title}
                 flexShrink={0}
                 background='alpha.200'

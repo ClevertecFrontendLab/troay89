@@ -8,6 +8,9 @@ type ErrorModalType = {
     onClose: () => void;
 };
 
+const title = 'Ошибка сервера';
+const notification = 'Попробуйте поискать снова попозже';
+
 export const ErrorModal = ({ onClose }: ErrorModalType) => (
     <Alert
         status='error'
@@ -23,10 +26,8 @@ export const ErrorModal = ({ onClose }: ErrorModalType) => (
     >
         <AlertIcon color='white' />
         <Box>
-            <AlertTitle className={styles.title}>Ошибка сервера</AlertTitle>
-            <AlertDescription className={styles.message}>
-                Попробуйте поискать снова попозже
-            </AlertDescription>
+            <AlertTitle className={styles.title}>{title}</AlertTitle>
+            <AlertDescription className={styles.message}>{notification}</AlertDescription>
         </Box>
         <CloseButton
             color='white'

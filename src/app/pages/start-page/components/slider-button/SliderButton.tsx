@@ -6,8 +6,8 @@ import styles from './SliderButton.module.css';
 
 type SliderButton = {
     dataTest: string;
-    reverse?: boolean;
     onClick: () => void;
+    reverse?: boolean;
 };
 
 function SliderButton({ dataTest, reverse, onClick }: SliderButton) {

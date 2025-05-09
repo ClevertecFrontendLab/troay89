@@ -39,7 +39,7 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const shouldShowFilterResults = useSelector(shouldShowFilterResultsSelector);
     const resultSearch = useSelector(resultSearchSelector);
-    const [isSearchRecipes, setSearchRecipes] = useState(false);
+    const [isSearchRecipes, setIsSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
 
     const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
@@ -55,7 +55,7 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
     const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
         setTextSearch(event.target.value);
         if (isSearchRecipes === true) {
-            setSearchRecipes(false);
+            setIsSearchRecipes(false);
         }
     };
 
@@ -66,7 +66,7 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
     };
 
     const handleClickIconClear = () => {
-        setSearchRecipes(false);
+        setIsSearchRecipes(false);
         setTextSearch('');
         dispatch(setResultSearch(''));
     };
@@ -79,7 +79,7 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
 
     useEffect(() => {
         if (resultSearch.length > 2) {
-            setSearchRecipes(shouldShowFilterResults);
+            setIsSearchRecipes(shouldShowFilterResults);
         }
     }, [resultSearch.length, shouldShowFilterResults]);
 

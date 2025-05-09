@@ -8,6 +8,7 @@ import Clock from '~/components/icons/Clock';
 import EmojiHeart from '~/components/icons/EmojiHeart';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
+import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { Category } from '~/type/Category';
 
@@ -49,7 +50,7 @@ function CardAboutRecipe({
         <Flex className={styles.container} mt={{ base: 4, bp95: 14 }} mb={{ base: 6, bp95: 10 }}>
             <Image
                 className={styles.image}
-                src={`https://training-api.clevertec.ru${image}`}
+                src={`${URLS.IMAGE_URL}${image}`}
                 alt={title}
                 background='alpha.200'
                 fallbackSrc={fallback}

@@ -10,6 +10,7 @@ import LastBlock from '~/components/last-block/LastBlock';
 import { Overlay } from '~/components/overlay/Overlay';
 import SwipeSlider from '~/components/swipe-slider/SwipeSlider';
 import Toolbar from '~/components/toolbar/Toolbar';
+import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
 import { overlayPositionSelector } from '~/store/selectors/overlayPositionSelector';
@@ -30,8 +31,8 @@ function MainPage() {
         handleLoadMoreFilter,
     } = useShouldShowFilterResults();
     const shouldShowOverlay = useSelector(overlayPositionSelector);
-    const [isLargerThan767] = useMediaQuery('(min-width: 767px)');
-    const [isLargerThan1200] = useMediaQuery('(min-width: 1200px)');
+    const [isTable] = useMediaQuery('(min-width: 767px)');
+    const [isDesktop] = useMediaQuery('(min-width: 1200px)');
     const {
         data: juicyData,
         isError: isJuiceError,
@@ -42,19 +43,21 @@ function MainPage() {
         isError: isSwiperError,
         isFetching: isSwiperFetching,
     } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'asc' });
-    const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
+    const { contSubcategory } = useGetCountSubcategory();
+    const [randomNumber, setRandomNumber] = useState(0);
+    console.log(contSubcategory);
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
 
-    const veryCrazyHardDataTestMobileId = isLargerThan1200
+    const veryCrazyHardDataTestMobileId = isDesktop
         ? 'juiciest-link-mobile'
-        : isLargerThan767
+        : isTable
           ? 'juiciest-link'
           : 'juiciest-link-mobile';
 
-    const veryCrazyHardDataTestIdDesktop = isLargerThan1200
+    const veryCrazyHardDataTestIdDesktop = isDesktop
         ? 'juiciest-link'
-        : isLargerThan767
+        : isTable
           ? ''
           : 'juiciest-link';
 
@@ -65,32 +68,32 @@ function MainPage() {
     const hasError = isJuiceError || isSwiperError || isErrorLastBlock;
     const hasErrorFilter = isErrorFilterRecipes;
 
-    const [isErrorOpen, setErrorOpen] = useState(false);
-    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(!!hasErrorFilter);
+    const [isErrorOpen, setIsErrorOpen] = useState(false);
+    const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(hasErrorFilter);
 
     useEffect(() => {
-        setIsErrorOpenFilter(!!hasErrorFilter);
+        setIsErrorOpenFilter(hasErrorFilter);
     }, [hasErrorFilter]);
 
     useEffect(() => {
-        setErrorOpen(hasError);
+        setIsErrorOpen(hasError);
     }, [hasError]);
+
+    useEffect(() => {
+        setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
+    }, [contSubcategory]);
 
     if (isPending) {
         return <Overlay />;
     }
 
-    return (
-        <>
-            <Toolbar
-                title='Приятного аппетита!'
-                isExtraSpace
-                dateTestSwitch={isLargerThan1200 ? 'allergens-switcher' : ''}
-                dataTestMenu={isLargerThan1200 ? 'allergens-menu-button' : ''}
-            />
-            {isErrorOpen ? (
-                <ErrorModal onClose={() => setErrorOpen(false)} />
-            ) : shouldShowFilterResults && !hasError ? (
+    const renderMainContent = () => {
+        if (isErrorOpen) {
+            return <ErrorModal onClose={() => setIsErrorOpen(false)} />;
+        }
+
+        if (shouldShowFilterResults && !hasError) {
+            return (
                 <>
                     <Box px={{ base: 4, bp76: 0 }}>
                         <Heading className={styles.subtitle} as='h2'>
@@ -128,17 +131,32 @@ function MainPage() {
                         <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
                     )}
                 </>
-            ) : (
-                !hasError &&
-                filterRecipes.length > 0 && (
-                    <FilterSortBlock
-                        filterSearchRecipes={filterRecipes}
-                        page={pageFilter}
-                        meta={dataFilterRecipes?.meta}
-                        onLoadMore={handleLoadMoreFilter}
-                    />
-                )
-            )}
+            );
+        }
+
+        if (!hasError && filterRecipes.length > 0) {
+            return (
+                <FilterSortBlock
+                    filterSearchRecipes={filterRecipes}
+                    page={pageFilter}
+                    meta={dataFilterRecipes?.meta}
+                    onLoadMore={handleLoadMoreFilter}
+                />
+            );
+        }
+
+        return null;
+    };
+
+    return (
+        <>
+            <Toolbar
+                title='Приятного аппетита!'
+                isExtraSpace
+                dateTestSwitch={isDesktop ? 'allergens-switcher' : ''}
+                dataTestMenu={isDesktop ? 'allergens-menu-button' : ''}
+            />
+            {renderMainContent()}
         </>
     );
 }

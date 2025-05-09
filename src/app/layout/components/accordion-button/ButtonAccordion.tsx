@@ -3,6 +3,7 @@ import { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
 
+import { URLS } from '~/constants/url';
 import {
     setActiveSubcategoryId,
     setIndexButton,
@@ -34,7 +35,7 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
     const pathSubcategory = category.subCategories && category.subCategories[0].category;
     const pathAccordionButton = `/recipes/${category.category}/${pathSubcategory}`;
     const pathIconAccordionButton = category.icon?.startsWith('/media/i')
-        ? `https://training-api.clevertec.ru${category.icon}`
+        ? `${URLS.IMAGE_URL}${category.icon}`
         : category.icon;
 
     return (

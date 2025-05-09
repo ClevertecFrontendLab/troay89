@@ -6,6 +6,7 @@ import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import LastBlock from '~/components/last-block/LastBlock';
 import { Overlay } from '~/components/overlay/Overlay';
 import Toolbar from '~/components/toolbar/Toolbar';
+import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
 import { useGetRecipesQuery } from '~/store/slice/app-slice';
@@ -16,7 +17,8 @@ import MainBlock from './components/main-block/MainBlock';
 function JuicyPage() {
     const [page, setPage] = useState(1);
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
-    const [randomNumber] = useState(() => Math.floor(Math.random() * 110));
+    const { contSubcategory } = useGetCountSubcategory();
+    const [randomNumber, setRandomNumber] = useState(0);
     const {
         shouldShowFilterResults,
         filterRecipes,
@@ -72,6 +74,10 @@ function JuicyPage() {
         setIsErrorOpen(hasError);
     }, [hasError]);
 
+    useEffect(() => {
+        setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
+    }, [contSubcategory]);
+
     const handleLoadMore = () => {
         setPage((prev) => prev + 1);
     };
@@ -87,12 +93,13 @@ function JuicyPage() {
         return <Overlay />;
     }
 
-    return (
-        <>
-            <Toolbar title='Самое сочное' />
-            {isErrorOpen ? (
-                <ErrorModal onClose={() => setIsErrorOpen(false)} />
-            ) : shouldShowFilterResults && !hasError ? (
+    const renderContent = () => {
+        if (isErrorOpen) {
+            return <ErrorModal onClose={() => setIsErrorOpen(false)} />;
+        }
+
+        if (shouldShowFilterResults && !hasError) {
+            return (
                 <>
                     <Box px={{ base: 4, bp76: 0 }}>
                         <MainBlock
@@ -111,17 +118,27 @@ function JuicyPage() {
                         <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
                     )}
                 </>
-            ) : (
-                !hasError &&
-                filterRecipes.length > 0 && (
-                    <FilterSortBlock
-                        filterSearchRecipes={filterRecipes}
-                        page={pageFilter}
-                        meta={dataFilterRecipes?.meta}
-                        onLoadMore={handleLoadMoreFilter}
-                    />
-                )
-            )}
+            );
+        }
+
+        if (!hasError && filterRecipes.length > 0) {
+            return (
+                <FilterSortBlock
+                    filterSearchRecipes={filterRecipes}
+                    page={pageFilter}
+                    meta={dataFilterRecipes?.meta}
+                    onLoadMore={handleLoadMoreFilter}
+                />
+            );
+        }
+
+        return null;
+    };
+
+    return (
+        <>
+            <Toolbar title='Самое сочное' />
+            {renderContent()}
         </>
     );
 }

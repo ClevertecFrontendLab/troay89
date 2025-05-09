@@ -25,9 +25,9 @@ type MultiSelectProps = {
     value: string[];
     listItem: string[];
     isDisable: boolean;
+    onSelectionChange: (selected: string[]) => void;
     isBottomInput?: boolean;
     dataTest?: string;
-    onSelectionChange: (selected: string[]) => void;
 };
 
 function MultiSelect({

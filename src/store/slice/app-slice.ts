@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/Category';
 import RecipeType, { RecipeTypeResponse } from '~/type/RecipeType';
 
@@ -15,23 +16,21 @@ type RecipesQueryParams = {
     garnish?: string;
 };
 
-type RecipesCategoryQueryParams = {
-    id: string | undefined;
-    page?: number;
-    limit?: number;
-    allergens?: string;
-    searchString?: string;
-};
+type RecipesCategoryQueryParams = Partial<{
+    id: string;
+    page: number;
+    limit: number;
+    allergens: string;
+    searchString: string;
+}>;
 
-type CategoryPath = {
-    id: string | undefined;
-};
-
-const url = 'https://marathon-api.clevertec.ru/';
+type CategoryPath = Partial<{
+    id: string;
+}>;
 
 export const appSlice = createApi({
     reducerPath: 'appSlice',
-    baseQuery: fetchBaseQuery({ baseUrl: url }),
+    baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
             query: () => 'category',

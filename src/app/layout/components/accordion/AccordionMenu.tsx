@@ -33,7 +33,7 @@ function AccordionMenu() {
     };
 
     const categoriesFilter = useMemo(
-        () => categories.filter((cat) => cat.subCategories !== undefined),
+        () => categories.filter((cat) => Boolean(cat.subCategories)),
         [categories],
     );
 

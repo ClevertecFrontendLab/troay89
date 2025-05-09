@@ -8,9 +8,9 @@ import styles from './FilterSortBlock.module.css';
 
 type FilterSearchBlockProps = {
     filterSearchRecipes: RecipeType[];
-    meta: PaginationMeta | undefined;
     page: number;
     onLoadMore: () => void;
+    meta?: PaginationMeta;
 };
 
 function FilterSortBlock({ filterSearchRecipes, meta, page, onLoadMore }: FilterSearchBlockProps) {

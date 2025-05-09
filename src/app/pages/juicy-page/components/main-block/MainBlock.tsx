@@ -7,10 +7,10 @@ import RecipeType, { PaginationMeta } from '~/type/RecipeType';
 import styles from './MainBlock.module.css';
 
 type MainBlockType = {
-    recipes: RecipeType[] | undefined;
-    meta: PaginationMeta | undefined;
     page: number;
     onLoadMore: () => void;
+    recipes?: RecipeType[];
+    meta?: PaginationMeta;
 };
 
 function MainBlock({ recipes, meta, page, onLoadMore }: MainBlockType) {

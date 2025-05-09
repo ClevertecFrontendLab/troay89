@@ -6,7 +6,7 @@ import styles from './CardStats.module.css';
 
 type CardStatsProps = {
     title: string;
-    icon: string | undefined;
+    icon?: string;
     favorites?: number;
     like?: number;
     yellow?: boolean;

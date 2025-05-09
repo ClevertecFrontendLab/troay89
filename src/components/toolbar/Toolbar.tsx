@@ -13,13 +13,13 @@ import { GreenTags } from '../green-tags/GreenTags';
 import SearchFilter from '../search-filter/SearchFilter';
 import styles from './Toolbar.module.css';
 
-type ToolbarProps = {
-    title: string | undefined;
-    description?: string;
-    isExtraSpace?: boolean;
-    dateTestSwitch?: string;
-    dataTestMenu?: string;
-};
+type ToolbarProps = Partial<{
+    title: string;
+    description: string;
+    isExtraSpace: boolean;
+    dateTestSwitch: string;
+    dataTestMenu: string;
+}>;
 
 function Toolbar({
     title,

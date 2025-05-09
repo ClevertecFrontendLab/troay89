@@ -14,9 +14,9 @@ type AllergenSortProps = {
     dataTest: string;
     value: string[];
     isHiddenMobile?: boolean;
+    onSelectionChange: (selected: string[]) => void;
     direction?: 'row' | 'column';
     widthMenu?: string;
-    onSelectionChange: (selected: string[]) => void;
 };
 
 function AllergenSort({
@@ -30,10 +30,10 @@ function AllergenSort({
 }: AllergenSortProps) {
     const dispatch = useDispatch();
     const stateSwitch = useSelector(getStateSwitchAllergen);
-    const [isDisable, setDisable] = useState(stateSwitch);
+    const [isDisable, setIsDisable] = useState(stateSwitch);
 
     const handleChangeSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-        setDisable(event.target.checked);
+        setIsDisable(event.target.checked);
         dispatch(setStateSwitch(event.target.checked));
     };
 

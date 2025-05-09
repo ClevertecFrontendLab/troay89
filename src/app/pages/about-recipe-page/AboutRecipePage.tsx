@@ -20,7 +20,7 @@ function AboutRecipePage() {
     const navigate = useNavigate();
     const { id } = useParams();
     const idRecipe = useSelector(idRecipeSelector);
-    const [trigger, { data, isLoading, isError }] = useLazyGetRecipeQuery();
+    const [getRecipe, { data, isLoading, isError }] = useLazyGetRecipeQuery();
 
     const { data: swiperData, error: swiperError } = useGetRecipesQuery({
         limit: 10,
@@ -30,16 +30,16 @@ function AboutRecipePage() {
 
     useEffect(() => {
         if (idRecipe && !data) {
-            trigger({ id: idRecipe });
+            getRecipe({ id: idRecipe });
         } else {
-            if (id !== undefined) {
+            if (id) {
                 dispatch(setIndexRecipe(id));
             }
             if (data) {
                 dispatch(setNameRecipe(data?.title));
             }
         }
-    }, [data, dispatch, id, idRecipe, trigger]);
+    }, [data, dispatch, id, idRecipe, getRecipe]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });

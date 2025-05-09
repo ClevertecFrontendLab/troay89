@@ -7,6 +7,7 @@ import { fallback } from '~/assets/images/header';
 import CardStats from '~/components/card-stats/CardStats';
 import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
 import StatsForCard from '~/components/stats-card/StatsForCard';
+import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import {
     setIndexButton,
@@ -20,12 +21,12 @@ import styles from './CardSlider.module.css';
 
 type CardSliderProps = {
     _id: string;
-    image: string | undefined;
     title: string;
     description: string;
     categoriesIds: string[];
     favorites: number;
     like: number;
+    image?: string;
 };
 
 function CardSlider({
@@ -77,7 +78,7 @@ function CardSlider({
     }
 
     const pathCard = `recipes/${currentCategory?.category}/${currentSubcategory?.category}/${_id}`;
-    const pathCardImage = `https://training-api.clevertec.ru${image}`;
+    const pathCardImage = `${URLS.IMAGE_URL}${image}`;
 
     return (
         <Card className={styles.card} as={Link} onClick={handleCardClick} to={pathCard}>

@@ -27,7 +27,7 @@ function Bread({ isMobile, onClose }: BreadProps) {
     const categories = useSelector(getArrayCategorySelector);
 
     const categoriesFilter = useMemo(
-        () => categories.filter((category) => category.subCategories !== undefined),
+        () => categories.filter((category) => Boolean(category.subCategories)),
         [categories],
     );
 
@@ -50,12 +50,12 @@ function Bread({ isMobile, onClose }: BreadProps) {
     const breadcrumbs = getBreadcrumbs(
         location.pathname,
         titleCategory,
-        titleSubcategory,
-        titleRecipe,
         pathCategory,
+        handleCrumbLink,
+        titleRecipe,
+        titleSubcategory,
         pathSubcategory,
         pathFirstSubcategory,
-        handleCrumbLink,
     );
 
     return (

@@ -4,7 +4,7 @@ import styles from './SubtitleWithText.module.css';
 
 type SubtitleWithTextProps = {
     title: string;
-    text: string | undefined;
+    text?: string;
 };
 
 function SubtitleWithText({ title, text }: SubtitleWithTextProps) {

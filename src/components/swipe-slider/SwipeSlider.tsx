@@ -13,7 +13,7 @@ import RecipeType from '~/type/RecipeType';
 import styles from './SwiperSlider.module.css';
 
 type SwipeSlideType = {
-    swipeData: RecipeType[] | undefined;
+    swipeData?: RecipeType[];
 };
 
 function SwipeSlider({ swipeData }: SwipeSlideType) {
@@ -39,7 +39,7 @@ function SwipeSlider({ swipeData }: SwipeSlideType) {
     };
 
     return (
-        <Box className={styles.wrapper}>
+        <Box className={styles.wrapper} mr={-4}>
             <SliderButton dataTest={DATA_TEST_ID.CAROUSEL_BACK} onClick={handlePrev} />
             <Box className={styles.container}>
                 <Swiper

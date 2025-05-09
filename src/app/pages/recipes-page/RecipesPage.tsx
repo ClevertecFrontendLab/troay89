@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import LastBlock from '~/components/last-block/LastBlock';
 import Toolbar from '~/components/toolbar/Toolbar';
+import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
@@ -22,18 +23,21 @@ function RecipesPage() {
     const categories = useSelector(getArrayCategorySelector);
     const activeSubcategoryId = useSelector(activeSubcategoryIdSelector);
     const [getCategory, setCategory] = useState<Category | undefined>();
-    const [randomNumber, setRandomNumber] = useState(Math.floor(Math.random() * 110));
+    const { contSubcategory } = useGetCountSubcategory();
+    const [randomNumber, setRandomNumber] = useState(
+        Math.floor(Math.random() * contSubcategory - 1),
+    );
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [page, setPage] = useState(1);
     const { randomCategory, lastBlockData, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
-    const [trigger, { data, error, isFetching }] = useLazyGetRecipeByCategoryQuery();
+    const [getRecipeByCategory, { data, isError, isFetching }] = useLazyGetRecipeByCategoryQuery();
 
     const newCategory = categories.find((cat) => cat.category === category);
 
-    const hasError = error || isErrorLastBlock;
+    const hasError = isError || isErrorLastBlock;
 
-    const [isErrorOpen, setIsErrorOpen] = useState(!!hasError);
+    const [isErrorOpen, setIsErrorOpen] = useState(hasError);
 
     const subcategoryFind = categories
         .filter((subcategory) => subcategory.rootCategoryId)
@@ -78,45 +82,53 @@ function RecipesPage() {
         if (subcategoryFind?._id) {
             const subcategoryId = activeSubcategoryId || subcategoryFind._id;
             if (subcategoryId) {
-                trigger({ page, limit: 4, id: subcategoryId });
+                getRecipeByCategory({ page, limit: 4, id: subcategoryId });
             }
         }
-    }, [subcategoryFind?._id, page, trigger]);
+    }, [subcategoryFind?._id, page, getRecipeByCategory]);
 
     useEffect(() => {
-        if (category !== undefined) {
-            setRandomNumber(Math.floor(Math.random() * 110));
+        if (category) {
+            setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
             setCategory(newCategory);
         }
-    }, [categories, category, newCategory]);
+    }, [category, contSubcategory, newCategory]);
 
     useEffect(() => {
-        setIsErrorOpen(!!hasError);
+        setIsErrorOpen(hasError);
     }, [hasError]);
+
+    const renderMainContent = () => {
+        if (isErrorOpen) {
+            return <ErrorModal onClose={() => setIsErrorOpen(false)} />;
+        }
+
+        if (!hasError) {
+            return (
+                <Box px={{ base: 4, bp76: 0 }}>
+                    <TabPanelNavigation
+                        getCategory={getCategory}
+                        recipes={recipes}
+                        page={page}
+                        isFetching={isFetching}
+                        onLoadMore={handleLoadMore}
+                        meta={data?.meta}
+                    />
+                    <LastBlock
+                        lastBlockData={lastBlockData?.data}
+                        randomCategory={randomCategory}
+                    />
+                </Box>
+            );
+        }
+
+        return null;
+    };
 
     return (
         <>
             <Toolbar title={getCategory?.title} description={getCategory?.description} />
-            {isErrorOpen ? (
-                <ErrorModal onClose={() => setIsErrorOpen(false)} />
-            ) : (
-                !hasError && (
-                    <Box px={{ base: 4, bp76: 0 }}>
-                        <TabPanelNavigation
-                            getCategory={getCategory}
-                            recipes={recipes}
-                            page={page}
-                            isFetching={isFetching}
-                            onLoadMore={handleLoadMore}
-                            meta={data?.meta}
-                        />
-                        <LastBlock
-                            lastBlockData={lastBlockData?.data}
-                            randomCategory={randomCategory}
-                        />
-                    </Box>
-                )
-            )}
+            {renderMainContent()}
         </>
     );
 }

@@ -9,8 +9,8 @@ import RecipeType from '~/type/RecipeType';
 import styles from './LastBlock.module.css';
 
 type LastBlockType = {
-    randomCategory: Category | undefined;
-    lastBlockData: RecipeType[] | undefined;
+    randomCategory?: Category;
+    lastBlockData?: RecipeType[];
 };
 
 function LastBlock({ lastBlockData, randomCategory }: LastBlockType) {
