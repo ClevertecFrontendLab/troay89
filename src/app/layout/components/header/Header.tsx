@@ -4,19 +4,19 @@ import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
-import BurgerMenu from '~/components/burger-menu/BurgerMemu';
+import { BurgerMenu } from '~/components/burger-menu/BurgerMemu';
 import Burger from '~/components/icons/burger';
 import FirstPart from '~/components/icons/logo/FirstPart';
 import SecondPart from '~/components/icons/logo/SecondPart';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { zIndexLessSelector } from '~/store/selectors/zIndexLessSelector';
 
-import Avatar from '../avatar/Avatar';
-import Bread from '../bread/Bread';
-import IconStats from '../icon-stats/IconStats';
+import { Avatar } from '../avatar/Avatar';
+import { Bread } from '../bread/Bread';
+import { IconStats } from '../icon-stats/IconStats';
 import styles from './Header.module.css';
 
-function Header() {
+export const Header = () => {
     const { isOpen, onToggle, onClose } = useDisclosure();
     const btnRef = useRef<SVGSVGElement | null>(null);
     const [isDesktop] = useMediaQuery('(min-width: 1440px)');
@@ -65,6 +65,4 @@ function Header() {
             <BurgerMenu isOpen={isOpen} onClose={onClose} />
         </GridItem>
     );
-}
-
-export default Header;
+};

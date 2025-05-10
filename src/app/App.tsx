@@ -57,14 +57,12 @@ const customTheme = extendTheme({
     },
 });
 
-function App() {
-    return (
-        <ChakraProvider theme={customTheme}>
-            <BrowserRouter>
-                <AppRouter />
-            </BrowserRouter>
-        </ChakraProvider>
-    );
-}
+const App = () => (
+    <ChakraProvider theme={customTheme}>
+        <BrowserRouter>
+            <AppRouter />
+        </BrowserRouter>
+    </ChakraProvider>
+);
 
 export default App;

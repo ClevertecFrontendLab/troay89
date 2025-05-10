@@ -3,21 +3,21 @@ import { useEffect, useState } from 'react';
 
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
-import LastBlock from '~/components/last-block/LastBlock';
+import { LastBlock } from '~/components/last-block/LastBlock';
 import { Overlay } from '~/components/overlay/Overlay';
 import Toolbar from '~/components/toolbar/Toolbar';
 import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
-import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import { useGetRecipesQuery } from '~/store/slice/app-slice';
 import RecipeType from '~/type/RecipeType';
 
-import MainBlock from './components/main-block/MainBlock';
+import { MainBlock } from './components/main-block/MainBlock';
 
-function JuicyPage() {
+export const JuicyPage = () => {
     const [page, setPage] = useState(1);
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
-    const { contSubcategory } = useGetCountSubcategory();
+    const { countSubcategory } = useGetCountSubcategory();
     const [randomNumber, setRandomNumber] = useState(0);
     const {
         shouldShowFilterResults,
@@ -75,8 +75,8 @@ function JuicyPage() {
     }, [hasError]);
 
     useEffect(() => {
-        setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
-    }, [contSubcategory]);
+        setRandomNumber(Math.floor(Math.random() * countSubcategory - 1));
+    }, [countSubcategory]);
 
     const handleLoadMore = () => {
         setPage((prev) => prev + 1);
@@ -141,6 +141,4 @@ function JuicyPage() {
             {renderContent()}
         </>
     );
-}
-
-export default JuicyPage;
+};

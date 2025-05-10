@@ -1,4 +1,4 @@
-const dataAllergens = [
+export const dataAllergens = [
     'Молочные продукты',
     'Яйцо',
     'Рыба',
@@ -9,5 +9,3 @@ const dataAllergens = [
     'Клубника (ягоды)',
     'Шоколад',
 ];
-
-export default dataAllergens;

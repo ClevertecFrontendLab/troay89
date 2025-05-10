@@ -1,5 +1,5 @@
 import { Flex, Heading, Spinner, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { listAllFiltersSelector } from '~/store/selectors/arrayResultFilterSelector';
@@ -8,9 +8,9 @@ import {
     overlayPositionSelector,
 } from '~/store/selectors/overlayPositionSelector';
 
-import AllergenSort from '../allergen-sort/AllergenSort';
+import { AllergenSort } from '../allergen-sort/AllergenSort';
 import { GreenTags } from '../green-tags/GreenTags';
-import SearchFilter from '../search-filter/SearchFilter';
+import { SearchFilter } from '../search-filter/SearchFilter';
 import styles from './Toolbar.module.css';
 
 type ToolbarProps = Partial<{
@@ -21,13 +21,14 @@ type ToolbarProps = Partial<{
     dataTestMenu: string;
 }>;
 
-function Toolbar({
+export const Toolbar = ({
     title,
     description,
     isExtraSpace,
     dateTestSwitch = 'allergens-switcher',
     dataTestMenu = 'allergens-menu-button',
-}: ToolbarProps) {
+}: ToolbarProps) => {
+    const prevPathRef = useRef<string>('/');
     const [listAllergin, setListAllergin] = useState<string[]>([]);
     const isFetchingFilterRecipes = useSelector(fetchingFilterSelector);
     const shouldShowOverlay = useSelector(overlayPositionSelector);
@@ -60,7 +61,7 @@ function Toolbar({
                 </Flex>
             ) : (
                 <>
-                    <SearchFilter listAllergin={listAllergin} />
+                    <SearchFilter listAllergin={listAllergin} prevPathRef={prevPathRef} />
                     <AllergenSort
                         dataTestSwitch={dateTestSwitch}
                         dataTest={dataTestMenu}
@@ -74,6 +75,6 @@ function Toolbar({
             )}
         </Flex>
     );
-}
+};
 
 export default Toolbar;

@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router';
 
-import Layout from '~/app/layout/Layout';
-import AboutRecipePage from '~/app/pages/about-recipe-page/AboutRecipePage';
-import JuicyPage from '~/app/pages/juicy-page/JuicyPage';
+import { Layout } from '~/app/layout/Layout';
+import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
+import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
-import RecipesPage from '~/app/pages/recipes-page/RecipesPage';
-import MainPage from '~/app/pages/start-page/MainPage';
+import { RecipesPage } from '~/app/pages/recipes-page/RecipesPage';
+import { MainPage } from '~/app/pages/start-page/MainPage';
 
 const paths = {
     root: {

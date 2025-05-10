@@ -3,18 +3,18 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router';
 
-import dataNavigation from '~/data/dataNavigation';
+import { dataNavigation } from '~/data/dataNavigation';
 import { useGetCategoriesQuery } from '~/store/slice/app-slice';
 import { setArrayCategory } from '~/store/slice/arrayCategory';
 
-import AccordionMenu from './components/accordion/AccordionMenu';
-import RightAside from './components/aside/RightAside';
-import FooterMobile from './components/footer-mobile/FooterMobile';
-import FooterDesktop from './components/footerDesktop/FooterDesktop';
-import Header from './components/header/Header';
+import { AccordionMenu } from './components/accordion/AccordionMenu';
+import { RightAside } from './components/aside/RightAside';
+import { FooterMobile } from './components/footer-mobile/FooterMobile';
+import { FooterDesktop } from './components/footerDesktop/FooterDesktop';
+import { Header } from './components/header/Header';
 import styles from './Layout.module.css';
 
-function Layout() {
+export const Layout = () => {
     const [isDesktop] = useMediaQuery('(min-width: 1440px)');
     const dispatch = useDispatch();
 
@@ -42,6 +42,4 @@ function Layout() {
             <FooterMobile />
         </Grid>
     );
-}
-
-export default Layout;
+};

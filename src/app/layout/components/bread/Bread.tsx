@@ -8,8 +8,8 @@ import BreadIcon from '~/components/icons/BreadIcon';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { nameRecipeSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
-import { setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
+import { nameRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
+import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
 import styles from './Bread.module.css';
 import { getBreadcrumbs } from './Breadcrumbs';
@@ -19,7 +19,7 @@ type BreadProps = Partial<{
     onClose: () => void;
 }>;
 
-function Bread({ isMobile, onClose }: BreadProps) {
+export const Bread = ({ isMobile, onClose }: BreadProps) => {
     const dispatch = useDispatch();
     const { indexCategory, indexSubcategory } = useNavigationIndices();
     const location = useLocation();
@@ -90,6 +90,4 @@ function Bread({ isMobile, onClose }: BreadProps) {
             ))}
         </Breadcrumb>
     );
-}
-
-export default Bread;
+};

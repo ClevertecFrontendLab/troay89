@@ -14,10 +14,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import dataAuthor from '~/data/dataAuthor';
-import dataCategory from '~/data/dataCategory';
-import dataGarnish from '~/data/dataGarnish';
-import dataTypeMeat from '~/data/dataTypeMeat';
+import { dataAuthor } from '~/data/dataAuthor';
+import { dataCategory } from '~/data/dataCategory';
+import { dataGarnish } from '~/data/dataGarnish';
+import { dataTypeMeat } from '~/data/dataTypeMeat';
 import {
     setAllResult,
     setListCategory,
@@ -26,11 +26,11 @@ import {
     setResultFilter,
 } from '~/store/slice/arrayResultFilterSlice';
 
-import AllergenSort from '../allergen-sort/AllergenSort';
+import { AllergenSort } from '../allergen-sort/AllergenSort';
 import { GreenTags } from '../green-tags/GreenTags';
 import CloseDrawer from '../icons/CloseDrawer';
-import ListItemWithCheckBox from '../list_Item_with_checkbox/ListItemWithCheckBox';
-import MultiSelect from '../multi-select/MultiSelect';
+import { ListItemWithCheckBox } from '../list_Item_with_checkbox/ListItemWithCheckBox';
+import { MultiSelect } from '../multi-select/MultiSelect';
 import styles from './DrawerFilter.module.css';
 
 type DrawerFilterProps = {
@@ -38,7 +38,7 @@ type DrawerFilterProps = {
     onClose: () => void;
 };
 
-function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
+export const DrawerFilter = ({ isOpen, onClose }: DrawerFilterProps) => {
     const dispatch = useDispatch();
     const [authors, setAuthors] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
@@ -227,6 +227,4 @@ function DrawerFilter({ isOpen, onClose }: DrawerFilterProps) {
             </DrawerContent>
         </Drawer>
     );
-}
-
-export default DrawerFilter;
+};

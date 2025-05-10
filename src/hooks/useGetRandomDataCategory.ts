@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { useGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
 
-export function useGetRandomDataCategory(randomNumber: number) {
+export const useGetRandomDataCategory = (randomNumber: number) => {
     const category = useSelector(getArrayCategorySelector);
 
     const categoriesFilter = useMemo(() => category.filter((cat) => cat.subCategories), [category]);
@@ -42,4 +42,4 @@ export function useGetRandomDataCategory(randomNumber: number) {
         isLastBlockFetching,
         isErrorLastBlock,
     };
-}
+};

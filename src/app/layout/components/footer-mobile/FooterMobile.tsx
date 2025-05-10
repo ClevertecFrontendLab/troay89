@@ -7,29 +7,25 @@ import Write from '~/components/icons/footer/Writte';
 
 import styles from './FooterMobile.module.css';
 
-function FooterMobile() {
-    return (
-        <GridItem className={styles.footer} as='footer' data-test-id='footer'>
-            <Flex className={`${styles.container} ${styles.radial}`}>
-                <Button className={`${styles.footer_item} ${styles.home_button}`}>
-                    <Icon as={Home} />
-                </Button>
-                <Text className={styles.text}>Главная</Text>
-            </Flex>
-            <Flex className={styles.container}>
-                <Icon className={styles.footer_icon} as={SearchIcon} boxSize={6} />
-                <Text className={styles.text}>Поиск</Text>
-            </Flex>
-            <Flex className={styles.container}>
-                <Icon className={styles.footer_icon} as={Write} boxSize={6} />
-                <Text className={styles.text}>Записать</Text>
-            </Flex>
-            <Flex className={styles.container}>
-                <Avatar className={styles.footer_item} src={avatar} boxSize={10} />
-                <Text className={styles.text}>Мой профиль</Text>
-            </Flex>
-        </GridItem>
-    );
-}
-
-export default FooterMobile;
+export const FooterMobile = () => (
+    <GridItem className={styles.footer} as='footer' data-test-id='footer'>
+        <Flex className={`${styles.container} ${styles.radial}`}>
+            <Button className={`${styles.footer_item} ${styles.home_button}`}>
+                <Icon as={Home} />
+            </Button>
+            <Text className={styles.text}>Главная</Text>
+        </Flex>
+        <Flex className={styles.container}>
+            <Icon className={styles.footer_icon} as={SearchIcon} boxSize={6} />
+            <Text className={styles.text}>Поиск</Text>
+        </Flex>
+        <Flex className={styles.container}>
+            <Icon className={styles.footer_icon} as={Write} boxSize={6} />
+            <Text className={styles.text}>Записать</Text>
+        </Flex>
+        <Flex className={styles.container}>
+            <Avatar className={styles.footer_item} src={avatar} boxSize={10} />
+            <Text className={styles.text}>Мой профиль</Text>
+        </Flex>
+    </GridItem>
+);

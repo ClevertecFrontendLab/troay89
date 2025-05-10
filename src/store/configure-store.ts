@@ -4,7 +4,7 @@ import { appSlice } from './slice/app-slice';
 import getArrayCategoryReducer from './slice/arrayCategory';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
 import headerZIndexReducer from './slice/headerZIndex';
-import indexTabsReducer from './slice/indexCategorisSubcategoriesSlice';
+import indexTabsReducer from './slice/indexCategoriesSubcategoriesSlice';
 import overlayPositionReducer from './slice/overlayPosition';
 import stateSwitchAllergenReducer from './slice/stateSwitchAllergenSlice';
 

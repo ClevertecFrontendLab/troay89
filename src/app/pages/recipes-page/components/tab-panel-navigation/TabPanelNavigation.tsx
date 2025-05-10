@@ -18,11 +18,11 @@ import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import {
     setActiveSubcategoryId,
     setIndexTab,
-} from '~/store/slice/indexCategorisSubcategoriesSlice';
+} from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { Category } from '~/type/Category';
 import RecipeType, { PaginationMeta } from '~/type/RecipeType';
 
@@ -37,14 +37,14 @@ type TabPanelNavigationType = {
     meta?: PaginationMeta;
 };
 
-function TabPanelNavigation({
+export const TabPanelNavigation = ({
     getCategory,
     recipes,
     page,
     isFetching,
     onLoadMore,
     meta,
-}: TabPanelNavigationType) {
+}: TabPanelNavigationType) => {
     const dispatch = useDispatch();
     const { currentIndex } = useNavigationIndices();
     const tabListRef = useRef<HTMLDivElement | null>(null);
@@ -198,6 +198,4 @@ function TabPanelNavigation({
             )}
         </Flex>
     );
-}
-
-export default TabPanelNavigation;
+};

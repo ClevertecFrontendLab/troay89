@@ -6,7 +6,7 @@ type FormattingTextProps = {
     width?: string;
 };
 
-function FormattingText({ text, maxLines = 3, width = '300px' }: FormattingTextProps) {
+export const FormattingText = ({ text, maxLines = 3, width = '300px' }: FormattingTextProps) => {
     const measureRef = useRef<HTMLDivElement | null>(null);
     const [displayText, setDisplayText] = useState<string>(text);
 
@@ -78,6 +78,4 @@ function FormattingText({ text, maxLines = 3, width = '300px' }: FormattingTextP
             <div style={{ width, overflow: 'hidden', wordBreak: 'normal' }}>{displayText}</div>
         </>
     );
-}
-
-export default FormattingText;
+};

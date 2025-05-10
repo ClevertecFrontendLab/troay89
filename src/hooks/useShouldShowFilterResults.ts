@@ -10,7 +10,7 @@ import {
     listTypeMeatsSelector,
     resultSearchSelector,
 } from '~/store/selectors/arrayResultFilterSelector';
-import { indexNavigationButtonSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { indexNavigationButtonSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
 import { useGetRecipesQuery } from '~/store/slice/app-slice';
 import {
     setFetchingFilterRecipes,
@@ -18,7 +18,7 @@ import {
 } from '~/store/slice/overlayPosition';
 import RecipeType from '~/type/RecipeType';
 
-function useShouldShowFilterResults(limit: number = 8) {
+export const useShouldShowFilterResults = (limit: number = 8) => {
     const { category } = useParams();
     const filterAllergen = useSelector(allergenFilterSelector);
     const listCategory = useSelector(listCategorySelector);
@@ -126,6 +126,4 @@ function useShouldShowFilterResults(limit: number = 8) {
         dataFilterRecipes,
         handleLoadMoreFilter,
     };
-}
-
-export default useShouldShowFilterResults;
+};

@@ -9,13 +9,15 @@ import {
     InputRightElement,
     useDisclosure,
 } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
 import {
+    setAllResult,
     setListCategory,
     setListTypeDishes,
     setListTypeMeats,
@@ -25,16 +27,18 @@ import {
 import { setZIndex } from '~/store/slice/headerZIndex';
 import { setOverlayPosition } from '~/store/slice/overlayPosition';
 
-import DrawerFilter from '../drawer-filter/DrawerFilter';
+import { DrawerFilter } from '../drawer-filter/DrawerFilter';
 import FilterIcon from '../icons/FilterIcon';
 import SearchIcon from '../icons/SearchIcon';
 import styles from './SearchFilter.module.css';
 
 type SearchFilterType = {
     listAllergin: string[];
+    prevPathRef: RefObject<string | null>;
 };
 
-function SearchFilter({ listAllergin }: SearchFilterType) {
+export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) => {
+    const location = useLocation();
     const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const shouldShowFilterResults = useSelector(shouldShowFilterResultsSelector);
@@ -44,12 +48,20 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
 
     const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
 
-    const handleFilterButton = () => {
+    const resetParamsFilter = () => {
         dispatch(setListCategory([]));
         dispatch(setListTypeMeats([]));
         dispatch(setListTypeDishes([]));
-        onOpen();
+        dispatch(setAllResult([]));
+        dispatch(setResultSearch(''));
+        setTextSearch('');
+        setIsSearchRecipes(false);
         dispatch(setOverlayPosition(true));
+    };
+
+    const handleFilterButton = () => {
+        resetParamsFilter();
+        onOpen();
     };
 
     const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -76,6 +88,13 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
             handleClickIconSearch();
         }
     };
+
+    useEffect(() => {
+        if (prevPathRef.current !== location.pathname) {
+            resetParamsFilter();
+            prevPathRef.current = location.pathname;
+        }
+    }, [location.pathname, prevPathRef]);
 
     useEffect(() => {
         if (resultSearch.length > 2) {
@@ -136,6 +155,4 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
             <DrawerFilter isOpen={isOpen} onClose={onClose} />
         </Flex>
     );
-}
-<Icon as={SearchIcon} height='22px' width='22px' />;
-export default SearchFilter;
+};

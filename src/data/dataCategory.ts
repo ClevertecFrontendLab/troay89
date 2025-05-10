@@ -1,4 +1,4 @@
-const dataCategory = [
+export const dataCategory = [
     'Салаты',
     'Закуски',
     'Первые блюда',
@@ -13,5 +13,3 @@ const dataCategory = [
     'Домашние заготовки',
     'Напитки',
 ];
-
-export default dataCategory;

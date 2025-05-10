@@ -5,7 +5,7 @@ type UseResponsiveFormattingTextOptions = {
     computeMaxLines?: (width: number) => number;
 };
 
-export function useResponsiveFormattingText(options?: UseResponsiveFormattingTextOptions) {
+export const useResponsiveFormattingText = (options?: UseResponsiveFormattingTextOptions) => {
     const memoizedComputeFormattingTextWidth = useMemo(
         () =>
             options?.computeFormattingTextWidth ||
@@ -60,4 +60,4 @@ export function useResponsiveFormattingText(options?: UseResponsiveFormattingTex
     }, [windowWidth, memoizedComputeMaxLines]);
 
     return { windowWidth, formattingTextWidth, maxLines };
-}
+};

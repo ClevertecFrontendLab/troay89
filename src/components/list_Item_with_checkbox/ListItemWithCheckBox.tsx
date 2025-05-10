@@ -9,12 +9,12 @@ type ListItemWithCheckBox = {
     onSelectionChange: (selected: string[]) => void;
 };
 
-function ListItemWithCheckBox({
+export const ListItemWithCheckBox = ({
     title,
     selectedTitle,
     value,
     onSelectionChange,
-}: ListItemWithCheckBox) {
+}: ListItemWithCheckBox) => {
     const toggleOption = (option: string) => {
         if (value.includes(option)) {
             onSelectionChange(value.filter((item) => item !== option));
@@ -50,6 +50,4 @@ function ListItemWithCheckBox({
             </Flex>
         </Box>
     );
-}
-
-export default ListItemWithCheckBox;
+};

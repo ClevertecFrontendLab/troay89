@@ -4,7 +4,7 @@ import LeaveDoor from '~/components/icons/LeaveDoor';
 
 import styles from './Footer.module.css';
 
-function FooterDesktop() {
+export const FooterDesktop = () => {
     const textInfo = 'Все права защищены, ученический файл, ©Клевер Технолоджи, 2025';
 
     return (
@@ -16,6 +16,4 @@ function FooterDesktop() {
             </Link>
         </footer>
     );
-}
-
-export default FooterDesktop;
+};

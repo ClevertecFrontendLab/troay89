@@ -5,8 +5,8 @@ import { useRef } from 'react';
 import type { Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import CardSlider from '~/app/pages/start-page/components/card-slider/CardSlider';
-import SliderButton from '~/app/pages/start-page/components/slider-button/SliderButton';
+import { CardSlider } from '~/app/pages/start-page/components/card-slider/CardSlider';
+import { SliderButton } from '~/app/pages/start-page/components/slider-button/SliderButton';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import RecipeType from '~/type/RecipeType';
 
@@ -16,7 +16,7 @@ type SwipeSlideType = {
     swipeData?: RecipeType[];
 };
 
-function SwipeSlider({ swipeData }: SwipeSlideType) {
+export const SwipeSlider = ({ swipeData }: SwipeSlideType) => {
     const swipeDataFilter =
         swipeData &&
         [...swipeData]?.sort(
@@ -87,6 +87,4 @@ function SwipeSlider({ swipeData }: SwipeSlideType) {
             <SliderButton dataTest={DATA_TEST_ID.CAROUSEL_FORWARD} reverse onClick={handleNext} />
         </Box>
     );
-}
-
-export default SwipeSlider;
+};

@@ -3,19 +3,19 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 
-import TableIngredients from '~/app/pages/about-recipe-page/components/table-ingredients/TableIndegrients';
 import { Overlay } from '~/components/overlay/Overlay';
-import { idRecipeSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
+import { idRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
 import { useGetRecipesQuery, useLazyGetRecipeQuery } from '~/store/slice/app-slice';
-import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategorisSubcategoriesSlice';
+import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
-import AuthorCard from './components/author-card/AuthorCard';
+import { AuthorCard } from './components/author-card/AuthorCard';
 import CaloricDish from './components/caloric-dish/CaloricDish';
-import CardAboutRecipe from './components/card-about-recipe/CardAboutRecipe';
-import CookingSteps from './components/cooking_steps/CookingSteps';
-import NewBlock from './components/new-block/NewBlock';
+import { CardAboutRecipe } from './components/card-about-recipe/CardAboutRecipe';
+import { CookingSteps } from './components/cooking_steps/CookingSteps';
+import { NewBlock } from './components/new-block/NewBlock';
+import { TableIngredients } from './components/table-ingredients/TableIndegrients';
 
-function AboutRecipePage() {
+export const AboutRecipePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
@@ -82,6 +82,4 @@ function AboutRecipePage() {
             )}
         </>
     );
-}
-
-export default AboutRecipePage;
+};

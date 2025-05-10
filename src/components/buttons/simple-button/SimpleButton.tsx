@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
 import { useCreateLinkCard } from '~/hooks/useCreateLinkCard';
-import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategorisSubcategoriesSlice';
+import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
 import styled from './SimpleButton.module.css';
 
@@ -13,7 +13,7 @@ type SimpleButtonProps = {
     dataTestButton: string;
 };
 
-function SimpleButton({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) {
+export const SimpleButton = ({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) => {
     const location = useLocation();
 
     const dispatch = useDispatch();
@@ -38,8 +38,8 @@ function SimpleButton({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) {
             color='white'
             variant='solid'
             colorScheme='teal'
-            px={{ bp95: '13px', base: 2 }}
-            h={{ bp95: 8, base: 6 }}
+            // px={{ bp95: '13px', base: 2 }}
+            size={{ base: 'xs', bp95: 'sm' }}
             as={Link}
             to={pathButton}
             onClick={handlingClick}
@@ -47,6 +47,4 @@ function SimpleButton({ _id, dataTestButton, titleRecipe }: SimpleButtonProps) {
             Готовить
         </Button>
     );
-}
-
-export default SimpleButton;
+};

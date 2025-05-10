@@ -11,13 +11,9 @@ type LabelTypeFoodProp = {
     isMobile?: boolean;
 };
 
-function LabelTypeFood({ title, icon, yellow, isMobile }: LabelTypeFoodProp) {
-    return (
-        <Flex className={`${styles.label} ${yellow && styles.yellow} ${isMobile && styles.mobile}`}>
-            <Image className={styles.image} src={`${URLS.IMAGE_URL}${icon}`} />
-            <span className={styles.text}>{title}</span>
-        </Flex>
-    );
-}
-
-export default LabelTypeFood;
+export const LabelTypeFood = ({ title, icon, yellow, isMobile }: LabelTypeFoodProp) => (
+    <Flex className={`${styles.label} ${yellow && styles.yellow} ${isMobile && styles.mobile}`}>
+        <Image className={styles.image} src={`${URLS.IMAGE_URL}${icon}`} />
+        <span className={styles.text}>{title}</span>
+    </Flex>
+);

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import dataPathCategory from '~/data/dataPathCategory';
+import { dataPathCategory } from '~/data/dataPathCategory';
 
 type useLabelCategoryTypes = {
     categories: string[];
 };
 
-function useLabelCategory({ categories }: useLabelCategoryTypes) {
+export const useLabelCategory = ({ categories }: useLabelCategoryTypes) => {
     const [arrayCategory, setArrayCategory] = useState<string[]>([]);
 
     useEffect(() => {
@@ -18,6 +18,4 @@ function useLabelCategory({ categories }: useLabelCategoryTypes) {
     }, [categories]);
 
     return { arrayCategory };
-}
-
-export default useLabelCategory;
+};

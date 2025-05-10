@@ -17,12 +17,12 @@ import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelecto
 import {
     setActiveSubcategoryId,
     setIndexTab,
-} from '~/store/slice/indexCategorisSubcategoriesSlice';
+} from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
-import ButtonAccordion from '../accordion-button/ButtonAccordion';
+import { ButtonAccordion } from '../accordion-button/ButtonAccordion';
 import styles from './AccordionMenu.module.css';
 
-function AccordionMenu() {
+export const AccordionMenu = () => {
     const dispatch = useDispatch();
     const categories = useSelector(getArrayCategorySelector);
     const { indexCategory, indexSubcategory, subcategories } = useNavigationIndices();
@@ -83,6 +83,4 @@ function AccordionMenu() {
             ))}
         </Accordion>
     );
-}
-
-export default AccordionMenu;
+};

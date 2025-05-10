@@ -1,4 +1,4 @@
-const dataPathCategory = new Map<string[], string[]>([
+export const dataPathCategory = new Map<string[], string[]>([
     [
         ['Салаты', 'salads'],
         ['meat-snacks', 'fish-snacks', 'vegetable-snacks', 'warm-salads'],
@@ -154,5 +154,3 @@ const dataPathCategory = new Map<string[], string[]>([
         ],
     ],
 ]);
-
-export default dataPathCategory;

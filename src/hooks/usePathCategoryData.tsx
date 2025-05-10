@@ -1,11 +1,9 @@
 import { useMemo } from 'react';
 
-import dataPathCategory from '~/data/dataPathCategory';
+import { dataPathCategory } from '~/data/dataPathCategory';
 
-const usePathCategoryData = () => {
+export const usePathCategoryData = () => {
     const keysPathCategory = useMemo(() => Array.from(dataPathCategory.keys()), []);
     const valuesPathCategory = useMemo(() => Array.from(dataPathCategory.values()), []);
     return { keysPathCategory, valuesPathCategory };
 };
-
-export default usePathCategoryData;

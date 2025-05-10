@@ -30,7 +30,7 @@ type MultiSelectProps = {
     dataTest?: string;
 };
 
-function MultiSelect({
+export const MultiSelect = ({
     widthMenu,
     textPlaceHolder,
     isDisable,
@@ -39,7 +39,7 @@ function MultiSelect({
     isBottomInput,
     onSelectionChange,
     dataTest,
-}: MultiSelectProps) {
+}: MultiSelectProps) => {
     const [customAllergen, setCustomAllergen] = useState('');
 
     const getSelectedLabel = () => {
@@ -187,6 +187,4 @@ function MultiSelect({
             )}
         </Menu>
     );
-}
-
-export default MultiSelect;
+};

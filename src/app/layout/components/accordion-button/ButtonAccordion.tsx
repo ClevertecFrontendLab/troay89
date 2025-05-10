@@ -1,4 +1,10 @@
-import { AccordionButton, AccordionIcon, Box, useAccordionItemState } from '@chakra-ui/react';
+import {
+    AccordionButton,
+    AccordionIcon,
+    Box,
+    chakra,
+    useAccordionItemState,
+} from '@chakra-ui/react';
 import { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
@@ -8,7 +14,7 @@ import {
     setActiveSubcategoryId,
     setIndexButton,
     setIndexTab,
-} from '~/store/slice/indexCategorisSubcategoriesSlice';
+} from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { Category } from '~/type/Category';
 
 import styles from './ButtonAccordion.module.css';
@@ -18,7 +24,10 @@ type ButtonAccordionProps = {
     index: number;
 };
 
-const ButtonAccordion = memo(function ButtonAccordion({ category, index }: ButtonAccordionProps) {
+export const ButtonAccordion = memo(function ButtonAccordion({
+    category,
+    index,
+}: ButtonAccordionProps) {
     const dispatch = useDispatch();
     const { isOpen } = useAccordionItemState();
 
@@ -57,11 +66,11 @@ const ButtonAccordion = memo(function ButtonAccordion({ category, index }: Butto
                     alt={`${category.title} icon`}
                     className={styles.icon}
                 />
-                <span className={styles.title_nav}>{category.title}</span>
+                <chakra.span isTruncated title={category.title} className={styles.title_nav}>
+                    {category.title}
+                </chakra.span>
             </Box>
             <AccordionIcon className={styles.accordion_icon} boxSize={7} />
         </AccordionButton>
     );
 });
-
-export default ButtonAccordion;

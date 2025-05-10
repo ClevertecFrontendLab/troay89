@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 
-import LabelTypeFood from '../label-type-food/LabelTypeFood';
-import StatsForCard from '../stats-card/StatsForCard';
+import { LabelTypeFood } from '../label-type-food/LabelTypeFood';
+import { StatsForCard } from '../stats-card/StatsForCard';
 import styles from './CardStats.module.css';
 
 type CardStatsProps = {
@@ -13,13 +13,9 @@ type CardStatsProps = {
     isMobile?: boolean;
 };
 
-function CardStats({ title, icon, favorites, like, yellow, isMobile }: CardStatsProps) {
-    return (
-        <Flex className={`${styles.container} ${isMobile && styles.mobile}`}>
-            <LabelTypeFood title={title} icon={icon} yellow={yellow} />
-            <StatsForCard favorites={favorites} like={like} />
-        </Flex>
-    );
-}
-
-export default CardStats;
+export const CardStats = ({ title, icon, favorites, like, yellow, isMobile }: CardStatsProps) => (
+    <Flex className={`${styles.container} ${isMobile && styles.mobile}`}>
+        <LabelTypeFood title={title} icon={icon} yellow={yellow} />
+        <StatsForCard favorites={favorites} like={like} />
+    </Flex>
+);
