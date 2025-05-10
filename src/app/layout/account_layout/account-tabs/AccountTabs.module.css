@@ -1,0 +1,5 @@
+div .tab_list {
+    font: var(--font-inter-500);
+    padding-block: 11px;
+    padding-inline: 25px;
+}

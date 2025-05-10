@@ -1,6 +1,8 @@
 import { memo } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router';
 
+import { AccountTabs } from '~/app/layout/account_layout/account-tabs/AccountTabs';
+import { AccountLayout } from '~/app/layout/account_layout/AccountLayout';
 import { Layout } from '~/app/layout/Layout';
 import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
@@ -30,9 +32,22 @@ const paths = {
     notFound: {
         path: '/not-found',
     },
+
+    account: { path: '/account' },
+    registration: { path: '/account/registration' },
+    authorization: { path: '/account/login' },
 };
 
-const allRoutes: RouteObject = {
+const accountRoutes: RouteObject = {
+    path: paths.account.path,
+    element: <AccountLayout />,
+    children: [
+        { path: paths.registration.path, element: <AccountTabs /> },
+        { path: paths.authorization.path, element: <AccountTabs /> },
+    ],
+};
+
+const recipeRoutes: RouteObject = {
     path: paths.root.path,
     element: <Layout />,
     children: [
@@ -46,7 +61,9 @@ const allRoutes: RouteObject = {
     ],
 };
 
-export const AppRouter = memo(() => useRoutes([allRoutes]));
+const allRoutes: RouteObject[] = [accountRoutes, recipeRoutes];
+
+export const AppRouter = memo(() => useRoutes(allRoutes));
 AppRouter.displayName = 'AppRouter';
 
 export default AppRouter;
