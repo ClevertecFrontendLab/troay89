@@ -32,10 +32,18 @@ const paths = {
     notFound: {
         path: '/not-found',
     },
-
-    account: { path: '/account' },
-    registration: { path: '/account/registration' },
-    authorization: { path: '/account/login' },
+    account: {
+        path: '/account',
+    },
+    registration: {
+        path: '/account/registration',
+    },
+    finishRegistration: {
+        path: '/account/finish-registration',
+    },
+    authorization: {
+        path: '/account/login',
+    },
 };
 
 const accountRoutes: RouteObject = {
@@ -43,6 +51,7 @@ const accountRoutes: RouteObject = {
     element: <AccountLayout />,
     children: [
         { path: paths.registration.path, element: <AccountTabs /> },
+        { path: paths.finishRegistration.path, element: <AccountTabs /> },
         { path: paths.authorization.path, element: <AccountTabs /> },
     ],
 };

@@ -2,7 +2,8 @@ import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoginPage } from '~/app/pages/login-page/LoginPage';
-import { RegistrationPage } from '~/app/pages/registration-page/RegistrationPage';
+import { RegistrationOnePage } from '~/app/pages/registration-one-page/RegistrationPageOne';
+import { RegistrationTwoPage } from '~/app/pages/registration-two-page/RegistrationPageTwo';
 
 import styles from './AccountTabs.module.css';
 
@@ -10,11 +11,7 @@ export const AccountTabs = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const tabIndex = location.pathname.endsWith('login')
-        ? 0
-        : location.pathname.endsWith('registration')
-          ? 1
-          : 0;
+    const tabIndex = location.pathname.includes('login') ? 0 : 1;
 
     const handleTabsChange = (index: number) => {
         const path = index === 0 ? '/account/login' : '/account/registration';
@@ -22,14 +19,13 @@ export const AccountTabs = () => {
     };
 
     return (
-        <Box maxW='485px' mx='auto'>
+        <Box maxW='461px' mx='auto'>
             <Tabs
                 index={tabIndex}
                 onChange={handleTabsChange}
                 isLazy
                 lazyBehavior='unmount'
                 variant='unstyled'
-                ml={6}
             >
                 <TabList borderBottom='2px solid' borderColor='gray.200' mb={10} gap='16px'>
                     <Tab
@@ -60,7 +56,11 @@ export const AccountTabs = () => {
                         <LoginPage />
                     </TabPanel>
                     <TabPanel p={0}>
-                        <RegistrationPage />
+                        {location.pathname.endsWith('finish-registration') ? (
+                            <RegistrationTwoPage />
+                        ) : (
+                            <RegistrationOnePage />
+                        )}
                     </TabPanel>
                 </TabPanels>
             </Tabs>

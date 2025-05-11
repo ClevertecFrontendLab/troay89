@@ -2,6 +2,11 @@
     font: var(--font-inter-bread);
 }
 
+.form_input {
+    font: var(--font-inter-search);
+    color: var(--color-lime-800);
+}
+
 .form_input::placeholder {
     font: var(--font-inter-search);
     color: var(--color-lime-800);
@@ -9,4 +14,9 @@
 
 .button {
     font: var(--font-inter-button);
+}
+
+.message {
+    font: var(--font-inter-text);
+    color: var(--black-alpha);
 }

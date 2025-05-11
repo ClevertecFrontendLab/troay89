@@ -13,14 +13,14 @@ export const AccountLayout = () => (
         h='100vh'
         position='relative'
     >
-        <Flex flexDirection='column' w='45vw' flex='1'>
+        <Flex flexDirection='column' w='45vw' flex='1' pl={6}>
             <Box mx='auto' mt='170px' mb='80px'>
-                <Icon as={Logo} w='270px' h='64px' mr={1} />
+                <Icon as={Logo} w='270px' h='64px' mr={7} />
             </Box>
             <Box as='main'>
                 <Outlet />
             </Box>
-            <Box className={styles.text} as='footer' ml='30px' mb='30px' mt='auto'>
+            <Box className={styles.text} as='footer' ml='6px' mb='30px' mt='auto'>
                 Все права защищены, ученический файл, ©Клевер Технолоджи, 2025
             </Box>
         </Flex>

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
@@ -46,6 +46,7 @@ export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) =>
     const [isSearchRecipes, setIsSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
 
+    const { id } = useParams();
     const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
 
     const resetParamsFilter = () => {
@@ -90,11 +91,11 @@ export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) =>
     };
 
     useEffect(() => {
-        if (prevPathRef.current !== location.pathname) {
+        if (prevPathRef.current !== location.pathname && !id) {
             resetParamsFilter();
             prevPathRef.current = location.pathname;
         }
-    }, [location.pathname, prevPathRef]);
+    }, [location.pathname, prevPathRef, id]);
 
     useEffect(() => {
         if (resultSearch.length > 2) {
