@@ -11,9 +11,12 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
+import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
+import { useRegistrationMutation } from '~/store/slice/app-slice';
 
 import styles from './RegistrationPageTwo.module.css';
 
@@ -45,6 +48,7 @@ type RegistrationTwoData = {
 };
 
 export const RegistrationTwoPage = () => {
+    const [registrationUser] = useRegistrationMutation();
     const {
         register,
         handleSubmit,
@@ -55,10 +59,30 @@ export const RegistrationTwoPage = () => {
         mode: 'onBlur',
     });
 
+    const firstPartDataUserRegistration = useSelector(firstPartDataCreateUserSelector);
+
     const { validatedFields, handleBlur } = useBlurValidatedFields<RegistrationTwoData>(trigger);
 
-    const onSubmit = (data: RegistrationTwoData) => {
-        console.log('Registration step 2 data:', data);
+    const onSubmit = async (dataFromStep2: RegistrationTwoData) => {
+        if (
+            firstPartDataUserRegistration.firstName &&
+            firstPartDataUserRegistration.lastName &&
+            firstPartDataUserRegistration.email
+        ) {
+            const registrationData = {
+                firstName: firstPartDataUserRegistration.firstName,
+                lastName: firstPartDataUserRegistration.lastName,
+                email: firstPartDataUserRegistration.email,
+                login: dataFromStep2.username,
+                password: dataFromStep2.password,
+            };
+            try {
+                const response = await registrationUser(registrationData).unwrap();
+                console.log('Registration success:', response);
+            } catch (err) {
+                console.error('Registration error:', err);
+            }
+        }
     };
 
     const validInputsCount =
@@ -151,6 +175,7 @@ export const RegistrationTwoPage = () => {
                         size='lg'
                         borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
+                        {...confirmPasswordReg}
                         onBlur={(e) => handleBlur('confirmPassword', e, confirmPasswordReg.onBlur)}
                     />
                     {errors.confirmPassword ? (

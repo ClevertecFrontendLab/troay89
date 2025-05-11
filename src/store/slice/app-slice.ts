@@ -3,6 +3,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/Category';
 import RecipeType, { RecipeTypeResponse } from '~/type/RecipeType';
+import { RegistrationData } from '~/type/registrationData';
+import { RegistrationResponse } from '~/type/registrationResponse';
 
 type RecipesQueryParams = {
     limit: number;
@@ -104,6 +106,13 @@ export const appSlice = createApi({
                 return `recipe?${params.toString()}`;
             },
         }),
+        registration: build.mutation<RegistrationResponse, RegistrationData>({
+            query: ({ ...data }) => ({
+                url: 'auth/signup',
+                method: 'PATCH',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -115,4 +124,5 @@ export const {
     useLazyGetRecipeQuery,
     useGetRecipeByCategoryQuery,
     useLazyGetRecipeByCategoryQuery,
+    useRegistrationMutation,
 } = appSlice;

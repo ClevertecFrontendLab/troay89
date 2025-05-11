@@ -9,6 +9,7 @@ import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
 import { RecipesPage } from '~/app/pages/recipes-page/RecipesPage';
 import { MainPage } from '~/app/pages/start-page/MainPage';
+import { VerificationPage } from '~/app/pages/verification-page/VerificationPage';
 
 const paths = {
     root: {
@@ -44,6 +45,9 @@ const paths = {
     authorization: {
         path: '/account/login',
     },
+    verification: {
+        path: '/verification',
+    },
 };
 
 const accountRoutes: RouteObject = {
@@ -66,6 +70,7 @@ const recipeRoutes: RouteObject = {
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
+        { path: paths.verification.path, element: <VerificationPage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };

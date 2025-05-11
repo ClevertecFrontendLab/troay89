@@ -11,10 +11,12 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import * as yup from 'yup';
 
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
+import { setFirstPartDataCreateUser } from '~/store/slice/firstPartDataCreateUser';
 
 import styles from './RegistrationPageOne.module.css';
 
@@ -48,6 +50,7 @@ const registrationOneSchema = yup
     .required();
 
 export const RegistrationOnePage = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const {
@@ -68,7 +71,7 @@ export const RegistrationOnePage = () => {
         (validatedFields.email ? 1 : 0);
 
     const onSubmit = (data: RegistrationOneData) => {
-        console.log('Step 1 data:', data);
+        dispatch(setFirstPartDataCreateUser(data));
         navigate('/account/finish-registration');
     };
     const progressValue = (validInputsCount / 6) * 100;

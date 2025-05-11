@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { appSlice } from './slice/app-slice';
 import getArrayCategoryReducer from './slice/arrayCategory';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
+import firstPartDataCreateUserReducer from './slice/firstPartDataCreateUser';
 import headerZIndexReducer from './slice/headerZIndex';
 import indexTabsReducer from './slice/indexCategoriesSubcategoriesSlice';
 import overlayPositionReducer from './slice/overlayPosition';
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     setArrayCategory: getArrayCategoryReducer,
     getPosition: overlayPositionReducer,
     getStateSwitchAllergen: stateSwitchAllergenReducer,
+    firstPartDataCreateUser: firstPartDataCreateUserReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;
