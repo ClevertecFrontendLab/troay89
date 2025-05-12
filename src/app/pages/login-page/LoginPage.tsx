@@ -39,6 +39,7 @@ export const LoginPage = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<LoginData>({
         resolver: yupResolver(loginSchema),
@@ -49,22 +50,32 @@ export const LoginPage = () => {
     const [loginUser, { isLoading, isError }] = useLoginMutation();
 
     const [isOpenError, setIsOpenError] = useState(isError);
-
+    const [lastLoginData, setLastLoginData] = useState<LoginData | null>(null);
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
-    const [_, setIsShowModal] = useState(false);
+    const [isShowModal, setIsShowModal] = useState(false);
 
     useEffect(() => {
         setIsOpenError(isError);
     }, [isError]);
 
-    const onSubmit = async (data: LoginData) => {
+    useEffect(() => {
+        if (isOpenError) {
+            const timer = setTimeout(() => {
+                setIsOpenError(false);
+            }, 15000);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpenError]);
+
+    const performLogin = async (data: LoginData) => {
         try {
             const response = await loginUser(data).unwrap();
             if (response.accessToken) {
                 localStorage.setItem('accessToken', response.accessToken);
                 navigate('/', { replace: true });
             }
+            setIsShowModal(false);
         } catch (err) {
             if (err && typeof err === 'object' && 'status' in err) {
                 const error = err as FetchBaseQueryError;
@@ -79,6 +90,26 @@ export const LoginPage = () => {
                 }
             }
         }
+    };
+
+    const loginRegister = register('login');
+
+    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        loginRegister.onBlur(e);
+        const trimmedValue = e.target.value.trim();
+        if (e.target.value !== trimmedValue) {
+            setValue('login', trimmedValue);
+        }
+    };
+
+    const handleRetry = async () => {
+        if (!lastLoginData) return;
+        performLogin(lastLoginData);
+    };
+
+    const onSubmit = async (data: LoginData) => {
+        setLastLoginData(data);
+        performLogin(data);
     };
 
     if (isLoading) {
@@ -107,6 +138,7 @@ export const LoginPage = () => {
                         _focus={{ boxShadow: 'none' }}
                         borderColor={errors.login || isOpenError ? 'red' : 'lime.150'}
                         {...register('login')}
+                        onBlur={handleTrimBlur}
                     />
                     {errors.login ? (
                         <Text className={styles.message} color='red.500' mt={1}>
@@ -162,7 +194,11 @@ export const LoginPage = () => {
                     notification={notification}
                 />
             )}
-            {true && <LoginFailedModule />}
+            <LoginFailedModule
+                onRetry={handleRetry}
+                onClose={() => setIsShowModal(false)}
+                isOpen={isShowModal}
+            />
         </Flex>
     );
 };

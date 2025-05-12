@@ -8,7 +8,6 @@ import {
     ModalHeader,
     ModalOverlay,
     Text,
-    useDisclosure,
 } from '@chakra-ui/react';
 
 import { noExit } from '~/assets/images/modal-mage';
@@ -16,16 +15,28 @@ import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 
 import styles from './LoginFailedModal.module.css';
 
-export const LoginFailedModule = () => {
-    const { onClose } = useDisclosure();
+type LoginFailedModuleType = {
+    isOpen: boolean;
+    onRetry: () => void;
+    onClose: () => void;
+};
+
+export const LoginFailedModule = ({ isOpen, onRetry, onClose }: LoginFailedModuleType) => {
     const message = 'Что-то пошло не так.\nПопробуйте еще раз';
     return (
         <>
-            <Modal isCentered isOpen={true} onClose={onClose}>
-                <ModalOverlay />
+            <Modal isCentered isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
                 <ModalContent maxW='396px' alignItems='center' m={0}>
                     <Image src={noExit} boxSize='206px' mt={8} />
-                    <Icon as={CloseRoundModule} position='absolute' top={6} right={6} boxSize={6} />
+                    <Icon
+                        as={CloseRoundModule}
+                        position='absolute'
+                        top={6}
+                        right={6}
+                        boxSize={6}
+                        onClick={onClose}
+                    />
                     <ModalBody p={8} w='100%'>
                         <ModalHeader
                             as='h1'
@@ -53,6 +64,8 @@ export const LoginFailedModule = () => {
                             bg='alpha.900'
                             color='white'
                             size='lg'
+                            colorScheme='teal'
+                            onClick={onRetry}
                         >
                             Повторить
                         </Button>

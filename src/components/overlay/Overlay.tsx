@@ -10,7 +10,7 @@ export const Overlay = () => (
         top='50%'
         left='50%'
         transform='translate(-50%, -50%)'
-        backgroundColor='rgba(0, 0, 0, 0.16)'
+        backgroundColor='alpha.300'
         backdropFilter='blur(4px)'
         borderRadius='8px'
         display='flex'
