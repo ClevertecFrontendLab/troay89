@@ -10,8 +10,16 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import * as yup from 'yup';
+
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { LoginFailedModule } from '~/components/modal/login-failed/login-failed-modal/LoginFailedModal';
+import { Overlay } from '~/components/overlay/Overlay';
+import { useLoginMutation } from '~/store/slice/app-slice';
 
 import styles from './LoginPage.module.css';
 
@@ -37,9 +45,45 @@ export const LoginPage = () => {
         mode: 'onBlur',
     });
 
-    const onSubmit = (data: LoginData) => {
-        console.log('Step 1 data:', data);
+    const navigate = useNavigate();
+    const [loginUser, { isLoading, isError }] = useLoginMutation();
+
+    const [isOpenError, setIsOpenError] = useState(isError);
+
+    const [title, setTitle] = useState('');
+    const [notification, setNotification] = useState('');
+    const [_, setIsShowModal] = useState(false);
+
+    useEffect(() => {
+        setIsOpenError(isError);
+    }, [isError]);
+
+    const onSubmit = async (data: LoginData) => {
+        try {
+            const response = await loginUser(data).unwrap();
+            if (response.accessToken) {
+                localStorage.setItem('accessToken', response.accessToken);
+                navigate('/', { replace: true });
+            }
+        } catch (err) {
+            if (err && typeof err === 'object' && 'status' in err) {
+                const error = err as FetchBaseQueryError;
+                if (error.status === 401) {
+                    setTitle('Неверный логин или пароль');
+                    setNotification('Попробуйте снова');
+                } else if (error.status === 403) {
+                    setTitle('E-mail не верифицирован');
+                    setNotification('Проверьте почту и перейдите по ссылке');
+                } else if (typeof error.status === 'number' && error.status >= 500) {
+                    setIsShowModal(true);
+                }
+            }
+        }
     };
+
+    if (isLoading) {
+        return <Overlay />;
+    }
 
     return (
         <Flex
@@ -61,7 +105,7 @@ export const LoginPage = () => {
                         bg='white'
                         size='lg'
                         _focus={{ boxShadow: 'none' }}
-                        borderColor={errors.login ? 'red' : 'lime.150'}
+                        borderColor={errors.login || isOpenError ? 'red' : 'lime.150'}
                         {...register('login')}
                     />
                     {errors.login ? (
@@ -83,7 +127,7 @@ export const LoginPage = () => {
                         placeholder='Пароль для сайта'
                         bg='white'
                         size='lg'
-                        borderColor={errors.password ? 'red' : 'lime.150'}
+                        borderColor={errors.password || isOpenError ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...register('password')}
                     />
@@ -111,6 +155,14 @@ export const LoginPage = () => {
                 </Button>
             </VStack>
             <Link className={styles.link}>Забыли логин или пароль?</Link>
+            {isOpenError && (
+                <ErrorModal
+                    onClose={() => setIsOpenError(false)}
+                    title={title}
+                    notification={notification}
+                />
+            )}
+            {true && <LoginFailedModule />}
         </Flex>
     );
 };

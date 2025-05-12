@@ -6,12 +6,15 @@ import styles from './ErrorModal.module.css';
 
 type ErrorModalType = {
     onClose: () => void;
+    title?: string;
+    notification?: string;
 };
 
-const title = 'Ошибка сервера';
-const notification = 'Попробуйте поискать снова попозже';
-
-export const ErrorModal = ({ onClose }: ErrorModalType) => (
+export const ErrorModal = ({
+    onClose,
+    title = 'Ошибка сервера',
+    notification = 'Попробуйте поискать снова попозже',
+}: ErrorModalType) => (
     <Alert
         status='error'
         w={{ base: '328px', bp95: '400px' }}

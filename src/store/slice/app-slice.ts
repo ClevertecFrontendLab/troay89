@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/Category';
+import { LoginDataType } from '~/type/LoginDataType';
 import RecipeType, { RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { RegistrationResponse } from '~/type/registrationResponse';
@@ -106,13 +107,46 @@ export const appSlice = createApi({
                 return `recipe?${params.toString()}`;
             },
         }),
+        //получение refresh token
+        refresh: build.query<RegistrationResponse, void>({
+            query: () => ({
+                url: 'auth/refresh',
+                method: 'GET',
+                credentials: 'include',
+            }),
+        }),
+        //проверка наличее токена у пользователя
+        check: build.query<RegistrationResponse, void>({
+            query: () => ({
+                url: 'auth/check-auth',
+                method: 'GET',
+                credentials: 'include',
+            }),
+        }),
         registration: build.mutation<RegistrationResponse, RegistrationData>({
             query: ({ ...data }) => ({
                 url: 'auth/signup',
-                method: 'PATCH',
+                method: 'POST',
+                credentials: 'include',
                 body: data,
             }),
         }),
+        login: build.mutation<RegistrationResponse & { accessToken: string | null }, LoginDataType>(
+            {
+                query: (data) => ({
+                    url: 'auth/login',
+                    method: 'POST',
+                    credentials: 'include',
+                    body: data,
+                }),
+                transformResponse: (response: unknown, meta) => {
+                    const parsedResponse = response as RegistrationResponse;
+                    const accessToken =
+                        meta?.response?.headers.get('Authentication-Access') ?? null;
+                    return { ...parsedResponse, accessToken };
+                },
+            },
+        ),
     }),
 });
 
@@ -125,4 +159,5 @@ export const {
     useGetRecipeByCategoryQuery,
     useLazyGetRecipeByCategoryQuery,
     useRegistrationMutation,
+    useLoginMutation,
 } = appSlice;

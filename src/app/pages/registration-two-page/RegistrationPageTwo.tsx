@@ -10,10 +10,14 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { Overlay } from '~/components/overlay/Overlay';
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
 import { useRegistrationMutation } from '~/store/slice/app-slice';
@@ -48,7 +52,13 @@ type RegistrationTwoData = {
 };
 
 export const RegistrationTwoPage = () => {
-    const [registrationUser] = useRegistrationMutation();
+    const [registrationUser, { isLoading, isError }] = useRegistrationMutation();
+    const [isOpenError, setIsOpenError] = useState(isError);
+
+    useEffect(() => {
+        setIsOpenError(isError);
+    }, [isError]);
+
     const {
         register,
         handleSubmit,
@@ -58,6 +68,9 @@ export const RegistrationTwoPage = () => {
         resolver: yupResolver(registrationTwoSchema),
         mode: 'onBlur',
     });
+
+    const [title, setTitle] = useState('');
+    const [notification, setNotification] = useState('');
 
     const firstPartDataUserRegistration = useSelector(firstPartDataCreateUserSelector);
 
@@ -80,7 +93,17 @@ export const RegistrationTwoPage = () => {
                 const response = await registrationUser(registrationData).unwrap();
                 console.log('Registration success:', response);
             } catch (err) {
-                console.error('Registration error:', err);
+                if (err && typeof err === 'object' && 'status' in err) {
+                    const error = err as FetchBaseQueryError;
+                    if (error.status === 400) {
+                        setTitle('Пользователь с таким email уже существует.');
+                        setNotification('Попробуйте снова');
+                    }
+                    if (typeof error.status === 'number' && error.status >= 500) {
+                        setTitle('Ошибка сервера');
+                        setNotification('Попробуйте енмного позже');
+                    }
+                }
             }
         }
     };
@@ -95,6 +118,10 @@ export const RegistrationTwoPage = () => {
     const confirmPasswordReg = register('confirmPassword');
 
     const progressValue = ((3 + validInputsCount) / 6) * 100;
+
+    if (isLoading) {
+        return <Overlay />;
+    }
 
     return (
         <Flex align='center' justify='center' w='100%'>
@@ -200,6 +227,13 @@ export const RegistrationTwoPage = () => {
                     Зарегистрироваться
                 </Button>
             </VStack>
+            {isOpenError && (
+                <ErrorModal
+                    onClose={() => setIsOpenError(false)}
+                    title={title}
+                    notification={notification}
+                />
+            )}
         </Flex>
     );
 };
