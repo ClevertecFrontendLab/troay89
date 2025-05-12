@@ -5,7 +5,7 @@ import { CategoriesResponse } from '~/type/Category';
 import { LoginDataType } from '~/type/LoginDataType';
 import RecipeType, { RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
-import { RegistrationResponse } from '~/type/registrationResponse';
+import { Response } from '~/type/response';
 
 type RecipesQueryParams = {
     limit: number;
@@ -108,7 +108,7 @@ export const appSlice = createApi({
             },
         }),
         //получение refresh token
-        refresh: build.query<RegistrationResponse, void>({
+        refresh: build.query<Response, void>({
             query: () => ({
                 url: 'auth/refresh',
                 method: 'GET',
@@ -116,14 +116,14 @@ export const appSlice = createApi({
             }),
         }),
         //проверка наличее токена у пользователя
-        check: build.query<RegistrationResponse, void>({
+        check: build.query<Response, void>({
             query: () => ({
                 url: 'auth/check-auth',
                 method: 'GET',
                 credentials: 'include',
             }),
         }),
-        registration: build.mutation<RegistrationResponse, RegistrationData>({
+        registration: build.mutation<Response, RegistrationData>({
             query: ({ ...data }) => ({
                 url: 'auth/signup',
                 method: 'POST',
@@ -131,22 +131,19 @@ export const appSlice = createApi({
                 body: data,
             }),
         }),
-        login: build.mutation<RegistrationResponse & { accessToken: string | null }, LoginDataType>(
-            {
-                query: (data) => ({
-                    url: 'auth/login',
-                    method: 'POST',
-                    credentials: 'include',
-                    body: data,
-                }),
-                transformResponse: (response: unknown, meta) => {
-                    const parsedResponse = response as RegistrationResponse;
-                    const accessToken =
-                        meta?.response?.headers.get('Authentication-Access') ?? null;
-                    return { ...parsedResponse, accessToken };
-                },
+        login: build.mutation<Response, LoginDataType>({
+            query: (data) => ({
+                url: 'auth/login',
+                method: 'POST',
+                credentials: 'include',
+                body: data,
+            }),
+            transformResponse: (response: unknown, meta) => {
+                const parsedResponse = response as Response;
+                const accessToken = meta?.response?.headers.get('Authentication-Access') ?? null;
+                return { ...parsedResponse, accessToken };
             },
-        ),
+        }),
     }),
 });
 
@@ -160,4 +157,6 @@ export const {
     useLazyGetRecipeByCategoryQuery,
     useRegistrationMutation,
     useLoginMutation,
+    useCheckQuery,
+    useLazyRefreshQuery,
 } = appSlice;

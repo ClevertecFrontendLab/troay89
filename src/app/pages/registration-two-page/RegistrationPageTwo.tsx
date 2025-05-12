@@ -89,19 +89,34 @@ export const RegistrationTwoPage = () => {
                 login: dataFromStep2.username,
                 password: dataFromStep2.password,
             };
+
             try {
                 const response = await registrationUser(registrationData).unwrap();
                 console.log('Registration success:', response);
             } catch (err) {
                 if (err && typeof err === 'object' && 'status' in err) {
                     const error = err as FetchBaseQueryError;
-                    if (error.status === 400) {
-                        setTitle('Пользователь с таким email уже существует.');
-                        setNotification('Попробуйте снова');
+                    if (
+                        error.status === 400 &&
+                        error.data &&
+                        typeof error.data === 'object' &&
+                        'message' in error.data
+                    ) {
+                        const message = (error.data as { message: string }).message;
+                        if (message.toLowerCase().includes('email')) {
+                            setTitle('Пользователь с таким email уже существует.');
+                            setNotification('Попробуйте снова');
+                        } else if (
+                            message.toLowerCase().includes('логин') ||
+                            message.toLowerCase().includes('username')
+                        ) {
+                            setTitle('Пользователь с таким логином уже существует.');
+                            setNotification('Попробуйте снова');
+                        }
                     }
                     if (typeof error.status === 'number' && error.status >= 500) {
                         setTitle('Ошибка сервера');
-                        setNotification('Попробуйте енмного позже');
+                        setNotification('Попробуйте немного позже');
                     }
                 }
             }

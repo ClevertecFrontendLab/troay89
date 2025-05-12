@@ -8,9 +8,10 @@ import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
 import { RecipesPage } from '~/app/pages/recipes-page/RecipesPage';
+import { MainPage } from '~/app/pages/start-page/MainPage';
 import { VerificationPage } from '~/app/pages/verification-page/VerificationPage';
 
-import PrivateRoute from './PrivateRouter';
+import { PrivateRoute } from './PrivateRouter';
 
 const paths = {
     root: {
@@ -65,7 +66,7 @@ const recipeRoutes: RouteObject = {
     path: paths.root.path,
     element: <Layout />,
     children: [
-        { path: paths.root.path, element: <PrivateRoute /> },
+        { path: paths.root.path, element: <PrivateRoute children={<MainPage />} /> },
         { path: paths.juicy.path, element: <JuicyPage /> },
         { path: paths.recipes.path, element: <RecipesPage /> },
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
