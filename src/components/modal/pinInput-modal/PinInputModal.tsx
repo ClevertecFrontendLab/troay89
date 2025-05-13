@@ -23,7 +23,7 @@ type PinInputModalType = {
 
 export const PinInputModal = ({ isOpen, onClose }: PinInputModalType) => {
     const message =
-        'Мы отправили вам на e-mail ekaterinabaker@gmail.ruшестизначный код. Введите его ниже.';
+        'Мы отправили вам на e-mail \nekaterinabaker@gmail.ru \nшестизначный код. Введите его ниже.';
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
@@ -37,7 +37,7 @@ export const PinInputModal = ({ isOpen, onClose }: PinInputModalType) => {
                     boxSize={6}
                     onClick={onClose}
                 />
-                <ModalBody p={8} w='100%'>
+                <ModalBody p={8} w='100%' px={0}>
                     <Text
                         className={styles.text}
                         textAlign='center'
@@ -47,17 +47,17 @@ export const PinInputModal = ({ isOpen, onClose }: PinInputModalType) => {
                     >
                         {message}
                     </Text>
-                    <HStack justify='center'>
-                        <PinInput>
-                            <PinInputField />
-                            <PinInputField />
-                            <PinInputField />
-                            <PinInputField />
-                            <PinInputField />
-                            <PinInputField />
+                    <HStack justify='center' pb={6}>
+                        <PinInput placeholder='O'>
+                            <PinInputField className={styles.pin_input} />
+                            <PinInputField className={styles.pin_input} />
+                            <PinInputField className={styles.pin_input} />
+                            <PinInputField className={styles.pin_input} />
+                            <PinInputField className={styles.pin_input} />
+                            <PinInputField className={styles.pin_input} />
                         </PinInput>
                     </HStack>
-                    <Text textAlign='center' className={styles.secondMessage}>
+                    <Text textAlign='center' className={styles.advice}>
                         Не пришло письмо? Проверьте папку Спам.
                     </Text>
                 </ModalBody>

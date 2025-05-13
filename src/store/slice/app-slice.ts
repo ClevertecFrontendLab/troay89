@@ -35,6 +35,17 @@ type ForgotPasswordData = {
     email: string;
 };
 
+type VerifyOtpData = {
+    email: string;
+    otpToken: string;
+};
+
+type ResetPasswordData = {
+    login: string;
+    password: string;
+    passwordConfirm: string;
+};
+
 export const appSlice = createApi({
     reducerPath: 'appSlice',
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
@@ -111,7 +122,6 @@ export const appSlice = createApi({
                 return `recipe?${params.toString()}`;
             },
         }),
-        //получение refresh token
         refresh: build.query<Response, void>({
             query: () => ({
                 url: 'auth/refresh',
@@ -119,7 +129,6 @@ export const appSlice = createApi({
                 credentials: 'include',
             }),
         }),
-        //проверка наличее токена у пользователя
         check: build.query<Response, void>({
             query: () => ({
                 url: 'auth/check-auth',
@@ -155,6 +164,20 @@ export const appSlice = createApi({
                 body: data,
             }),
         }),
+        verifyOtp: build.mutation<Response, VerifyOtpData>({
+            query: ({ ...data }) => ({
+                url: 'auth/verify-otp',
+                method: 'POST',
+                body: data,
+            }),
+        }),
+        resetPassword: build.mutation<Response, ResetPasswordData>({
+            query: ({ ...data }) => ({
+                url: 'auth/reset-password',
+                method: 'POST',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -171,4 +194,6 @@ export const {
     useCheckQuery,
     useLazyRefreshQuery,
     useForgotPasswordMutation,
+    useVerifyOtpMutation,
+    useResetPasswordMutation,
 } = appSlice;

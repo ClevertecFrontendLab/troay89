@@ -21,6 +21,7 @@ import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import { LoginFailedModule } from '~/components/modal/login-failed-modal/LoginFailedModal';
 import { PasswordRecovery } from '~/components/modal/password-recovery/PasswordRecovery';
 import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
+import { ResetPasswordModal } from '~/components/modal/reset-password-modal/ResetPasswordModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { useLoginMutation } from '~/store/slice/app-slice';
 
@@ -68,6 +69,7 @@ export const LoginPage = () => {
     const [isShowModalLoginFailed, setIsShowModalLoginFailed] = useState(false);
     const [isShowModalRecovery, setIsShowModalRecovery] = useState(false);
     const [isShowPinInputModal, setIsShowPinInputModal] = useState(false);
+    const [isShowResetPasswordModal, setIsShowResetPasswordModal] = useState(false);
 
     useEffect(() => {
         setIsOpenError(isError);
@@ -228,8 +230,12 @@ export const LoginPage = () => {
                 onClose={() => setIsShowModalRecovery(false)}
             />
             <PinInputModal
-                isOpen={!isShowPinInputModal}
+                isOpen={isShowPinInputModal}
                 onClose={() => setIsShowPinInputModal(false)}
+            />
+            <ResetPasswordModal
+                isOpen={!isShowResetPasswordModal}
+                onClose={() => setIsShowResetPasswordModal(false)}
             />
         </Flex>
     );
