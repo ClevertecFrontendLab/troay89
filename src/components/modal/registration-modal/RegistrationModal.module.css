@@ -1,0 +1,13 @@
+h1.header {
+    font: var(--font-inter-header-mobile);
+}
+
+.firstMessage {
+    font: var(--font-inter-bread);
+    color: var(--black-alpha-700);
+}
+
+.secondMessage {
+    font: var(--font-inter-text);
+    color: var(--black-alpha-600);
+}

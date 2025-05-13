@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
@@ -59,6 +60,15 @@ export const RegistrationTwoPage = () => {
         setIsOpenError(isError);
     }, [isError]);
 
+    useEffect(() => {
+        if (isOpenError) {
+            const timer = setTimeout(() => {
+                setIsOpenError(false);
+            }, 15000);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpenError]);
+
     const {
         register,
         handleSubmit,
@@ -71,6 +81,7 @@ export const RegistrationTwoPage = () => {
 
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
+    const [isShowModal, setIsShowModal] = useState(false);
 
     const firstPartDataUserRegistration = useSelector(firstPartDataCreateUserSelector);
 
@@ -92,6 +103,7 @@ export const RegistrationTwoPage = () => {
 
             try {
                 const response = await registrationUser(registrationData).unwrap();
+                setIsShowModal(true);
                 console.log('Registration success:', response);
             } catch (err) {
                 if (err && typeof err === 'object' && 'status' in err) {
@@ -247,6 +259,17 @@ export const RegistrationTwoPage = () => {
                     onClose={() => setIsOpenError(false)}
                     title={title}
                     notification={notification}
+                    position='absolute'
+                    ml='unset'
+                    ml_bp95='unset'
+                    left='unset'
+                />
+            )}
+            {firstPartDataUserRegistration.email && (
+                <RegistrationModal
+                    email={firstPartDataUserRegistration.email}
+                    onClose={() => setIsShowModal(false)}
+                    isShow={isShowModal}
                 />
             )}
         </Flex>

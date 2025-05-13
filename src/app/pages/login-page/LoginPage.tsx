@@ -13,11 +13,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { Location, useLocation, useNavigate } from 'react-router';
 import * as yup from 'yup';
 
+import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
-import { LoginFailedModule } from '~/components/modal/login-failed/login-failed-modal/LoginFailedModal';
+import { LoginFailedModule } from '~/components/modal/login-failed-modal/LoginFailedModal';
+import { PasswordRecovery } from '~/components/modal/password-recovery/PasswordRecovery';
+import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { useLoginMutation } from '~/store/slice/app-slice';
 
@@ -26,6 +29,10 @@ import styles from './LoginPage.module.css';
 type LoginData = {
     login: string;
     password: string;
+};
+
+type VerificationState = {
+    emailVerified?: 'true' | 'false' | undefined;
 };
 
 const loginSchema = yup
@@ -48,12 +55,19 @@ export const LoginPage = () => {
 
     const navigate = useNavigate();
     const [loginUser, { isLoading, isError }] = useLoginMutation();
+    const location = useLocation() as Location<VerificationState>;
+    const emailVerified = location.state?.emailVerified;
+    const [isVerificationFailedOpen, setIsVerificationFailedOpen] = useState(
+        emailVerified === 'false',
+    );
 
     const [isOpenError, setIsOpenError] = useState(isError);
     const [lastLoginData, setLastLoginData] = useState<LoginData | null>(null);
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
-    const [isShowModal, setIsShowModal] = useState(false);
+    const [isShowModalLoginFailed, setIsShowModalLoginFailed] = useState(false);
+    const [isShowModalRecovery, setIsShowModalRecovery] = useState(false);
+    const [isShowPinInputModal, setIsShowPinInputModal] = useState(false);
 
     useEffect(() => {
         setIsOpenError(isError);
@@ -75,7 +89,7 @@ export const LoginPage = () => {
                 localStorage.setItem('accessToken', response.accessToken);
                 navigate('/', { replace: true });
             }
-            setIsShowModal(false);
+            setIsShowModalLoginFailed(false);
         } catch (err) {
             if (err && typeof err === 'object' && 'status' in err) {
                 const error = err as FetchBaseQueryError;
@@ -86,7 +100,7 @@ export const LoginPage = () => {
                     setTitle('E-mail не верифицирован');
                     setNotification('Проверьте почту и перейдите по ссылке');
                 } else if (typeof error.status === 'number' && error.status >= 500) {
-                    setIsShowModal(true);
+                    setIsShowModalLoginFailed(true);
                 }
             }
         }
@@ -123,6 +137,7 @@ export const LoginPage = () => {
             w='100%'
             flexDir='column'
             onSubmit={handleSubmit(onSubmit)}
+            position='static'
         >
             <VStack as='form' spacing={1} w='full'>
                 <FormControl id='login'>
@@ -186,18 +201,35 @@ export const LoginPage = () => {
                     Войти
                 </Button>
             </VStack>
-            <Link className={styles.link}>Забыли логин или пароль?</Link>
+            <Link className={styles.link} onClick={() => setIsShowModalRecovery(true)}>
+                Забыли логин или пароль?
+            </Link>
             {isOpenError && (
                 <ErrorModal
                     onClose={() => setIsOpenError(false)}
                     title={title}
                     notification={notification}
+                    position='absolute'
+                    ml='unset'
+                    ml_bp95='unset'
+                    left='unset'
                 />
             )}
             <LoginFailedModule
                 onRetry={handleRetry}
-                onClose={() => setIsShowModal(false)}
-                isOpen={isShowModal}
+                onClose={() => setIsShowModalLoginFailed(false)}
+                isOpen={isShowModalLoginFailed}
+            />
+            {isVerificationFailedOpen && (
+                <AlertSuccess onClose={() => setIsVerificationFailedOpen(false)} />
+            )}
+            <PasswordRecovery
+                isOpen={isShowModalRecovery}
+                onClose={() => setIsShowModalRecovery(false)}
+            />
+            <PinInputModal
+                isOpen={!isShowPinInputModal}
+                onClose={() => setIsShowPinInputModal(false)}
             />
         </Flex>
     );

@@ -21,6 +21,7 @@ export const AccountTabs = () => {
     return (
         <Box maxW='461px' mx='auto'>
             <Tabs
+                className={styles.tabs}
                 index={tabIndex}
                 onChange={handleTabsChange}
                 isLazy

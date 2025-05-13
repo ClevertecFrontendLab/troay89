@@ -3,3 +3,7 @@ div .tab_list {
     padding-block: 11px;
     padding-inline: 25px;
 }
+
+div .tabs {
+    position: static;
+}

@@ -5,9 +5,9 @@ export const VerificationPage = () => {
     const emailVerified = searchParams.get('emailVerified');
 
     if (emailVerified === 'true') {
-        return <Navigate to='/account/login' replace />;
+        return <Navigate to='/account/login' replace state={{ emailVerified }} />;
     } else if (emailVerified === 'false') {
-        return <Navigate to='/account/registration' replace />;
+        return <Navigate to='/account/registration' replace state={{ emailVerified }} />;
     }
 
     return (

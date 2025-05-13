@@ -10,11 +10,13 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { Location, useLocation, useNavigate } from 'react-router';
 import * as yup from 'yup';
 
+import { VerificationFailedModal } from '~/components/modal/verification-failded-module/VerificationFailedModal';
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { setFirstPartDataCreateUser } from '~/store/slice/firstPartDataCreateUser';
 
@@ -24,6 +26,10 @@ type RegistrationOneData = {
     firstName: string;
     lastName: string;
     email: string;
+};
+
+type VerificationState = {
+    emailVerified?: 'true' | 'false' | undefined;
 };
 
 const registrationOneSchema = yup
@@ -52,6 +58,11 @@ const registrationOneSchema = yup
 export const RegistrationOnePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation() as Location<VerificationState>;
+    const emailVerified = location.state?.emailVerified;
+    const [isVerificationFailedOpen, setVerificationFailedOpen] = useState(
+        emailVerified === 'false',
+    );
 
     const {
         register,
@@ -178,6 +189,10 @@ export const RegistrationOnePage = () => {
                     Дальше
                 </Button>
             </VStack>
+            <VerificationFailedModal
+                isShow={isVerificationFailedOpen}
+                onClose={() => setVerificationFailedOpen(false)}
+            />
         </Flex>
     );
 };

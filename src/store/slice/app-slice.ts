@@ -31,6 +31,10 @@ type CategoryPath = Partial<{
     id: string;
 }>;
 
+type ForgotPasswordData = {
+    email: string;
+};
+
 export const appSlice = createApi({
     reducerPath: 'appSlice',
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
@@ -144,6 +148,13 @@ export const appSlice = createApi({
                 return { ...parsedResponse, accessToken };
             },
         }),
+        forgotPassword: build.mutation<Response, ForgotPasswordData>({
+            query: ({ ...data }) => ({
+                url: 'auth/forgot-password',
+                method: 'POST',
+                body: data,
+            }),
+        }),
     }),
 });
 
@@ -159,4 +170,5 @@ export const {
     useLoginMutation,
     useCheckQuery,
     useLazyRefreshQuery,
+    useForgotPasswordMutation,
 } = appSlice;
