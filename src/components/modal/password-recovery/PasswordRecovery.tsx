@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
@@ -51,7 +51,7 @@ const passwordRecovery = yup
     .required();
 
 export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFailedModuleType) => {
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const {
         register,
         handleSubmit,
@@ -61,7 +61,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         resolver: yupResolver(passwordRecovery),
         mode: 'onBlur',
     });
-    const [forgotPassword, { isLoading, isError, isSuccess }] = useForgotPasswordMutation();
+    const [forgotPassword, { isLoading, isError }] = useForgotPasswordMutation();
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
     const [isVerificationFailedOpen, setIsVerificationFailedOpen] = useState(isError);
@@ -81,11 +81,11 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
             await forgotPassword(data).unwrap();
             onClose();
             isOpenNextModule();
-            dispath(setSaveEmail(data.email));
+            dispatch(setSaveEmail(data.email));
         } catch (err) {
             if (err && typeof err === 'object' && 'status' in err) {
                 const error = err as FetchBaseQueryError;
-                console.log(err);
+                setIsVerificationFailedOpen(true);
                 if (error.status === 400) {
                     setTitle('Для генерации нового одноразового пароля необходимо выждать минуту.');
                     setNotification('');
@@ -105,12 +105,6 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
     };
 
     const emailRegister = register('email');
-
-    useEffect(() => {
-        if (isSuccess) {
-            setIsVerificationFailedOpen(false);
-        }
-    }, [isSuccess]);
 
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose} autoFocus={false}>

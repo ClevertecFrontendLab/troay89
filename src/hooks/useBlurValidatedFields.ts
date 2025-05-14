@@ -9,6 +9,10 @@ export function useBlurValidatedFields<T extends FieldValues>(trigger: UseFormTr
         event: React.FocusEvent<HTMLInputElement>,
         defaultOnBlur: (event: React.FocusEvent<HTMLInputElement>) => void,
     ) => {
+        if (event.target.type !== 'password') {
+            event.target.value = event.target.value.trim();
+        }
+
         defaultOnBlur(event);
         const isValid = await trigger(field);
         setValidatedFields((prev) => ({ ...prev, [field]: isValid }));

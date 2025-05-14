@@ -117,11 +117,13 @@ export const LoginPage = () => {
     };
 
     const handleRetry = async () => {
+        console.log('I ma here handleRetry');
         if (!lastLoginData) return;
         performLogin(lastLoginData);
     };
 
     const onSubmit = async (data: LoginData) => {
+        console.log('I ma here onSubmit');
         setLastLoginData(data);
         performLogin(data);
     };
@@ -131,15 +133,8 @@ export const LoginPage = () => {
     }
 
     return (
-        <Flex
-            align='center'
-            justify='center'
-            w='100%'
-            flexDir='column'
-            onSubmit={handleSubmit(onSubmit)}
-            position='static'
-        >
-            <VStack as='form' spacing={1} w='full'>
+        <Flex align='center' justify='center' w='100%' flexDir='column' position='static'>
+            <VStack as='form' spacing={1} w='full' onSubmit={handleSubmit(onSubmit)}>
                 <FormControl id='login'>
                     <FormLabel className={styles.form_control} mb={1}>
                         Логин для входа на сайт

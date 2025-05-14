@@ -45,7 +45,7 @@ const ResetPasswordScheme = yup
             .min(8, 'Не соответствует формату')
             .max(50, 'Максимальная длина 50 символов')
             .matches(/^(?=.*\d)[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
-        confirmPassword: yup
+        passwordConfirm: yup
             .string()
             .required('Повторите пароль')
             .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
@@ -55,7 +55,7 @@ const ResetPasswordScheme = yup
 type ResetPasswordData = {
     login: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 };
 
 export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
@@ -76,13 +76,9 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
     const [notification, setNotification] = useState('');
 
     const onSubmit = async (data: ResetPasswordData) => {
-        console.log(
-            { login: data.login, password: data.password, confirmPassword: data.confirmPassword },
-            'data',
-        );
         try {
             await resetPassword(data).unwrap();
-            onClose();
+            // onClose();
         } catch (err) {
             console.log(err);
             if (err && typeof err === 'object' && 'status' in err) {
@@ -188,7 +184,7 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
                             )}
                         </FormControl>
 
-                        <FormControl id='confirmPassword'>
+                        <FormControl id='passwordConfirm'>
                             <FormLabel className={styles.form_control} mb={1}>
                                 Повторите пароль
                             </FormLabel>
@@ -198,13 +194,13 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
                                 placeholder='Повторите пароль'
                                 bg='white'
                                 size='lg'
-                                borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
+                                borderColor={errors.passwordConfirm ? 'red' : 'lime.150'}
                                 _focus={{ boxShadow: 'none' }}
-                                {...register('confirmPassword')}
+                                {...register('passwordConfirm')}
                             />
-                            {errors.confirmPassword ? (
+                            {errors.passwordConfirm ? (
                                 <Text className={styles.message} color='red.500' mt={1}>
-                                    {errors.confirmPassword.message}
+                                    {errors.passwordConfirm.message}
                                 </Text>
                             ) : (
                                 <Box h={5}></Box>

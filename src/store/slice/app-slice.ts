@@ -43,7 +43,7 @@ type VerifyOtpData = {
 type ResetPasswordData = {
     login: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 };
 
 export const appSlice = createApi({
@@ -158,21 +158,21 @@ export const appSlice = createApi({
             },
         }),
         forgotPassword: build.mutation<Response, ForgotPasswordData>({
-            query: ({ ...data }) => ({
+            query: (data) => ({
                 url: 'auth/forgot-password',
                 method: 'POST',
                 body: data,
             }),
         }),
         verifyOtp: build.mutation<Response, VerifyOtpData>({
-            query: ({ ...data }) => ({
+            query: (data) => ({
                 url: 'auth/verify-otp',
                 method: 'POST',
                 body: data,
             }),
         }),
         resetPassword: build.mutation<Response, ResetPasswordData>({
-            query: ({ ...data }) => ({
+            query: (data) => ({
                 url: 'auth/reset-password',
                 method: 'POST',
                 body: data,
