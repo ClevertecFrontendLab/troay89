@@ -6,6 +6,8 @@ import {
     Heading,
     Icon,
     Input,
+    InputGroup,
+    InputRightElement,
     Modal,
     ModalBody,
     ModalContent,
@@ -21,6 +23,8 @@ import * as yup from 'yup';
 
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
+import CrossedEye from '~/components/icons/CrossedEye';
+import Eye from '~/components/icons/Eye';
 import { Overlay } from '~/components/overlay/Overlay';
 import { useResetPasswordMutation } from '~/store/slice/app-slice';
 
@@ -29,6 +33,7 @@ import styles from './ResetPasswordModal.module.css';
 type ResetPasswordType = {
     isOpen: boolean;
     onClose: () => void;
+    isOpenNextModule: () => void;
 };
 
 const ResetPasswordScheme = yup
@@ -58,7 +63,7 @@ type ResetPasswordData = {
     passwordConfirm: string;
 };
 
-export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
+export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetPasswordType) => {
     const {
         register,
         handleSubmit,
@@ -71,6 +76,8 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
 
     const [resetPassword, { isLoading, isError }] = useResetPasswordMutation();
     const [isResetPasswordFailedOpen, setIsResetPasswordFailedOpen] = useState(isError);
+    const [isShowPassword, setIsShowPassword] = useState(false);
+    const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
 
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
@@ -78,7 +85,8 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
     const onSubmit = async (data: ResetPasswordData) => {
         try {
             await resetPassword(data).unwrap();
-            // onClose();
+            isOpenNextModule();
+            onClose();
         } catch (err) {
             console.log(err);
             if (err && typeof err === 'object' && 'status' in err) {
@@ -162,16 +170,27 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
                             <FormLabel className={styles.form_control} mb={1}>
                                 Пароль
                             </FormLabel>
-                            <Input
-                                className={styles.form_input}
-                                type='password'
-                                placeholder='Пароль'
-                                bg='white'
-                                size='lg'
-                                borderColor={errors.password ? 'red' : 'lime.150'}
-                                _focus={{ boxShadow: 'none' }}
-                                {...register('password')}
-                            />
+                            <InputGroup>
+                                <Input
+                                    className={styles.form_input}
+                                    type={isShowPassword ? 'text' : 'password'}
+                                    placeholder='Пароль'
+                                    bg='white'
+                                    size='lg'
+                                    borderColor={errors.password ? 'red' : 'lime.150'}
+                                    _focus={{ boxShadow: 'none' }}
+                                    {...register('password')}
+                                />
+                                <InputRightElement>
+                                    <Icon
+                                        boxSize='18px'
+                                        as={isShowPassword ? CrossedEye : Eye}
+                                        onPointerDown={() => setIsShowPassword(true)}
+                                        onPointerUp={() => setIsShowPassword(false)}
+                                        onPointerLeave={() => setIsShowPassword(false)}
+                                    />
+                                </InputRightElement>
+                            </InputGroup>
                             <Text className={styles.message} mt={1}>
                                 Пароль не менее 8 символов, с заглавной буквой и цифрой
                             </Text>
@@ -188,16 +207,27 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
                             <FormLabel className={styles.form_control} mb={1}>
                                 Повторите пароль
                             </FormLabel>
-                            <Input
-                                className={styles.form_input}
-                                type='password'
-                                placeholder='Повторите пароль'
-                                bg='white'
-                                size='lg'
-                                borderColor={errors.passwordConfirm ? 'red' : 'lime.150'}
-                                _focus={{ boxShadow: 'none' }}
-                                {...register('passwordConfirm')}
-                            />
+                            <InputGroup>
+                                <Input
+                                    className={styles.form_input}
+                                    type={isShowConfirmPassword ? 'text' : 'password'}
+                                    placeholder='Повторите пароль'
+                                    bg='white'
+                                    size='lg'
+                                    borderColor={errors.passwordConfirm ? 'red' : 'lime.150'}
+                                    _focus={{ boxShadow: 'none' }}
+                                    {...register('passwordConfirm')}
+                                />
+                                <InputRightElement>
+                                    <Icon
+                                        boxSize='18px'
+                                        as={isShowConfirmPassword ? CrossedEye : Eye}
+                                        onPointerDown={() => setIsShowConfirmPassword(true)}
+                                        onPointerUp={() => setIsShowConfirmPassword(false)}
+                                        onPointerLeave={() => setIsShowConfirmPassword(false)}
+                                    />
+                                </InputRightElement>
+                            </InputGroup>
                             {errors.passwordConfirm ? (
                                 <Text className={styles.message} color='red.500' mt={1}>
                                     {errors.passwordConfirm.message}

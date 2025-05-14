@@ -4,7 +4,10 @@ import {
     Flex,
     FormControl,
     FormLabel,
+    Icon,
     Input,
+    InputGroup,
+    InputRightElement,
     Progress,
     Text,
     VStack,
@@ -17,6 +20,8 @@ import { useSelector } from 'react-redux';
 import * as yup from 'yup';
 
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import CrossedEye from '~/components/icons/CrossedEye';
+import Eye from '~/components/icons/Eye';
 import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
@@ -82,6 +87,8 @@ export const RegistrationTwoPage = () => {
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
     const [isShowModal, setIsShowModal] = useState(false);
+    const [isShowPassword, setIsShowPassword] = useState(false);
+    const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
 
     const firstPartDataUserRegistration = useSelector(firstPartDataCreateUserSelector);
 
@@ -195,17 +202,28 @@ export const RegistrationTwoPage = () => {
                     <FormLabel className={styles.form_control} mb={1}>
                         Пароль
                     </FormLabel>
-                    <Input
-                        className={styles.form_input}
-                        type='password'
-                        placeholder='Пароль'
-                        bg='white'
-                        size='lg'
-                        borderColor={errors.password ? 'red' : 'lime.150'}
-                        _focus={{ boxShadow: 'none' }}
-                        {...passwordReg}
-                        onBlur={(e) => handleBlur('password', e, passwordReg.onBlur)}
-                    />
+                    <InputGroup>
+                        <Input
+                            className={styles.form_input}
+                            type={isShowPassword ? 'text' : 'password'}
+                            placeholder='Пароль'
+                            bg='white'
+                            size='lg'
+                            borderColor={errors.password ? 'red' : 'lime.150'}
+                            _focus={{ boxShadow: 'none' }}
+                            {...passwordReg}
+                            onBlur={(e) => handleBlur('password', e, passwordReg.onBlur)}
+                        />
+                        <InputRightElement>
+                            <Icon
+                                boxSize='18px'
+                                as={isShowPassword ? CrossedEye : Eye}
+                                onPointerDown={() => setIsShowPassword(true)}
+                                onPointerUp={() => setIsShowPassword(false)}
+                                onPointerLeave={() => setIsShowPassword(false)}
+                            />
+                        </InputRightElement>
+                    </InputGroup>
                     <Text className={styles.message} mt={1}>
                         Пароль не менее 8 символов, с заглавной буквой и цифрой
                     </Text>
@@ -222,17 +240,30 @@ export const RegistrationTwoPage = () => {
                     <FormLabel className={styles.form_control} mb={1}>
                         Повторите пароль
                     </FormLabel>
-                    <Input
-                        className={styles.form_input}
-                        type='password'
-                        placeholder='Повторите пароль'
-                        bg='white'
-                        size='lg'
-                        borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
-                        _focus={{ boxShadow: 'none' }}
-                        {...confirmPasswordReg}
-                        onBlur={(e) => handleBlur('confirmPassword', e, confirmPasswordReg.onBlur)}
-                    />
+                    <InputGroup>
+                        <Input
+                            className={styles.form_input}
+                            type={isShowConfirmPassword ? 'text' : 'password'}
+                            placeholder='Повторите пароль'
+                            bg='white'
+                            size='lg'
+                            borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
+                            _focus={{ boxShadow: 'none' }}
+                            {...confirmPasswordReg}
+                            onBlur={(e) =>
+                                handleBlur('confirmPassword', e, confirmPasswordReg.onBlur)
+                            }
+                        />
+                        <InputRightElement>
+                            <Icon
+                                boxSize='18px'
+                                as={isShowConfirmPassword ? CrossedEye : Eye}
+                                onPointerDown={() => setIsShowConfirmPassword(true)}
+                                onPointerUp={() => setIsShowConfirmPassword(false)}
+                                onPointerLeave={() => setIsShowConfirmPassword(false)}
+                            />
+                        </InputRightElement>
+                    </InputGroup>
                     {errors.confirmPassword ? (
                         <Text className={styles.message} color='red.500' mt={1}>
                             {errors.confirmPassword.message}

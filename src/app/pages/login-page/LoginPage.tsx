@@ -4,7 +4,10 @@ import {
     Flex,
     FormControl,
     FormLabel,
+    Icon,
     Input,
+    InputGroup,
+    InputRightElement,
     Link,
     Text,
     VStack,
@@ -18,6 +21,8 @@ import * as yup from 'yup';
 
 import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import CrossedEye from '~/components/icons/CrossedEye';
+import Eye from '~/components/icons/Eye';
 import { LoginFailedModule } from '~/components/modal/login-failed-modal/LoginFailedModal';
 import { PasswordRecovery } from '~/components/modal/password-recovery/PasswordRecovery';
 import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
@@ -68,6 +73,8 @@ export const LoginPage = () => {
     const [isShowModalRecovery, setIsShowModalRecovery] = useState(false);
     const [isShowPinInputModal, setIsShowPinInputModal] = useState(false);
     const [isShowResetPasswordModal, setIsShowResetPasswordModal] = useState(false);
+    const [isShowAlertSuccessModal, setIsShowAlertSuccessModal] = useState(false);
+    const [isShowPassword, setIsShowPassword] = useState(false);
 
     useEffect(() => {
         setIsOpenError(isError);
@@ -163,16 +170,27 @@ export const LoginPage = () => {
                     <FormLabel className={styles.form_control} mb={1}>
                         Пароль
                     </FormLabel>
-                    <Input
-                        className={styles.form_input}
-                        type='password'
-                        placeholder='Пароль для сайта'
-                        bg='white'
-                        size='lg'
-                        borderColor={errors.password || isOpenError ? 'red' : 'lime.150'}
-                        _focus={{ boxShadow: 'none' }}
-                        {...register('password')}
-                    />
+                    <InputGroup>
+                        <Input
+                            className={styles.form_input}
+                            type={isShowPassword ? 'text' : 'password'}
+                            placeholder='Пароль для сайта'
+                            bg='white'
+                            size='lg'
+                            borderColor={errors.password || isOpenError ? 'red' : 'lime.150'}
+                            _focus={{ boxShadow: 'none' }}
+                            {...register('password')}
+                        />
+                        <InputRightElement>
+                            <Icon
+                                boxSize='18px'
+                                as={isShowPassword ? CrossedEye : Eye}
+                                onPointerDown={() => setIsShowPassword(true)}
+                                onPointerUp={() => setIsShowPassword(false)}
+                                onPointerLeave={() => setIsShowPassword(false)}
+                            />
+                        </InputRightElement>
+                    </InputGroup>
                     {errors.password ? (
                         <Text className={styles.message} color='red.500' mt={1}>
                             {errors.password.message}
@@ -216,7 +234,10 @@ export const LoginPage = () => {
                 isOpen={isShowModalLoginFailed}
             />
             {isVerificationSuccess && (
-                <AlertSuccess onClose={() => setIsVerificationSuccess(false)} />
+                <AlertSuccess
+                    onClose={() => setIsVerificationSuccess(false)}
+                    message='Верификация прошла успешно'
+                />
             )}
             <PasswordRecovery
                 isOpen={isShowModalRecovery}
@@ -231,7 +252,14 @@ export const LoginPage = () => {
             <ResetPasswordModal
                 isOpen={isShowResetPasswordModal}
                 onClose={() => setIsShowResetPasswordModal(false)}
+                isOpenNextModule={() => setIsShowAlertSuccessModal(true)}
             />
+            {isShowAlertSuccessModal && (
+                <AlertSuccess
+                    onClose={() => setIsShowAlertSuccessModal(false)}
+                    message='Восстановление данных успешно'
+                />
+            )}
         </Flex>
     );
 };
