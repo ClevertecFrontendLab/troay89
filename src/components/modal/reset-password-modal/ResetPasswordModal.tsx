@@ -14,10 +14,15 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
+import { Overlay } from '~/components/overlay/Overlay';
+import { useResetPasswordMutation } from '~/store/slice/app-slice';
 
 import styles from './ResetPasswordModal.module.css';
 
@@ -64,8 +69,30 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
         mode: 'onBlur',
     });
 
+    const [resetPassword, { isLoading, isError }] = useResetPasswordMutation();
+    const [isResetPasswordFailedOpen, setIsResetPasswordFailedOpen] = useState(isError);
+
+    const [title, setTitle] = useState('');
+    const [notification, setNotification] = useState('');
+
     const onSubmit = async (data: ResetPasswordData) => {
-        console.log(data, 'reset');
+        console.log(
+            { login: data.login, password: data.password, confirmPassword: data.confirmPassword },
+            'data',
+        );
+        try {
+            await resetPassword(data).unwrap();
+            onClose();
+        } catch (err) {
+            console.log(err);
+            if (err && typeof err === 'object' && 'status' in err) {
+                const error = err as FetchBaseQueryError;
+                if (typeof error.status === 'number') {
+                    setTitle('Ошибка сервера');
+                    setNotification('Попробуйте немного позже');
+                }
+            }
+        }
     };
 
     const loginRegister = register('login');
@@ -78,7 +105,7 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
         }
     };
 
-    const title = 'Восстановление \nаккаунта';
+    const heading = 'Восстановление \nаккаунта';
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
@@ -98,7 +125,7 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
                     as='h1'
                     whiteSpace='pre-line'
                 >
-                    {title}
+                    {heading}
                 </Heading>
                 <ModalBody pt={6} pb={0} w='100%' px={0}>
                     <VStack
@@ -198,8 +225,15 @@ export const ResetPasswordModal = ({ isOpen, onClose }: ResetPasswordType) => {
                         </Button>
                     </VStack>
                 </ModalBody>
-                {/* {isVerificationFailedOpen && <ErrorModal onClose={() => setIsVerificationFailedOpen(false)} title={title} notification={notification} />} */}
+                {isResetPasswordFailedOpen && (
+                    <ErrorModal
+                        onClose={() => setIsResetPasswordFailedOpen(false)}
+                        title={title}
+                        notification={notification}
+                    />
+                )}
             </ModalContent>
+            {isLoading && <Overlay />}
         </Modal>
     );
 };

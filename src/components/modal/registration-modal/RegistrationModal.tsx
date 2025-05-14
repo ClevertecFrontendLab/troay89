@@ -23,7 +23,7 @@ type RegistrationModalType = {
 
 export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalType) => {
     const title = 'Остался последний шаг.\n Нужно верифицировать ваш e-mail';
-    const messageEmail = `Мы отправили вам на почту \n ${email} \n ссылку дляверификации.`;
+    const messageEmail = `Мы отправили вам на почту \n ${email} \n ссылку для верификации.`;
     return (
         <>
             <Modal isCentered isOpen={isShow} onClose={onClose}>

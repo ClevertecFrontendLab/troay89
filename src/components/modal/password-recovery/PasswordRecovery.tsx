@@ -15,8 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
 
 import { noExit } from '~/assets/images/modal-mage';
@@ -24,12 +25,14 @@ import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
 import { useForgotPasswordMutation } from '~/store/slice/app-slice';
+import { setSaveEmail } from '~/store/slice/saveEmailSlice';
 
 import styles from './PasswordRecovery.module.css';
 
 type LoginFailedModuleType = {
     isOpen: boolean;
     onClose: () => void;
+    isOpenNextModule: () => void;
 };
 
 type PasswordRecoveryShema = {
@@ -47,7 +50,8 @@ const passwordRecovery = yup
     })
     .required();
 
-export const PasswordRecovery = ({ isOpen, onClose }: LoginFailedModuleType) => {
+export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFailedModuleType) => {
+    const dispath = useDispatch();
     const {
         register,
         handleSubmit,
@@ -57,12 +61,13 @@ export const PasswordRecovery = ({ isOpen, onClose }: LoginFailedModuleType) => 
         resolver: yupResolver(passwordRecovery),
         mode: 'onBlur',
     });
-    const [forgotPassword, { isLoading, isError }] = useForgotPasswordMutation();
+    const [forgotPassword, { isLoading, isError, isSuccess }] = useForgotPasswordMutation();
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
     const [isVerificationFailedOpen, setIsVerificationFailedOpen] = useState(isError);
     const message =
         'Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код';
+
     const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         emailRegister.onBlur(e);
         const trimmedValue = e.target.value.trim();
@@ -73,15 +78,18 @@ export const PasswordRecovery = ({ isOpen, onClose }: LoginFailedModuleType) => 
 
     const onSubmit = async (data: PasswordRecoveryShema) => {
         try {
-            const response = await forgotPassword(data).unwrap();
+            await forgotPassword(data).unwrap();
             onClose();
-            setIsVerificationFailedOpen(false);
-            console.log('Registration success:', response);
+            isOpenNextModule();
+            dispath(setSaveEmail(data.email));
         } catch (err) {
-            console.log('I am here');
             if (err && typeof err === 'object' && 'status' in err) {
-                setIsVerificationFailedOpen(true);
                 const error = err as FetchBaseQueryError;
+                console.log(err);
+                if (error.status === 400) {
+                    setTitle('Для генерации нового одноразового пароля необходимо выждать минуту.');
+                    setNotification('');
+                }
                 if (error.status === 403) {
                     setTitle('Такого e-mail нет.');
                     setNotification(
@@ -98,87 +106,91 @@ export const PasswordRecovery = ({ isOpen, onClose }: LoginFailedModuleType) => 
 
     const emailRegister = register('email');
 
-    if (isLoading) {
-        <Overlay />;
-    }
+    useEffect(() => {
+        if (isSuccess) {
+            setIsVerificationFailedOpen(false);
+        }
+    }, [isSuccess]);
+
     return (
-        <>
-            <Modal isCentered isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
-                <ModalContent maxW='396px' alignItems='center' m={0}>
-                    <Image src={noExit} boxSize='206px' mt={8} />
-                    <Icon
-                        as={CloseRoundModule}
-                        position='absolute'
-                        top={6}
-                        right={6}
-                        boxSize={6}
-                        onClick={onClose}
-                    />
-                    <ModalBody p={8} w='100%'>
-                        <Text
-                            className={styles.text}
-                            textAlign='center'
-                            pb={4}
-                            whiteSpace='pre-line'
-                            px={5}
-                        >
-                            {message}
-                        </Text>
-                        <VStack as='form' spacing={0} w='full' onSubmit={handleSubmit(onSubmit)}>
-                            <FormControl id='email'>
-                                <FormLabel className={styles.form_control} mb={1}>
-                                    Ваш e-mail
-                                </FormLabel>
-                                <Input
-                                    className={styles.form_input}
-                                    type='text'
-                                    placeholder='e-mail'
-                                    bg='white'
-                                    size='lg'
-                                    _focus={{ boxShadow: 'none' }}
-                                    borderColor={errors.email ? 'red' : 'lime.150'}
-                                    {...register('email')}
-                                    onBlur={handleTrimBlur}
-                                />
-                                {errors.email ? (
-                                    <Text className={styles.message} color='red.500' mt={1} mb={1}>
-                                        {errors.email.message}
-                                    </Text>
-                                ) : (
-                                    <Box h={6}></Box>
-                                )}
-                            </FormControl>
-
-                            <Button
-                                className={styles.button}
-                                maxW='100%'
-                                width='100%'
-                                px={0}
-                                bg='alpha.900'
-                                color='white'
+        <Modal isCentered isOpen={isOpen} onClose={onClose} autoFocus={false}>
+            <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
+            <ModalContent maxW='396px' alignItems='center' m={0}>
+                <Image src={noExit} boxSize='206px' mt={8} />
+                <Icon
+                    as={CloseRoundModule}
+                    position='absolute'
+                    top={6}
+                    right={6}
+                    boxSize={6}
+                    onClick={onClose}
+                />
+                <ModalBody p={8} w='100%'>
+                    <Text
+                        className={styles.text}
+                        textAlign='center'
+                        pb={4}
+                        whiteSpace='pre-line'
+                        px={5}
+                    >
+                        {message}
+                    </Text>
+                    <VStack as='form' spacing={0} w='full' onSubmit={handleSubmit(onSubmit)}>
+                        <FormControl id='email'>
+                            <FormLabel className={styles.form_control} mb={1}>
+                                Ваш e-mail
+                            </FormLabel>
+                            <Input
+                                className={styles.form_input}
+                                type='text'
+                                placeholder='e-mail'
+                                bg='white'
                                 size='lg'
-                                colorScheme='teal'
-                                type='submit'
-                                mb={6}
-                            >
-                                Получить код
-                            </Button>
-                        </VStack>
+                                _focus={{ boxShadow: 'none' }}
+                                borderColor={
+                                    errors.email || isVerificationFailedOpen ? 'red' : 'lime.150'
+                                }
+                                {...register('email')}
+                                onBlur={handleTrimBlur}
+                            />
+                            {errors.email ? (
+                                <Text className={styles.message} color='red.500' mt={1} mb={1}>
+                                    {errors.email.message}
+                                </Text>
+                            ) : (
+                                <Box h={6}></Box>
+                            )}
+                        </FormControl>
 
-                        <Text textAlign='center' className={styles.secondMessage}>
-                            Не пришло письмо? Проверьте папку Спам.
-                        </Text>
-                    </ModalBody>
-                    {isVerificationFailedOpen && (
-                        <ErrorModal
-                            onClose={() => setIsVerificationFailedOpen(false)}
-                            title={title}
-                            notification={notification}
-                        />
-                    )}
-                </ModalContent>
-            </Modal>
-        </>
+                        <Button
+                            className={styles.button}
+                            maxW='100%'
+                            width='100%'
+                            px={0}
+                            bg='alpha.900'
+                            color='white'
+                            size='lg'
+                            colorScheme='teal'
+                            type='submit'
+                            mb={6}
+                        >
+                            Получить код
+                        </Button>
+                    </VStack>
+
+                    <Text textAlign='center' className={styles.secondMessage}>
+                        Не пришло письмо? Проверьте папку Спам.
+                    </Text>
+                </ModalBody>
+                {isVerificationFailedOpen && (
+                    <ErrorModal
+                        onClose={() => setIsVerificationFailedOpen(false)}
+                        title={title}
+                        notification={notification}
+                    />
+                )}
+            </ModalContent>
+            {isLoading && <Overlay />}
+        </Modal>
     );
 };

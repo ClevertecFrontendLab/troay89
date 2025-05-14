@@ -106,6 +106,7 @@ export const RegistrationTwoPage = () => {
                 setIsShowModal(true);
                 console.log('Registration success:', response);
             } catch (err) {
+                console.log(err, 'err');
                 if (err && typeof err === 'object' && 'status' in err) {
                     const error = err as FetchBaseQueryError;
                     if (
@@ -117,13 +118,13 @@ export const RegistrationTwoPage = () => {
                         const message = (error.data as { message: string }).message;
                         if (message.toLowerCase().includes('email')) {
                             setTitle('Пользователь с таким email уже существует.');
-                            setNotification('Попробуйте снова');
+                            setNotification('');
                         } else if (
-                            message.toLowerCase().includes('логин') ||
+                            message.toLowerCase().includes('login') ||
                             message.toLowerCase().includes('username')
                         ) {
                             setTitle('Пользователь с таким логином уже существует.');
-                            setNotification('Попробуйте снова');
+                            setNotification('');
                         }
                     }
                     if (typeof error.status === 'number' && error.status >= 500) {

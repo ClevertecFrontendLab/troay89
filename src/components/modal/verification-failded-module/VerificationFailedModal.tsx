@@ -43,7 +43,7 @@ export const VerificationFailedModal = ({ isShow, onClose }: VerificationFailedM
                         снова.
                     </Text>
                     <Text className={styles.secondMessage} textAlign='center' py={8}>
-                        Остались вопросы? Свяжитесь свяжитесь{' '}
+                        Остались вопросы? Свяжитесь
                         <Link textDecor='underline'> с поддержкой</Link>
                     </Text>
                 </ModalBody>

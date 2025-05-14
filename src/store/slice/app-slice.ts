@@ -43,7 +43,7 @@ type VerifyOtpData = {
 type ResetPasswordData = {
     login: string;
     password: string;
-    passwordConfirm: string;
+    confirmPassword: string;
 };
 
 export const appSlice = createApi({

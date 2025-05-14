@@ -1,4 +1,6 @@
-import { Alert, AlertIcon, CloseButton } from '@chakra-ui/react';
+import { Alert, AlertIcon, CloseButton, Text } from '@chakra-ui/react';
+
+import styles from './AlertSuccess.module.css';
 
 type AlertSuccessProps = {
     onClose: () => void;
@@ -6,14 +8,16 @@ type AlertSuccessProps = {
 
 export const AlertSuccess = ({ onClose }: AlertSuccessProps) => (
     <Alert status='success' position='absolute' bottom={20} variant='solid' w='400px' h='48px'>
-        <AlertIcon />
-        Верификация прошла успешно
+        <AlertIcon boxSize={6} />
+        <Text className={styles.message} color='white'>
+            Верификация прошла успешно
+        </Text>
         <CloseButton
             onClick={onClose}
             alignSelf='flex-start'
             position='absolute'
-            right='0'
-            top='0'
+            right='1px'
+            top='1px'
         />
     </Alert>
 );

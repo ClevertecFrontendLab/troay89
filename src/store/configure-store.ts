@@ -7,6 +7,7 @@ import firstPartDataCreateUserReducer from './slice/firstPartDataCreateUser';
 import headerZIndexReducer from './slice/headerZIndex';
 import indexTabsReducer from './slice/indexCategoriesSubcategoriesSlice';
 import overlayPositionReducer from './slice/overlayPosition';
+import saveEmailReducer from './slice/saveEmailSlice';
 import stateSwitchAllergenReducer from './slice/stateSwitchAllergenSlice';
 
 const isProduction = false;
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     getPosition: overlayPositionReducer,
     getStateSwitchAllergen: stateSwitchAllergenReducer,
     firstPartDataCreateUser: firstPartDataCreateUserReducer,
+    getSaveEmail: saveEmailReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

@@ -26,7 +26,7 @@ export const ErrorModal = ({
     <Alert
         status='error'
         w={{ base: '328px', bp95: '400px' }}
-        justifyContent='space-between'
+        justifyContent='flex-start'
         background='red.500'
         position={position}
         bottom='80px'
@@ -35,7 +35,7 @@ export const ErrorModal = ({
         zIndex={20}
         data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION}
     >
-        <AlertIcon color='white' />
+        <AlertIcon color='white' boxSize={6} />
         <Box>
             <AlertTitle className={styles.title}>{title}</AlertTitle>
             <AlertDescription className={styles.message}>{notification}</AlertDescription>
@@ -43,9 +43,9 @@ export const ErrorModal = ({
         <CloseButton
             color='white'
             alignSelf='flex-start'
-            position='relative'
-            right='-14px'
-            top='-10px'
+            position='absolute'
+            right='2px'
+            top='2px'
             onClick={onClose}
             data-test-id={DATA_TEST_ID.CLOSE_ALERT_BUTTON}
         />

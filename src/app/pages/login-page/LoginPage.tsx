@@ -58,9 +58,7 @@ export const LoginPage = () => {
     const [loginUser, { isLoading, isError }] = useLoginMutation();
     const location = useLocation() as Location<VerificationState>;
     const emailVerified = location.state?.emailVerified;
-    const [isVerificationFailedOpen, setIsVerificationFailedOpen] = useState(
-        emailVerified === 'false',
-    );
+    const [isVerificationSuccess, setIsVerificationSuccess] = useState(emailVerified === 'true');
 
     const [isOpenError, setIsOpenError] = useState(isError);
     const [lastLoginData, setLastLoginData] = useState<LoginData | null>(null);
@@ -222,19 +220,21 @@ export const LoginPage = () => {
                 onClose={() => setIsShowModalLoginFailed(false)}
                 isOpen={isShowModalLoginFailed}
             />
-            {isVerificationFailedOpen && (
-                <AlertSuccess onClose={() => setIsVerificationFailedOpen(false)} />
+            {isVerificationSuccess && (
+                <AlertSuccess onClose={() => setIsVerificationSuccess(false)} />
             )}
             <PasswordRecovery
                 isOpen={isShowModalRecovery}
+                isOpenNextModule={() => setIsShowPinInputModal(true)}
                 onClose={() => setIsShowModalRecovery(false)}
             />
             <PinInputModal
                 isOpen={isShowPinInputModal}
                 onClose={() => setIsShowPinInputModal(false)}
+                isOpenNextModule={() => setIsShowResetPasswordModal(true)}
             />
             <ResetPasswordModal
-                isOpen={!isShowResetPasswordModal}
+                isOpen={isShowResetPasswordModal}
                 onClose={() => setIsShowResetPasswordModal(false)}
             />
         </Flex>
