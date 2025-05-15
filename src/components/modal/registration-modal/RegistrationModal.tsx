@@ -26,17 +26,13 @@ export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalT
     const title = 'Остался последний шаг. Нужно верифицировать ваш e-mail';
     return (
         <>
-            <Modal
-                isCentered
-                isOpen={isShow}
-                onClose={onClose}
-                data-test-id={DATA_TEST_ID.SIGN_UP_SUCCESS_MODAL}
-            >
+            <Modal isCentered isOpen={isShow} onClose={onClose}>
                 <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
                 <ModalContent
                     alignItems='center'
                     maxW={{ base: '316px', bp115: '396px' }}
                     borderRadius='16px'
+                    data-test-id={DATA_TEST_ID.SIGN_UP_SUCCESS_MODAL}
                 >
                     <Image
                         src={registaration}

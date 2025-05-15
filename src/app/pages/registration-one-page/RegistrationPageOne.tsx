@@ -18,7 +18,6 @@ import * as yup from 'yup';
 
 import { VerificationFailedModal } from '~/components/modal/verification-failded-module/VerificationFailedModal';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { setFirstPartDataCreateUser } from '~/store/slice/firstPartDataCreateUser';
 
 import styles from './RegistrationPageOne.module.css';
@@ -68,19 +67,22 @@ export const RegistrationOnePage = () => {
     const {
         register,
         handleSubmit,
-        trigger,
+        watch,
+        setValue,
         formState: { errors },
     } = useForm<RegistrationOneData>({
         resolver: yupResolver(registrationOneSchema),
-        mode: 'onBlur',
+        mode: 'onChange',
     });
 
-    const { validatedFields, handleBlur } = useBlurValidatedFields<RegistrationOneData>(trigger);
+    const firstNameValue = watch('firstName');
+    const lastNameValue = watch('lastName');
+    const emailValue = watch('email');
 
     const validInputsCount =
-        (validatedFields.firstName ? 1 : 0) +
-        (validatedFields.lastName ? 1 : 0) +
-        (validatedFields.email ? 1 : 0);
+        (!errors.firstName && firstNameValue ? 1 : 0) +
+        (!errors.lastName && lastNameValue ? 1 : 0) +
+        (!errors.email && emailValue ? 1 : 0);
 
     const onSubmit = (data: RegistrationOneData) => {
         dispatch(setFirstPartDataCreateUser(data));
@@ -90,7 +92,19 @@ export const RegistrationOnePage = () => {
 
     const firstNameReg = register('firstName');
     const lastNameReg = register('lastName');
-    const emailPasswordReg = register('email');
+    const emailReg = register('email');
+
+    const handleTrim = (
+        field: keyof RegistrationOneData,
+        e: React.FocusEvent<HTMLInputElement>,
+        originalOnBlur?: (e: React.FocusEvent<HTMLInputElement>) => void,
+    ) => {
+        const trimmed = e.target.value.trim();
+        setValue(field, trimmed);
+        if (originalOnBlur) {
+            originalOnBlur(e);
+        }
+    };
 
     return (
         <Flex align='center' justify='center' w='100%'>
@@ -126,7 +140,7 @@ export const RegistrationOnePage = () => {
                         borderColor={errors.firstName ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...firstNameReg}
-                        onBlur={(e) => handleBlur('firstName', e, firstNameReg.onBlur)}
+                        onBlur={(e) => handleTrim('firstName', e, firstNameReg.onBlur)}
                         data-test-id={DATA_TEST_ID.FIRST_NAME_INPUT}
                     />
                     {errors.firstName ? (
@@ -151,7 +165,7 @@ export const RegistrationOnePage = () => {
                         borderColor={errors.lastName ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...lastNameReg}
-                        onBlur={(e) => handleBlur('lastName', e, lastNameReg.onBlur)}
+                        onBlur={(e) => handleTrim('lastName', e, lastNameReg.onBlur)}
                         data-test-id={DATA_TEST_ID.LAST_NAME_INPUT}
                     />
                     {errors.lastName ? (
@@ -175,8 +189,8 @@ export const RegistrationOnePage = () => {
                         size='lg'
                         borderColor={errors.email ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
-                        {...emailPasswordReg}
-                        onBlur={(e) => handleBlur('email', e, emailPasswordReg.onBlur)}
+                        {...emailReg}
+                        onBlur={(e) => handleTrim('email', e, emailReg.onBlur)}
                         data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                     />
                     {errors.email ? (

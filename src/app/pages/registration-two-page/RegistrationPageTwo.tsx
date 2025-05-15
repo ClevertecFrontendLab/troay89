@@ -25,7 +25,6 @@ import Eye from '~/components/icons/Eye';
 import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
 import { useRegistrationMutation } from '~/store/slice/app-slice';
 
@@ -33,7 +32,7 @@ import styles from './RegistrationPageTwo.module.css';
 
 const registrationTwoSchema = yup
     .object({
-        username: yup
+        login: yup
             .string()
             .required('Введите логин')
             .min(5, 'Не соответствует формату')
@@ -44,18 +43,16 @@ const registrationTwoSchema = yup
             .required('Введите пароль')
             .min(8, 'Не соответствует формату')
             .max(50, 'Максимальная длина 50 символов')
-            .matches(/^(?=.*\d)[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
+            .matches(/^(?=.*\d)(?=.*[A-Z])[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
         confirmPassword: yup
             .string()
             .required('Повторите пароль')
-            .oneOf([yup.ref('password')], 'Пароли должны совпадать')
-            .min(8, 'Не соответствует формату')
-            .matches(/^(?=.*\d)[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
+            .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
     })
     .required();
 
 type RegistrationTwoData = {
-    username: string;
+    login: string;
     password: string;
     confirmPassword: string;
 };
@@ -80,11 +77,12 @@ export const RegistrationTwoPage = () => {
     const {
         register,
         handleSubmit,
-        trigger,
+        watch,
+        setValue,
         formState: { errors },
     } = useForm<RegistrationTwoData>({
         resolver: yupResolver(registrationTwoSchema),
-        mode: 'onBlur',
+        mode: 'onChange',
     });
 
     const [title, setTitle] = useState('');
@@ -95,7 +93,19 @@ export const RegistrationTwoPage = () => {
 
     const firstPartDataUserRegistration = useSelector(firstPartDataCreateUserSelector);
 
-    const { validatedFields, handleBlur } = useBlurValidatedFields<RegistrationTwoData>(trigger);
+    const loginValue = watch('login');
+    const passwordValue = watch('password');
+    const confirmPasswordValue = watch('confirmPassword');
+
+    const loginRegister = register('login');
+
+    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        loginRegister.onBlur(e);
+        const trimmedValue = e.target.value.trim();
+        if (e.target.value !== trimmedValue) {
+            setValue('login', trimmedValue);
+        }
+    };
 
     const onSubmit = async (dataFromStep2: RegistrationTwoData) => {
         if (
@@ -107,7 +117,7 @@ export const RegistrationTwoPage = () => {
                 firstName: firstPartDataUserRegistration.firstName,
                 lastName: firstPartDataUserRegistration.lastName,
                 email: firstPartDataUserRegistration.email,
-                login: dataFromStep2.username,
+                login: dataFromStep2.login,
                 password: dataFromStep2.password,
             };
 
@@ -133,7 +143,7 @@ export const RegistrationTwoPage = () => {
                             message.toLowerCase().includes('login') ||
                             message.toLowerCase().includes('username')
                         ) {
-                            setTitle('Пользователь с таким логином уже существует.');
+                            setTitle('Пользователь с таким login уже существует.');
                             setNotification('');
                         }
                     }
@@ -147,11 +157,11 @@ export const RegistrationTwoPage = () => {
     };
 
     const validInputsCount =
-        (validatedFields.username ? 1 : 0) +
-        (validatedFields.password ? 1 : 0) +
-        (validatedFields.confirmPassword ? 1 : 0);
+        (loginValue && !errors.login ? 1 : 0) +
+        (passwordValue && !errors.password ? 1 : 0) +
+        (confirmPasswordValue && !errors.confirmPassword ? 1 : 0);
 
-    const usernameReg = register('username');
+    const usernameReg = register('login');
     const passwordReg = register('password');
     const confirmPasswordReg = register('confirmPassword');
 
@@ -182,7 +192,7 @@ export const RegistrationTwoPage = () => {
                         data-test-id={DATA_TEST_ID.SING_UP_PROGRESS}
                     />
                 </VStack>
-                <FormControl id='username'>
+                <FormControl id='login'>
                     <FormLabel className={styles.form_control} mb={1}>
                         Логин для входа на сайт
                     </FormLabel>
@@ -192,18 +202,18 @@ export const RegistrationTwoPage = () => {
                         placeholder='Логин'
                         bg='white'
                         size='lg'
-                        borderColor={errors.username ? 'red' : 'lime.150'}
+                        borderColor={errors.login ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...usernameReg}
-                        onBlur={(e) => handleBlur('username', e, usernameReg.onBlur)}
+                        onBlur={handleTrimBlur}
                         data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                     />
                     <Text className={styles.message} mt={1}>
                         Логин не менее 5 символов, только латиница
                     </Text>
-                    {errors.username ? (
+                    {errors.login ? (
                         <Text className={styles.message} color='red.500' mt={1}>
-                            {errors.username.message}
+                            {errors.login.message}
                         </Text>
                     ) : (
                         <Box h={5}></Box>
@@ -224,7 +234,6 @@ export const RegistrationTwoPage = () => {
                             borderColor={errors.password ? 'red' : 'lime.150'}
                             _focus={{ boxShadow: 'none' }}
                             {...passwordReg}
-                            onBlur={(e) => handleBlur('password', e, passwordReg.onBlur)}
                             data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
                         />
                         <InputRightElement>
@@ -263,9 +272,6 @@ export const RegistrationTwoPage = () => {
                             borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
                             _focus={{ boxShadow: 'none' }}
                             {...confirmPasswordReg}
-                            onBlur={(e) =>
-                                handleBlur('confirmPassword', e, confirmPasswordReg.onBlur)
-                            }
                             data-test-id={DATA_TEST_ID.CONFIRM_PASSWORD_INPUT}
                         />
                         <InputRightElement>
