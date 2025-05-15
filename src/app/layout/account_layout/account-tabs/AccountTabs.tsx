@@ -19,7 +19,7 @@ export const AccountTabs = () => {
     };
 
     return (
-        <Box maxW='461px' mx='auto'>
+        <Box maxW={{ base: '328px', bp95: '355px', bp115: '451px', bp160: '461px' }} mx='auto'>
             <Tabs
                 className={styles.tabs}
                 index={tabIndex}

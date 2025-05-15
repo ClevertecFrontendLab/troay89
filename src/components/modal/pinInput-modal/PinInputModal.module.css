@@ -1,9 +1,9 @@
-.text {
+p.text {
     font: var(--font-inter-bread);
     color: var(--black-alpha-900);
 }
 
-.advice {
+p.advice {
     font: var(--font-inter-text);
     color: var(--black-alpha-600);
 }

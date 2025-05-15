@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -109,11 +109,26 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
         }
     };
 
+    useEffect(() => {
+        if (isResetPasswordFailedOpen) {
+            const timer = setTimeout(() => {
+                setIsResetPasswordFailedOpen(false);
+            }, 15000);
+            return () => clearTimeout(timer);
+        }
+    }, [isResetPasswordFailedOpen]);
+
     const heading = 'Восстановление \nаккаунта';
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
-            <ModalContent maxW='396px' alignItems='center' m={0} p={8}>
+            <ModalContent
+                maxW={{ base: '316px', bp115: '396px' }}
+                alignItems='center'
+                m={0}
+                p={8}
+                borderRadius='16px'
+            >
                 <Icon
                     as={CloseRoundModule}
                     position='absolute'
@@ -181,7 +196,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                     _focus={{ boxShadow: 'none' }}
                                     {...register('password')}
                                 />
-                                <InputRightElement>
+                                <InputRightElement boxSize={12}>
                                     <Icon
                                         boxSize='18px'
                                         as={isShowPassword ? CrossedEye : Eye}
@@ -218,7 +233,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                     _focus={{ boxShadow: 'none' }}
                                     {...register('passwordConfirm')}
                                 />
-                                <InputRightElement>
+                                <InputRightElement boxSize={12}>
                                     <Icon
                                         boxSize='18px'
                                         as={isShowConfirmPassword ? CrossedEye : Eye}

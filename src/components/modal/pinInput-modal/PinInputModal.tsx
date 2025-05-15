@@ -11,7 +11,7 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { peopleOnChair } from '~/assets/images/modal-mage';
@@ -33,7 +33,6 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
     const [code, setCode] = useState('');
     const email = useSelector(getSaveEmail);
     const [verifyOtp, { isLoading, isError }] = useVerifyOtpMutation();
-    const message = `Мы отправили вам на e-mail \n${email} \nшестизначный код. Введите его ниже.`;
     const [isOtpFailedOpen, setIsOtpFailedOpen] = useState(isError);
     const [notification, setNotification] = useState('');
     const [title, setTitle] = useState('');
@@ -63,11 +62,25 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
         }
     };
 
+    useEffect(() => {
+        if (isOtpFailedOpen) {
+            const timer = setTimeout(() => {
+                setIsOtpFailedOpen(false);
+            }, 15000);
+            return () => clearTimeout(timer);
+        }
+    }, [isOtpFailedOpen]);
+
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
-            <ModalContent maxW='396px' alignItems='center' m={0}>
-                <Image src={peopleOnChair} boxSize='206px' mt={8} />
+            <ModalContent
+                maxW={{ base: '316px', bp115: '396px' }}
+                borderRadius='16px'
+                alignItems='center'
+                m={0}
+            >
+                <Image src={peopleOnChair} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                 <Icon
                     as={CloseRoundModule}
                     position='absolute'
@@ -84,7 +97,12 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                         whiteSpace='pre-line'
                         px={5}
                     >
-                        {message}
+                        Мы отправили вам на e-mail <br />
+                        <Text as='span' fontWeight='700'>
+                            {' '}
+                            {email}
+                        </Text>{' '}
+                        <br /> шестизначный код. Введите&nbsp;его&nbsp;ниже.
                     </Text>
                     <HStack justify='center' pb={6}>
                         <PinInput
@@ -120,8 +138,8 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                             />
                         </PinInput>
                     </HStack>
-                    <Text textAlign='center' className={styles.advice}>
-                        Не пришло письмо? Проверьте папку Спам.
+                    <Text textAlign='center' className={styles.advice} mx='30px'>
+                        Не пришло письмо? Проверьте&nbsp;папку&nbsp;Спам.
                     </Text>
                 </ModalBody>
                 {isOtpFailedOpen && (

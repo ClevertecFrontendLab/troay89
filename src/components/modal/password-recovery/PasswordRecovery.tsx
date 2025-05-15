@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import * as yup from 'yup';
@@ -76,6 +76,15 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         }
     };
 
+    useEffect(() => {
+        if (isVerificationFailedOpen) {
+            const timer = setTimeout(() => {
+                setIsVerificationFailedOpen(false);
+            }, 15000);
+            return () => clearTimeout(timer);
+        }
+    }, [isVerificationFailedOpen]);
+
     const onSubmit = async (data: PasswordRecoveryShema) => {
         try {
             await forgotPassword(data).unwrap();
@@ -109,8 +118,13 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose} autoFocus={false}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
-            <ModalContent maxW='396px' alignItems='center' m={0}>
-                <Image src={noExit} boxSize='206px' mt={8} />
+            <ModalContent
+                maxW={{ base: '316px', bp115: '396px' }}
+                alignItems='center'
+                m={0}
+                borderRadius='16px'
+            >
+                <Image src={noExit} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                 <Icon
                     as={CloseRoundModule}
                     position='absolute'

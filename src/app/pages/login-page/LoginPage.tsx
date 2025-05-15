@@ -181,7 +181,7 @@ export const LoginPage = () => {
                             _focus={{ boxShadow: 'none' }}
                             {...register('password')}
                         />
-                        <InputRightElement>
+                        <InputRightElement boxSize={12}>
                             <Icon
                                 boxSize='18px'
                                 as={isShowPassword ? CrossedEye : Eye}

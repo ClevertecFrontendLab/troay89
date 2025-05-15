@@ -8,7 +8,14 @@ type AlertSuccessProps = {
 };
 
 export const AlertSuccess = ({ message, onClose }: AlertSuccessProps) => (
-    <Alert status='success' position='absolute' bottom={20} variant='solid' w='400px' h='48px'>
+    <Alert
+        status='success'
+        position='absolute'
+        bottom={20}
+        variant='solid'
+        w={{ base: '328px', bp115: '400px' }}
+        h='48px'
+    >
         <AlertIcon boxSize={6} />
         <Text className={styles.message} color='white'>
             {message}{' '}

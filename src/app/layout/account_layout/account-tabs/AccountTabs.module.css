@@ -7,3 +7,10 @@ div .tab_list {
 div .tabs {
     position: static;
 }
+
+@media screen and (max-width: 1150px) {
+    div .tab_list {
+        font: var(--font-inter-nav);
+        padding-block: 13px;
+    }
+}

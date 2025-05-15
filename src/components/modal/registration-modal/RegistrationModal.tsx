@@ -22,14 +22,21 @@ type RegistrationModalType = {
 };
 
 export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalType) => {
-    const title = 'Остался последний шаг.\n Нужно верифицировать ваш e-mail';
-    const messageEmail = `Мы отправили вам на почту \n ${email} \n ссылку для верификации.`;
+    const title = 'Остался последний шаг. Нужно верифицировать ваш e-mail';
     return (
         <>
             <Modal isCentered isOpen={isShow} onClose={onClose}>
                 <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
-                <ModalContent alignItems='center' maxW='396px'>
-                    <Image src={registaration} w='206px' h='206px' my='32px' />
+                <ModalContent
+                    alignItems='center'
+                    maxW={{ base: '316px', bp115: '396px' }}
+                    borderRadius='16px'
+                >
+                    <Image
+                        src={registaration}
+                        boxSize={{ base: '108px', bp115: '206px' }}
+                        my='32px'
+                    />
                     <Icon
                         as={CloseRoundModule}
                         position='absolute'
@@ -57,11 +64,23 @@ export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalT
                             className={styles.firstMessage}
                             whiteSpace='pre-line'
                         >
-                            {messageEmail}
+                            Мы отправили вам на почту{' '}
+                            <Text as='span' fontWeight='700'>
+                                {email}
+                            </Text>{' '}
+                            <br />
+                            ссылку для верификации.
                         </Text>
-                        <Text textAlign='center' pb={8} className={styles.secondMessage}>
-                            Не пришло письмо? Проверьте папку Спам. <br /> По другим вопросам
-                            свяжитесь <Link textDecor='underline'>с поддержкой</Link>
+                        <Text
+                            textAlign='center'
+                            pb={8}
+                            className={styles.secondMessage}
+                            px={{ base: '50px', bp115: '26px' }}
+                            color='alpha.600'
+                        >
+                            Не пришло письмо? Проверьте папку Спам. По
+                            другим&nbsp;вопросам&nbsp;свяжитесь{' '}
+                            <Link textDecor='underline'>с поддержкой</Link>
                         </Text>
                     </ModalBody>
                 </ModalContent>

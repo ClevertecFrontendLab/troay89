@@ -27,8 +27,13 @@ export const LoginFailedModule = ({ isOpen, onRetry, onClose }: LoginFailedModul
         <>
             <Modal isCentered isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
-                <ModalContent maxW='396px' alignItems='center' m={0}>
-                    <Image src={noExit} boxSize='206px' mt={8} />
+                <ModalContent
+                    maxW={{ base: '316px', bp115: '396px' }}
+                    alignItems='center'
+                    m={0}
+                    borderRadius={4}
+                >
+                    <Image src={noExit} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                     <Icon
                         as={CloseRoundModule}
                         position='absolute'
@@ -45,6 +50,7 @@ export const LoginFailedModule = ({ isOpen, onRetry, onClose }: LoginFailedModul
                             pb={4}
                             m={0}
                             textAlign='center'
+                            px={0}
                         >
                             Вход не выполнен
                         </ModalHeader>
@@ -53,6 +59,7 @@ export const LoginFailedModule = ({ isOpen, onRetry, onClose }: LoginFailedModul
                             textAlign='center'
                             pb={8}
                             whiteSpace='pre-line'
+                            color='alpha.700'
                         >
                             {message}
                         </Text>
