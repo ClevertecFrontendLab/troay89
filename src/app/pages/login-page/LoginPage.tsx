@@ -28,6 +28,7 @@ import { PasswordRecovery } from '~/components/modal/password-recovery/PasswordR
 import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
 import { ResetPasswordModal } from '~/components/modal/reset-password-modal/ResetPasswordModal';
 import { Overlay } from '~/components/overlay/Overlay';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useLoginMutation } from '~/store/slice/app-slice';
 
 import styles from './LoginPage.module.css';
@@ -124,13 +125,11 @@ export const LoginPage = () => {
     };
 
     const handleRetry = async () => {
-        console.log('I ma here handleRetry');
         if (!lastLoginData) return;
         performLogin(lastLoginData);
     };
 
     const onSubmit = async (data: LoginData) => {
-        console.log('I ma here onSubmit');
         setLastLoginData(data);
         performLogin(data);
     };
@@ -141,7 +140,13 @@ export const LoginPage = () => {
 
     return (
         <Flex align='center' justify='center' w='100%' flexDir='column' position='static'>
-            <VStack as='form' spacing={1} w='full' onSubmit={handleSubmit(onSubmit)}>
+            <VStack
+                as='form'
+                spacing={1}
+                w='full'
+                onSubmit={handleSubmit(onSubmit)}
+                data-test-id={DATA_TEST_ID.SING_IN_FORM}
+            >
                 <FormControl id='login'>
                     <FormLabel className={styles.form_control} mb={1}>
                         Логин для входа на сайт
@@ -156,6 +161,7 @@ export const LoginPage = () => {
                         borderColor={errors.login || isOpenError ? 'red' : 'lime.150'}
                         {...register('login')}
                         onBlur={handleTrimBlur}
+                        data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                     />
                     {errors.login ? (
                         <Text className={styles.message} color='red.500' mt={1}>
@@ -180,15 +186,16 @@ export const LoginPage = () => {
                             borderColor={errors.password || isOpenError ? 'red' : 'lime.150'}
                             _focus={{ boxShadow: 'none' }}
                             {...register('password')}
+                            data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
                         />
-                        <InputRightElement boxSize={12}>
-                            <Icon
-                                boxSize='18px'
-                                as={isShowPassword ? CrossedEye : Eye}
-                                onPointerDown={() => setIsShowPassword(true)}
-                                onPointerUp={() => setIsShowPassword(false)}
-                                onPointerLeave={() => setIsShowPassword(false)}
-                            />
+                        <InputRightElement
+                            boxSize={12}
+                            onMouseDown={() => setIsShowPassword(true)}
+                            onMouseUp={() => setIsShowPassword(false)}
+                            onMouseLeave={() => setIsShowPassword(false)}
+                            data-test-id={DATA_TEST_ID.PASSWORD_VISIBILITY_BUTTON}
+                        >
+                            <Icon boxSize='18px' as={isShowPassword ? CrossedEye : Eye} />
                         </InputRightElement>
                     </InputGroup>
                     {errors.password ? (
@@ -210,14 +217,19 @@ export const LoginPage = () => {
                     mt='88px'
                     mb={4}
                     colorScheme='teal'
+                    data-test-id={DATA_TEST_ID.SUBMIT_BUTTON}
                 >
                     Войти
                 </Button>
             </VStack>
-            <Link className={styles.link} onClick={() => setIsShowModalRecovery(true)}>
+            <Link
+                className={styles.link}
+                onClick={() => setIsShowModalRecovery(true)}
+                data-test_id={DATA_TEST_ID.FORGOT_PASSWORD}
+            >
                 Забыли логин или пароль?
             </Link>
-            {isOpenError && (
+            {isOpenError && !isShowModalLoginFailed && (
                 <ErrorModal
                     onClose={() => setIsOpenError(false)}
                     title={title}

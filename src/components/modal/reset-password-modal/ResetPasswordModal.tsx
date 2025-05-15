@@ -26,6 +26,7 @@ import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { Overlay } from '~/components/overlay/Overlay';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useResetPasswordMutation } from '~/store/slice/app-slice';
 
 import styles from './ResetPasswordModal.module.css';
@@ -120,7 +121,12 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
 
     const heading = 'Восстановление \nаккаунта';
     return (
-        <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        <Modal
+            isCentered
+            isOpen={isOpen}
+            onClose={onClose}
+            data-test-id={DATA_TEST_ID.RESET_CREDENTIALS_MODAL}
+        >
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
             <ModalContent
                 maxW={{ base: '316px', bp115: '396px' }}
@@ -136,6 +142,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                     right={6}
                     boxSize={6}
                     onClick={onClose}
+                    data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                 />
                 <Heading
                     className={styles.title}
@@ -168,6 +175,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                 _focus={{ boxShadow: 'none' }}
                                 {...register('login')}
                                 onBlur={handleTrimBlur}
+                                data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                             />
                             <Text className={styles.message} mt={1}>
                                 Логин не менее 5 символов, только латиница
@@ -195,6 +203,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                     borderColor={errors.password ? 'red' : 'lime.150'}
                                     _focus={{ boxShadow: 'none' }}
                                     {...register('password')}
+                                    data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
                                 />
                                 <InputRightElement boxSize={12}>
                                     <Icon
@@ -232,6 +241,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                     borderColor={errors.passwordConfirm ? 'red' : 'lime.150'}
                                     _focus={{ boxShadow: 'none' }}
                                     {...register('passwordConfirm')}
+                                    data-test-id={DATA_TEST_ID.CONFIRM_PASSWORD_INPUT}
                                 />
                                 <InputRightElement boxSize={12}>
                                     <Icon
@@ -261,6 +271,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                             size='lg'
                             mt={2}
                             colorScheme='teal'
+                            data-test-id={DATA_TEST_ID.SUBMIT_BUTTON}
                         >
                             Зарегистрироваться
                         </Button>

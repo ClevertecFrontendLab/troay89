@@ -24,6 +24,7 @@ import { noExit } from '~/assets/images/modal-mage';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useForgotPasswordMutation } from '~/store/slice/app-slice';
 import { setSaveEmail } from '~/store/slice/saveEmailSlice';
 
@@ -132,6 +133,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                     right={6}
                     boxSize={6}
                     onClick={onClose}
+                    data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                 />
                 <ModalBody p={8} w='100%'>
                     <Text
@@ -143,7 +145,13 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                     >
                         {message}
                     </Text>
-                    <VStack as='form' spacing={0} w='full' onSubmit={handleSubmit(onSubmit)}>
+                    <VStack
+                        as='form'
+                        spacing={0}
+                        w='full'
+                        onSubmit={handleSubmit(onSubmit)}
+                        data-test-id={DATA_TEST_ID.SEND_EMAIL_MODAL}
+                    >
                         <FormControl id='email'>
                             <FormLabel className={styles.form_control} mb={1}>
                                 Ваш e-mail
@@ -160,6 +168,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                                 }
                                 {...register('email')}
                                 onBlur={handleTrimBlur}
+                                data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                             />
                             {errors.email ? (
                                 <Text className={styles.message} color='red.500' mt={1} mb={1}>
@@ -181,6 +190,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                             colorScheme='teal'
                             type='submit'
                             mb={6}
+                            data-test-id={DATA_TEST_ID.SUBMIT_BUTTON}
                         >
                             Получить код
                         </Button>

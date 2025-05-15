@@ -20,7 +20,7 @@ export const Layout = () => {
 
     const { data, error, isLoading } = useGetCategoriesQuery();
 
-    const categories = !isLoading && !error && data ? data : dataNavigation;
+    const categories = !isLoading && !error && data && data.length ? data : dataNavigation;
 
     useEffect(() => {
         dispatch(setArrayCategory(categories));

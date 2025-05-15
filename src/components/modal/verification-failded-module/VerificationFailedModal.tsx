@@ -12,6 +12,7 @@ import {
 
 import { verification } from '~/assets/images/modal-mage';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 
 import styles from './VerificationFailedModal.module.css';
 
@@ -22,7 +23,12 @@ type VerificationFailedModalType = {
 
 export const VerificationFailedModal = ({ isShow, onClose }: VerificationFailedModalType) => (
     <>
-        <Modal isCentered isOpen={isShow} onClose={onClose}>
+        <Modal
+            isCentered
+            isOpen={isShow}
+            onClose={onClose}
+            data-test-id={DATA_TEST_ID.SIGN_IN_ERROR_MODAL}
+        >
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
             <ModalContent
                 alignItems='center'
@@ -37,6 +43,7 @@ export const VerificationFailedModal = ({ isShow, onClose }: VerificationFailedM
                     right={6}
                     boxSize={6}
                     onClick={onClose}
+                    data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                 />
                 <ModalHeader
                     className={styles.header}

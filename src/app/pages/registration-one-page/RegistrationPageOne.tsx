@@ -17,6 +17,7 @@ import { Location, useLocation, useNavigate } from 'react-router';
 import * as yup from 'yup';
 
 import { VerificationFailedModal } from '~/components/modal/verification-failded-module/VerificationFailedModal';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { setFirstPartDataCreateUser } from '~/store/slice/firstPartDataCreateUser';
 
@@ -36,21 +37,21 @@ const registrationOneSchema = yup
     .object({
         firstName: yup
             .string()
+            .max(50, 'Максимальная длина 50 символов')
             .required('Введите имя')
             .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
-            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"')
-            .max(50, 'Максимальная длина 50 символов'),
+            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"'),
         lastName: yup
             .string()
+            .max(50, 'Максимальная длина 50 символов')
             .required('Введите фамилию')
             .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
-            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"')
-            .max(50, 'Максимальная длина 50 символов'),
+            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"'),
         email: yup
             .string()
+            .max(50, 'Максимальная длина 50 символов')
             .required('Введите e-mail')
             .email('Введите корректный e-mail')
-            .max(50, 'Максимальная длина 50 символов')
             .matches(/\.[A-Za-z]{2,}$/, 'Введите корректный e-mail'),
     })
     .required();
@@ -93,7 +94,14 @@ export const RegistrationOnePage = () => {
 
     return (
         <Flex align='center' justify='center' w='100%'>
-            <VStack as='form' noValidate spacing={1} w='full' onSubmit={handleSubmit(onSubmit)}>
+            <VStack
+                as='form'
+                noValidate
+                spacing={1}
+                w='full'
+                onSubmit={handleSubmit(onSubmit)}
+                data-test-id={DATA_TEST_ID.SIGN_UP_FORM}
+            >
                 <VStack w='100%' alignItems='flex-start' gap={0} mb={5}>
                     <Text className={styles.form_control}>Шаг 1. Личная информация</Text>
                     <Progress
@@ -102,6 +110,7 @@ export const RegistrationOnePage = () => {
                         value={progressValue}
                         w='100%'
                         colorScheme='lime'
+                        data-test-id={DATA_TEST_ID.SING_UP_PROGRESS}
                     />
                 </VStack>
                 <FormControl id='firstName'>
@@ -118,6 +127,7 @@ export const RegistrationOnePage = () => {
                         _focus={{ boxShadow: 'none' }}
                         {...firstNameReg}
                         onBlur={(e) => handleBlur('firstName', e, firstNameReg.onBlur)}
+                        data-test-id={DATA_TEST_ID.FIRST_NAME_INPUT}
                     />
                     {errors.firstName ? (
                         <Text className={styles.message} color='red.500' mt={1}>
@@ -142,6 +152,7 @@ export const RegistrationOnePage = () => {
                         _focus={{ boxShadow: 'none' }}
                         {...lastNameReg}
                         onBlur={(e) => handleBlur('lastName', e, lastNameReg.onBlur)}
+                        data-test-id={DATA_TEST_ID.LAST_NAME_INPUT}
                     />
                     {errors.lastName ? (
                         <Text className={styles.message} color='red.500' mt={1}>
@@ -166,6 +177,7 @@ export const RegistrationOnePage = () => {
                         _focus={{ boxShadow: 'none' }}
                         {...emailPasswordReg}
                         onBlur={(e) => handleBlur('email', e, emailPasswordReg.onBlur)}
+                        data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                     />
                     {errors.email ? (
                         <Text className={styles.message} color='red.500' mt={1}>
@@ -185,6 +197,7 @@ export const RegistrationOnePage = () => {
                     size='lg'
                     mt={6}
                     colorScheme='teal'
+                    data-test-id={DATA_TEST_ID.SUBMIT_BUTTON}
                 >
                     Дальше
                 </Button>

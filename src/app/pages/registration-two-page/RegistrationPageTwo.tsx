@@ -24,6 +24,7 @@ import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useBlurValidatedFields } from '~/hooks/useBlurValidatedFields';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
 import { useRegistrationMutation } from '~/store/slice/app-slice';
@@ -47,7 +48,9 @@ const registrationTwoSchema = yup
         confirmPassword: yup
             .string()
             .required('Повторите пароль')
-            .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
+            .oneOf([yup.ref('password')], 'Пароли должны совпадать')
+            .min(8, 'Не соответствует формату')
+            .matches(/^(?=.*\d)[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
     })
     .required();
 
@@ -160,7 +163,14 @@ export const RegistrationTwoPage = () => {
 
     return (
         <Flex align='center' justify='center' w='100%'>
-            <VStack as='form' noValidate spacing={1} w='full' onSubmit={handleSubmit(onSubmit)}>
+            <VStack
+                as='form'
+                noValidate
+                spacing={1}
+                w='full'
+                onSubmit={handleSubmit(onSubmit)}
+                data-test-id={DATA_TEST_ID.SIGN_UP_FORM}
+            >
                 <VStack w='100%' alignItems='flex-start' gap={0} mb={5}>
                     <Text className={styles.form_control}>Шаг 2. Логин и пароль</Text>
                     <Progress
@@ -169,9 +179,10 @@ export const RegistrationTwoPage = () => {
                         value={progressValue}
                         w='100%'
                         colorScheme='lime'
+                        data-test-id={DATA_TEST_ID.SING_UP_PROGRESS}
                     />
                 </VStack>
-                <FormControl id='firstName'>
+                <FormControl id='username'>
                     <FormLabel className={styles.form_control} mb={1}>
                         Логин для входа на сайт
                     </FormLabel>
@@ -185,6 +196,7 @@ export const RegistrationTwoPage = () => {
                         _focus={{ boxShadow: 'none' }}
                         {...usernameReg}
                         onBlur={(e) => handleBlur('username', e, usernameReg.onBlur)}
+                        data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                     />
                     <Text className={styles.message} mt={1}>
                         Логин не менее 5 символов, только латиница
@@ -198,7 +210,7 @@ export const RegistrationTwoPage = () => {
                     )}
                 </FormControl>
 
-                <FormControl id='lastName'>
+                <FormControl id='password'>
                     <FormLabel className={styles.form_control} mb={1}>
                         Пароль
                     </FormLabel>
@@ -213,6 +225,7 @@ export const RegistrationTwoPage = () => {
                             _focus={{ boxShadow: 'none' }}
                             {...passwordReg}
                             onBlur={(e) => handleBlur('password', e, passwordReg.onBlur)}
+                            data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
                         />
                         <InputRightElement>
                             <Icon
@@ -236,7 +249,7 @@ export const RegistrationTwoPage = () => {
                     )}
                 </FormControl>
 
-                <FormControl id='email'>
+                <FormControl id='confirmPassword'>
                     <FormLabel className={styles.form_control} mb={1}>
                         Повторите пароль
                     </FormLabel>
@@ -253,6 +266,7 @@ export const RegistrationTwoPage = () => {
                             onBlur={(e) =>
                                 handleBlur('confirmPassword', e, confirmPasswordReg.onBlur)
                             }
+                            data-test-id={DATA_TEST_ID.CONFIRM_PASSWORD_INPUT}
                         />
                         <InputRightElement>
                             <Icon
@@ -282,6 +296,7 @@ export const RegistrationTwoPage = () => {
                     size='lg'
                     mt={6}
                     colorScheme='teal'
+                    data-test-id={DATA_TEST_ID.SUBMIT_BUTTON}
                 >
                     Зарегистрироваться
                 </Button>

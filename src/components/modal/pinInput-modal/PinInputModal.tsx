@@ -18,6 +18,7 @@ import { peopleOnChair } from '~/assets/images/modal-mage';
 import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
 import { useVerifyOtpMutation } from '~/store/slice/app-slice';
 
@@ -72,7 +73,12 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
     }, [isOtpFailedOpen]);
 
     return (
-        <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        <Modal
+            isCentered
+            isOpen={isOpen}
+            onClose={onClose}
+            data-test-id={DATA_TEST_ID.VERIFICATION_CODE_MODAL}
+        >
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
             <ModalContent
                 maxW={{ base: '316px', bp115: '396px' }}
@@ -88,6 +94,7 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                     right={6}
                     boxSize={6}
                     onClick={onClose}
+                    data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                 />
                 <ModalBody p={8} w='100%' px={0}>
                     <Text
@@ -111,31 +118,15 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                             value={code}
                             onChange={setCode}
                         >
-                            <PinInputField
-                                className={styles.pin_input}
-                                borderColor={isError ? 'red' : 'alpha.100'}
-                                ref={firstInputRef}
-                            />
-                            <PinInputField
-                                className={styles.pin_input}
-                                borderColor={isError ? 'red' : 'alpha.100'}
-                            />
-                            <PinInputField
-                                className={styles.pin_input}
-                                borderColor={isError ? 'red' : 'alpha.100'}
-                            />
-                            <PinInputField
-                                className={styles.pin_input}
-                                borderColor={isError ? 'red' : 'alpha.100'}
-                            />
-                            <PinInputField
-                                className={styles.pin_input}
-                                borderColor={isError ? 'red' : 'alpha.100'}
-                            />
-                            <PinInputField
-                                className={styles.pin_input}
-                                borderColor={isError ? 'red' : 'alpha.100'}
-                            />
+                            {Array.from({ length: 6 }, (_, index) => (
+                                <PinInputField
+                                    key={index}
+                                    className={styles.pin_input}
+                                    borderColor={isError ? 'red' : 'alpha.100'}
+                                    ref={index === 0 ? firstInputRef : undefined}
+                                    data-test-id={`DATA_TEST_ID.VERIFICATION_CODE_INPUT${index}`}
+                                />
+                            ))}
                         </PinInput>
                     </HStack>
                     <Text textAlign='center' className={styles.advice} mx='30px'>

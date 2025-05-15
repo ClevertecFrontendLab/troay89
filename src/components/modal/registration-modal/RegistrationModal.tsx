@@ -12,6 +12,7 @@ import {
 
 import { registaration } from '~/assets/images/modal-mage';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 
 import styles from './RegistrationModal.module.css';
 
@@ -25,7 +26,12 @@ export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalT
     const title = 'Остался последний шаг. Нужно верифицировать ваш e-mail';
     return (
         <>
-            <Modal isCentered isOpen={isShow} onClose={onClose}>
+            <Modal
+                isCentered
+                isOpen={isShow}
+                onClose={onClose}
+                data-test-id={DATA_TEST_ID.SIGN_UP_SUCCESS_MODAL}
+            >
                 <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
                 <ModalContent
                     alignItems='center'
@@ -44,6 +50,7 @@ export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalT
                         right={6}
                         boxSize={6}
                         onClick={onClose}
+                        data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                     />
                     <ModalBody px={8} py={0}>
                         <ModalHeader
