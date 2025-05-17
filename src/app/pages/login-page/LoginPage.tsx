@@ -225,7 +225,7 @@ export const LoginPage = () => {
             <Link
                 className={styles.link}
                 onClick={() => setIsShowModalRecovery(true)}
-                data-test_id={DATA_TEST_ID.FORGOT_PASSWORD}
+                data-test-id={DATA_TEST_ID.FORGOT_PASSWORD}
             >
                 Забыли логин или пароль?
             </Link>

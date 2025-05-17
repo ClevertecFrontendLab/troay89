@@ -23,17 +23,13 @@ type VerificationFailedModalType = {
 
 export const VerificationFailedModal = ({ isShow, onClose }: VerificationFailedModalType) => (
     <>
-        <Modal
-            isCentered
-            isOpen={isShow}
-            onClose={onClose}
-            data-test-id={DATA_TEST_ID.SIGN_IN_ERROR_MODAL}
-        >
+        <Modal isCentered isOpen={isShow} onClose={onClose}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
             <ModalContent
                 alignItems='center'
                 maxW={{ base: '316px', bp115: '396px' }}
                 borderRadius='16px'
+                data-test-id={DATA_TEST_ID.EMAIL_VERIFICATION_FAILED_MODAL}
             >
                 <Image src={verification} my={8} boxSize={{ base: '108px', bp115: '206px' }} />
                 <Icon

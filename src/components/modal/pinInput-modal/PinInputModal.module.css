@@ -17,3 +17,8 @@ p.advice {
     font: var(--font-inter-button-second);
     color: var(--color-lime-800);
 }
+
+.message {
+    font: var(--font-inter-text);
+    color: var(--red-500);
+}

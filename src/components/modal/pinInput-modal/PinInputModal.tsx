@@ -1,4 +1,5 @@
 import {
+    Box,
     HStack,
     Icon,
     Image,
@@ -38,8 +39,17 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
     const [notification, setNotification] = useState('');
     const [title, setTitle] = useState('');
     const firstInputRef = useRef<HTMLInputElement>(null);
+    const [pinError, setPinError] = useState(false);
+
+    const handlePinChange = (value: string) => {
+        setCode(value);
+        if (pinError) {
+            setPinError(false);
+        }
+    };
 
     const handleComplete = async (data: string) => {
+        setPinError(false);
         setCode('');
         try {
             await verifyOtp({ email: email, otpToken: data }).unwrap();
@@ -54,6 +64,7 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                     setTitle('Ошибка сервера');
                     setNotification('Попробуйте немного позже');
                 } else if (error.status === 403) {
+                    setPinError(true);
                     setIsOtpFailedOpen(false);
                     if (firstInputRef.current) {
                         firstInputRef.current.focus();
@@ -73,18 +84,14 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
     }, [isOtpFailedOpen]);
 
     return (
-        <Modal
-            isCentered
-            isOpen={isOpen}
-            onClose={onClose}
-            data-test-id={DATA_TEST_ID.VERIFICATION_CODE_MODAL}
-        >
+        <Modal isCentered isOpen={isOpen} onClose={onClose}>
             <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
             <ModalContent
                 maxW={{ base: '316px', bp115: '396px' }}
                 borderRadius='16px'
                 alignItems='center'
                 m={0}
+                data-test-id={DATA_TEST_ID.VERIFICATION_CODE_MODAL}
             >
                 <Image src={peopleOnChair} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                 <Icon
@@ -111,24 +118,31 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                         </Text>{' '}
                         <br /> шестизначный код. Введите&nbsp;его&nbsp;ниже.
                     </Text>
-                    <HStack justify='center' pb={6}>
+                    <HStack justify='center'>
                         <PinInput
                             placeholder='O'
                             onComplete={handleComplete}
                             value={code}
-                            onChange={setCode}
+                            onChange={handlePinChange}
                         >
                             {Array.from({ length: 6 }, (_, index) => (
                                 <PinInputField
                                     key={index}
                                     className={styles.pin_input}
-                                    borderColor={isError ? 'red' : 'alpha.100'}
+                                    borderColor={pinError ? 'red' : 'alpha.100'}
                                     ref={index === 0 ? firstInputRef : undefined}
-                                    data-test-id={`DATA_TEST_ID.VERIFICATION_CODE_INPUT${index}`}
+                                    data-test-id={`${DATA_TEST_ID.VERIFICATION_CODE_INPUT}${index + 1}`}
                                 />
                             ))}
                         </PinInput>
                     </HStack>
+                    {pinError ? (
+                        <Text textAlign='center' className={styles.message} color='red.500' my={1}>
+                            Неверный код
+                        </Text>
+                    ) : (
+                        <Box h={6}></Box>
+                    )}
                     <Text textAlign='center' className={styles.advice} mx='30px'>
                         Не пришло письмо? Проверьте&nbsp;папку&nbsp;Спам.
                     </Text>

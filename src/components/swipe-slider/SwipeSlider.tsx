@@ -17,13 +17,13 @@ type SwipeSlideType = {
 };
 
 export const SwipeSlider = ({ swipeData }: SwipeSlideType) => {
-    const swipeDataFilter =
-        swipeData &&
-        [...swipeData]?.sort(
-            (firstRecipe, secondRecipe) =>
-                new Date(secondRecipe.createdAt).getTime() -
-                new Date(firstRecipe.createdAt).getTime(),
-        );
+    // const swipeDataFilter =
+    //     swipeData &&
+    //     [...swipeData]?.sort(
+    //         (firstRecipe, secondRecipe) =>
+    //             new Date(secondRecipe.createdAt).getTime() -
+    //             new Date(firstRecipe.createdAt).getTime(),
+    //     );
     const swiperRef = useRef<SwiperClass | null>(null);
 
     const handlePrev = () => {
@@ -58,8 +58,8 @@ export const SwipeSlider = ({ swipeData }: SwipeSlideType) => {
                         },
                     }}
                 >
-                    {swipeDataFilter &&
-                        swipeDataFilter.map(
+                    {swipeData &&
+                        swipeData.map(
                             (
                                 { _id, image, title, description, categoriesIds, bookmarks, likes },
                                 index,

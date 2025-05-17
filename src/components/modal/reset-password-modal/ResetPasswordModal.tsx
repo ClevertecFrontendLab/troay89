@@ -16,7 +16,6 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -50,7 +49,7 @@ const ResetPasswordScheme = yup
             .required('Введите пароль')
             .min(8, 'Не соответствует формату')
             .max(50, 'Максимальная длина 50 символов')
-            .matches(/^(?=.*\d)[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
+            .matches(/^(?=.*\d)(?=.*[A-Z])[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
         passwordConfirm: yup
             .string()
             .required('Повторите пароль')
@@ -90,13 +89,9 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
             onClose();
         } catch (err) {
             console.log(err);
-            if (err && typeof err === 'object' && 'status' in err) {
-                const error = err as FetchBaseQueryError;
-                if (typeof error.status === 'number') {
-                    setTitle('Ошибка сервера');
-                    setNotification('Попробуйте немного позже');
-                }
-            }
+            setIsResetPasswordFailedOpen(true);
+            setTitle('Ошибка сервера');
+            setNotification('Попробуйте немного позже');
         }
     };
 
@@ -134,6 +129,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                 m={0}
                 p={8}
                 borderRadius='16px'
+                data-test-id={DATA_TEST_ID.RESET_CREDENTIALS_MODAL}
             >
                 <Icon
                     as={CloseRoundModule}

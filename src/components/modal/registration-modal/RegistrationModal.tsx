@@ -9,6 +9,7 @@ import {
     ModalOverlay,
     Text,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router';
 
 import { registaration } from '~/assets/images/modal-mage';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
@@ -24,9 +25,14 @@ type RegistrationModalType = {
 
 export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalType) => {
     const title = 'Остался последний шаг. Нужно верифицировать ваш e-mail';
+    const navigate = useNavigate();
+    const onCloseRedirict = () => {
+        navigate('/account/login');
+        onClose();
+    };
     return (
         <>
-            <Modal isCentered isOpen={isShow} onClose={onClose}>
+            <Modal isCentered isOpen={isShow} onClose={onCloseRedirict}>
                 <ModalOverlay backgroundColor='alpha.300' backdropFilter='blur(4px)' />
                 <ModalContent
                     alignItems='center'
@@ -45,7 +51,7 @@ export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalT
                         top={6}
                         right={6}
                         boxSize={6}
-                        onClick={onClose}
+                        onClick={onCloseRedirict}
                         data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                     />
                     <ModalBody px={8} py={0}>

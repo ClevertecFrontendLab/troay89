@@ -11,6 +11,7 @@ export const AccountLayout = () => (
         bg='linear-gradient(208deg, #eaffc7 0%, #29813f 100%);'
         overflowY='hidden'
         h='100vh'
+        minH='1000px'
         position='relative'
     >
         <Flex

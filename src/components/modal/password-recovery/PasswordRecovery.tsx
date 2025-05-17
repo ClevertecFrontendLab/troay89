@@ -44,9 +44,9 @@ const passwordRecovery = yup
     .object({
         email: yup
             .string()
+            .max(50, 'Максимальная длина 50 символов')
             .required('Введите e-mail')
             .email('Введите корректный e-mail')
-            .max(50, 'Максимальная длина 50 символов')
             .matches(/\.[A-Za-z]{2,}$/, 'Введите корректный e-mail'),
     })
     .required();
@@ -57,6 +57,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         register,
         handleSubmit,
         setValue,
+        reset,
         formState: { errors },
     } = useForm<PasswordRecoveryShema>({
         resolver: yupResolver(passwordRecovery),
@@ -78,6 +79,12 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
     };
 
     useEffect(() => {
+        if (!isOpen) {
+            reset({ email: '' });
+        }
+    }, [isOpen, reset]);
+
+    useEffect(() => {
         if (isVerificationFailedOpen) {
             const timer = setTimeout(() => {
                 setIsVerificationFailedOpen(false);
@@ -93,6 +100,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
             isOpenNextModule();
             dispatch(setSaveEmail(data.email));
         } catch (err) {
+            reset({ email: '' });
             if (err && typeof err === 'object' && 'status' in err) {
                 const error = err as FetchBaseQueryError;
                 setIsVerificationFailedOpen(true);
@@ -124,6 +132,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                 alignItems='center'
                 m={0}
                 borderRadius='16px'
+                data-test-id={DATA_TEST_ID.SEND_EMAIL_MODAL}
             >
                 <Image src={noExit} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                 <Icon
@@ -145,13 +154,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                     >
                         {message}
                     </Text>
-                    <VStack
-                        as='form'
-                        spacing={0}
-                        w='full'
-                        onSubmit={handleSubmit(onSubmit)}
-                        data-test-id={DATA_TEST_ID.SEND_EMAIL_MODAL}
-                    >
+                    <VStack as='form' spacing={0} w='full' onSubmit={handleSubmit(onSubmit)}>
                         <FormControl id='email'>
                             <FormLabel className={styles.form_control} mb={1}>
                                 Ваш e-mail
