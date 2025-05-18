@@ -12,14 +12,15 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { peopleOnChair } from '~/assets/images/modal-mage';
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { ERROR_MESSAGE } from '~/constants/errorMessage';
 import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
 import { useVerifyOtpMutation } from '~/store/slice/app-slice';
 
@@ -41,6 +42,20 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
     const firstInputRef = useRef<HTMLInputElement>(null);
     const [pinError, setPinError] = useState(false);
 
+    const spamMessage = <>Не пришло письмо? Проверьте&nbsp;папку&nbsp;Спам.</>;
+    const confirmationMessage = (
+        <>
+            {' '}
+            Мы отправили вам на e-mail <br />
+            <Text as='span' fontWeight='700'>
+                {' '}
+                {email}
+            </Text>{' '}
+            <br /> шестизначный код. Введите&nbsp;его&nbsp;ниже.
+        </>
+    );
+    const errorCode = 'Неверный код';
+
     const handlePinChange = (value: string) => {
         setCode(value);
         if (pinError) {
@@ -61,8 +76,8 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
             if (err && typeof err === 'object' && 'status' in err) {
                 const error = err as FetchBaseQueryError;
                 if (typeof error.status === 'number' && error.status >= 500) {
-                    setTitle('Ошибка сервера');
-                    setNotification('Попробуйте немного позже');
+                    setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                    setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
                 } else if (error.status === 403) {
                     setPinError(true);
                     setIsOtpFailedOpen(false);
@@ -73,15 +88,6 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
             }
         }
     };
-
-    useEffect(() => {
-        if (isOtpFailedOpen) {
-            const timer = setTimeout(() => {
-                setIsOtpFailedOpen(false);
-            }, 15000);
-            return () => clearTimeout(timer);
-        }
-    }, [isOtpFailedOpen]);
 
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose}>
@@ -111,12 +117,7 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                         whiteSpace='pre-line'
                         px={5}
                     >
-                        Мы отправили вам на e-mail <br />
-                        <Text as='span' fontWeight='700'>
-                            {' '}
-                            {email}
-                        </Text>{' '}
-                        <br /> шестизначный код. Введите&nbsp;его&nbsp;ниже.
+                        {confirmationMessage}
                     </Text>
                     <HStack justify='center'>
                         <PinInput
@@ -138,13 +139,13 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                     </HStack>
                     {pinError ? (
                         <Text textAlign='center' className={styles.message} color='red.500' my={1}>
-                            Неверный код
+                            {errorCode}
                         </Text>
                     ) : (
                         <Box h={6}></Box>
                     )}
                     <Text textAlign='center' className={styles.advice} mx='30px'>
-                        Не пришло письмо? Проверьте&nbsp;папку&nbsp;Спам.
+                        {spamMessage}
                     </Text>
                 </ModalBody>
                 {isOtpFailedOpen && (

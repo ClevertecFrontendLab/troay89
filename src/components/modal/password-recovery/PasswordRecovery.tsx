@@ -18,38 +18,24 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import * as yup from 'yup';
 
 import { noExit } from '~/assets/images/modal-mage';
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useForgotPasswordMutation } from '~/store/slice/app-slice';
 import { setSaveEmail } from '~/store/slice/saveEmailSlice';
+import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './PasswordRecovery.module.css';
+import { passwordRecovery, PasswordRecoveryData } from './PasswordRecoverySchema';
 
 type LoginFailedModuleType = {
     isOpen: boolean;
     onClose: () => void;
     isOpenNextModule: () => void;
 };
-
-type PasswordRecoveryShema = {
-    email: string;
-};
-
-const passwordRecovery = yup
-    .object({
-        email: yup
-            .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите e-mail')
-            .email('Введите корректный e-mail')
-            .matches(/\.[A-Za-z]{2,}$/, 'Введите корректный e-mail'),
-    })
-    .required();
 
 export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFailedModuleType) => {
     const dispatch = useDispatch();
@@ -59,7 +45,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         setValue,
         reset,
         formState: { errors },
-    } = useForm<PasswordRecoveryShema>({
+    } = useForm<PasswordRecoveryData>({
         resolver: yupResolver(passwordRecovery),
         mode: 'onBlur',
     });
@@ -70,30 +56,13 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
     const message =
         'Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код';
 
-    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        emailRegister.onBlur(e);
-        const trimmedValue = e.target.value.trim();
-        if (e.target.value !== trimmedValue) {
-            setValue('email', trimmedValue);
-        }
-    };
-
     useEffect(() => {
         if (!isOpen) {
             reset({ email: '' });
         }
     }, [isOpen, reset]);
 
-    useEffect(() => {
-        if (isVerificationFailedOpen) {
-            const timer = setTimeout(() => {
-                setIsVerificationFailedOpen(false);
-            }, 15000);
-            return () => clearTimeout(timer);
-        }
-    }, [isVerificationFailedOpen]);
-
-    const onSubmit = async (data: PasswordRecoveryShema) => {
+    const onSubmit = async (data: PasswordRecoveryData) => {
         try {
             await forgotPassword(data).unwrap();
             onClose();
@@ -161,7 +130,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                             </FormLabel>
                             <Input
                                 className={styles.form_input}
-                                type='text'
+                                type='email'
                                 placeholder='e-mail'
                                 bg='white'
                                 size='lg'
@@ -170,7 +139,9 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                                     errors.email || isVerificationFailedOpen ? 'red' : 'lime.150'
                                 }
                                 {...register('email')}
-                                onBlur={handleTrimBlur}
+                                onBlur={(e) =>
+                                    handleBlurTrim(e, 'email', setValue, emailRegister.onBlur)
+                                }
                                 data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                             />
                             {errors.email ? (

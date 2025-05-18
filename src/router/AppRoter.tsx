@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router';
 
-import { AccountTabs } from '~/app/layout/account_layout/account-tabs/AccountTabs';
-import { AccountLayout } from '~/app/layout/account_layout/AccountLayout';
-import { Layout } from '~/app/layout/Layout';
+import { AccountTabs } from '~/app/layout/account-layout/account-tabs/AccountTabs';
+import { AccountLayout } from '~/app/layout/account-layout/AccountLayout';
+import { Layout } from '~/app/layout/layout-app/Layout';
 import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';

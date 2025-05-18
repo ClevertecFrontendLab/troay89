@@ -16,51 +16,27 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { useSelector } from 'react-redux';
 
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
 import { useResetPasswordMutation } from '~/store/slice/app-slice';
+import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './ResetPasswordModal.module.css';
+import { ResetPasswordData, ResetPasswordScheme } from './ResetPasswordScheme';
 
 type ResetPasswordType = {
     isOpen: boolean;
     onClose: () => void;
     isOpenNextModule: () => void;
-};
-
-const ResetPasswordScheme = yup
-    .object({
-        login: yup
-            .string()
-            .required('Введите логин')
-            .min(5, 'Не соответствует формату')
-            .max(50, 'Максимальная длина 50 символов')
-            .matches(/^[A-Za-z!@#$&_+\-.]+$/, 'Не соответствует формату'),
-        password: yup
-            .string()
-            .required('Введите пароль')
-            .min(8, 'Не соответствует формату')
-            .max(50, 'Максимальная длина 50 символов')
-            .matches(/^(?=.*\d)(?=.*[A-Z])[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
-        passwordConfirm: yup
-            .string()
-            .required('Повторите пароль')
-            .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
-    })
-    .required();
-
-type ResetPasswordData = {
-    login: string;
-    password: string;
-    passwordConfirm: string;
 };
 
 export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetPasswordType) => {
@@ -82,9 +58,11 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
 
+    const email = useSelector(getSaveEmail);
+
     const onSubmit = async (data: ResetPasswordData) => {
         try {
-            await resetPassword(data).unwrap();
+            await resetPassword({ email, ...data }).unwrap();
             isOpenNextModule();
             onClose();
         } catch (err) {
@@ -96,23 +74,6 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
     };
 
     const loginRegister = register('login');
-
-    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        loginRegister.onBlur(e);
-        const trimmedValue = e.target.value.trim();
-        if (e.target.value !== trimmedValue) {
-            setValue('login', trimmedValue);
-        }
-    };
-
-    useEffect(() => {
-        if (isResetPasswordFailedOpen) {
-            const timer = setTimeout(() => {
-                setIsResetPasswordFailedOpen(false);
-            }, 15000);
-            return () => clearTimeout(timer);
-        }
-    }, [isResetPasswordFailedOpen]);
 
     const heading = 'Восстановление \nаккаунта';
     return (
@@ -170,7 +131,9 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                 borderColor={errors.login ? 'red' : 'lime.150'}
                                 _focus={{ boxShadow: 'none' }}
                                 {...register('login')}
-                                onBlur={handleTrimBlur}
+                                onBlur={(e) =>
+                                    handleBlurTrim(e, 'login', setValue, loginRegister.onBlur)
+                                }
                                 data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                             />
                             <Text className={styles.message} mt={1}>

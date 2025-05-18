@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { LastBlock } from '~/components/last-block/LastBlock';
 import Toolbar from '~/components/toolbar/Toolbar';
 import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';

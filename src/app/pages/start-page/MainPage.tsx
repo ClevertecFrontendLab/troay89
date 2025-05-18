@@ -2,7 +2,7 @@ import { Box, Divider, Heading, useMediaQuery } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { LastBlock } from '~/components/last-block/LastBlock';
 import { Overlay } from '~/components/overlay/Overlay';
@@ -99,7 +99,7 @@ export const MainPage = () => {
             );
         }
 
-        if (!hasError && filterRecipes.length > 0) {
+        if (!hasError && filterRecipes && filterRecipes.length > 0) {
             return (
                 <FilterSortBlock
                     filterSearchRecipes={filterRecipes}

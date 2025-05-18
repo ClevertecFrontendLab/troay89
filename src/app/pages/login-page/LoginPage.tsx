@@ -17,10 +17,9 @@ import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Location, useLocation, useNavigate } from 'react-router';
-import * as yup from 'yup';
 
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { LoginFailedModule } from '~/components/modal/login-failed-modal/LoginFailedModal';
@@ -30,24 +29,14 @@ import { ResetPasswordModal } from '~/components/modal/reset-password-modal/Rese
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useLoginMutation } from '~/store/slice/app-slice';
+import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './LoginPage.module.css';
-
-type LoginData = {
-    login: string;
-    password: string;
-};
+import { LoginData, loginSchema } from './loginSchema';
 
 type VerificationState = {
     emailVerified?: 'true' | 'false' | undefined;
 };
-
-const loginSchema = yup
-    .object({
-        login: yup.string().required('Введите логин').max(50, 'Максимальная длина 50 символов'),
-        password: yup.string().required('Введите пароль').max(50, 'Максимальная длина 50 символов'),
-    })
-    .required();
 
 export const LoginPage = () => {
     const {
@@ -81,15 +70,6 @@ export const LoginPage = () => {
         setIsOpenError(isError);
     }, [isError]);
 
-    useEffect(() => {
-        if (isOpenError) {
-            const timer = setTimeout(() => {
-                setIsOpenError(false);
-            }, 15000);
-            return () => clearTimeout(timer);
-        }
-    }, [isOpenError]);
-
     const performLogin = async (data: LoginData) => {
         try {
             const response = await loginUser(data).unwrap();
@@ -108,6 +88,7 @@ export const LoginPage = () => {
                     setTitle('E-mail не верифицирован');
                     setNotification('Проверьте почту и перейдите по ссылке');
                 } else if (typeof error.status === 'number' && error.status >= 500) {
+                    setIsOpenError(false);
                     setIsShowModalLoginFailed(true);
                 }
             }
@@ -115,14 +96,6 @@ export const LoginPage = () => {
     };
 
     const loginRegister = register('login');
-
-    const handleTrimBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-        loginRegister.onBlur(e);
-        const trimmedValue = e.target.value.trim();
-        if (e.target.value !== trimmedValue) {
-            setValue('login', trimmedValue);
-        }
-    };
 
     const handleRetry = async () => {
         if (!lastLoginData) return;
@@ -160,7 +133,7 @@ export const LoginPage = () => {
                         _focus={{ boxShadow: 'none' }}
                         borderColor={errors.login || isOpenError ? 'red' : 'lime.150'}
                         {...register('login')}
-                        onBlur={handleTrimBlur}
+                        onBlur={(e) => handleBlurTrim(e, 'login', setValue, loginRegister.onBlur)}
                         data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                     />
                     {errors.login ? (

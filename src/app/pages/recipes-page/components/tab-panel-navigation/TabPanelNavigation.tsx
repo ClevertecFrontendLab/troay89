@@ -13,8 +13,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import GeneraCard from '~/components/cards/card/GeneralCard';
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
@@ -88,7 +88,7 @@ export const TabPanelNavigation = ({
         if (isFetching) {
             return (
                 <Flex h='250px' justifyContent='center' alignItems='center'>
-                    <Spinner />
+                    <Spinner data-test-id={DATA_TEST_ID.APP_LOADER} />
                 </Flex>
             );
         }
@@ -134,7 +134,7 @@ export const TabPanelNavigation = ({
             );
         }
 
-        if (!isErrorFilterRecipes && filterRecipes.length > 0) {
+        if (!isErrorFilterRecipes && filterRecipes && filterRecipes.length > 0) {
             return (
                 <FilterSortBlock
                     filterSearchRecipes={filterRecipes}

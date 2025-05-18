@@ -14,46 +14,18 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Location, useLocation, useNavigate } from 'react-router';
-import * as yup from 'yup';
 
 import { VerificationFailedModal } from '~/components/modal/verification-failded-module/VerificationFailedModal';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { setFirstPartDataCreateUser } from '~/store/slice/firstPartDataCreateUser';
+import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
+import { RegistrationOneData, registrationOneSchema } from './registrationOneSchema';
 import styles from './RegistrationPageOne.module.css';
-
-type RegistrationOneData = {
-    firstName: string;
-    lastName: string;
-    email: string;
-};
 
 type VerificationState = {
     emailVerified?: 'true' | 'false' | undefined;
 };
-
-const registrationOneSchema = yup
-    .object({
-        firstName: yup
-            .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите имя')
-            .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
-            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"'),
-        lastName: yup
-            .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите фамилию')
-            .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
-            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"'),
-        email: yup
-            .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите e-mail')
-            .email('Введите корректный e-mail')
-            .matches(/\.[A-Za-z]{2,}$/, 'Введите корректный e-mail'),
-    })
-    .required();
 
 export const RegistrationOnePage = () => {
     const dispatch = useDispatch();
@@ -94,18 +66,6 @@ export const RegistrationOnePage = () => {
     const lastNameReg = register('lastName');
     const emailReg = register('email');
 
-    const handleTrim = (
-        field: keyof RegistrationOneData,
-        e: React.FocusEvent<HTMLInputElement>,
-        originalOnBlur?: (e: React.FocusEvent<HTMLInputElement>) => void,
-    ) => {
-        const trimmed = e.target.value.trim();
-        setValue(field, trimmed);
-        if (originalOnBlur) {
-            originalOnBlur(e);
-        }
-    };
-
     return (
         <Flex align='center' justify='center' w='100%'>
             <VStack
@@ -140,7 +100,9 @@ export const RegistrationOnePage = () => {
                         borderColor={errors.firstName ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...firstNameReg}
-                        onBlur={(e) => handleTrim('firstName', e, firstNameReg.onBlur)}
+                        onBlur={(e) =>
+                            handleBlurTrim(e, 'firstName', setValue, firstNameReg.onBlur)
+                        }
                         data-test-id={DATA_TEST_ID.FIRST_NAME_INPUT}
                     />
                     {errors.firstName ? (
@@ -165,7 +127,7 @@ export const RegistrationOnePage = () => {
                         borderColor={errors.lastName ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...lastNameReg}
-                        onBlur={(e) => handleTrim('lastName', e, lastNameReg.onBlur)}
+                        onBlur={(e) => handleBlurTrim(e, 'lastName', setValue, lastNameReg.onBlur)}
                         data-test-id={DATA_TEST_ID.LAST_NAME_INPUT}
                     />
                     {errors.lastName ? (
@@ -190,7 +152,7 @@ export const RegistrationOnePage = () => {
                         borderColor={errors.email ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...emailReg}
-                        onBlur={(e) => handleTrim('email', e, emailReg.onBlur)}
+                        onBlur={(e) => handleBlurTrim(e, 'email', setValue, emailReg.onBlur)}
                         data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                     />
                     {errors.email ? (

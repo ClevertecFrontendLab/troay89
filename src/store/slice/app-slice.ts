@@ -41,6 +41,7 @@ type VerifyOtpData = {
 };
 
 type ResetPasswordData = {
+    email: string;
     login: string;
     password: string;
     passwordConfirm: string;

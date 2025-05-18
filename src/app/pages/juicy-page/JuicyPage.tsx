@@ -1,7 +1,7 @@
 import { Box, Divider } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { LastBlock } from '~/components/last-block/LastBlock';
 import { Overlay } from '~/components/overlay/Overlay';

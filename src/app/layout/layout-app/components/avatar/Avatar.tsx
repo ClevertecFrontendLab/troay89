@@ -1,6 +1,6 @@
 import { Avatar as UserAvatar, Box } from '@chakra-ui/react';
 
-import avatar from './../../../../assets/images/header/avatar.png';
+import avatar from './../../../../../assets/images/header/avatar.png';
 import styles from './Avatar.module.css';
 
 export const Avatar = () => (

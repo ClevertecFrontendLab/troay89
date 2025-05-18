@@ -1,8 +1,8 @@
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay } from '@chakra-ui/react';
 
-import { AccordionMenu } from '~/app/layout/components/accordion/AccordionMenu';
-import { Bread } from '~/app/layout/components/bread/Bread';
-import { FooterDesktop } from '~/app/layout/components/footerDesktop/FooterDesktop';
+import { AccordionMenu } from '~/app/layout/layout-app/components/accordion/AccordionMenu';
+import { Bread } from '~/app/layout/layout-app/components/bread/Bread';
+import { FooterDesktop } from '~/app/layout/layout-app/components/footerDesktop/FooterDesktop';
 
 type BurgerMenuProps = {
     isOpen: boolean;
