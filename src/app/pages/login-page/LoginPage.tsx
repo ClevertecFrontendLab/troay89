@@ -48,13 +48,12 @@ export const LoginPage = () => {
         formState: { errors },
     } = useForm<LoginData>({
         resolver: yupResolver(loginSchema),
-        mode: 'onChange',
+        mode: 'onBlur',
     });
 
     const navigate = useNavigate();
     const [loginUser, { isLoading, isError }] = useLoginMutation();
     const location = useLocation() as Location<VerificationState>;
-
     const emailVerified = location.state?.emailVerified;
 
     const [lastLoginData, setLastLoginData] = useState<LoginData | null>(null);
