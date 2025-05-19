@@ -12,7 +12,7 @@ import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import { overlayPositionSelector } from '~/store/selectors/overlayPositionSelector';
-import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
 
 import { AuthorBlock } from './components/author-block/AuthorBlock';
 import { JuicyBlock } from './components/juicy-block/JuicyBlock';

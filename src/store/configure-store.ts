@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import { appSlice } from './slice/app-slice';
+import { apiSlice } from './slice/api/api-slice';
 import getArrayCategoryReducer from './slice/arrayCategory';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
 import firstPartDataCreateUserReducer from './slice/firstPartDataCreateUser';
@@ -12,7 +12,7 @@ import stateSwitchAllergenReducer from './slice/stateSwitchAllergenSlice';
 
 const isProduction = false;
 const rootReducer = combineReducers({
-    [appSlice.reducerPath]: appSlice.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
     indexTabs: indexTabsReducer,
     arrayResultFilter: arrayResultFilterReducer,
     headerZIndex: headerZIndexReducer,
@@ -26,6 +26,6 @@ const rootReducer = combineReducers({
 export type ApplicationState = ReturnType<typeof rootReducer>;
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(appSlice.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
     devTools: !isProduction,
 });

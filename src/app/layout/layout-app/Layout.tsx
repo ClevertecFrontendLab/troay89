@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router';
 
 import { dataNavigation } from '~/data/dataNavigation';
-import { useGetCategoriesQuery } from '~/store/slice/app-slice';
+import { useGetCategoriesQuery } from '~/store/slice/api/api-slice';
 import { setArrayCategory } from '~/store/slice/arrayCategory';
 
 import { AccordionMenu } from './components/accordion/AccordionMenu';

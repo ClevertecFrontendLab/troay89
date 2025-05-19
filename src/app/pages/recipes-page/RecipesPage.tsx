@@ -10,7 +10,7 @@ import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
-import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
+import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/api/api-slice';
 import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { Category } from '~/type/Category';
 import RecipeType from '~/type/RecipeType';

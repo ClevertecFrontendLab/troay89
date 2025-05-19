@@ -2,6 +2,7 @@ import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, CloseButton } from
 import { useEffect } from 'react';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { ERROR_MESSAGE } from '~/constants/errorMessage';
 
 import styles from './AlertFailed.module.css';
 
@@ -17,8 +18,8 @@ type ErrorModalType = {
 
 export const ErrorModal = ({
     onClose,
-    title = 'Ошибка сервера',
-    notification = 'Попробуйте поискать снова попозже',
+    title = ERROR_MESSAGE.ERROR_SERVER,
+    notification = ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_TWO,
     position = 'fixed',
     left = '50%',
     ml = '-164px',

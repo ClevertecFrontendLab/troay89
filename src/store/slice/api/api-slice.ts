@@ -7,48 +7,17 @@ import RecipeType, { RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
 
-type RecipesQueryParams = {
-    limit: number;
-    page?: number;
-    sortBy?: 'createdAt' | 'likes';
-    sortOrder?: 'asc' | 'desc';
-    subcategoriesIds?: string;
-    allergens?: string;
-    searchString?: string;
-    meat?: string;
-    garnish?: string;
-};
+import {
+    CategoryPath,
+    ForgotPasswordData,
+    RecipesCategoryQueryParams,
+    RecipesQueryParams,
+    ResetPasswordData,
+    VerifyOtpData,
+} from './types';
 
-type RecipesCategoryQueryParams = Partial<{
-    id: string;
-    page: number;
-    limit: number;
-    allergens: string;
-    searchString: string;
-}>;
-
-type CategoryPath = Partial<{
-    id: string;
-}>;
-
-type ForgotPasswordData = {
-    email: string;
-};
-
-type VerifyOtpData = {
-    email: string;
-    otpToken: string;
-};
-
-type ResetPasswordData = {
-    email: string;
-    login: string;
-    password: string;
-    passwordConfirm: string;
-};
-
-export const appSlice = createApi({
-    reducerPath: 'appSlice',
+export const apiSlice = createApi({
+    reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
@@ -138,7 +107,7 @@ export const appSlice = createApi({
             }),
         }),
         registration: build.mutation<Response, RegistrationData>({
-            query: ({ ...data }) => ({
+            query: (data) => ({
                 url: 'auth/signup',
                 method: 'POST',
                 credentials: 'include',
@@ -197,4 +166,4 @@ export const {
     useForgotPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
-} = appSlice;
+} = apiSlice;

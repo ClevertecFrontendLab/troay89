@@ -24,8 +24,9 @@ import Eye from '~/components/icons/Eye';
 import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { ERROR_MESSAGE } from '~/constants/errorMessage';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
-import { useRegistrationMutation } from '~/store/slice/app-slice';
+import { useRegistrationMutation } from '~/store/slice/api/api-slice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './RegistrationPageTwo.module.css';
@@ -88,19 +89,19 @@ export const RegistrationTwoPage = () => {
                     ) {
                         const message = (error.data as { message: string }).message;
                         if (message.toLowerCase().includes('email')) {
-                            setTitle('Пользователь с таким email уже существует.');
+                            setTitle(ERROR_MESSAGE.EMAIL_EXITS);
                             setNotification('');
                         } else if (
                             message.toLowerCase().includes('login') ||
                             message.toLowerCase().includes('username')
                         ) {
-                            setTitle('Пользователь с таким login уже существует.');
+                            setTitle(ERROR_MESSAGE.LOGIN_EXITS);
                             setNotification('');
                         }
                     }
                     if (typeof error.status === 'number' && error.status >= 500) {
-                        setTitle('Ошибка сервера');
-                        setNotification('Попробуйте немного позже');
+                        setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
                     }
                 }
             }

@@ -18,6 +18,12 @@ export const AccountTabs = () => {
         navigate(path);
     };
 
+    const curentPage = location.pathname.endsWith('finish-registration') ? (
+        <RegistrationTwoPage />
+    ) : (
+        <RegistrationOnePage />
+    );
+
     return (
         <Box maxW={{ base: '328px', bp95: '355px', bp115: '451px', bp160: '461px' }} mx='auto'>
             <Tabs
@@ -56,13 +62,7 @@ export const AccountTabs = () => {
                     <TabPanel p={0}>
                         <LoginPage />
                     </TabPanel>
-                    <TabPanel p={0}>
-                        {location.pathname.endsWith('finish-registration') ? (
-                            <RegistrationTwoPage />
-                        ) : (
-                            <RegistrationOnePage />
-                        )}
-                    </TabPanel>
+                    <TabPanel p={0}>{curentPage}</TabPanel>
                 </TabPanels>
             </Tabs>
         </Box>

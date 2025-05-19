@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import { Overlay } from '~/components/overlay/Overlay';
 import { idRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
-import { useGetRecipesQuery, useLazyGetRecipeQuery } from '~/store/slice/app-slice';
+import { useGetRecipesQuery, useLazyGetRecipeQuery } from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
 import { AuthorCard } from './components/author-card/AuthorCard';

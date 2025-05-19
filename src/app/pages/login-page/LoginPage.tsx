@@ -28,7 +28,9 @@ import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
 import { ResetPasswordModal } from '~/components/modal/reset-password-modal/ResetPasswordModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { useLoginMutation } from '~/store/slice/app-slice';
+import { ERROR_MESSAGE } from '~/constants/errorMessage';
+import { SUCCESS_MESSAGE } from '~/constants/successMessage';
+import { useLoginMutation } from '~/store/slice/api/api-slice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './LoginPage.module.css';
@@ -53,12 +55,12 @@ export const LoginPage = () => {
     const [loginUser, { isLoading, isError }] = useLoginMutation();
     const location = useLocation() as Location<VerificationState>;
     const emailVerified = location.state?.emailVerified;
-    const [isVerificationSuccess, setIsVerificationSuccess] = useState(emailVerified === 'true');
 
-    const [isOpenError, setIsOpenError] = useState(isError);
     const [lastLoginData, setLastLoginData] = useState<LoginData | null>(null);
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
+    const [isVerificationSuccess, setIsVerificationSuccess] = useState(emailVerified === 'true');
+    const [isOpenError, setIsOpenError] = useState(isError);
     const [isShowModalLoginFailed, setIsShowModalLoginFailed] = useState(false);
     const [isShowModalRecovery, setIsShowModalRecovery] = useState(false);
     const [isShowPinInputModal, setIsShowPinInputModal] = useState(false);
@@ -82,11 +84,11 @@ export const LoginPage = () => {
             if (err && typeof err === 'object' && 'status' in err) {
                 const error = err as FetchBaseQueryError;
                 if (error.status === 401) {
-                    setTitle('Неверный логин или пароль');
-                    setNotification('Попробуйте снова');
+                    setTitle(ERROR_MESSAGE.INCORRECT_LOGIN);
+                    setNotification(ERROR_MESSAGE.INCORRECT_LOGIN_NOTIFICATION);
                 } else if (error.status === 403) {
-                    setTitle('E-mail не верифицирован');
-                    setNotification('Проверьте почту и перейдите по ссылке');
+                    setTitle(ERROR_MESSAGE.EMAIL_NOT_VERIFIED);
+                    setNotification(ERROR_MESSAGE.EMAIL_NOT_VERIFIED_NOTIFICATION);
                 } else if (typeof error.status === 'number' && error.status >= 500) {
                     setIsOpenError(false);
                     setIsShowModalLoginFailed(true);
@@ -221,7 +223,7 @@ export const LoginPage = () => {
             {isVerificationSuccess && (
                 <AlertSuccess
                     onClose={() => setIsVerificationSuccess(false)}
-                    message='Верификация прошла успешно'
+                    message={SUCCESS_MESSAGE.SUCCESS_VERIFICATY}
                 />
             )}
             <PasswordRecovery
@@ -242,7 +244,7 @@ export const LoginPage = () => {
             {isShowAlertSuccessModal && (
                 <AlertSuccess
                     onClose={() => setIsShowAlertSuccessModal(false)}
-                    message='Восстановление данных успешно'
+                    message={SUCCESS_MESSAGE.SUCCESS_RECOVERY}
                 />
             )}
         </Flex>

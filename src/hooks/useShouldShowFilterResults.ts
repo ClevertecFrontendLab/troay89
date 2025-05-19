@@ -11,7 +11,7 @@ import {
     resultSearchSelector,
 } from '~/store/selectors/arrayResultFilterSelector';
 import { indexNavigationButtonSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
-import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
 import {
     setFetchingFilterRecipes,
     setShouldShowFilterResults,

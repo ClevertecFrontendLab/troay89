@@ -22,7 +22,7 @@ import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { ERROR_MESSAGE } from '~/constants/errorMessage';
 import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
-import { useVerifyOtpMutation } from '~/store/slice/app-slice';
+import { useVerifyOtpMutation } from '~/store/slice/api/api-slice';
 
 import styles from './PinInputModal.module.css';
 
@@ -33,14 +33,14 @@ type PinInputModalType = {
 };
 
 export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputModalType) => {
-    const [code, setCode] = useState('');
     const email = useSelector(getSaveEmail);
     const [verifyOtp, { isLoading, isError }] = useVerifyOtpMutation();
     const [isOtpFailedOpen, setIsOtpFailedOpen] = useState(isError);
     const [notification, setNotification] = useState('');
     const [title, setTitle] = useState('');
-    const firstInputRef = useRef<HTMLInputElement>(null);
+    const [code, setCode] = useState('');
     const [pinError, setPinError] = useState(false);
+    const firstInputRef = useRef<HTMLInputElement>(null);
 
     const spamMessage = <>Не пришло письмо? Проверьте&nbsp;папку&nbsp;Спам.</>;
     const confirmationMessage = (

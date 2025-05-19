@@ -3,6 +3,7 @@ import { Outlet } from 'react-router';
 
 import { accountLayout } from '~/assets/images/account-layout';
 import { Logo } from '~/components/icons/logo/Logo';
+import { LAYOUT } from '~/constants/layout';
 
 import styles from './AccountLayout.module.css';
 
@@ -42,7 +43,7 @@ export const AccountLayout = () => (
                 mb={{ base: '25px', bp160: '31px' }}
                 mt='auto'
             >
-                Все права защищены, ученический файл, ©Клевер Технолоджи, 2025
+                {LAYOUT.FOTER_TEXT}
             </Box>
         </Flex>
         <Image
@@ -59,7 +60,7 @@ export const AccountLayout = () => (
             right='30px'
             display={{ base: 'none', bp115: 'block' }}
         >
-            – Лучший сервис для ваших кулинарных побед{' '}
+            {LAYOUT.IMAGE_TEXT}
         </Text>
     </Flex>
 );

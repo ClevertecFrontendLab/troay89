@@ -24,7 +24,8 @@ import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { useForgotPasswordMutation } from '~/store/slice/app-slice';
+import { ERROR_MESSAGE } from '~/constants/errorMessage';
+import { useForgotPasswordMutation } from '~/store/slice/api/api-slice';
 import { setSaveEmail } from '~/store/slice/saveEmailSlice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
@@ -74,18 +75,16 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                 const error = err as FetchBaseQueryError;
                 setIsVerificationFailedOpen(true);
                 if (error.status === 400) {
-                    setTitle('Для генерации нового одноразового пароля необходимо выждать минуту.');
+                    setTitle(ERROR_MESSAGE.WAIT_MINUTE);
                     setNotification('');
                 }
                 if (error.status === 403) {
-                    setTitle('Такого e-mail нет.');
-                    setNotification(
-                        'Попробуйте другой e-mail или проверьте правильность его написания',
-                    );
+                    setTitle(ERROR_MESSAGE.EMAIL_NOT_EXITS);
+                    setNotification(ERROR_MESSAGE.EMAIL_NOT_EXITS_NOTIFICATION);
                 }
                 if (typeof error.status === 'number' && error.status >= 500) {
-                    setTitle('Ошибка сервера');
-                    setNotification('Попробуйте немного позже');
+                    setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                    setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
                 }
             }
         }

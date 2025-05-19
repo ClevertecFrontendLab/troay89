@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { useGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
+import { useGetRecipeByCategoryQuery } from '~/store/slice/api/api-slice';
 
 export const useGetRandomDataCategory = (randomNumber: number) => {
     const category = useSelector(getArrayCategorySelector);
