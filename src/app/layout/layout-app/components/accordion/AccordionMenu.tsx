@@ -7,6 +7,7 @@ import {
     List,
     ListItem,
 } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
@@ -62,10 +63,14 @@ export const AccordionMenu = () => {
                                             }
                                         >
                                             <Box
-                                                className={`${styles.vert_line} ${isActive ? styles.line_change : ''}`}
+                                                className={classNames(styles.vert_line, {
+                                                    [styles.line_change]: isActive,
+                                                })}
                                             />
                                             <Link
-                                                className={`${styles.item_link} ${isActive ? styles.item_change : ''}`}
+                                                className={classNames(styles.item_link, {
+                                                    [styles.item_change]: isActive,
+                                                })}
                                                 onClick={() =>
                                                     handleLinkClick(index, subcategory._id)
                                                 }

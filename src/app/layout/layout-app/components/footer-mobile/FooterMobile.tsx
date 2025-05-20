@@ -1,5 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { Avatar, Button, Flex, GridItem, Icon, Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 
 import { avatar } from '~/assets/images/header';
 import Home from '~/components/icons/footer/Home';
@@ -9,8 +10,8 @@ import styles from './FooterMobile.module.css';
 
 export const FooterMobile = () => (
     <GridItem className={styles.footer} as='footer' data-test-id='footer'>
-        <Flex className={`${styles.container} ${styles.radial}`}>
-            <Button className={`${styles.footer_item} ${styles.home_button}`}>
+        <Flex className={classNames(styles.container, styles.radial)}>
+            <Button className={classNames(styles.footer_item, styles.home_button)}>
                 <Icon as={Home} />
             </Button>
             <Text className={styles.text}>Главная</Text>

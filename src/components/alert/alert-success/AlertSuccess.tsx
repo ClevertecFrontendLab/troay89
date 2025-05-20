@@ -25,7 +25,7 @@ export const AlertSuccess = ({ message, onClose }: AlertSuccessProps) => {
             bottom={20}
             variant='solid'
             w={{ base: '328px', bp115: '400px' }}
-            h='48px'
+            minH={12}
             data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION}
         >
             <AlertIcon boxSize={6} />

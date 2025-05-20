@@ -156,6 +156,7 @@ export const RegistrationTwoPage = () => {
                         size='lg'
                         borderColor={errors.login ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
+                        autoComplete='new-password'
                         {...usernameReg}
                         onBlur={(e) => handleBlurTrim(e, 'login', setValue, loginRegister.onBlur)}
                         data-test-id={DATA_TEST_ID.LOGIN_INPUT}
@@ -184,6 +185,7 @@ export const RegistrationTwoPage = () => {
                             bg='white'
                             size='lg'
                             borderColor={errors.password ? 'red' : 'lime.150'}
+                            autoComplete='new-password'
                             _focus={{ boxShadow: 'none' }}
                             {...passwordReg}
                             data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
@@ -222,6 +224,7 @@ export const RegistrationTwoPage = () => {
                             bg='white'
                             size='lg'
                             borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
+                            autoComplete='new-password'
                             _focus={{ boxShadow: 'none' }}
                             {...confirmPasswordReg}
                             data-test-id={DATA_TEST_ID.CONFIRM_PASSWORD_INPUT}

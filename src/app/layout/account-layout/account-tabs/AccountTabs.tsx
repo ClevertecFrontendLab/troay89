@@ -34,10 +34,20 @@ export const AccountTabs = () => {
                 lazyBehavior='unmount'
                 variant='unstyled'
             >
-                <TabList borderBottom='2px solid' borderColor='gray.200' mb={10} gap='16px'>
+                <TabList
+                    borderBottom='2px solid'
+                    borderColor='gray.200'
+                    mb={10}
+                    gap='16px'
+                    position='relative'
+                    zIndex={20}
+                >
                     <Tab
                         className={styles.tab_list}
                         color='lime.800'
+                        position='relative'
+                        zIndex='1'
+                        mb='-2px'
                         _selected={{
                             color: 'lime.700',
                             borderBottom: '2px solid',
@@ -49,6 +59,9 @@ export const AccountTabs = () => {
                     <Tab
                         className={styles.tab_list}
                         color='lime.800'
+                        position='relative'
+                        zIndex='1'
+                        mb='-2px'
                         _selected={{
                             color: 'lime.700',
                             borderBottom: '2px solid',

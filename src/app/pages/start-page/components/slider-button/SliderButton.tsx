@@ -1,4 +1,5 @@
 import { Button, Icon } from '@chakra-ui/react';
+import classNames from 'classnames';
 
 import Arrow from '~/components/icons/ArrowSlider';
 
@@ -13,7 +14,7 @@ type SliderButton = {
 export const SliderButton = ({ dataTest, reverse, onClick }: SliderButton) => (
     <Button
         data-test-id={dataTest}
-        className={`${styles.slider_button} ${reverse && styles.reverse}`}
+        className={classNames(styles.slider_button, { [styles.reverse]: reverse })}
         colorScheme='teal'
         bg='black'
         display={{ bp95: 'flex', base: 'none' }}

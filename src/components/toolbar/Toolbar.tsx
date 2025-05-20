@@ -1,4 +1,5 @@
 import { Flex, Heading, Spinner, Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -38,7 +39,7 @@ export const Toolbar = ({
 
     return (
         <Flex
-            className={`${styles.container} ${isExtraSpace && styles.extra_space}`}
+            className={classNames(styles.container, { [styles.extra_space]: isExtraSpace })}
             direction='column'
             minHeight={{ base: '80px', bp115: '248px' }}
         >

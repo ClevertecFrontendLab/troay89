@@ -12,6 +12,7 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
@@ -101,9 +102,9 @@ export const MultiSelect = ({
                         }
                     >
                         <Flex
-                            className={
-                                typeof selectedLabel !== 'string' ? styles.container_label : ''
-                            }
+                            className={classNames({
+                                [styles.container_label]: typeof selectedLabel !== 'string',
+                            })}
                             flexWrap='wrap'
                             gap={2}
                         >

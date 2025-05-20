@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router';
 
@@ -33,7 +34,7 @@ export const SimpleButton = ({ _id, dataTestButton, titleRecipe }: SimpleButtonP
     return (
         <Button
             data-test-id={dataTestButton}
-            className={`${styled.button} ${styled.extra}`}
+            className={classNames(styled.button, styled.extra)}
             bg='blackAlpha.900'
             color='white'
             variant='solid'

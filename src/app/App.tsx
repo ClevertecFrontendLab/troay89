@@ -66,12 +66,10 @@ const customTheme = extendTheme({
     },
 });
 
-const App = () => (
+export const App = () => (
     <ChakraProvider theme={customTheme}>
         <BrowserRouter>
             <AppRouter />
         </BrowserRouter>
     </ChakraProvider>
 );
-
-export default App;

@@ -159,6 +159,7 @@ export const LoginPage = () => {
                             bg='white'
                             size='lg'
                             borderColor={errors.password || isOpenError ? 'red' : 'lime.150'}
+                            autoComplete='password'
                             _focus={{ boxShadow: 'none' }}
                             {...register('password')}
                             data-test-id={DATA_TEST_ID.PASSWORD_INPUT}

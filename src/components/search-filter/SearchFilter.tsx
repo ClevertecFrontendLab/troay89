@@ -9,6 +9,7 @@ import {
     InputRightElement,
     useDisclosure,
 } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
@@ -118,7 +119,7 @@ export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) =>
             </Button>
             <InputGroup className={styles.search_wrapper}>
                 <Input
-                    className={`${styles.search} ${isSearchRecipes ? styles.not_found : ''}`}
+                    className={classNames(styles.search, { [styles.not_found]: isSearchRecipes })}
                     data-test-id={DATA_TEST_ID.SEARCH_INPUT}
                     placeholder='Название или ингредиент...'
                     value={textSearch}

@@ -1,4 +1,5 @@
 import { Flex, Icon } from '@chakra-ui/react';
+import classNames from 'classnames';
 
 import BookMark from '~/components/icons/BookMark';
 import EmojiHeart from '~/components/icons/EmojiHeart';
@@ -17,7 +18,7 @@ type IconStatsProps = {
 };
 
 export const IconStats = ({ isHeader }: IconStatsProps) => (
-    <Flex className={`${styles.container_user_stats} ${isHeader && styles.stats_header}`}>
+    <Flex className={classNames(styles.container_user_stats, { [styles.stats_header]: isHeader })}>
         {stats.map((stat, index) => (
             <Flex key={index} className={styles.user_stat}>
                 <Icon className={styles.icon} as={stat.icon} />

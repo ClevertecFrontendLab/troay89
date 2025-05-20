@@ -5,6 +5,7 @@ import {
     chakra,
     useAccordionItemState,
 } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { memo, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router';
@@ -49,7 +50,7 @@ export const ButtonAccordion = memo(function ButtonAccordion({
 
     return (
         <AccordionButton
-            className={`${styles.accordion_button} ${styles.navigation_button}`}
+            className={classNames(styles.accordion_button, styles.navigation_button)}
             _expanded={{
                 bg: '#eaffc7',
                 font: 'white',

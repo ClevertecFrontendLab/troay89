@@ -17,13 +17,6 @@ type SwipeSlideType = {
 };
 
 export const SwipeSlider = ({ swipeData }: SwipeSlideType) => {
-    // const swipeDataFilter =
-    //     swipeData &&
-    //     [...swipeData]?.sort(
-    //         (firstRecipe, secondRecipe) =>
-    //             new Date(secondRecipe.createdAt).getTime() -
-    //             new Date(firstRecipe.createdAt).getTime(),
-    //     );
     const swiperRef = useRef<SwiperClass | null>(null);
 
     const handlePrev = () => {

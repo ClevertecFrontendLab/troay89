@@ -1,4 +1,5 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
@@ -60,7 +61,7 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
 
     return (
         <Breadcrumb
-            className={`${styles.breadcrumb} ${isMobile && styles.mobile}`}
+            className={classNames(styles.breadcrumb, { [styles.mobile]: isMobile })}
             separator={<BreadIcon boxSize={6} />}
             data-test-id={DATA_TEST_ID.BREADCRUMBS}
         >
@@ -72,7 +73,9 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
                 >
                     {index === breadcrumbs.length - 1 ? (
                         <span
-                            className={`${styles.breadcrumb_text} ${index === breadcrumbs.length - 1 && styles.current_page}`}
+                            className={classNames(styles.breadcrumb_text, {
+                                [styles.current_page]: index === breadcrumbs.length - 1,
+                            })}
                         >
                             {crumb.title}
                         </span>

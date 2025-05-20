@@ -130,6 +130,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                 bg='white'
                                 size='lg'
                                 borderColor={errors.login ? 'red' : 'lime.150'}
+                                autoComplete='username'
                                 _focus={{ boxShadow: 'none' }}
                                 {...register('login')}
                                 onBlur={(e) =>
@@ -160,6 +161,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                     placeholder='Пароль'
                                     bg='white'
                                     size='lg'
+                                    autoComplete='new-password'
                                     borderColor={errors.password ? 'red' : 'lime.150'}
                                     _focus={{ boxShadow: 'none' }}
                                     {...register('password')}
@@ -195,6 +197,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                 <Input
                                     className={styles.form_input}
                                     type={isShowConfirmPassword ? 'text' : 'password'}
+                                    autoComplete='new-password'
                                     placeholder='Повторите пароль'
                                     bg='white'
                                     size='lg'

@@ -1,5 +1,6 @@
 import { CloseIcon } from '@chakra-ui/icons';
 import { Box, Center, Flex, GridItem, Icon, useDisclosure, useMediaQuery } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
@@ -25,7 +26,7 @@ export const Header = () => {
 
     return (
         <GridItem
-            className={`${styles.header} ${isOpen && styles.mobile_open_drawer}`}
+            className={classNames(styles.header, { [styles.mobile_open_drawer]: isOpen })}
             as='header'
             data-test-id={DATA_TEST_ID.HEADER}
             zIndex={zIndex}
