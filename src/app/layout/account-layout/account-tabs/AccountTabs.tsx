@@ -2,8 +2,8 @@ import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoginPage } from '~/app/pages/login-page/LoginPage';
-import { RegistrationOnePage } from '~/app/pages/registration-one-page/RegistrationPageOne';
-import { RegistrationTwoPage } from '~/app/pages/registration-two-page/RegistrationPageTwo';
+import { RegistrationTwoPage } from '~/app/pages/registration-login-password-page/RegistrationLoginPasswordPage';
+import { RegistrationNameEmailPage } from '~/app/pages/registration-name-email-page/RegistrationNameEmailPage';
 
 import styles from './AccountTabs.module.css';
 
@@ -21,7 +21,7 @@ export const AccountTabs = () => {
     const curentPage = location.pathname.endsWith('finish-registration') ? (
         <RegistrationTwoPage />
     ) : (
-        <RegistrationOnePage />
+        <RegistrationNameEmailPage />
     );
 
     return (

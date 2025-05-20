@@ -141,7 +141,7 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
                             {errorCode}
                         </Text>
                     ) : (
-                        <Box h={6}></Box>
+                        <Box h={6} />
                     )}
                     <Text textAlign='center' className={styles.advice} mx='30px'>
                         {spamMessage}

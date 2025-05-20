@@ -2,7 +2,7 @@ import { Box, Card, CardBody, Flex, Heading, Image, Text } from '@chakra-ui/reac
 
 import { fallback } from '~/assets/images/header';
 import { URLS } from '~/constants/url';
-import { Step } from '~/type/RecipeType';
+import { Step } from '~/type/recipeType';
 
 import styles from './CookingSteps.module.css';
 

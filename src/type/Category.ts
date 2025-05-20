@@ -1,4 +1,4 @@
-export interface Category {
+export type Category = {
     _id: string;
     title: string;
     description?: string;
@@ -6,6 +6,6 @@ export interface Category {
     icon?: string;
     rootCategoryId?: string;
     subCategories?: Category[];
-}
+};
 
 export type CategoriesResponse = Category[];

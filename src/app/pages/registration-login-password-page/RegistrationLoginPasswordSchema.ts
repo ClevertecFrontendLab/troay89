@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const registrationTwoSchema = yup
+export const registrationLoginPasswordSchema = yup
     .object({
         login: yup
             .string()
@@ -14,15 +14,15 @@ export const registrationTwoSchema = yup
             .min(8, 'Не соответствует формату')
             .max(50, 'Максимальная длина 50 символов')
             .matches(/^(?=.*\d)(?=.*[A-Z])[A-Za-z\d!@#$&_+\-.]+$/, 'Не соответствует формату'),
-        confirmPassword: yup
+        passwordConfirm: yup
             .string()
             .required('Повторите пароль')
             .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
     })
     .required();
 
-export type RegistrationTwoData = {
+export type registrationLoginPasswordData = {
     login: string;
     password: string;
-    confirmPassword: string;
+    passwordConfirm: string;
 };

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { CategoriesResponse } from '~/type/Category';
+import { CategoriesResponse } from '~/type/category';
 
 type InitialState = {
     arrayCategory: CategoriesResponse;

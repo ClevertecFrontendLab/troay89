@@ -16,7 +16,7 @@ import {
     setFetchingFilterRecipes,
     setShouldShowFilterResults,
 } from '~/store/slice/overlayPosition';
-import RecipeType from '~/type/RecipeType';
+import RecipeType from '~/type/recipeType';
 
 export const useShouldShowFilterResults = (limit: number = 8) => {
     const { category } = useParams();

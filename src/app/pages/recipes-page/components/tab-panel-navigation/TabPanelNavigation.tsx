@@ -23,8 +23,8 @@ import {
     setActiveSubcategoryId,
     setIndexTab,
 } from '~/store/slice/indexCategoriesSubcategoriesSlice';
-import { Category } from '~/type/Category';
-import RecipeType, { PaginationMeta } from '~/type/RecipeType';
+import { Category } from '~/type/category';
+import RecipeType, { PaginationMeta } from '~/type/recipeType';
 
 import styles from './TabPanelNavigation.module.css';
 

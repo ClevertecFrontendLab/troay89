@@ -22,6 +22,7 @@ import { noExit } from '~/assets/images/modal-mage';
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
+import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { useForgotPasswordMutation } from '~/store/slice/api/api-slice';
@@ -57,6 +58,8 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         'Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код';
     const handleError = useHandleError(setTitle, setNotification, 'password-recovery');
 
+    const FIELD_EMAIL = 'email';
+
     useEffect(() => {
         if (!isOpen) {
             reset({ email: '' });
@@ -77,7 +80,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         }
     };
 
-    const emailRegister = register('email');
+    const emailRegister = register(FIELD_EMAIL);
 
     return (
         <Modal isCentered isOpen={isOpen} onClose={onClose} autoFocus={false}>
@@ -116,23 +119,23 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                         onSubmit={handleSubmit(onSubmit)}
                         noValidate
                     >
-                        <FormControl id='email'>
+                        <FormControl id={FIELD_EMAIL}>
                             <FormLabel className={styles.form_control} mb={1}>
-                                Ваш e-mail
+                                {AUTH_FORM.EMAIL_LABEL}
                             </FormLabel>
                             <Input
                                 className={styles.form_input}
                                 type='email'
-                                placeholder='e-mail'
+                                placeholder={AUTH_FORM.EMAIL_PLACEHOLDER}
                                 bg='white'
                                 size='lg'
                                 _focus={{ boxShadow: 'none' }}
                                 borderColor={
                                     errors.email || isVerificationFailedOpen ? 'red' : 'lime.150'
                                 }
-                                {...register('email')}
+                                {...register(FIELD_EMAIL)}
                                 onBlur={(e) =>
-                                    handleBlurTrim(e, 'email', setValue, emailRegister.onBlur)
+                                    handleBlurTrim(e, FIELD_EMAIL, setValue, emailRegister.onBlur)
                                 }
                                 data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                             />

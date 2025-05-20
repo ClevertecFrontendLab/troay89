@@ -16,7 +16,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import UpDown from '~/components/icons/UpDown';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { Ingredient } from '~/type/RecipeType';
+import { Ingredient } from '~/type/recipeType';
 
 import styles from './TableIndegrients.module.css';
 

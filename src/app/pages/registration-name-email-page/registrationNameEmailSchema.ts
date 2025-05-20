@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const registrationOneSchema = yup
+export const registrationNameEmailSchema = yup
     .object({
         firstName: yup
             .string()
@@ -23,7 +23,7 @@ export const registrationOneSchema = yup
     })
     .required();
 
-export type RegistrationOneData = {
+export type registrationNameEmailData = {
     firstName: string;
     lastName: string;
     email: string;

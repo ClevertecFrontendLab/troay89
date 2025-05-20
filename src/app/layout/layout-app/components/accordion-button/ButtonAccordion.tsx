@@ -16,7 +16,7 @@ import {
     setIndexButton,
     setIndexTab,
 } from '~/store/slice/indexCategoriesSubcategoriesSlice';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './ButtonAccordion.module.css';
 

@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/react';
 
-import { Category } from '~/type/Category';
-import RecipeType from '~/type/RecipeType';
+import { Category } from '~/type/category';
+import RecipeType from '~/type/recipeType';
 
 import { LongCard } from '../cards/long-card/LongCard';
 import { SimpleCard } from '../cards/simple-card/SimpleCard';

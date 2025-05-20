@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { URLS } from '~/constants/url';
-import { CategoriesResponse } from '~/type/Category';
+import { CategoriesResponse } from '~/type/category';
 import { LoginDataType } from '~/type/LoginDataType';
-import RecipeType, { RecipeTypeResponse } from '~/type/RecipeType';
+import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
 

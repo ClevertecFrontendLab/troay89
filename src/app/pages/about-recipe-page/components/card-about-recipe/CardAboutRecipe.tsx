@@ -10,7 +10,7 @@ import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
 import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './CardAboutRecipe.module.css';
 

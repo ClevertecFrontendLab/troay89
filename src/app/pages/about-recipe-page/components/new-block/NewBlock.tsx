@@ -1,7 +1,7 @@
 import { Flex, Heading } from '@chakra-ui/react';
 
 import { SwipeSlider } from '~/components/swipe-slider/SwipeSlider';
-import RecipeType from '~/type/RecipeType';
+import RecipeType from '~/type/recipeType';
 
 import styles from './NewBlock.module.css';
 

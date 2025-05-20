@@ -22,14 +22,19 @@ import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
+import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
 import { useRegistrationMutation } from '~/store/slice/api/api-slice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
-import styles from './RegistrationPageTwo.module.css';
-import { RegistrationTwoData, registrationTwoSchema } from './registrationTwoSchema';
+import { LoginPasswordEnum } from './loginPasswordEnum';
+import styles from './RegistrationLoginPassword.module.css';
+import {
+    registrationLoginPasswordData,
+    registrationLoginPasswordSchema,
+} from './RegistrationLoginPasswordSchema';
 
 export const RegistrationTwoPage = () => {
     const [registrationUser, { isLoading, isError }] = useRegistrationMutation();
@@ -41,8 +46,8 @@ export const RegistrationTwoPage = () => {
         watch,
         setValue,
         formState: { errors },
-    } = useForm<RegistrationTwoData>({
-        resolver: yupResolver(registrationTwoSchema),
+    } = useForm<registrationLoginPasswordData>({
+        resolver: yupResolver(registrationLoginPasswordSchema),
         mode: 'onChange',
     });
 
@@ -54,14 +59,14 @@ export const RegistrationTwoPage = () => {
 
     const firstPartDataUserRegistration = useSelector(firstPartDataCreateUserSelector);
 
-    const loginValue = watch('login');
-    const passwordValue = watch('password');
-    const confirmPasswordValue = watch('confirmPassword');
+    const loginValue = watch(LoginPasswordEnum.LOGIN);
+    const passwordValue = watch(LoginPasswordEnum.PASSWORD);
+    const confirmPasswordValue = watch(LoginPasswordEnum.CONFIRM_PASSWORD);
     const handleError = useHandleError(setTitle, setNotification, 'registration');
 
-    const loginRegister = register('login');
+    const loginRegister = register(LoginPasswordEnum.LOGIN);
 
-    const onSubmit = async (dataFromStep2: RegistrationTwoData) => {
+    const onSubmit = async (dataFromStep2: registrationLoginPasswordData) => {
         const { firstName, lastName, email } = firstPartDataUserRegistration;
         if (firstName && lastName && email) {
             const registrationData = {
@@ -84,11 +89,11 @@ export const RegistrationTwoPage = () => {
     const validInputsCount =
         (loginValue && !errors.login ? 1 : 0) +
         (passwordValue && !errors.password ? 1 : 0) +
-        (confirmPasswordValue && !errors.confirmPassword ? 1 : 0);
+        (confirmPasswordValue && !errors.passwordConfirm ? 1 : 0);
 
-    const usernameReg = register('login');
-    const passwordReg = register('password');
-    const confirmPasswordReg = register('confirmPassword');
+    const usernameReg = register(LoginPasswordEnum.LOGIN);
+    const passwordReg = register(LoginPasswordEnum.PASSWORD);
+    const confirmPasswordReg = register(LoginPasswordEnum.CONFIRM_PASSWORD);
 
     const progressValue = ((3 + validInputsCount) / 6) * 100;
 
@@ -107,7 +112,7 @@ export const RegistrationTwoPage = () => {
                 data-test-id={DATA_TEST_ID.SIGN_UP_FORM}
             >
                 <VStack w='100%' alignItems='flex-start' gap={0} mb={5}>
-                    <Text className={styles.form_control}>Шаг 2. Логин и пароль</Text>
+                    <Text className={styles.form_control}>{AUTH_FORM.STEP_TWO}</Text>
                     <Progress
                         bg='alpha.100'
                         size='sm'
@@ -117,44 +122,51 @@ export const RegistrationTwoPage = () => {
                         data-test-id={DATA_TEST_ID.SING_UP_PROGRESS}
                     />
                 </VStack>
-                <FormControl id='login'>
+                <FormControl id={LoginPasswordEnum.LOGIN}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Логин для входа на сайт
+                        {AUTH_FORM.LOGIN_LABEL}
                     </FormLabel>
                     <Input
                         className={styles.form_input}
                         type='text'
-                        placeholder='Логин'
+                        placeholder={AUTH_FORM.LOGIN_PLACEHOLDER_SHORT}
                         bg='white'
                         size='lg'
                         borderColor={errors.login ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
-                        autoComplete='new-password'
+                        autoComplete='username'
                         {...usernameReg}
-                        onBlur={(e) => handleBlurTrim(e, 'login', setValue, loginRegister.onBlur)}
+                        onBlur={(e) =>
+                            handleBlurTrim(
+                                e,
+                                LoginPasswordEnum.LOGIN,
+                                setValue,
+                                loginRegister.onBlur,
+                            )
+                        }
                         data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                     />
                     <Text className={styles.message} mt={1}>
-                        Логин не менее 5 символов, только латиница
+                        {AUTH_FORM.LOGIN_PROMPT}
                     </Text>
                     {errors.login ? (
                         <Text className={styles.message} color='red.500' mt={1}>
                             {errors.login.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 
-                <FormControl id='password'>
+                <FormControl id={LoginPasswordEnum.PASSWORD}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Пароль
+                        {AUTH_FORM.PASSWORD_LABEL}
                     </FormLabel>
                     <InputGroup>
                         <Input
                             className={styles.form_input}
                             type={isShowPassword ? 'text' : 'password'}
-                            placeholder='Пароль'
+                            placeholder={AUTH_FORM.PASSWORD_PLACEHOLDER_SHORT}
                             bg='white'
                             size='lg'
                             borderColor={errors.password ? 'red' : 'lime.150'}
@@ -174,29 +186,29 @@ export const RegistrationTwoPage = () => {
                         </InputRightElement>
                     </InputGroup>
                     <Text className={styles.message} mt={1}>
-                        Пароль не менее 8 символов, с заглавной буквой и цифрой
+                        {AUTH_FORM.PASSWORD_LABEL}
                     </Text>
                     {errors.password ? (
                         <Text className={styles.message} color='red.500' mt={1}>
                             {errors.password.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 
-                <FormControl id='confirmPassword'>
+                <FormControl id={LoginPasswordEnum.CONFIRM_PASSWORD}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Повторите пароль
+                        {AUTH_FORM.CONFIRM_PASSWORD_LABEL}
                     </FormLabel>
                     <InputGroup>
                         <Input
                             className={styles.form_input}
                             type={isShowConfirmPassword ? 'text' : 'password'}
-                            placeholder='Повторите пароль'
+                            placeholder={AUTH_FORM.CONFIRM_PASSWORD_PLACEHOLDER}
                             bg='white'
                             size='lg'
-                            borderColor={errors.confirmPassword ? 'red' : 'lime.150'}
+                            borderColor={errors.passwordConfirm ? 'red' : 'lime.150'}
                             autoComplete='new-password'
                             _focus={{ boxShadow: 'none' }}
                             {...confirmPasswordReg}
@@ -212,12 +224,12 @@ export const RegistrationTwoPage = () => {
                             />
                         </InputRightElement>
                     </InputGroup>
-                    {errors.confirmPassword ? (
+                    {errors.passwordConfirm ? (
                         <Text className={styles.message} color='red.500' mt={1}>
-                            {errors.confirmPassword.message}
+                            {errors.passwordConfirm.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 

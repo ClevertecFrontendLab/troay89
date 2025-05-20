@@ -15,7 +15,7 @@ import {
     setIndexTab,
     setNameRecipe,
 } from '~/store/slice/indexCategoriesSubcategoriesSlice';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './CardSlider.module.css';
 

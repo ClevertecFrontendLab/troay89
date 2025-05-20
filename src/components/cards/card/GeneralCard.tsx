@@ -12,7 +12,7 @@ import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './GeneralCard.module.css';
 

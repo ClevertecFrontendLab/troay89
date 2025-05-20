@@ -20,11 +20,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
+import { LoginPasswordEnum } from '~/app/pages/registration-login-password-page/loginPasswordEnum';
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { Overlay } from '~/components/overlay/Overlay';
+import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
@@ -73,7 +75,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
         }
     };
 
-    const loginRegister = register('login');
+    const loginRegister = register(LoginPasswordEnum.LOGIN);
 
     const heading = 'Восстановление \nаккаунта';
     return (
@@ -118,52 +120,57 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                         w='full'
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <FormControl id='login'>
+                        <FormControl id={LoginPasswordEnum.LOGIN}>
                             <FormLabel className={styles.form_control} mb={1}>
-                                Логин для входа на сайт
+                                {AUTH_FORM.LOGIN_LABEL}
                             </FormLabel>
                             <Input
                                 className={styles.form_input}
                                 type='text'
-                                placeholder='Логин'
+                                placeholder={AUTH_FORM.LOGIN_PLACEHOLDER_SHORT}
                                 bg='white'
                                 size='lg'
                                 borderColor={errors.login ? 'red' : 'lime.150'}
                                 autoComplete='username'
                                 _focus={{ boxShadow: 'none' }}
-                                {...register('login')}
+                                {...register(LoginPasswordEnum.LOGIN)}
                                 onBlur={(e) =>
-                                    handleBlurTrim(e, 'login', setValue, loginRegister.onBlur)
+                                    handleBlurTrim(
+                                        e,
+                                        LoginPasswordEnum.LOGIN,
+                                        setValue,
+                                        loginRegister.onBlur,
+                                    )
                                 }
                                 data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                             />
                             <Text className={styles.message} mt={1}>
-                                Логин не менее 5 символов, только латиница
+                                {AUTH_FORM.LOGIN_PROMPT}
                             </Text>
                             {errors.login ? (
                                 <Text className={styles.message} color='red.500' mt={1}>
                                     {errors.login.message}
                                 </Text>
                             ) : (
-                                <Box h={5}></Box>
+                                <Box h={5} />
                             )}
                         </FormControl>
 
-                        <FormControl id='password'>
+                        <FormControl id={LoginPasswordEnum.PASSWORD}>
                             <FormLabel className={styles.form_control} mb={1}>
-                                Пароль
+                                {AUTH_FORM.PASSWORD_LABEL}
                             </FormLabel>
                             <InputGroup>
                                 <Input
                                     className={styles.form_input}
                                     type={isShowPassword ? 'text' : 'password'}
-                                    placeholder='Пароль'
+                                    placeholder={AUTH_FORM.PASSWORD_PLACEHOLDER_SHORT}
                                     bg='white'
                                     size='lg'
                                     autoComplete='new-password'
                                     borderColor={errors.password ? 'red' : 'lime.150'}
                                     _focus={{ boxShadow: 'none' }}
-                                    {...register('password')}
+                                    {...register(LoginPasswordEnum.PASSWORD)}
                                     data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
                                 />
                                 <InputRightElement boxSize={12}>
@@ -177,32 +184,32 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                 </InputRightElement>
                             </InputGroup>
                             <Text className={styles.message} mt={1}>
-                                Пароль не менее 8 символов, с заглавной буквой и цифрой
+                                {AUTH_FORM.CONFIRM_PASSWORD_LABEL}
                             </Text>
                             {errors.password ? (
                                 <Text className={styles.message} color='red.500' mt={1}>
                                     {errors.password.message}
                                 </Text>
                             ) : (
-                                <Box h={5}></Box>
+                                <Box h={5} />
                             )}
                         </FormControl>
 
-                        <FormControl id='passwordConfirm'>
+                        <FormControl id={LoginPasswordEnum.CONFIRM_PASSWORD}>
                             <FormLabel className={styles.form_control} mb={1}>
-                                Повторите пароль
+                                {AUTH_FORM.CONFIRM_PASSWORD_LABEL}
                             </FormLabel>
                             <InputGroup>
                                 <Input
                                     className={styles.form_input}
                                     type={isShowConfirmPassword ? 'text' : 'password'}
                                     autoComplete='new-password'
-                                    placeholder='Повторите пароль'
+                                    placeholder={AUTH_FORM.CONFIRM_PASSWORD_PLACEHOLDER}
                                     bg='white'
                                     size='lg'
                                     borderColor={errors.passwordConfirm ? 'red' : 'lime.150'}
                                     _focus={{ boxShadow: 'none' }}
-                                    {...register('passwordConfirm')}
+                                    {...register(LoginPasswordEnum.CONFIRM_PASSWORD)}
                                     data-test-id={DATA_TEST_ID.CONFIRM_PASSWORD_INPUT}
                                 />
                                 <InputRightElement boxSize={12}>
@@ -220,7 +227,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
                                     {errors.passwordConfirm.message}
                                 </Text>
                             ) : (
-                                <Box h={5}></Box>
+                                <Box h={5} />
                             )}
                         </FormControl>
 

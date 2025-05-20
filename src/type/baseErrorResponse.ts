@@ -1,4 +1,4 @@
-export interface BaseErrorResponse {
+export type BaseErrorResponse = {
     message?: string;
     [key: string]: unknown;
-}
+};

@@ -39,8 +39,6 @@ export type RecipeType = {
     garnish: string;
 };
 
-export default RecipeType;
-
 export type PaginationMeta = {
     total: number;
     page: number;

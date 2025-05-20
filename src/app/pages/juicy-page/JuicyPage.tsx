@@ -10,7 +10,7 @@ import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
-import RecipeType from '~/type/RecipeType';
+import RecipeType from '~/type/recipeType';
 
 import { MainBlock } from './components/main-block/MainBlock';
 

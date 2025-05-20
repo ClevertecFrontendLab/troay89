@@ -13,7 +13,7 @@ import {
     peas,
     wash,
 } from '~/assets/images/aside/nav';
-import { CategoriesResponse } from '~/type/Category';
+import { CategoriesResponse } from '~/type/category';
 
 export const dataNavigation: CategoriesResponse = [
     {

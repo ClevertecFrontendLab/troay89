@@ -15,19 +15,21 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Location, useLocation, useNavigate } from 'react-router';
 
-import { VerificationFailedModal } from '~/components/modal/verification-failded-module/VerificationFailedModal';
+import { VerificationFailedModal } from '~/components/modal/verification-failed-module/VerificationFailedModal';
+import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { setFirstPartDataCreateUser } from '~/store/slice/firstPartDataCreateUser';
+import { VerificationState } from '~/type/verificationState';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
-import { RegistrationOneData, registrationOneSchema } from './registrationOneSchema';
-import styles from './RegistrationPageOne.module.css';
+import { RegistrationFieldsEnum } from './registrationFieldsEnum';
+import styles from './RegistrationNameEmail.module.css';
+import {
+    registrationNameEmailData,
+    registrationNameEmailSchema,
+} from './registrationNameEmailSchema';
 
-type VerificationState = {
-    emailVerified?: 'true' | 'false' | undefined;
-};
-
-export const RegistrationOnePage = () => {
+export const RegistrationNameEmailPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation() as Location<VerificationState>;
@@ -42,29 +44,29 @@ export const RegistrationOnePage = () => {
         watch,
         setValue,
         formState: { errors },
-    } = useForm<RegistrationOneData>({
-        resolver: yupResolver(registrationOneSchema),
+    } = useForm<registrationNameEmailData>({
+        resolver: yupResolver(registrationNameEmailSchema),
         mode: 'onChange',
     });
 
-    const firstNameValue = watch('firstName');
-    const lastNameValue = watch('lastName');
-    const emailValue = watch('email');
+    const firstNameValue = watch(RegistrationFieldsEnum.FIRST_NAME);
+    const lastNameValue = watch(RegistrationFieldsEnum.LAST_NAME);
+    const emailValue = watch(RegistrationFieldsEnum.EMAIL);
 
     const validInputsCount =
         (!errors.firstName && firstNameValue ? 1 : 0) +
         (!errors.lastName && lastNameValue ? 1 : 0) +
         (!errors.email && emailValue ? 1 : 0);
 
-    const onSubmit = (data: RegistrationOneData) => {
+    const onSubmit = (data: registrationNameEmailData) => {
         dispatch(setFirstPartDataCreateUser(data));
         navigate('/account/finish-registration');
     };
     const progressValue = (validInputsCount / 6) * 100;
 
-    const firstNameReg = register('firstName');
-    const lastNameReg = register('lastName');
-    const emailReg = register('email');
+    const firstNameReg = register(RegistrationFieldsEnum.FIRST_NAME);
+    const lastNameReg = register(RegistrationFieldsEnum.LAST_NAME);
+    const emailReg = register(RegistrationFieldsEnum.EMAIL);
 
     return (
         <Flex align='center' justify='center' w='100%'>
@@ -77,7 +79,7 @@ export const RegistrationOnePage = () => {
                 data-test-id={DATA_TEST_ID.SIGN_UP_FORM}
             >
                 <VStack w='100%' alignItems='flex-start' gap={0} mb={5}>
-                    <Text className={styles.form_control}>Шаг 1. Личная информация</Text>
+                    <Text className={styles.form_control}>{AUTH_FORM.STEP_ONE}</Text>
                     <Progress
                         bg='alpha.100'
                         size='sm'
@@ -87,21 +89,26 @@ export const RegistrationOnePage = () => {
                         data-test-id={DATA_TEST_ID.SING_UP_PROGRESS}
                     />
                 </VStack>
-                <FormControl id='firstName'>
+                <FormControl id={RegistrationFieldsEnum.FIRST_NAME}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Ваше имя
+                        {AUTH_FORM.NAME_LABEL}
                     </FormLabel>
                     <Input
                         className={styles.form_input}
                         type='text'
-                        placeholder='Имя'
+                        placeholder={AUTH_FORM.NAME_PLACEHOLDER}
                         bg='white'
                         size='lg'
                         borderColor={errors.firstName ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...firstNameReg}
                         onBlur={(e) =>
-                            handleBlurTrim(e, 'firstName', setValue, firstNameReg.onBlur)
+                            handleBlurTrim(
+                                e,
+                                RegistrationFieldsEnum.FIRST_NAME,
+                                setValue,
+                                firstNameReg.onBlur,
+                            )
                         }
                         data-test-id={DATA_TEST_ID.FIRST_NAME_INPUT}
                     />
@@ -110,24 +117,31 @@ export const RegistrationOnePage = () => {
                             {errors.firstName.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 
-                <FormControl id='lastName'>
+                <FormControl id={RegistrationFieldsEnum.LAST_NAME}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Ваша фамилия
+                        {AUTH_FORM.LAST_NAME_LABEL}
                     </FormLabel>
                     <Input
                         className={styles.form_input}
                         type='text'
-                        placeholder='Фамилия'
+                        placeholder={AUTH_FORM.LAST_NAME_PLACEHOLDER}
                         bg='white'
                         size='lg'
                         borderColor={errors.lastName ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...lastNameReg}
-                        onBlur={(e) => handleBlurTrim(e, 'lastName', setValue, lastNameReg.onBlur)}
+                        onBlur={(e) =>
+                            handleBlurTrim(
+                                e,
+                                RegistrationFieldsEnum.LAST_NAME,
+                                setValue,
+                                lastNameReg.onBlur,
+                            )
+                        }
                         data-test-id={DATA_TEST_ID.LAST_NAME_INPUT}
                     />
                     {errors.lastName ? (
@@ -135,24 +149,31 @@ export const RegistrationOnePage = () => {
                             {errors.lastName.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 
-                <FormControl id='email'>
+                <FormControl id={RegistrationFieldsEnum.EMAIL}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Ваш e-mail
+                        {AUTH_FORM.EMAIL_LABEL}
                     </FormLabel>
                     <Input
                         className={styles.form_input}
                         type='email'
-                        placeholder='e-mail'
+                        placeholder={AUTH_FORM.EMAIL_PLACEHOLDER}
                         bg='white'
                         size='lg'
                         borderColor={errors.email ? 'red' : 'lime.150'}
                         _focus={{ boxShadow: 'none' }}
                         {...emailReg}
-                        onBlur={(e) => handleBlurTrim(e, 'email', setValue, emailReg.onBlur)}
+                        onBlur={(e) =>
+                            handleBlurTrim(
+                                e,
+                                RegistrationFieldsEnum.EMAIL,
+                                setValue,
+                                emailReg.onBlur,
+                            )
+                        }
                         data-test-id={DATA_TEST_ID.EMAIL_INPUT}
                     />
                     {errors.email ? (
@@ -160,7 +181,7 @@ export const RegistrationOnePage = () => {
                             {errors.email.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 

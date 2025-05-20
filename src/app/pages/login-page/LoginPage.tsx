@@ -26,19 +26,18 @@ import { PasswordRecovery } from '~/components/modal/password-recovery/PasswordR
 import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
 import { ResetPasswordModal } from '~/components/modal/reset-password-modal/ResetPasswordModal';
 import { Overlay } from '~/components/overlay/Overlay';
+import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { useLoginMutation } from '~/store/slice/api/api-slice';
+import { VerificationState } from '~/type/verificationState';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
+import { LoginFields } from './loginFieldsEnum';
 import styles from './LoginPage.module.css';
 import { LoginData, loginSchema } from './loginSchema';
-
-type VerificationState = {
-    emailVerified?: 'true' | 'false';
-};
 
 export const LoginPage = () => {
     const {
@@ -72,7 +71,6 @@ export const LoginPage = () => {
 
     const performLogin = async (data: LoginData) => {
         try {
-            ``;
             await loginUser(data).unwrap();
             setIsShowModalLoginFailed(false);
             navigate('/', { replace: true });
@@ -89,7 +87,7 @@ export const LoginPage = () => {
         }
     };
 
-    const loginRegister = register('login');
+    const loginRegister = register(LoginFields.LOGIN);
 
     const handleRetry = async () => {
         if (!lastLoginData) return;
@@ -114,20 +112,22 @@ export const LoginPage = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 data-test-id={DATA_TEST_ID.SING_IN_FORM}
             >
-                <FormControl id='login'>
+                <FormControl id={LoginFields.LOGIN}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Логин для входа на сайт
+                        {AUTH_FORM.LOGIN_LABEL}
                     </FormLabel>
                     <Input
                         className={styles.form_input}
                         type='text'
-                        placeholder='Введите логин'
+                        placeholder={AUTH_FORM.PASSWORD_PLACEHOLDER}
                         bg='white'
                         size='lg'
                         _focus={{ boxShadow: 'none' }}
                         borderColor={errors.login || isOpenError ? 'red' : 'lime.150'}
-                        {...register('login')}
-                        onBlur={(e) => handleBlurTrim(e, 'login', setValue, loginRegister.onBlur)}
+                        {...register(LoginFields.LOGIN)}
+                        onBlur={(e) =>
+                            handleBlurTrim(e, LoginFields.LOGIN, setValue, loginRegister.onBlur)
+                        }
                         data-test-id={DATA_TEST_ID.LOGIN_INPUT}
                     />
                     {errors.login ? (
@@ -135,25 +135,25 @@ export const LoginPage = () => {
                             {errors.login.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 
-                <FormControl id='password'>
+                <FormControl id={LoginFields.PASSWORD}>
                     <FormLabel className={styles.form_control} mb={1}>
-                        Пароль
+                        {AUTH_FORM.PASSWORD_LABEL}
                     </FormLabel>
                     <InputGroup>
                         <Input
                             className={styles.form_input}
                             type={isShowPassword ? 'text' : 'password'}
-                            placeholder='Пароль для сайта'
+                            placeholder={AUTH_FORM.PASSWORD_PLACEHOLDER}
                             bg='white'
                             size='lg'
                             borderColor={errors.password || isOpenError ? 'red' : 'lime.150'}
-                            autoComplete='password'
+                            autoComplete={LoginFields.PASSWORD}
                             _focus={{ boxShadow: 'none' }}
-                            {...register('password')}
+                            {...register(LoginFields.PASSWORD)}
                             data-test-id={DATA_TEST_ID.PASSWORD_INPUT}
                         />
                         <InputRightElement
@@ -171,7 +171,7 @@ export const LoginPage = () => {
                             {errors.password.message}
                         </Text>
                     ) : (
-                        <Box h={5}></Box>
+                        <Box h={5} />
                     )}
                 </FormControl>
 
@@ -195,7 +195,7 @@ export const LoginPage = () => {
                 onClick={() => setIsShowModalRecovery(true)}
                 data-test-id={DATA_TEST_ID.FORGOT_PASSWORD}
             >
-                Забыли логин или пароль?
+                {AUTH_FORM.FORGOT_LOGIN_PASSWORD}
             </Link>
             {isOpenError && !isShowModalLoginFailed && (
                 <ErrorModal

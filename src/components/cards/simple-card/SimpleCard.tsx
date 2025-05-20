@@ -1,7 +1,7 @@
 import { Card, Heading, Text } from '@chakra-ui/react';
 
 import { CardStats } from '~/components/card-stats/CardStats';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './SimpleCard.module.css';
 

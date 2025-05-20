@@ -2,7 +2,7 @@ import { Button, Flex } from '@chakra-ui/react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import RecipeType, { PaginationMeta } from '~/type/RecipeType';
+import RecipeType, { PaginationMeta } from '~/type/recipeType';
 
 import styles from './MainBlock.module.css';
 

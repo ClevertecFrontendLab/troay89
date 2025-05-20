@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { CardSlider } from '~/app/pages/start-page/components/card-slider/CardSlider';
 import { SliderButton } from '~/app/pages/start-page/components/slider-button/SliderButton';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import RecipeType from '~/type/RecipeType';
+import RecipeType from '~/type/recipeType';
 
 import styles from './SwiperSlider.module.css';
 
