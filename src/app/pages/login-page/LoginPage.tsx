@@ -13,8 +13,7 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Location, useLocation, useNavigate } from 'react-router';
 
@@ -28,16 +27,17 @@ import { PinInputModal } from '~/components/modal/pinInput-modal/PinInputModal';
 import { ResetPasswordModal } from '~/components/modal/reset-password-modal/ResetPasswordModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { ERROR_MESSAGE } from '~/constants/errorMessage';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
+import { useHandleError } from '~/hooks/useErrorHandler';
 import { useLoginMutation } from '~/store/slice/api/api-slice';
+import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './LoginPage.module.css';
 import { LoginData, loginSchema } from './loginSchema';
 
 type VerificationState = {
-    emailVerified?: 'true' | 'false' | undefined;
+    emailVerified?: 'true' | 'false';
 };
 
 export const LoginPage = () => {
@@ -51,10 +51,10 @@ export const LoginPage = () => {
         mode: 'onBlur',
     });
 
-    const navigate = useNavigate();
     const [loginUser, { isLoading, isError }] = useLoginMutation();
     const location = useLocation() as Location<VerificationState>;
     const emailVerified = location.state?.emailVerified;
+    const navigate = useNavigate();
 
     const [lastLoginData, setLastLoginData] = useState<LoginData | null>(null);
     const [title, setTitle] = useState('');
@@ -68,30 +68,22 @@ export const LoginPage = () => {
     const [isShowAlertSuccessModal, setIsShowAlertSuccessModal] = useState(false);
     const [isShowPassword, setIsShowPassword] = useState(false);
 
-    useEffect(() => {
-        setIsOpenError(isError);
-    }, [isError]);
+    const handleError = useHandleError(setTitle, setNotification, 'login');
 
     const performLogin = async (data: LoginData) => {
         try {
-            const response = await loginUser(data).unwrap();
-            if (response.accessToken) {
-                localStorage.setItem('accessToken', response.accessToken);
-                navigate('/', { replace: true });
-            }
+            ``;
+            await loginUser(data).unwrap();
             setIsShowModalLoginFailed(false);
-        } catch (err) {
-            if (err && typeof err === 'object' && 'status' in err) {
-                const error = err as FetchBaseQueryError;
-                if (error.status === 401) {
-                    setTitle(ERROR_MESSAGE.INCORRECT_LOGIN);
-                    setNotification(ERROR_MESSAGE.INCORRECT_LOGIN_NOTIFICATION);
-                } else if (error.status === 403) {
-                    setTitle(ERROR_MESSAGE.EMAIL_NOT_VERIFIED);
-                    setNotification(ERROR_MESSAGE.EMAIL_NOT_VERIFIED_NOTIFICATION);
-                } else if (typeof error.status === 'number' && error.status >= 500) {
+            navigate('/', { replace: true });
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                if (typeof error.status === 'number' && error.status >= 500) {
                     setIsOpenError(false);
                     setIsShowModalLoginFailed(true);
+                } else {
+                    setIsOpenError(true);
+                    handleError(error);
                 }
             }
         }

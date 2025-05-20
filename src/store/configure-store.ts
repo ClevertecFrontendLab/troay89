@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from './slice/api/api-slice';
 import getArrayCategoryReducer from './slice/arrayCategory';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
+import authErrorReducer from './slice/authErrorSlice';
 import firstPartDataCreateUserReducer from './slice/firstPartDataCreateUser';
 import headerZIndexReducer from './slice/headerZIndex';
 import indexTabsReducer from './slice/indexCategoriesSubcategoriesSlice';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
     getStateSwitchAllergen: stateSwitchAllergenReducer,
     firstPartDataCreateUser: firstPartDataCreateUserReducer,
     getSaveEmail: saveEmailReducer,
+    authError: authErrorReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

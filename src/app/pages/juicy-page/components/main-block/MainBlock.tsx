@@ -16,26 +16,22 @@ type MainBlockType = {
 export const MainBlock = ({ recipes, meta, page, onLoadMore }: MainBlockType) => (
     <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
         <Flex className={styles.card_container} mb={4} gap={4}>
-            {recipes &&
-                recipes.map(
-                    (
-                        { _id, image, title, description, categoriesIds, bookmarks, likes },
-                        index,
-                    ) => (
-                        <GeneraCard
-                            key={_id}
-                            _id={_id}
-                            image={image}
-                            title={title}
-                            description={description}
-                            categoriesIds={categoriesIds}
-                            favorites={bookmarks}
-                            like={likes}
-                            dataTest={`${DATA_TEST_ID.FOOD_CARD}-${index}`}
-                            dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${index}`}
-                        />
-                    ),
-                )}
+            {recipes?.map(
+                ({ _id, image, title, description, categoriesIds, bookmarks, likes }, index) => (
+                    <GeneraCard
+                        key={_id}
+                        _id={_id}
+                        image={image}
+                        title={title}
+                        description={description}
+                        categoriesIds={categoriesIds}
+                        favorites={bookmarks}
+                        like={likes}
+                        dataTest={`${DATA_TEST_ID.FOOD_CARD}-${index}`}
+                        dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${index}`}
+                    />
+                ),
+            )}
         </Flex>
         {meta && page < meta.totalPages && (
             <Button

@@ -11,7 +11,6 @@ import {
     PinInputField,
     Text,
 } from '@chakra-ui/react';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -20,9 +19,10 @@ import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { ERROR_MESSAGE } from '~/constants/errorMessage';
+import { useHandleError } from '~/hooks/useErrorHandler';
 import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
 import { useVerifyOtpMutation } from '~/store/slice/api/api-slice';
+import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import styles from './PinInputModal.module.css';
 
@@ -55,6 +55,7 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
         </>
     );
     const errorCode = 'Неверный код';
+    const handleError = useHandleError(setTitle, setNotification, 'otp');
 
     const handlePinChange = (value: string) => {
         setCode(value);
@@ -71,19 +72,17 @@ export const PinInputModal = ({ isOpen, onClose, isOpenNextModule }: PinInputMod
             onClose();
             isOpenNextModule();
             close();
-        } catch (err) {
-            setIsOtpFailedOpen(true);
-            if (err && typeof err === 'object' && 'status' in err) {
-                const error = err as FetchBaseQueryError;
-                if (typeof error.status === 'number' && error.status >= 500) {
-                    setTitle(ERROR_MESSAGE.ERROR_SERVER);
-                    setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
-                } else if (error.status === 403) {
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                if (error.status === 403) {
                     setPinError(true);
                     setIsOtpFailedOpen(false);
                     if (firstInputRef.current) {
                         firstInputRef.current.focus();
                     }
+                } else {
+                    handleError(error);
+                    setIsOtpFailedOpen(true);
                 }
             }
         }

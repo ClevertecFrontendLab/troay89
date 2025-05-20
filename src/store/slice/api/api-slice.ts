@@ -121,10 +121,15 @@ export const apiSlice = createApi({
                 credentials: 'include',
                 body: data,
             }),
-            transformResponse: (response: unknown, meta) => {
-                const parsedResponse = response as Response;
-                const accessToken = meta?.response?.headers.get('Authentication-Access') ?? null;
-                return { ...parsedResponse, accessToken };
+            async onQueryStarted(_, { queryFulfilled }) {
+                const result = await queryFulfilled;
+                const accessToken = result.meta?.response?.headers.get('Authentication-Access');
+
+                const oldToken = localStorage.getItem('accessToken');
+
+                if (accessToken && accessToken !== oldToken) {
+                    localStorage.setItem('accessToken', accessToken);
+                }
             },
         }),
         forgotPassword: build.mutation<Response, ForgotPasswordData>({

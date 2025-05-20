@@ -14,7 +14,6 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -24,7 +23,7 @@ import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { ERROR_MESSAGE } from '~/constants/errorMessage';
+import { useHandleError } from '~/hooks/useErrorHandler';
 import { useForgotPasswordMutation } from '~/store/slice/api/api-slice';
 import { setSaveEmail } from '~/store/slice/saveEmailSlice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
@@ -56,6 +55,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
     const [isVerificationFailedOpen, setIsVerificationFailedOpen] = useState(isError);
     const message =
         'Для восстановления входа введите ваш e-mail, куда можно отправить уникальный код';
+    const handleError = useHandleError(setTitle, setNotification, 'password-recovery');
 
     useEffect(() => {
         if (!isOpen) {
@@ -70,23 +70,10 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
             isOpenNextModule();
             dispatch(setSaveEmail(data.email));
         } catch (err) {
+            console.log(err, 'PasswordRecovery');
+            setIsVerificationFailedOpen(true);
             reset({ email: '' });
-            if (err && typeof err === 'object' && 'status' in err) {
-                const error = err as FetchBaseQueryError;
-                setIsVerificationFailedOpen(true);
-                if (error.status === 400) {
-                    setTitle(ERROR_MESSAGE.WAIT_MINUTE);
-                    setNotification('');
-                }
-                if (error.status === 403) {
-                    setTitle(ERROR_MESSAGE.EMAIL_NOT_EXITS);
-                    setNotification(ERROR_MESSAGE.EMAIL_NOT_EXITS_NOTIFICATION);
-                }
-                if (typeof error.status === 'number' && error.status >= 500) {
-                    setTitle(ERROR_MESSAGE.ERROR_SERVER);
-                    setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
-                }
-            }
+            handleError(err);
         }
     };
 
@@ -122,7 +109,13 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                     >
                         {message}
                     </Text>
-                    <VStack as='form' spacing={0} w='full' onSubmit={handleSubmit(onSubmit)}>
+                    <VStack
+                        as='form'
+                        spacing={0}
+                        w='full'
+                        onSubmit={handleSubmit(onSubmit)}
+                        noValidate
+                    >
                         <FormControl id='email'>
                             <FormLabel className={styles.form_control} mb={1}>
                                 Ваш e-mail
@@ -148,7 +141,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                                     {errors.email.message}
                                 </Text>
                             ) : (
-                                <Box h={6}></Box>
+                                <Box h={6} />
                             )}
                         </FormControl>
 

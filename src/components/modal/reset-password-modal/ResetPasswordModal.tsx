@@ -26,7 +26,7 @@ import CrossedEye from '~/components/icons/CrossedEye';
 import Eye from '~/components/icons/Eye';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { ERROR_MESSAGE } from '~/constants/errorMessage';
+import { useHandleError } from '~/hooks/useErrorHandler';
 import { getSaveEmail } from '~/store/selectors/saveEmailSliceSelector';
 import { useResetPasswordMutation } from '~/store/slice/api/api-slice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
@@ -58,6 +58,7 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
 
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
+    const handleError = useHandleError(setTitle, setNotification, 'reset-password');
 
     const email = useSelector(getSaveEmail);
 
@@ -67,10 +68,8 @@ export const ResetPasswordModal = ({ isOpen, onClose, isOpenNextModule }: ResetP
             isOpenNextModule();
             onClose();
         } catch (err) {
-            console.log(err);
             setIsResetPasswordFailedOpen(true);
-            setTitle(ERROR_MESSAGE.ERROR_SERVER);
-            setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
+            handleError(err);
         }
     };
 

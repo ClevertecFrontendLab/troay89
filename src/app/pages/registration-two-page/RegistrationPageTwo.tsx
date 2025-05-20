@@ -13,8 +13,7 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
@@ -24,7 +23,7 @@ import Eye from '~/components/icons/Eye';
 import { RegistrationModal } from '~/components/modal/registration-modal/RegistrationModal';
 import { Overlay } from '~/components/overlay/Overlay';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { ERROR_MESSAGE } from '~/constants/errorMessage';
+import { useHandleError } from '~/hooks/useErrorHandler';
 import { firstPartDataCreateUserSelector } from '~/store/selectors/firstPartDataCreateUserSelector';
 import { useRegistrationMutation } from '~/store/slice/api/api-slice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
@@ -35,10 +34,6 @@ import { RegistrationTwoData, registrationTwoSchema } from './registrationTwoSch
 export const RegistrationTwoPage = () => {
     const [registrationUser, { isLoading, isError }] = useRegistrationMutation();
     const [isOpenError, setIsOpenError] = useState(isError);
-
-    useEffect(() => {
-        setIsOpenError(isError);
-    }, [isError]);
 
     const {
         register,
@@ -62,6 +57,7 @@ export const RegistrationTwoPage = () => {
     const loginValue = watch('login');
     const passwordValue = watch('password');
     const confirmPasswordValue = watch('confirmPassword');
+    const handleError = useHandleError(setTitle, setNotification, 'registration');
 
     const loginRegister = register('login');
 
@@ -79,31 +75,8 @@ export const RegistrationTwoPage = () => {
                 await registrationUser(registrationData).unwrap();
                 setIsShowModal(true);
             } catch (err) {
-                if (err && typeof err === 'object' && 'status' in err) {
-                    const error = err as FetchBaseQueryError;
-                    if (
-                        error.status === 400 &&
-                        error.data &&
-                        typeof error.data === 'object' &&
-                        'message' in error.data
-                    ) {
-                        const message = (error.data as { message: string }).message;
-                        if (message.toLowerCase().includes('email')) {
-                            setTitle(ERROR_MESSAGE.EMAIL_EXITS);
-                            setNotification('');
-                        } else if (
-                            message.toLowerCase().includes('login') ||
-                            message.toLowerCase().includes('username')
-                        ) {
-                            setTitle(ERROR_MESSAGE.LOGIN_EXITS);
-                            setNotification('');
-                        }
-                    }
-                    if (typeof error.status === 'number' && error.status >= 500) {
-                        setTitle(ERROR_MESSAGE.ERROR_SERVER);
-                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
-                    }
-                }
+                setIsOpenError(true);
+                handleError(err);
             }
         }
     };

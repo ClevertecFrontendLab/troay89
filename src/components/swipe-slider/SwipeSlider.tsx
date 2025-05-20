@@ -51,30 +51,29 @@ export const SwipeSlider = ({ swipeData }: SwipeSlideType) => {
                         },
                     }}
                 >
-                    {swipeData &&
-                        swipeData.map(
-                            (
-                                { _id, image, title, description, categoriesIds, bookmarks, likes },
-                                index,
-                            ) => (
-                                <SwiperSlide
+                    {swipeData?.map(
+                        (
+                            { _id, image, title, description, categoriesIds, bookmarks, likes },
+                            index,
+                        ) => (
+                            <SwiperSlide
+                                key={_id}
+                                className={styles.swiper_slide}
+                                data-test-id={`${DATA_TEST_ID.CAROUSEL_CARD}-${index}`}
+                            >
+                                <CardSlider
                                     key={_id}
-                                    className={styles.swiper_slide}
-                                    data-test-id={`${DATA_TEST_ID.CAROUSEL_CARD}-${index}`}
-                                >
-                                    <CardSlider
-                                        key={_id}
-                                        _id={_id}
-                                        image={image}
-                                        categoriesIds={categoriesIds}
-                                        title={title}
-                                        description={description}
-                                        favorites={bookmarks}
-                                        like={likes}
-                                    />
-                                </SwiperSlide>
-                            ),
-                        )}
+                                    _id={_id}
+                                    image={image}
+                                    categoriesIds={categoriesIds}
+                                    title={title}
+                                    description={description}
+                                    favorites={bookmarks}
+                                    like={likes}
+                                />
+                            </SwiperSlide>
+                        ),
+                    )}
                 </Swiper>
             </Box>
             <SliderButton dataTest={DATA_TEST_ID.CAROUSEL_FORWARD} reverse onClick={handleNext} />

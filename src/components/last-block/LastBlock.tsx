@@ -20,28 +20,26 @@ export const LastBlock = ({ lastBlockData, randomCategory }: LastBlockType) => (
         )}
         <Flex className={styles.cards_container}>
             <Flex className={styles.simple_cards_container}>
-                {lastBlockData &&
-                    lastBlockData
-                        .slice(0, 2)
-                        .map(({ _id, title, description, bookmarks, likes }: RecipeType) => (
-                            <SimpleCard
-                                key={_id}
-                                _id={_id}
-                                title={title}
-                                description={description}
-                                category={randomCategory}
-                                bookmarks={bookmarks}
-                                likes={likes}
-                            />
-                        ))}
+                {lastBlockData
+                    ?.slice(0, 2)
+                    .map(({ _id, title, description, bookmarks, likes }: RecipeType) => (
+                        <SimpleCard
+                            key={_id}
+                            _id={_id}
+                            title={title}
+                            description={description}
+                            category={randomCategory}
+                            bookmarks={bookmarks}
+                            likes={likes}
+                        />
+                    ))}
             </Flex>
             <Flex className={styles.long_cards_container}>
-                {lastBlockData &&
-                    lastBlockData
-                        .slice(2)
-                        .map(({ _id, title }: RecipeType) => (
-                            <LongCard key={_id} image={randomCategory?.icon} title={title} />
-                        ))}
+                {lastBlockData
+                    ?.slice(2)
+                    .map(({ _id, title }: RecipeType) => (
+                        <LongCard key={_id} image={randomCategory?.icon} title={title} />
+                    ))}
             </Flex>
         </Flex>
     </Flex>
