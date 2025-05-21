@@ -12,7 +12,6 @@ export const AccountLayout = () => (
         bg='linear-gradient(208deg, #eaffc7 0%, #29813f 100%);'
         overflowY='hidden'
         h='100vh'
-        minH={{ base: '800px', bp76: '1024px', bp160: '1120px' }}
         position='relative'
     >
         <Flex
@@ -23,8 +22,8 @@ export const AccountLayout = () => (
         >
             <Box
                 mx='auto'
-                mt={{ base: '72px', bp95: '140px', bp115: '170px' }}
-                mb={{ base: '40px', bp95: '56px', bp115: '80px' }}
+                mt={{ base: '72px', bp76: '140px', bp115: '170px' }}
+                mb={{ base: '40px', bp76: '56px', bp115: '80px' }}
             >
                 <Icon
                     as={Logo}
@@ -39,8 +38,8 @@ export const AccountLayout = () => (
             <Box
                 className={styles.text}
                 as='footer'
-                ml={{ base: '26px', bp160: '31px' }}
-                mb={{ base: '25px', bp160: '31px' }}
+                ml={{ base: '26px', bp76: '28px', bp160: '6px' }}
+                mb={{ base: '25px', bp76: '30px', bp160: '30px' }}
                 mt='auto'
             >
                 {LAYOUT.FOTER_TEXT}

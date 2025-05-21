@@ -1,9 +1,14 @@
 import * as yup from 'yup';
 
+import { VALIDATY } from '~/constants/validation';
+
 export const loginSchema = yup
     .object({
-        login: yup.string().required('Введите логин').max(50, 'Максимальная длина 50 символов'),
-        password: yup.string().required('Введите пароль').max(50, 'Максимальная длина 50 символов'),
+        login: yup.string().required(VALIDATY.ERR_REQUIRED_LOGIN).max(50, VALIDATY.ERR_MAX_LENGTH),
+        password: yup
+            .string()
+            .required(VALIDATY.ERR_REQUIRED_PASSWORD)
+            .max(50, VALIDATY.ERR_MAX_LENGTH),
     })
     .required();
 

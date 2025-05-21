@@ -1,20 +1,11 @@
-import {
-    Box,
-    Button,
-    Flex,
-    FormControl,
-    FormLabel,
-    Input,
-    Progress,
-    Text,
-    VStack,
-} from '@chakra-ui/react';
+import { Button, Flex, Progress, Text, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Location, useLocation, useNavigate } from 'react-router';
 
+import { CommonInputField } from '~/components/common-input-field/CommonInputField';
 import { VerificationFailedModal } from '~/components/modal/verification-failed-module/VerificationFailedModal';
 import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
@@ -89,101 +80,60 @@ export const RegistrationNameEmailPage = () => {
                         data-test-id={DATA_TEST_ID.SING_UP_PROGRESS}
                     />
                 </VStack>
-                <FormControl id={RegistrationFieldsEnum.FIRST_NAME}>
-                    <FormLabel className={styles.form_control} mb={1}>
-                        {AUTH_FORM.NAME_LABEL}
-                    </FormLabel>
-                    <Input
-                        className={styles.form_input}
-                        type='text'
-                        placeholder={AUTH_FORM.NAME_PLACEHOLDER}
-                        bg='white'
-                        size='lg'
-                        borderColor={errors.firstName ? 'red' : 'lime.150'}
-                        _focus={{ boxShadow: 'none' }}
-                        {...firstNameReg}
-                        onBlur={(e) =>
-                            handleBlurTrim(
-                                e,
-                                RegistrationFieldsEnum.FIRST_NAME,
-                                setValue,
-                                firstNameReg.onBlur,
-                            )
-                        }
-                        data-test-id={DATA_TEST_ID.FIRST_NAME_INPUT}
-                    />
-                    {errors.firstName ? (
-                        <Text className={styles.message} color='red.500' mt={1}>
-                            {errors.firstName.message}
-                        </Text>
-                    ) : (
-                        <Box h={5} />
-                    )}
-                </FormControl>
+                <CommonInputField
+                    id={RegistrationFieldsEnum.FIRST_NAME}
+                    label={AUTH_FORM.NAME_LABEL}
+                    type='text'
+                    placeholder={AUTH_FORM.NAME_PLACEHOLDER}
+                    autoComplete='off'
+                    register={firstNameReg}
+                    error={errors.firstName?.message}
+                    handleBlur={(e) =>
+                        handleBlurTrim(
+                            e,
+                            RegistrationFieldsEnum.FIRST_NAME,
+                            setValue,
+                            firstNameReg.onBlur,
+                        )
+                    }
+                    dataTestId={DATA_TEST_ID.FIRST_NAME_INPUT}
+                    borderColor={errors.firstName ? 'red' : 'lime.150'}
+                />
 
-                <FormControl id={RegistrationFieldsEnum.LAST_NAME}>
-                    <FormLabel className={styles.form_control} mb={1}>
-                        {AUTH_FORM.LAST_NAME_LABEL}
-                    </FormLabel>
-                    <Input
-                        className={styles.form_input}
-                        type='text'
-                        placeholder={AUTH_FORM.LAST_NAME_PLACEHOLDER}
-                        bg='white'
-                        size='lg'
-                        borderColor={errors.lastName ? 'red' : 'lime.150'}
-                        _focus={{ boxShadow: 'none' }}
-                        {...lastNameReg}
-                        onBlur={(e) =>
-                            handleBlurTrim(
-                                e,
-                                RegistrationFieldsEnum.LAST_NAME,
-                                setValue,
-                                lastNameReg.onBlur,
-                            )
-                        }
-                        data-test-id={DATA_TEST_ID.LAST_NAME_INPUT}
-                    />
-                    {errors.lastName ? (
-                        <Text className={styles.message} color='red.500' mt={1}>
-                            {errors.lastName.message}
-                        </Text>
-                    ) : (
-                        <Box h={5} />
-                    )}
-                </FormControl>
+                <CommonInputField
+                    id={RegistrationFieldsEnum.LAST_NAME}
+                    label={AUTH_FORM.LAST_NAME_LABEL}
+                    type='text'
+                    placeholder={AUTH_FORM.LAST_NAME_PLACEHOLDER}
+                    autoComplete='off'
+                    register={lastNameReg}
+                    error={errors.lastName?.message}
+                    handleBlur={(e) =>
+                        handleBlurTrim(
+                            e,
+                            RegistrationFieldsEnum.LAST_NAME,
+                            setValue,
+                            lastNameReg.onBlur,
+                        )
+                    }
+                    dataTestId={DATA_TEST_ID.LAST_NAME_INPUT}
+                    borderColor={errors.lastName ? 'red' : 'lime.150'}
+                />
 
-                <FormControl id={RegistrationFieldsEnum.EMAIL}>
-                    <FormLabel className={styles.form_control} mb={1}>
-                        {AUTH_FORM.EMAIL_LABEL}
-                    </FormLabel>
-                    <Input
-                        className={styles.form_input}
-                        type='email'
-                        placeholder={AUTH_FORM.EMAIL_PLACEHOLDER}
-                        bg='white'
-                        size='lg'
-                        borderColor={errors.email ? 'red' : 'lime.150'}
-                        _focus={{ boxShadow: 'none' }}
-                        {...emailReg}
-                        onBlur={(e) =>
-                            handleBlurTrim(
-                                e,
-                                RegistrationFieldsEnum.EMAIL,
-                                setValue,
-                                emailReg.onBlur,
-                            )
-                        }
-                        data-test-id={DATA_TEST_ID.EMAIL_INPUT}
-                    />
-                    {errors.email ? (
-                        <Text className={styles.message} color='red.500' mt={1}>
-                            {errors.email.message}
-                        </Text>
-                    ) : (
-                        <Box h={5} />
-                    )}
-                </FormControl>
+                <CommonInputField
+                    id={RegistrationFieldsEnum.EMAIL}
+                    label={AUTH_FORM.EMAIL_LABEL}
+                    type='email'
+                    placeholder={AUTH_FORM.EMAIL_PLACEHOLDER}
+                    autoComplete='email'
+                    register={emailReg}
+                    error={errors.email?.message}
+                    handleBlur={(e) =>
+                        handleBlurTrim(e, RegistrationFieldsEnum.EMAIL, setValue, emailReg.onBlur)
+                    }
+                    dataTestId={DATA_TEST_ID.EMAIL_INPUT}
+                    borderColor={errors.email ? 'red' : 'lime.150'}
+                />
 
                 <Button
                     className={styles.button}

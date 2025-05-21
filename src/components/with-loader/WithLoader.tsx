@@ -6,10 +6,10 @@ export const withLoader =
     <P extends object>(Component: ComponentType<P>, LoaderComponent: ComponentType = Overlay) =>
     (props: P & { isLoading?: boolean }) => {
         const { isLoading, ...rest } = props;
-
-        if (isLoading) {
-            return <LoaderComponent />;
-        }
-
-        return <Component {...(rest as P)} />;
+        return (
+            <>
+                <Component {...(rest as P)} />
+                {isLoading && <LoaderComponent />}
+            </>
+        );
     };

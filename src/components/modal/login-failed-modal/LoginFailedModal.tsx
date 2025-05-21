@@ -32,7 +32,7 @@ export const LoginFailedModule = ({ isOpen, onRetry, onClose }: LoginFailedModul
                 maxW={{ base: '316px', bp115: '396px' }}
                 alignItems='center'
                 m={0}
-                borderRadius={4}
+                borderRadius='16px'
             >
                 <Image src={noExit} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                 <Icon

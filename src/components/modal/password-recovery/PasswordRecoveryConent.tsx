@@ -1,11 +1,7 @@
 import {
-    Box,
     Button,
-    FormControl,
-    FormLabel,
     Icon,
     Image,
-    Input,
     Modal,
     ModalBody,
     ModalContent,
@@ -20,8 +16,9 @@ import { useDispatch } from 'react-redux';
 
 import { noExit } from '~/assets/images/modal-mage';
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
+import { CommonInputField } from '~/components/common-input-field/CommonInputField';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
-import { Overlay } from '~/components/overlay/Overlay';
+import { withLoader } from '~/components/with-loader/WithLoader';
 import { AUTH_FORM } from '~/constants/authForm';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useHandleError } from '~/hooks/useErrorHandler';
@@ -30,15 +27,23 @@ import { setSaveEmail } from '~/store/slice/saveEmailSlice';
 import { handleBlurTrim } from '~/utils/TrimOnBlur';
 
 import styles from './PasswordRecovery.module.css';
-import { passwordRecovery, PasswordRecoveryData } from './PasswordRecoverySchema';
+import { PasswordRecoveryData, passwordRecoverySchema } from './PasswordRecoverySchema';
 
-type LoginFailedModuleType = {
+type PasswordRecoveryConentProps = {
+    forgotPassword: ReturnType<typeof useForgotPasswordMutation>[0];
+    isError: boolean;
     isOpen: boolean;
     onClose: () => void;
-    isOpenNextModule: () => void;
+    onOpenNextModule: () => void;
 };
 
-export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFailedModuleType) => {
+const PasswordRecoveryContent = ({
+    forgotPassword,
+    isError,
+    isOpen,
+    onClose,
+    onOpenNextModule,
+}: PasswordRecoveryConentProps) => {
     const dispatch = useDispatch();
     const {
         register,
@@ -47,10 +52,9 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         reset,
         formState: { errors },
     } = useForm<PasswordRecoveryData>({
-        resolver: yupResolver(passwordRecovery),
+        resolver: yupResolver(passwordRecoverySchema),
         mode: 'onBlur',
     });
-    const [forgotPassword, { isLoading, isError }] = useForgotPasswordMutation();
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
     const [isVerificationFailedOpen, setIsVerificationFailedOpen] = useState(isError);
@@ -70,10 +74,9 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
         try {
             await forgotPassword(data).unwrap();
             onClose();
-            isOpenNextModule();
+            onOpenNextModule();
             dispatch(setSaveEmail(data.email));
         } catch (err) {
-            console.log(err, 'PasswordRecovery');
             setIsVerificationFailedOpen(true);
             reset({ email: '' });
             handleError(err);
@@ -109,6 +112,7 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                         pb={4}
                         whiteSpace='pre-line'
                         px={5}
+                        color='alpha.900'
                     >
                         {message}
                     </Text>
@@ -119,40 +123,29 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                         onSubmit={handleSubmit(onSubmit)}
                         noValidate
                     >
-                        <FormControl id={FIELD_EMAIL}>
-                            <FormLabel className={styles.form_control} mb={1}>
-                                {AUTH_FORM.EMAIL_LABEL}
-                            </FormLabel>
-                            <Input
-                                className={styles.form_input}
-                                type='email'
-                                placeholder={AUTH_FORM.EMAIL_PLACEHOLDER}
-                                bg='white'
-                                size='lg'
-                                _focus={{ boxShadow: 'none' }}
-                                borderColor={
-                                    errors.email || isVerificationFailedOpen ? 'red' : 'lime.150'
-                                }
-                                {...register(FIELD_EMAIL)}
-                                onBlur={(e) =>
-                                    handleBlurTrim(e, FIELD_EMAIL, setValue, emailRegister.onBlur)
-                                }
-                                data-test-id={DATA_TEST_ID.EMAIL_INPUT}
-                            />
-                            {errors.email ? (
-                                <Text className={styles.message} color='red.500' mt={1} mb={1}>
-                                    {errors.email.message}
-                                </Text>
-                            ) : (
-                                <Box h={6} />
-                            )}
-                        </FormControl>
+                        <CommonInputField
+                            id={FIELD_EMAIL}
+                            label={AUTH_FORM.EMAIL_LABEL}
+                            type='email'
+                            placeholder={AUTH_FORM.EMAIL_PLACEHOLDER}
+                            autoComplete='email'
+                            register={register(FIELD_EMAIL)}
+                            error={errors.email?.message}
+                            handleBlur={(e) =>
+                                handleBlurTrim(e, FIELD_EMAIL, setValue, emailRegister.onBlur)
+                            }
+                            dataTestId={DATA_TEST_ID.EMAIL_INPUT}
+                            borderColor={
+                                errors.email || isVerificationFailedOpen ? 'red' : 'lime.150'
+                            }
+                        />
 
                         <Button
                             className={styles.button}
                             maxW='100%'
                             width='100%'
                             px={0}
+                            mt={1}
                             bg='alpha.900'
                             color='white'
                             size='lg'
@@ -177,7 +170,8 @@ export const PasswordRecovery = ({ isOpen, onClose, isOpenNextModule }: LoginFai
                     />
                 )}
             </ModalContent>
-            {isLoading && <Overlay />}
         </Modal>
     );
 };
+
+export const PasswordRecoveryWithLoader = withLoader(PasswordRecoveryContent);

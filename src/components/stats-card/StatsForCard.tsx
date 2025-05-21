@@ -1,6 +1,8 @@
 import { Flex, Icon } from '@chakra-ui/react';
 import classNames from 'classnames';
 
+import { isNumberMoreZero } from '~/utils/isNumberMoreZero';
+
 import BookMark from '../icons/BookMark';
 import EmojiHeart from '../icons/EmojiHeart';
 import styles from './StatsForCard.module.css';
@@ -31,13 +33,13 @@ export const StatsForCard = ({
         })}
         gap={gapContainer}
     >
-        {favorites !== undefined && favorites > 0 && (
+        {isNumberMoreZero(favorites) && (
             <Flex className={styles.stats} gap={gapIcon}>
                 <Icon as={BookMark} boxSize={{ bp189: size, base: '12px' }} />
                 <span className={styles.number}>{favorites}</span>
             </Flex>
         )}
-        {like !== undefined && like > 0 && (
+        {isNumberMoreZero(like) && (
             <Flex className={styles.stats} gap={{ bp189: gapIcon, base: '6px' }}>
                 <Icon as={EmojiHeart} boxSize={{ bp189: size, base: '12px' }} />
                 <span className={styles.number}>{like}</span>

@@ -24,7 +24,7 @@ type RegistrationModalType = {
 };
 
 export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalType) => {
-    const title = 'Остался последний шаг. Нужно верифицировать ваш e-mail';
+    const title = 'Остался последний шаг. Нужно верифицировать \nваш\u00A0e-mail';
     const navigate = useNavigate();
     const onCloseRedirict = () => {
         navigate('/account/login');
@@ -82,8 +82,8 @@ export const RegistrationModal = ({ email, isShow, onClose }: RegistrationModalT
                         px={{ base: '50px', bp115: '26px' }}
                         color='alpha.600'
                     >
-                        Не пришло письмо? Проверьте папку Спам. По
-                        другим&nbsp;вопросам&nbsp;свяжитесь{' '}
+                        Не пришло письмо? Проверьте&nbsp;папку Спам.
+                        По&nbsp;другим&nbsp;вопросам&nbsp;свяжитесь{' '}
                         <Link textDecor='underline'>с поддержкой</Link>
                     </Text>
                 </ModalBody>

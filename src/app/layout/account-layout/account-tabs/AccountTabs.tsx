@@ -2,7 +2,7 @@ import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { LoginPage } from '~/app/pages/login-page/LoginPage';
-import { RegistrationTwoPage } from '~/app/pages/registration-login-password-page/RegistrationLoginPasswordPage';
+import { RegistrationLoginPasswordPage } from '~/app/pages/registration-login-password-page/RegistrationLoginPasswordPage';
 import { RegistrationNameEmailPage } from '~/app/pages/registration-name-email-page/RegistrationNameEmailPage';
 
 import styles from './AccountTabs.module.css';
@@ -19,13 +19,13 @@ export const AccountTabs = () => {
     };
 
     const curentPage = location.pathname.endsWith('finish-registration') ? (
-        <RegistrationTwoPage />
+        <RegistrationLoginPasswordPage />
     ) : (
         <RegistrationNameEmailPage />
     );
 
     return (
-        <Box maxW={{ base: '328px', bp95: '355px', bp115: '451px', bp160: '461px' }} mx='auto'>
+        <Box maxW={{ base: '328px', bp76: '355px', bp115: '451px', bp160: '461px' }} mx='auto'>
             <Tabs
                 className={styles.tabs}
                 index={tabIndex}
@@ -37,7 +37,7 @@ export const AccountTabs = () => {
                 <TabList
                     borderBottom='2px solid'
                     borderColor='gray.200'
-                    mb={10}
+                    mb='42px'
                     gap='16px'
                     position='relative'
                     zIndex={20}

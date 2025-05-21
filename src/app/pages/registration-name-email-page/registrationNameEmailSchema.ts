@@ -1,25 +1,27 @@
 import * as yup from 'yup';
 
+import { VALIDATY } from '~/constants/validation';
+
 export const registrationNameEmailSchema = yup
     .object({
         firstName: yup
             .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите имя')
-            .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
-            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"'),
+            .max(50, VALIDATY.ERR_MAX_LENGTH)
+            .required(VALIDATY.ERR_REQUIRED_FIRST_NAME)
+            .matches(VALIDATY.REGEX_FIRST_LETTER_CYRILLIC, VALIDATY.ERR_FIRST_LETTER_CYRILLIC)
+            .matches(VALIDATY.REGEX_ONLY_CYRILLIC, VALIDATY.ERR_ONLY_CYRILLIC),
         lastName: yup
             .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите фамилию')
-            .matches(/^[А-Я]/, 'Должно начинаться с кириллицы А-Я')
-            .matches(/^[А-Я][а-я-]*$/, 'Только кириллица А-Я, и "-"'),
+            .max(50, VALIDATY.ERR_MAX_LENGTH)
+            .required(VALIDATY.ERR_REQUIRED_LAST_NAME)
+            .matches(VALIDATY.REGEX_FIRST_LETTER_CYRILLIC, VALIDATY.ERR_FIRST_LETTER_CYRILLIC)
+            .matches(VALIDATY.REGEX_ONLY_CYRILLIC, VALIDATY.ERR_ONLY_CYRILLIC),
         email: yup
             .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите e-mail')
-            .email('Введите корректный e-mail')
-            .matches(/\.[A-Za-z]{2,}$/, 'Введите корректный e-mail'),
+            .max(50, VALIDATY.ERR_MAX_LENGTH)
+            .required(VALIDATY.ERR_REQUIRED_EMAIL)
+            .email(VALIDATY.ERR_INVALID_EMAIL)
+            .matches(VALIDATY.REGEX_EMAIL, VALIDATY.ERR_INVALID_EMAIL),
     })
     .required();
 

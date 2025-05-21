@@ -15,7 +15,7 @@ export const AUTH_FORM = {
     LOGIN_PLACEHOLDER_SHORT: 'Логин',
     LOGIN_PROMPT: 'Логин не менее 5 символов, только латиница',
     PASSWORD_PLACEHOLDER_SHORT: 'Пароль',
-    PASSWORD_PLACEHOLDER_PROMPT: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+    PASSWORD_PROMPT: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
     CONFIRM_PASSWORD_LABEL: 'Повторите пароль',
     CONFIRM_PASSWORD_PLACEHOLDER: 'Повторите пароль',
 };

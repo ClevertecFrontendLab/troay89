@@ -1,16 +1,18 @@
 import * as yup from 'yup';
 
+import { VALIDATY } from '~/constants/validation';
+
 export type PasswordRecoveryData = {
     email: string;
 };
 
-export const passwordRecovery = yup
+export const passwordRecoverySchema = yup
     .object({
         email: yup
             .string()
-            .max(50, 'Максимальная длина 50 символов')
-            .required('Введите e-mail')
-            .email('Введите корректный e-mail')
-            .matches(/\.[A-Za-z]{2,}$/, 'Введите корректный e-mail'),
+            .max(50, VALIDATY.ERR_MAX_LENGTH)
+            .required(VALIDATY.ERR_REQUIRED_EMAIL)
+            .email(VALIDATY.ERR_INVALID_EMAIL)
+            .matches(VALIDATY.REGEX_EMAIL, VALIDATY.ERR_INVALID_EMAIL),
     })
     .required();
