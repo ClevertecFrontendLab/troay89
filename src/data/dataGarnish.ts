@@ -1,4 +1,4 @@
-const dataGarnish = [
+export const dataGarnish = [
     'Картошка',
     'Гречка',
     'Паста',
@@ -8,5 +8,3 @@ const dataGarnish = [
     'Фасоль',
     'Другие овощи',
 ];
-
-export default dataGarnish;

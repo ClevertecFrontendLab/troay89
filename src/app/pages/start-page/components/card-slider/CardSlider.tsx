@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 
 import { fallback } from '~/assets/images/header';
-import CardStats from '~/components/card-stats/CardStats';
-import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
-import StatsForCard from '~/components/stats-card/StatsForCard';
+import { CardStats } from '~/components/card-stats/CardStats';
+import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
+import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import {
@@ -14,8 +14,8 @@ import {
     setIndexRecipe,
     setIndexTab,
     setNameRecipe,
-} from '~/store/slice/indexCategorisSubcategoriesSlice';
-import { Category } from '~/type/Category';
+} from '~/store/slice/indexCategoriesSubcategoriesSlice';
+import { Category } from '~/type/category';
 
 import styles from './CardSlider.module.css';
 
@@ -29,7 +29,7 @@ type CardSliderProps = {
     image?: string;
 };
 
-function CardSlider({
+export const CardSlider = ({
     _id,
     image,
     title,
@@ -37,7 +37,7 @@ function CardSlider({
     categoriesIds,
     favorites,
     like,
-}: CardSliderProps) {
+}: CardSliderProps) => {
     const dispatch = useDispatch();
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
     const categories = useSelector(getArrayCategorySelector);
@@ -95,7 +95,12 @@ function CardSlider({
                     objectPosition='center'
                 />
                 <Stack className={styles.content}>
-                    <Heading className={styles.title_card} as='h3' noOfLines={{ bp95: 1, base: 2 }}>
+                    <Heading
+                        className={styles.title_card}
+                        title={title}
+                        as='h3'
+                        noOfLines={{ bp95: 1, base: 2 }}
+                    >
                         {title}
                     </Heading>
                     <Text className={styles.description_card} noOfLines={3}>
@@ -144,6 +149,4 @@ function CardSlider({
             </CardBody>
         </Card>
     );
-}
-
-export default CardSlider;
+};

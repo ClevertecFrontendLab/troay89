@@ -20,14 +20,23 @@ const alphaColors = {
     300: 'rgba(0, 0, 0, 0.16)',
     400: 'rgba(0, 0, 0, 0.24)',
     600: 'rgba(0, 0, 0, 0.48)',
+    700: 'rgba(0, 0, 0, 0.64)',
     800: 'rgba(0, 0, 0, 0.8)',
     900: 'rgba(0, 0, 0, 0.92)',
 };
 
 const limeColors = {
+    50: '#c4ff61',
+    100: '#eaffc7',
+    150: '#d7ff94',
+    200: '#c4ff61',
     300: '#c4ff61',
     400: '#b1ff2e',
+    500: '#c4ff61',
     600: '#2db100',
+    700: '#207e00',
+    800: '#134b00',
+    900: '#c4ff61',
 };
 
 const customTheme = extendTheme({
@@ -57,14 +66,10 @@ const customTheme = extendTheme({
     },
 });
 
-function App() {
-    return (
-        <ChakraProvider theme={customTheme}>
-            <BrowserRouter>
-                <AppRouter />
-            </BrowserRouter>
-        </ChakraProvider>
-    );
-}
-
-export default App;
+export const App = () => (
+    <ChakraProvider theme={customTheme}>
+        <BrowserRouter>
+            <AppRouter />
+        </BrowserRouter>
+    </ChakraProvider>
+);

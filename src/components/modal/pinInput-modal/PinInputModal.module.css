@@ -1,0 +1,24 @@
+p.text {
+    font: var(--font-inter-bread);
+    color: var(--black-alpha-900);
+}
+
+p.advice {
+    font: var(--font-inter-text);
+    color: var(--black-alpha-600);
+}
+
+.pin_input {
+    font: var(--font-inter-button-second);
+    color: var(--color-lime-800);
+}
+
+.pin_input::placeholder {
+    font: var(--font-inter-button-second);
+    color: var(--color-lime-800);
+}
+
+.message {
+    font: var(--font-inter-text);
+    color: var(--red-500);
+}

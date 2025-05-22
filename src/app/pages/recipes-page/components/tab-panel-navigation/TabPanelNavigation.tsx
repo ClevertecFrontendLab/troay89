@@ -13,18 +13,18 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router';
 
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import GeneraCard from '~/components/cards/card/GeneralCard';
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import {
     setActiveSubcategoryId,
     setIndexTab,
-} from '~/store/slice/indexCategorisSubcategoriesSlice';
-import { Category } from '~/type/Category';
-import RecipeType, { PaginationMeta } from '~/type/RecipeType';
+} from '~/store/slice/indexCategoriesSubcategoriesSlice';
+import { Category } from '~/type/category';
+import RecipeType, { PaginationMeta } from '~/type/recipeType';
 
 import styles from './TabPanelNavigation.module.css';
 
@@ -37,14 +37,14 @@ type TabPanelNavigationType = {
     meta?: PaginationMeta;
 };
 
-function TabPanelNavigation({
+export const TabPanelNavigation = ({
     getCategory,
     recipes,
     page,
     isFetching,
     onLoadMore,
     meta,
-}: TabPanelNavigationType) {
+}: TabPanelNavigationType) => {
     const dispatch = useDispatch();
     const { currentIndex } = useNavigationIndices();
     const tabListRef = useRef<HTMLDivElement | null>(null);
@@ -88,7 +88,7 @@ function TabPanelNavigation({
         if (isFetching) {
             return (
                 <Flex h='250px' justifyContent='center' alignItems='center'>
-                    <Spinner />
+                    <Spinner data-test-id={DATA_TEST_ID.APP_LOADER} />
                 </Flex>
             );
         }
@@ -134,7 +134,7 @@ function TabPanelNavigation({
             );
         }
 
-        if (!isErrorFilterRecipes && filterRecipes.length > 0) {
+        if (!isErrorFilterRecipes && filterRecipes && filterRecipes.length > 0) {
             return (
                 <FilterSortBlock
                     filterSearchRecipes={filterRecipes}
@@ -198,6 +198,4 @@ function TabPanelNavigation({
             )}
         </Flex>
     );
-}
-
-export default TabPanelNavigation;
+};

@@ -9,13 +9,16 @@ import {
     InputRightElement,
     useDisclosure,
 } from '@chakra-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import classNames from 'classnames';
+import { ChangeEvent, RefObject, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
 import {
+    setAllResult,
     setListCategory,
     setListTypeDishes,
     setListTypeMeats,
@@ -25,16 +28,18 @@ import {
 import { setZIndex } from '~/store/slice/headerZIndex';
 import { setOverlayPosition } from '~/store/slice/overlayPosition';
 
-import DrawerFilter from '../drawer-filter/DrawerFilter';
+import { DrawerFilter } from '../drawer-filter/DrawerFilter';
 import FilterIcon from '../icons/FilterIcon';
 import SearchIcon from '../icons/SearchIcon';
 import styles from './SearchFilter.module.css';
 
 type SearchFilterType = {
     listAllergin: string[];
+    prevPathRef: RefObject<string | null>;
 };
 
-function SearchFilter({ listAllergin }: SearchFilterType) {
+export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) => {
+    const location = useLocation();
     const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const shouldShowFilterResults = useSelector(shouldShowFilterResultsSelector);
@@ -42,14 +47,23 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
     const [isSearchRecipes, setIsSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
 
+    const { id } = useParams();
     const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
 
-    const handleFilterButton = () => {
+    const resetParamsFilter = () => {
         dispatch(setListCategory([]));
         dispatch(setListTypeMeats([]));
         dispatch(setListTypeDishes([]));
-        onOpen();
+        dispatch(setAllResult([]));
+        dispatch(setResultSearch(''));
+        setTextSearch('');
+        setIsSearchRecipes(false);
         dispatch(setOverlayPosition(true));
+    };
+
+    const handleFilterButton = () => {
+        resetParamsFilter();
+        onOpen();
     };
 
     const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +92,13 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
     };
 
     useEffect(() => {
+        if (prevPathRef.current !== location.pathname && !id) {
+            resetParamsFilter();
+            prevPathRef.current = location.pathname;
+        }
+    }, [location.pathname, prevPathRef, id]);
+
+    useEffect(() => {
         if (resultSearch.length > 2) {
             setIsSearchRecipes(shouldShowFilterResults);
         }
@@ -98,7 +119,7 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
             </Button>
             <InputGroup className={styles.search_wrapper}>
                 <Input
-                    className={`${styles.search} ${isSearchRecipes ? styles.not_found : ''}`}
+                    className={classNames(styles.search, { [styles.not_found]: isSearchRecipes })}
                     data-test-id={DATA_TEST_ID.SEARCH_INPUT}
                     placeholder='Название или ингредиент...'
                     value={textSearch}
@@ -136,6 +157,4 @@ function SearchFilter({ listAllergin }: SearchFilterType) {
             <DrawerFilter isOpen={isOpen} onClose={onClose} />
         </Flex>
     );
-}
-<Icon as={SearchIcon} height='22px' width='22px' />;
-export default SearchFilter;
+};

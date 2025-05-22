@@ -1,5 +1,6 @@
 import { Flex, Heading, Spinner, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import classNames from 'classnames';
+import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { listAllFiltersSelector } from '~/store/selectors/arrayResultFilterSelector';
@@ -8,9 +9,9 @@ import {
     overlayPositionSelector,
 } from '~/store/selectors/overlayPositionSelector';
 
-import AllergenSort from '../allergen-sort/AllergenSort';
+import { AllergenSort } from '../allergen-sort/AllergenSort';
 import { GreenTags } from '../green-tags/GreenTags';
-import SearchFilter from '../search-filter/SearchFilter';
+import { SearchFilter } from '../search-filter/SearchFilter';
 import styles from './Toolbar.module.css';
 
 type ToolbarProps = Partial<{
@@ -21,13 +22,14 @@ type ToolbarProps = Partial<{
     dataTestMenu: string;
 }>;
 
-function Toolbar({
+export const Toolbar = ({
     title,
     description,
     isExtraSpace,
     dateTestSwitch = 'allergens-switcher',
     dataTestMenu = 'allergens-menu-button',
-}: ToolbarProps) {
+}: ToolbarProps) => {
+    const prevPathRef = useRef<string>('/');
     const [listAllergin, setListAllergin] = useState<string[]>([]);
     const isFetchingFilterRecipes = useSelector(fetchingFilterSelector);
     const shouldShowOverlay = useSelector(overlayPositionSelector);
@@ -37,7 +39,7 @@ function Toolbar({
 
     return (
         <Flex
-            className={`${styles.container} ${isExtraSpace && styles.extra_space}`}
+            className={classNames(styles.container, { [styles.extra_space]: isExtraSpace })}
             direction='column'
             minHeight={{ base: '80px', bp115: '248px' }}
         >
@@ -60,7 +62,7 @@ function Toolbar({
                 </Flex>
             ) : (
                 <>
-                    <SearchFilter listAllergin={listAllergin} />
+                    <SearchFilter listAllergin={listAllergin} prevPathRef={prevPathRef} />
                     <AllergenSort
                         dataTestSwitch={dateTestSwitch}
                         dataTest={dataTestMenu}
@@ -74,6 +76,6 @@ function Toolbar({
             )}
         </Flex>
     );
-}
+};
 
 export default Toolbar;

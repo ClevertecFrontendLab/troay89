@@ -3,30 +3,28 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
-import LastBlock from '~/components/last-block/LastBlock';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
+import { LastBlock } from '~/components/last-block/LastBlock';
 import Toolbar from '~/components/toolbar/Toolbar';
 import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
-import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/app-slice';
-import { setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
-import { Category } from '~/type/Category';
-import RecipeType from '~/type/RecipeType';
+import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
+import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/api/api-slice';
+import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
+import { Category } from '~/type/category';
+import RecipeType from '~/type/recipeType';
 
-import TabPanelNavigation from './components/tab-panel-navigation/TabPanelNavigation';
+import { TabPanelNavigation } from './components/tab-panel-navigation/TabPanelNavigation';
 
-function RecipesPage() {
+export const RecipesPage = () => {
     const dispatch = useDispatch();
     const { category, subcategories } = useParams();
     const categories = useSelector(getArrayCategorySelector);
     const activeSubcategoryId = useSelector(activeSubcategoryIdSelector);
     const [getCategory, setCategory] = useState<Category | undefined>();
-    const { contSubcategory } = useGetCountSubcategory();
-    const [randomNumber, setRandomNumber] = useState(
-        Math.floor(Math.random() * contSubcategory - 1),
-    );
+    const { countSubcategory } = useGetCountSubcategory();
+    const [randomNumber, setRandomNumber] = useState(0);
     const [recipes, setRecipes] = useState<RecipeType[]>([]);
     const [page, setPage] = useState(1);
     const { randomCategory, lastBlockData, isErrorLastBlock } =
@@ -89,10 +87,10 @@ function RecipesPage() {
 
     useEffect(() => {
         if (category) {
-            setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
+            setRandomNumber(Math.floor(Math.random() * countSubcategory - 1));
             setCategory(newCategory);
         }
-    }, [category, contSubcategory, newCategory]);
+    }, [category, countSubcategory, newCategory]);
 
     useEffect(() => {
         setIsErrorOpen(hasError);
@@ -121,7 +119,6 @@ function RecipesPage() {
                 </Box>
             );
         }
-
         return null;
     };
 
@@ -131,6 +128,4 @@ function RecipesPage() {
             {renderMainContent()}
         </>
     );
-}
-
-export default RecipesPage;
+};

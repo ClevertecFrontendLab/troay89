@@ -5,7 +5,7 @@ type HighlightTextProps = {
     query: string;
 };
 
-export const HighlightText: React.FC<HighlightTextProps> = ({ text, query }) => {
+export const HighlightText = ({ text, query }: HighlightTextProps) => {
     if (!query) return <Text>{text}</Text>;
 
     const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

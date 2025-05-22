@@ -1,7 +1,7 @@
 import { alexAvatar, ekaterinaAvatar, elenaAvatar } from '~/assets/images/main-page';
 import UserRecommendProps from '~/type/userRecommendProps';
 
-const dataAuthorCards: UserRecommendProps[] = [
+export const dataAuthorCards: UserRecommendProps[] = [
     {
         nameRecommend: 'Елена Высоцкая',
         avatarRecommend: elenaAvatar,
@@ -24,5 +24,3 @@ const dataAuthorCards: UserRecommendProps[] = [
             'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
     },
 ];
-
-export default dataAuthorCards;

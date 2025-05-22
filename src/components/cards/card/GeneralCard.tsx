@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { fallback } from '~/assets/images/header';
-import FavoriteButton from '~/components/buttons/favorite-button/FavoriteButton';
-import SimpleButton from '~/components/buttons/simple-button/SimpleButton';
-import CardStats from '~/components/card-stats/CardStats';
+import { FavoriteButton } from '~/components/buttons/favorite-button/FavoriteButton';
+import { SimpleButton } from '~/components/buttons/simple-button/SimpleButton';
+import { CardStats } from '~/components/card-stats/CardStats';
 import { HighlightText } from '~/components/highlight-text/HighlightText';
-import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
-import StatsForCard from '~/components/stats-card/StatsForCard';
+import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
+import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './GeneralCard.module.css';
 
@@ -28,7 +28,7 @@ type GeneraCardProps = {
     dataTest?: string;
 };
 
-function GeneraCard({
+export const GeneraCard = ({
     _id,
     image,
     title,
@@ -38,7 +38,7 @@ function GeneraCard({
     like,
     dataTest,
     dataTestButton,
-}: GeneraCardProps) {
+}: GeneraCardProps) => {
     const categories = useSelector(getArrayCategorySelector);
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
 
@@ -97,7 +97,12 @@ function GeneraCard({
                     <StatsForCard favorites={favorites} like={like} isMobile />
                 </CardHeader>
                 <Flex className={styles.card_body} direction='column' justify='end'>
-                    <Heading className={styles.subtitle} as='h3' noOfLines={{ base: 2, bp95: 1 }}>
+                    <Heading
+                        className={styles.subtitle}
+                        title={title}
+                        as='h3'
+                        noOfLines={{ base: 2, bp95: 1 }}
+                    >
                         <HighlightText text={title} query={resultSearch} />
                     </Heading>
                     <Text as='span' className={styles.description} noOfLines={3}>
@@ -133,6 +138,6 @@ function GeneraCard({
             </Flex>
         </Card>
     );
-}
+};
 
 export default GeneraCard;

@@ -5,10 +5,10 @@ import { useRef } from 'react';
 import type { Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import CardSlider from '~/app/pages/start-page/components/card-slider/CardSlider';
-import SliderButton from '~/app/pages/start-page/components/slider-button/SliderButton';
+import { CardSlider } from '~/app/pages/start-page/components/card-slider/CardSlider';
+import { SliderButton } from '~/app/pages/start-page/components/slider-button/SliderButton';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import RecipeType from '~/type/RecipeType';
+import RecipeType from '~/type/recipeType';
 
 import styles from './SwiperSlider.module.css';
 
@@ -16,14 +16,7 @@ type SwipeSlideType = {
     swipeData?: RecipeType[];
 };
 
-function SwipeSlider({ swipeData }: SwipeSlideType) {
-    const swipeDataFilter =
-        swipeData &&
-        [...swipeData]?.sort(
-            (firstRecipe, secondRecipe) =>
-                new Date(secondRecipe.createdAt).getTime() -
-                new Date(firstRecipe.createdAt).getTime(),
-        );
+export const SwipeSlider = ({ swipeData }: SwipeSlideType) => {
     const swiperRef = useRef<SwiperClass | null>(null);
 
     const handlePrev = () => {
@@ -58,35 +51,32 @@ function SwipeSlider({ swipeData }: SwipeSlideType) {
                         },
                     }}
                 >
-                    {swipeDataFilter &&
-                        swipeDataFilter.map(
-                            (
-                                { _id, image, title, description, categoriesIds, bookmarks, likes },
-                                index,
-                            ) => (
-                                <SwiperSlide
+                    {swipeData?.map(
+                        (
+                            { _id, image, title, description, categoriesIds, bookmarks, likes },
+                            index,
+                        ) => (
+                            <SwiperSlide
+                                key={_id}
+                                className={styles.swiper_slide}
+                                data-test-id={`${DATA_TEST_ID.CAROUSEL_CARD}-${index}`}
+                            >
+                                <CardSlider
                                     key={_id}
-                                    className={styles.swiper_slide}
-                                    data-test-id={`${DATA_TEST_ID.CAROUSEL_CARD}-${index}`}
-                                >
-                                    <CardSlider
-                                        key={_id}
-                                        _id={_id}
-                                        image={image}
-                                        categoriesIds={categoriesIds}
-                                        title={title}
-                                        description={description}
-                                        favorites={bookmarks}
-                                        like={likes}
-                                    />
-                                </SwiperSlide>
-                            ),
-                        )}
+                                    _id={_id}
+                                    image={image}
+                                    categoriesIds={categoriesIds}
+                                    title={title}
+                                    description={description}
+                                    favorites={bookmarks}
+                                    like={likes}
+                                />
+                            </SwiperSlide>
+                        ),
+                    )}
                 </Swiper>
             </Box>
             <SliderButton dataTest={DATA_TEST_ID.CAROUSEL_FORWARD} reverse onClick={handleNext} />
         </Box>
     );
-}
-
-export default SwipeSlider;
+};

@@ -1,26 +1,24 @@
-import { Box, Divider, Flex, Heading, useMediaQuery } from '@chakra-ui/react';
+import { Box, Divider, Heading, useMediaQuery } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router';
 
-import GreenButton from '~/components/buttons/green-button/GreenButton';
-import { ErrorModal } from '~/components/error-modal/ErrorModal';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
-import LastBlock from '~/components/last-block/LastBlock';
+import { LastBlock } from '~/components/last-block/LastBlock';
 import { Overlay } from '~/components/overlay/Overlay';
-import SwipeSlider from '~/components/swipe-slider/SwipeSlider';
+import { SwipeSlider } from '~/components/swipe-slider/SwipeSlider';
 import Toolbar from '~/components/toolbar/Toolbar';
 import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
-import useShouldShowFilterResults from '~/hooks/useShouldShowFilterResults';
+import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import { overlayPositionSelector } from '~/store/selectors/overlayPositionSelector';
-import { useGetRecipesQuery } from '~/store/slice/app-slice';
+import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
 
-import AuthorBlock from './components/author-block/AuthorBlock';
-import JuicyBlock from './components/juicy-block/JuicyBlock';
+import { AuthorBlock } from './components/author-block/AuthorBlock';
+import { JuicyBlock } from './components/juicy-block/JuicyBlock';
 import styles from './MaingPage.module.css';
 
-function MainPage() {
+export const MainPage = () => {
     const {
         shouldShowFilterResults,
         filterRecipes,
@@ -31,7 +29,6 @@ function MainPage() {
         handleLoadMoreFilter,
     } = useShouldShowFilterResults();
     const shouldShowOverlay = useSelector(overlayPositionSelector);
-    const [isTable] = useMediaQuery('(min-width: 767px)');
     const [isDesktop] = useMediaQuery('(min-width: 1200px)');
     const {
         data: juicyData,
@@ -43,23 +40,10 @@ function MainPage() {
         isError: isSwiperError,
         isFetching: isSwiperFetching,
     } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'asc' });
-    const { contSubcategory } = useGetCountSubcategory();
+    const { countSubcategory } = useGetCountSubcategory();
     const [randomNumber, setRandomNumber] = useState(0);
-    console.log(contSubcategory);
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
-
-    const veryCrazyHardDataTestMobileId = isDesktop
-        ? 'juiciest-link-mobile'
-        : isTable
-          ? 'juiciest-link'
-          : 'juiciest-link-mobile';
-
-    const veryCrazyHardDataTestIdDesktop = isDesktop
-        ? 'juiciest-link'
-        : isTable
-          ? ''
-          : 'juiciest-link';
 
     const isPending =
         (isJuiceFetching || isSwiperFetching || isLastBlockFetching || isFetchingFilterRecipes) &&
@@ -80,8 +64,8 @@ function MainPage() {
     }, [hasError]);
 
     useEffect(() => {
-        setRandomNumber(Math.floor(Math.random() * contSubcategory - 1));
-    }, [contSubcategory]);
+        setRandomNumber(Math.floor(Math.random() * countSubcategory - 1));
+    }, [countSubcategory]);
 
     if (isPending) {
         return <Overlay />;
@@ -100,26 +84,7 @@ function MainPage() {
                             Новые рецепты
                         </Heading>
                         <SwipeSlider swipeData={swiperData?.data} />
-                        <Flex className={styles.subtitle_container}>
-                            <Heading className={styles.subtitle} as='h2'>
-                                Самое сочное
-                            </Heading>
-                            <Link
-                                className={styles.button_desktop}
-                                to='/the-juiciest'
-                                data-test-id={veryCrazyHardDataTestIdDesktop}
-                            >
-                                <GreenButton text='Вся подборка' />
-                            </Link>
-                        </Flex>
                         <JuicyBlock juicyData={juicyData?.data} />
-                        <Link
-                            className={styles.button_mobile}
-                            to='/the-juiciest'
-                            data-test-id={veryCrazyHardDataTestMobileId}
-                        >
-                            <GreenButton text='Вся подборка' />
-                        </Link>
                         <AuthorBlock />
                         <Divider />
                         <LastBlock
@@ -134,7 +99,7 @@ function MainPage() {
             );
         }
 
-        if (!hasError && filterRecipes.length > 0) {
+        if (!hasError && filterRecipes && filterRecipes.length > 0) {
             return (
                 <FilterSortBlock
                     filterSearchRecipes={filterRecipes}
@@ -159,6 +124,4 @@ function MainPage() {
             {renderMainContent()}
         </>
     );
-}
-
-export default MainPage;
+};

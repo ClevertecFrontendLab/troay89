@@ -16,7 +16,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 
 import UpDown from '~/components/icons/UpDown';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import { Ingredient } from '~/type/RecipeType';
+import { Ingredient } from '~/type/recipeType';
 
 import styles from './TableIndegrients.module.css';
 
@@ -25,7 +25,7 @@ type TableIngredients = {
     ingredients: Ingredient[];
 };
 
-function TableIngredients({ portions, ingredients }: TableIngredients) {
+export const TableIngredients = ({ portions, ingredients }: TableIngredients) => {
     const [countPortion, setCountPortion] = useState(1);
     const [originalPortions, setOriginalPortions] = useState(portions);
     const [arrayIngredients, setArrayIngredients] = useState(ingredients);
@@ -127,6 +127,4 @@ function TableIngredients({ portions, ingredients }: TableIngredients) {
             </Table>
         </TableContainer>
     );
-}
-
-export default TableIngredients;
+};

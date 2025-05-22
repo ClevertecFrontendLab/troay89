@@ -12,6 +12,7 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
@@ -30,7 +31,7 @@ type MultiSelectProps = {
     dataTest?: string;
 };
 
-function MultiSelect({
+export const MultiSelect = ({
     widthMenu,
     textPlaceHolder,
     isDisable,
@@ -39,7 +40,7 @@ function MultiSelect({
     isBottomInput,
     onSelectionChange,
     dataTest,
-}: MultiSelectProps) {
+}: MultiSelectProps) => {
     const [customAllergen, setCustomAllergen] = useState('');
 
     const getSelectedLabel = () => {
@@ -101,9 +102,9 @@ function MultiSelect({
                         }
                     >
                         <Flex
-                            className={
-                                typeof selectedLabel !== 'string' ? styles.container_label : ''
-                            }
+                            className={classNames({
+                                [styles.container_label]: typeof selectedLabel !== 'string',
+                            })}
                             flexWrap='wrap'
                             gap={2}
                         >
@@ -187,6 +188,4 @@ function MultiSelect({
             )}
         </Menu>
     );
-}
-
-export default MultiSelect;
+};

@@ -14,7 +14,7 @@ import {
     wash,
 } from '~/assets/images/aside/nav';
 
-const dataCategoryIcons: { [key: string]: string } = {
+export const dataCategoryIcons: { [key: string]: string } = {
     Салаты: baclazan,
     Закуски: eating,
     'Первые блюда': pat,
@@ -29,5 +29,3 @@ const dataCategoryIcons: { [key: string]: string } = {
     Заготовки: pasta,
     Напитки: cup,
 };
-
-export default dataCategoryIcons;

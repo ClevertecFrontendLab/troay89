@@ -5,9 +5,9 @@ import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelecto
 
 export const useGetCountSubcategory = () => {
     const allCategory = useSelector(getArrayCategorySelector);
-    const contSubcategory = useMemo(
+    const countSubcategory = useMemo(
         () => allCategory.filter((category) => !category.subCategories).length,
         [allCategory],
     );
-    return { contSubcategory };
+    return { countSubcategory };
 };

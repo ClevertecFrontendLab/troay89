@@ -13,9 +13,9 @@ import {
     peas,
     wash,
 } from '~/assets/images/aside/nav';
-import { CategoriesResponse } from '~/type/Category';
+import { CategoriesResponse } from '~/type/category';
 
-const dataNavigation: CategoriesResponse = [
+export const dataNavigation: CategoriesResponse = [
     {
         _id: '67c46dc5f51967aa8390bee6',
         title: 'Салаты',
@@ -1476,5 +1476,3 @@ const dataNavigation: CategoriesResponse = [
         rootCategoryId: '67c4a2888de8ed789d508971',
     },
 ];
-
-export default dataNavigation;

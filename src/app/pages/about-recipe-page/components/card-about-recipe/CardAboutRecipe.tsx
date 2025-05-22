@@ -6,11 +6,11 @@ import { fallback } from '~/assets/images/header';
 import BookMark from '~/components/icons/BookMark';
 import Clock from '~/components/icons/Clock';
 import EmojiHeart from '~/components/icons/EmojiHeart';
-import LabelTypeFood from '~/components/label-type-food/LabelTypeFood';
-import StatsForCard from '~/components/stats-card/StatsForCard';
+import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
+import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { Category } from '~/type/Category';
+import { Category } from '~/type/category';
 
 import styles from './CardAboutRecipe.module.css';
 
@@ -24,7 +24,7 @@ type CardAboutRecipe = {
     time: string;
 };
 
-function CardAboutRecipe({
+export const CardAboutRecipe = ({
     title,
     image,
     bookmarks,
@@ -32,7 +32,7 @@ function CardAboutRecipe({
     description,
     time,
     categoriesIds,
-}: CardAboutRecipe) {
+}: CardAboutRecipe) => {
     const categories = useSelector(getArrayCategorySelector);
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
 
@@ -138,6 +138,4 @@ function CardAboutRecipe({
             </Flex>
         </Flex>
     );
-}
-
-export default CardAboutRecipe;
+};

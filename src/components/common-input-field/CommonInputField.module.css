@@ -1,0 +1,17 @@
+.form_control {
+    font: var(--font-inter-bread);
+}
+
+.form_input {
+    font: var(--font-inter-search);
+    color: var(--color-lime-800);
+}
+
+.message {
+    font: var(--font-inter-text);
+}
+
+.form_input::placeholder {
+    font: var(--font-inter-search);
+    color: var(--color-lime-800);
+}

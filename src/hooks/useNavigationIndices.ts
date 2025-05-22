@@ -5,12 +5,12 @@ import { useParams } from 'react-router';
 import {
     currentIndexSelector,
     indexNavigationButtonSelector,
-} from '~/store/selectors/indexCategorisSubcategoriesSliceSelector';
-import { setIndexButton, setIndexTab } from '~/store/slice/indexCategorisSubcategoriesSlice';
+} from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
+import { setIndexButton, setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
-import usePathCategoryData from './usePathCategoryData';
+import { usePathCategoryData } from './usePathCategoryData';
 
-export function useNavigationIndices() {
+export const useNavigationIndices = () => {
     const dispatch = useDispatch();
 
     const { category, subcategories } = useParams();
@@ -55,4 +55,4 @@ export function useNavigationIndices() {
         subcategories,
         currentIndex,
     };
-}
+};

@@ -5,6 +5,21 @@
     margin-bottom: 40px;
 }
 
+.subtitle_container {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+h2.subtitle {
+    font: var(--font-inter-subtitle);
+    margin-bottom: 24px;
+    letter-spacing: 1.7px;
+}
+
+.button_mobile {
+    display: none;
+}
+
 @media (max-width: 1900px) {
     div.juicy {
         flex-direction: column;
@@ -12,12 +27,35 @@
         align-items: center;
         gap: 16px;
     }
+
+    .subtitle_container .subtitle {
+        font-size: 36px;
+        line-height: 111%;
+        letter-spacing: 1.1px;
+        margin-bottom: 16px;
+    }
 }
 
 @media (max-width: 950px) {
+    .subtitle_container .subtitle {
+        font: var(--font-inter-subtitle-mobile);
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+    }
+
     div.juicy {
         flex-direction: row;
         margin-bottom: 12px;
+    }
+
+    .button_desktop {
+        display: none;
+    }
+
+    .button_mobile {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 32px;
     }
 }
 

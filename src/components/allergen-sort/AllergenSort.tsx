@@ -2,11 +2,11 @@ import { Flex, FormControl, FormLabel, Switch } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import dataAllergens from '~/data/dataAllergens';
+import { dataAllergens } from '~/data/dataAllergens';
 import { getStateSwitchAllergen } from '~/store/selectors/stateSwitchAllergenSelector';
 import { setStateSwitch } from '~/store/slice/stateSwitchAllergenSlice';
 
-import MultiSelect from '../multi-select/MultiSelect';
+import { MultiSelect } from '../multi-select/MultiSelect';
 import styles from './AllergenSort.module.css';
 
 type AllergenSortProps = {
@@ -19,7 +19,7 @@ type AllergenSortProps = {
     widthMenu?: string;
 };
 
-function AllergenSort({
+export const AllergenSort = ({
     isHiddenMobile,
     dataTestSwitch,
     dataTest,
@@ -27,7 +27,7 @@ function AllergenSort({
     direction = 'row',
     widthMenu = '234px',
     onSelectionChange,
-}: AllergenSortProps) {
+}: AllergenSortProps) => {
     const dispatch = useDispatch();
     const stateSwitch = useSelector(getStateSwitchAllergen);
     const [isDisable, setIsDisable] = useState(stateSwitch);
@@ -70,6 +70,4 @@ function AllergenSort({
             />
         </Flex>
     );
-}
-
-export default AllergenSort;
+};
