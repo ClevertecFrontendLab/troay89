@@ -10,11 +10,3 @@
 .button.border_color {
     border-color: var(--black-alpha-600);
 }
-
-div .text_area {
-    font: var(--font-inter-email);
-}
-
-.step {
-    font: var(--font-inter-title-table);
-}

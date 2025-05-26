@@ -4,9 +4,11 @@ import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/category';
 import { LoginDataType } from '~/type/loginDataType';
+import { MeasureUnitsResponse } from '~/type/measureUnitsResponse';
 import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
+import { UploadFileData } from '~/type/UploadFileData';
 
 import { PATH } from './constants';
 import {
@@ -17,6 +19,19 @@ import {
     ResetPasswordData,
     VerifyOtpData,
 } from './types';
+
+type DecodedAccessToken = {
+    userId: string;
+    login: string;
+    iat: number;
+    exp: number;
+};
+
+type UploadFileResponse = {
+    _id: string;
+    name: string;
+    url: string;
+};
 
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
@@ -30,6 +45,18 @@ export const apiSlice = createApi({
         }),
         getRecipe: build.query<RecipeType, CategoryPath>({
             query: ({ id }) => `${PATH.RECIPE}/${id}`,
+        }),
+        getMeasureUnits: build.query<MeasureUnitsResponse, void>({
+            query: () => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: PATH.MEASURE_INITS,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                        'Content-Type': 'application/json',
+                    },
+                };
+            },
         }),
         getRecipeByCategory: build.query<RecipeTypeResponse, RecipesCategoryQueryParams>({
             query: ({ id, page, limit, allergens, searchString }) => {
@@ -94,6 +121,21 @@ export const apiSlice = createApi({
                 return `recipe?${params.toString()}`;
             },
         }),
+        uploadFile: build.mutation<UploadFileResponse, UploadFileData>({
+            query: ({ file }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                const formData = new FormData();
+                formData.append('file', file);
+                return {
+                    url: PATH.FILE_UPLOAD,
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
         refresh: build.query<Response, void>({
             query: () => ({
                 url: PATH.AUTH_REFRESH,
@@ -131,6 +173,10 @@ export const apiSlice = createApi({
 
                 if (accessToken && accessToken !== oldToken) {
                     localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, accessToken);
+                    const [_, payload] = accessToken.split('.');
+                    const decodedPayload = JSON.parse(atob(payload)) as DecodedAccessToken;
+                    console.log(decodedPayload, 'decodedPayload');
+                    localStorage.setItem(STORAGE_KEY.DECODED_PAYLOAD, decodedPayload.userId);
                 }
             },
         }),
@@ -173,4 +219,6 @@ export const {
     useForgotPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
+    useGetMeasureUnitsQuery,
+    useUploadFileMutation,
 } = apiSlice;

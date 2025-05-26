@@ -53,4 +53,6 @@ export const DATA_TEST_ID = {
     VERIFICATION_CODE_MODAL: 'verification-code-modal',
     VERIFICATION_CODE_INPUT: 'verification-code-input-',
     RESET_CREDENTIALS_MODAL: 'reset-credentials-modal',
+    JUICIEST_LINK: 'juiciest-link',
+    JUICIEST_LINK_MOBILE: 'juiciest-link-mobile',
 };

@@ -12,9 +12,12 @@ import {
     Textarea,
     VStack,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 
 import { fallback } from '~/assets/images/header';
+import { FileLoadModal } from '~/components/modal/file-load/FileLoadModal';
 import { MultiSelect } from '~/components/multi-select/MultiSelect';
+import { URLS } from '~/constants/url';
 import { dataCategory } from '~/data/dataCategory';
 
 import styles from './RecipeInfo.module.css';
@@ -43,84 +46,105 @@ export const RecipeInfo = ({
     setServings,
     cookingTime,
     setCookingTime,
-}: RecipeInfoProps) => (
-    <HStack alignItems='flex-start' w='100%' gap={6}>
-        {/* <Input type="file" accept="image/*" /> */}
-        <Image
-            w='553px'
-            h='410px'
-            flexShrink={0}
-            alt='место для загрузки изображения'
-            background='alpha.200'
-            fallbackSrc={fallback}
-            objectFit='none'
-            objectPosition='center'
-        />
-        <VStack w='100%' alignItems='flex-start' gap={6}>
-            <FormControl display='flex' mb='8px'>
-                <FormLabel className={styles.title} whiteSpace='nowrap' mb={0} my='auto' mr='84px'>
-                    Выберите не менее 3-х тегов
-                </FormLabel>
-                <MultiSelect
-                    widthMenu='350px'
-                    textPlaceHolder='Выберите из списка...'
-                    isDisable={true}
-                    listItem={dataCategory}
-                    value={categories}
-                    onSelectionChange={(selectedCategories) => setCategories(selectedCategories)}
+}: RecipeInfoProps) => {
+    const [isShowModule, setIsShowModule] = useState(false);
+    const handleShowFileLoad = () => setIsShowModule(true);
+    const [loadImageUrl, setloadImageUrl] = useState('');
+    return (
+        <HStack alignItems='flex-start' w='100%' gap={6}>
+            <Image
+                w='553px'
+                h='410px'
+                flexShrink={0}
+                src={loadImageUrl && `${URLS.IMAGE_URL}${loadImageUrl}`}
+                alt='место для загрузки изображения'
+                background='alpha.200'
+                fallbackSrc={fallback}
+                objectFit={loadImageUrl ? 'unset' : 'none'}
+                objectPosition='center'
+                onClick={handleShowFileLoad}
+            />
+            <VStack w='100%' alignItems='flex-start' gap={6}>
+                <FormControl display='flex' mb='8px'>
+                    <FormLabel
+                        className={styles.title}
+                        whiteSpace='nowrap'
+                        mb={0}
+                        my='auto'
+                        mr='84px'
+                    >
+                        Выберите не менее 3-х тегов
+                    </FormLabel>
+                    <MultiSelect
+                        widthMenu='350px'
+                        textPlaceHolder='Выберите из списка...'
+                        isDisable={true}
+                        listItem={dataCategory}
+                        value={categories}
+                        onSelectionChange={(selectedCategories) =>
+                            setCategories(selectedCategories)
+                        }
+                    />
+                </FormControl>
+                <Input
+                    className={styles.input}
+                    placeholder='Название рецепта'
+                    maxW='668px'
+                    size='lg'
+                    borderColor='lime.150'
+                    value={recipeTitle}
+                    onChange={(e) => setRecipeTitle(e.target.value)}
                 />
-            </FormControl>
-            <Input
-                className={styles.input}
-                placeholder='Название рецепта'
-                maxW='668px'
-                size='lg'
-                borderColor='lime.150'
-                value={recipeTitle}
-                onChange={(e) => setRecipeTitle(e.target.value)}
-            />
-            <Textarea
-                className={styles.text_area}
-                placeholder='Краткое описание рецепта'
-                maxW='668px'
-                px='11px'
-                value={recipeDescription}
-                onChange={(e) => setRecipeDescription(e.target.value)}
-            />
-            <FormControl display='flex' gap='13px'>
-                <FormLabel className={styles.title} my='auto'>
-                    На сколько человек ваш рецепт?
-                </FormLabel>
-                <NumberInput
-                    className={styles.input}
-                    value={servings}
-                    w='90px'
-                    onChange={(value) => setServings(Number(value))}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-            </FormControl>
-            <FormControl display='flex' gap='12px'>
-                <FormLabel className={styles.title} my='auto'>
-                    Сколько времени готовить в минутах?
-                </FormLabel>
-                <NumberInput
-                    className={styles.input}
-                    value={cookingTime}
-                    w='90px'
-                    onChange={(value) => setCookingTime(Number(value))}
-                >
-                    <NumberInputField />
-                    <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                    </NumberInputStepper>
-                </NumberInput>
-            </FormControl>
-        </VStack>
-    </HStack>
-);
+                <Textarea
+                    className={styles.text_area}
+                    placeholder='Краткое описание рецепта'
+                    maxW='668px'
+                    px='11px'
+                    value={recipeDescription}
+                    onChange={(e) => setRecipeDescription(e.target.value)}
+                />
+                <FormControl display='flex' gap='13px'>
+                    <FormLabel className={styles.title} my='auto'>
+                        На сколько человек ваш рецепт?
+                    </FormLabel>
+                    <NumberInput
+                        className={styles.input}
+                        value={servings}
+                        w='90px'
+                        onChange={(value) => setServings(Number(value))}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                </FormControl>
+                <FormControl display='flex' gap='12px'>
+                    <FormLabel className={styles.title} my='auto'>
+                        Сколько времени готовить в минутах?
+                    </FormLabel>
+                    <NumberInput
+                        className={styles.input}
+                        value={cookingTime}
+                        w='90px'
+                        onChange={(value) => setCookingTime(Number(value))}
+                    >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                </FormControl>
+            </VStack>
+            {isShowModule && (
+                <FileLoadModal
+                    isOpen={isShowModule}
+                    onClose={() => setIsShowModule(false)}
+                    setloadImageUrl={setloadImageUrl}
+                />
+            )}
+        </HStack>
+    );
+};

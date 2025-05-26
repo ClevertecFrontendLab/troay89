@@ -4,7 +4,8 @@ import { Link } from 'react-router';
 import { GreenButton } from '~/components/buttons/green-button/GreenButton';
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import RecipeType from '~/type/recipeType';
+import { URLS_PATH } from '~/constants/urlsPath';
+import { RecipeType } from '~/type/recipeType';
 
 import styles from './JuicyBlock.module.css';
 
@@ -18,7 +19,11 @@ export const JuicyBlock = ({ juicyData }: JuicyBlockType) => (
             <Heading className={styles.subtitle} as='h2'>
                 Самое сочное
             </Heading>
-            <Link className={styles.button_desktop} to='/the-juiciest' data-test-id='juiciest-link'>
+            <Link
+                className={styles.button_desktop}
+                to={URLS_PATH.THE_JUICIEST}
+                data-test-id={DATA_TEST_ID.JUICIEST_LINK}
+            >
                 <GreenButton text='Вся подборка' />
             </Link>
         </Flex>
@@ -41,8 +46,8 @@ export const JuicyBlock = ({ juicyData }: JuicyBlockType) => (
         </Flex>
         <Link
             className={styles.button_mobile}
-            to='/the-juiciest'
-            data-test-id='juiciest-link-mobile'
+            to={URLS_PATH.THE_JUICIEST}
+            data-test-id={DATA_TEST_ID.JUICIEST_LINK_MOBILE}
         >
             <GreenButton text='Вся подборка' />
         </Link>

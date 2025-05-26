@@ -2,14 +2,14 @@ import { Button, GridItem, Icon } from '@chakra-ui/react';
 import { Link, useLocation } from 'react-router';
 
 import PencilSquare from '~/components/icons/PencilSquare';
+import { URLS_PATH } from '~/constants/urlsPath';
 
 import { IconStats } from '../icon-stats/IconStats';
 import styles from './RightAside.module.css';
 
 export const RightAside = () => {
     const location = useLocation();
-    const pathNewRecipe = '/recipes/new-recipe';
-    const showComponent = location.pathname !== pathNewRecipe;
+    const showComponent = location.pathname !== URLS_PATH.NEW_RECIPRE;
 
     return (
         <GridItem className={styles.aside} as='aside'>
@@ -19,7 +19,7 @@ export const RightAside = () => {
                     <div className={styles.aside_container}>
                         <Button
                             as={Link}
-                            to={pathNewRecipe}
+                            to={URLS_PATH.NEW_RECIPRE}
                             boxSize={12}
                             borderRadius='50%'
                             bg='black'

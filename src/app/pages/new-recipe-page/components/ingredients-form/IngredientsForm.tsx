@@ -2,7 +2,7 @@ import { Heading, HStack, Input, Text, VStack } from '@chakra-ui/react';
 
 import { MultiSelect } from '~/components/multi-select/MultiSelect';
 
-import { CustomPlus } from '../custom-plus/customPlus';
+import { CustomPlus } from '../custom-plus/CustomPlus';
 import { TrashButton } from '../trash-button/TrashButton';
 import styles from './IngredientsForm.module.css';
 
@@ -12,9 +12,8 @@ export type Ingredient = {
     measurement: string;
 };
 
-const dataMeasurements = ['г', 'кг', 'мл', 'л', 'шт'];
-
 type IngredientsFormProps = {
+    dataMeasurements: string[];
     ingredients: Ingredient[];
     addIngredientBlock: () => void;
     measurements: string[];
@@ -24,6 +23,7 @@ type IngredientsFormProps = {
 };
 
 export const IngredientsForm = ({
+    dataMeasurements,
     ingredients,
     addIngredientBlock,
     measurements,

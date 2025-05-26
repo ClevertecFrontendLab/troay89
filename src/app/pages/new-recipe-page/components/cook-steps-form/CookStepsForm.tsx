@@ -1,15 +1,15 @@
-import { Box, Button, Card, CardBody, Image, Text, Textarea, VStack } from '@chakra-ui/react';
+import { Button, Text, VStack } from '@chakra-ui/react';
 import classNames from 'classnames';
 
-import { fallback } from '~/assets/images/header';
-
-import { CustomPlus } from '../custom-plus/customPlus';
+import { StepCook } from '../../NewRecipePage';
+import { CookStepCard } from '../cook-step-card/CookStepCard';
+import { CustomPlus } from '../custom-plus/CustomPlus';
 import styles from './CookStepsForm.module.css';
 
 type CookStepsFormProps = {
-    cookSteps: string[];
+    cookSteps: StepCook[];
     addCookStep: () => void;
-    handleCookStepChange: (index: number, value: string) => void;
+    handleCookStepChange: (index: number, changes: Partial<StepCook>) => void;
     fallback: string;
 };
 
@@ -23,45 +23,12 @@ export const CookStepsForm = ({
             Добавьте шаги приготовления
         </Text>
         {cookSteps.map((step, index) => (
-            <Card key={index} boxShadow='none' flexDirection='row'>
-                <Image
-                    w='346px'
-                    h='160px'
-                    alt='место для загрузки изображения'
-                    background='alpha.200'
-                    fallbackSrc={fallback}
-                    objectFit='none'
-                    objectPosition='center'
-                />
-                <CardBody
-                    border='1px solid'
-                    borderColor='alpha.200'
-                    borderLeft='none'
-                    w='322px'
-                    py='19px'
-                >
-                    <Box
-                        className={styles.step}
-                        px='8px'
-                        py='2px'
-                        bg='alpha.100'
-                        w='53px'
-                        mb={4}
-                        letterSpacing='0.3px'
-                    >
-                        Шаг {index + 1}
-                    </Box>
-                    <Textarea
-                        className={styles.text_area}
-                        placeholder='Шаг'
-                        borderColor='alpha.200'
-                        px='11px'
-                        h='84px'
-                        value={step}
-                        onChange={(e) => handleCookStepChange(index, e.target.value)}
-                    />
-                </CardBody>
-            </Card>
+            <CookStepCard
+                key={index}
+                index={index}
+                step={step}
+                handleCookStepChange={handleCookStepChange}
+            />
         ))}
         <Button
             className={classNames(styles.button, styles.border_color)}

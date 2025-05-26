@@ -1,9 +1,10 @@
 import { Button, ButtonGroup, VStack } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fallback } from '~/assets/images/header';
 import { Pencil } from '~/components/icons/Pencil';
+import { useGetMeasureUnitsQuery } from '~/store/slice/api/api-slice';
 
 import { CookStepsForm } from './components/cook-steps-form/CookStepsForm';
 import { IngredientsForm } from './components/ingredients-form/IngredientsForm';
@@ -16,34 +17,54 @@ type Ingredient = {
     measurement: string;
 };
 
+export type StepCook = {
+    urlImage: string;
+    description: string;
+};
+
 export const NewRecipePage = () => {
+    const { data, isError, error } = useGetMeasureUnitsQuery();
     const [categories, setCategories] = useState<string[]>([]);
     const [measurements, setMeasurements] = useState<string[]>([]);
     const [recipeTitle, setRecipeTitle] = useState('');
     const [recipeDescription, setRecipeDescription] = useState('');
     const [servings, setServings] = useState(4);
     const [cookingTime, setCookingTime] = useState(30);
+    const [dataMeasurements, setDataMeasurements] = useState<string[]>([]);
     const [ingredients, setIngredients] = useState<Ingredient[]>([
         { ingredient: '', amount: '', measurement: '' },
     ]);
-    const [cookSteps, setCookSteps] = useState<string[]>(['']);
+    const [cookSteps, setCookSteps] = useState<StepCook[]>([{ urlImage: '', description: '' }]);
+
+    // const idUser = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD);
+
+    useEffect(() => {
+        if (data) {
+            const measurementNames = data.map(({ name }) => name);
+            setDataMeasurements(measurementNames);
+        } else if (isError) {
+            console.log(error, NewRecipePage);
+        }
+    }, [data, error, isError]);
 
     const addIngredientBlock = () => {
         setIngredients((prev) => [...prev, { ingredient: '', amount: '', measurement: '' }]);
     };
 
     const addCookStep = () => {
-        setCookSteps((prev) => [...prev, '']);
+        setCookSteps((prev) => [...prev, { urlImage: '', description: '' }]);
     };
 
     const deleteIngredientBlock = (index: number) => {
         setIngredients((prev) => prev.filter((_, i) => i !== index));
     };
 
-    const handleCookStepChange = (index: number, value: string) => {
-        const newSteps = [...cookSteps];
-        newSteps[index] = value;
-        setCookSteps(newSteps);
+    const handleCookStepChange = (index: number, changes: Partial<StepCook>) => {
+        setCookSteps((prevSteps) => {
+            const newSteps = [...prevSteps];
+            newSteps[index] = { ...newSteps[index], ...changes };
+            return newSteps;
+        });
     };
 
     const handleIngredientChange = (index: number, field: keyof Ingredient, value: string) => {
@@ -90,6 +111,7 @@ export const NewRecipePage = () => {
                 setCookingTime={setCookingTime}
             />
             <IngredientsForm
+                dataMeasurements={dataMeasurements}
                 ingredients={ingredients}
                 addIngredientBlock={addIngredientBlock}
                 deleteIngredientBlock={deleteIngredientBlock}
