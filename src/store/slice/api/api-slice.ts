@@ -1,12 +1,14 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/category';
-import { LoginDataType } from '~/type/LoginDataType';
+import { LoginDataType } from '~/type/loginDataType';
 import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
 
+import { PATH } from './constants';
 import {
     CategoryPath,
     ForgotPasswordData,
@@ -21,13 +23,13 @@ export const apiSlice = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
-            query: () => 'category',
+            query: () => PATH.CATEGORY,
         }),
         getCategory: build.query<CategoriesResponse, CategoryPath>({
-            query: ({ id }) => `category/${id}`,
+            query: ({ id }) => `${PATH.CATEGORY}/${id}`,
         }),
         getRecipe: build.query<RecipeType, CategoryPath>({
-            query: ({ id }) => `recipe/${id}`,
+            query: ({ id }) => `${PATH.RECIPE}/${id}`,
         }),
         getRecipeByCategory: build.query<RecipeTypeResponse, RecipesCategoryQueryParams>({
             query: ({ id, page, limit, allergens, searchString }) => {
@@ -47,7 +49,7 @@ export const apiSlice = createApi({
                 }
 
                 const queryString = params.toString() ? `?${params.toString()}` : '';
-                return `recipe/category/${id}${queryString}`;
+                return `${PATH.RECIPE}/${PATH.CATEGORY}/${id}${queryString}`;
             },
         }),
         getRecipes: build.query<RecipeTypeResponse, RecipesQueryParams>({
@@ -94,21 +96,21 @@ export const apiSlice = createApi({
         }),
         refresh: build.query<Response, void>({
             query: () => ({
-                url: 'auth/refresh',
+                url: PATH.AUTH_REFRESH,
                 method: 'GET',
                 credentials: 'include',
             }),
         }),
         check: build.query<Response, void>({
             query: () => ({
-                url: 'auth/check-auth',
+                url: PATH.AUTH_CHECK_AUTH,
                 method: 'GET',
                 credentials: 'include',
             }),
         }),
         registration: build.mutation<Response, RegistrationData>({
             query: (data) => ({
-                url: 'auth/signup',
+                url: PATH.AUTH_SIGNUP,
                 method: 'POST',
                 credentials: 'include',
                 body: data,
@@ -116,7 +118,7 @@ export const apiSlice = createApi({
         }),
         login: build.mutation<Response, LoginDataType>({
             query: (data) => ({
-                url: 'auth/login',
+                url: PATH.AUTH_LOGIN,
                 method: 'POST',
                 credentials: 'include',
                 body: data,
@@ -125,30 +127,30 @@ export const apiSlice = createApi({
                 const result = await queryFulfilled;
                 const accessToken = result.meta?.response?.headers.get('Authentication-Access');
 
-                const oldToken = localStorage.getItem('accessToken');
+                const oldToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
 
                 if (accessToken && accessToken !== oldToken) {
-                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, accessToken);
                 }
             },
         }),
         forgotPassword: build.mutation<Response, ForgotPasswordData>({
             query: (data) => ({
-                url: 'auth/forgot-password',
+                url: PATH.AUTH_FORGOT_PASSWORD,
                 method: 'POST',
                 body: data,
             }),
         }),
         verifyOtp: build.mutation<Response, VerifyOtpData>({
             query: (data) => ({
-                url: 'auth/verify-otp',
+                url: PATH.AUTH_VERIFY_OTP,
                 method: 'POST',
                 body: data,
             }),
         }),
         resetPassword: build.mutation<Response, ResetPasswordData>({
             query: (data) => ({
-                url: 'auth/reset-password',
+                url: PATH.AUTH_RESET_PASSWORD,
                 method: 'POST',
                 body: data,
             }),

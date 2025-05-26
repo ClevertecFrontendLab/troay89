@@ -35,6 +35,11 @@ export function getBreadcrumbs(
                 { title: titleRecipe ?? '' },
             ];
         }
+    } else if (pathname === `${BREADCRUMBS.RECIPES}/${BREADCRUMBS.NEW_RECIPE_PATH}`) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.NEW_RECIPE_PATH },
+            { title: BREADCRUMBS.NEW_RECIPE_TITLE },
+        ];
     } else if (pathname.startsWith(BREADCRUMBS.RECIPES)) {
         const pathParts = pathname.split('/').filter(Boolean);
 

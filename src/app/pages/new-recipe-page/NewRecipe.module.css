@@ -1,0 +1,7 @@
+.button.border_color {
+    border-color: var(--black-alpha-600);
+}
+
+.add_button {
+    font: var(--font-inter-button-second);
+}

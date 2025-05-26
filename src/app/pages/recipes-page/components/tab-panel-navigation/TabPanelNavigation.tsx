@@ -24,7 +24,7 @@ import {
     setIndexTab,
 } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { Category } from '~/type/category';
-import RecipeType, { PaginationMeta } from '~/type/recipeType';
+import { PaginationMeta, RecipeType } from '~/type/recipeType';
 
 import styles from './TabPanelNavigation.module.css';
 
@@ -85,7 +85,7 @@ export const TabPanelNavigation = ({
             return <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />;
         }
 
-        if (isFetching) {
+        if (isFetching && page === 1) {
             return (
                 <Flex h='250px' justifyContent='center' alignItems='center'>
                     <Spinner data-test-id={DATA_TEST_ID.APP_LOADER} />

@@ -8,7 +8,9 @@ type useCreateLinkCardProps = {
 export const useCreateLinkCard = ({ id }: useCreateLinkCardProps) => {
     const { keysPathCategory, valuesPathCategory } = usePathCategoryData();
     const { indexCategory, indexSubcategory, subcategories } = useNavigationIndices();
-    const secondLink = `/recipes/${keysPathCategory[indexCategory][1]}/${valuesPathCategory[indexCategory][indexSubcategory]}/${id}`;
-
+    const categoryFilter = valuesPathCategory.filter(
+        (category) => category.rootCategoryId === keysPathCategory[indexCategory]._id,
+    );
+    const secondLink = `/recipes/${keysPathCategory[indexCategory].category}/${categoryFilter[indexSubcategory].category}/${id}`;
     return { secondLink, subcategories };
 };

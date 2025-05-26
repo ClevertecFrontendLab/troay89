@@ -25,7 +25,9 @@ export const useNavigationIndices = () => {
 
     useEffect(() => {
         if (currentIndexButton === undefined) {
-            const index = keysPathCategory.findIndex(([_, slug]) => slug === category);
+            const index = keysPathCategory.findIndex(
+                (pathCategory) => pathCategory.category === category,
+            );
             if (index !== -1) {
                 setIndexCategory(index);
                 dispatch(setIndexButton(index));
@@ -37,9 +39,10 @@ export const useNavigationIndices = () => {
 
     useEffect(() => {
         if (currentIndex === undefined) {
-            const valuesArray = valuesPathCategory[indexCategory];
-            const index = valuesArray.findIndex((item) => item === subcategories);
-            if (index !== -1) {
+            const index = keysPathCategory[indexCategory]?.subCategories?.findIndex(
+                ({ category }) => category === subcategories,
+            );
+            if (index !== -1 && index !== undefined) {
                 setIndexSubcategory(index);
                 dispatch(setIndexTab(index));
             }

@@ -92,6 +92,7 @@ export const MultiSelect = ({
                         as={Button}
                         className={styles.select}
                         pr={2}
+                        maxW={widthMenu}
                         variant='outline'
                         isDisabled={!isDisable}
                         _hover={{ bg: 'transparent' }}

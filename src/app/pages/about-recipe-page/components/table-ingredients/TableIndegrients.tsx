@@ -43,7 +43,7 @@ export const TableIngredients = ({ portions, ingredients }: TableIngredients) =>
         setArrayIngredients(
             ingredients.map(({ title, count, measureUnit }) => ({
                 title,
-                count: ((+count / originalPortions) * countPortion).toString(),
+                count: ((+count / originalPortions) * countPortion).toFixed(2),
                 measureUnit,
             })),
         );

@@ -1,6 +1,5 @@
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import classNames from 'classnames';
-import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router';
@@ -8,7 +7,7 @@ import { Link } from 'react-router';
 import BreadIcon from '~/components/icons/BreadIcon';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
-import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { usePathCategoryData } from '~/hooks/usePathCategoryData';
 import { nameRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
 import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
@@ -25,14 +24,9 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
     const { indexCategory, indexSubcategory } = useNavigationIndices();
     const location = useLocation();
     const titleRecipe = useSelector(nameRecipeSelector);
-    const categories = useSelector(getArrayCategorySelector);
+    const { keysPathCategory } = usePathCategoryData();
 
-    const categoriesFilter = useMemo(
-        () => categories.filter((category) => Boolean(category.subCategories)),
-        [categories],
-    );
-
-    const activeCategory = categoriesFilter[indexCategory];
+    const activeCategory = keysPathCategory[indexCategory];
     const titleCategory = activeCategory.title;
     const titleSubcategory = activeCategory?.subCategories?.[indexSubcategory].title;
     const pathCategory = activeCategory.category;

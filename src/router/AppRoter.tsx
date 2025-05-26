@@ -6,6 +6,7 @@ import { AccountLayout } from '~/app/layout/account-layout/AccountLayout';
 import { Layout } from '~/app/layout/layout-app/Layout';
 import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
+import { NewRecipePage } from '~/app/pages/new-recipe-page/NewRecipePage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
 import { RecipesPage } from '~/app/pages/recipes-page/RecipesPage';
 import { MainPage } from '~/app/pages/start-page/MainPage';
@@ -31,6 +32,9 @@ const paths = {
     },
     aboutRecipe: {
         path: '/recipes/:category/:subcategories/:id',
+    },
+    new_recipe: {
+        path: '/recipes/new-recipe',
     },
     notFound: {
         path: '/not-found',
@@ -73,6 +77,7 @@ const recipeRoutes: RouteObject = {
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
         { path: paths.verification.path, element: <VerificationPage /> },
+        { path: paths.new_recipe.path, element: <NewRecipePage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };

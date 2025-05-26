@@ -39,7 +39,6 @@ export const SimpleButton = ({ _id, dataTestButton, titleRecipe }: SimpleButtonP
             color='white'
             variant='solid'
             colorScheme='teal'
-            // px={{ bp95: '13px', base: 2 }}
             size={{ base: 'xs', bp95: 'sm' }}
             as={Link}
             to={pathButton}

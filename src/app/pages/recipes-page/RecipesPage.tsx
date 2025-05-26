@@ -13,7 +13,7 @@ import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategoriesSu
 import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/api/api-slice';
 import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { Category } from '~/type/category';
-import RecipeType from '~/type/recipeType';
+import { RecipeType } from '~/type/recipeType';
 
 import { TabPanelNavigation } from './components/tab-panel-navigation/TabPanelNavigation';
 
@@ -48,14 +48,14 @@ export const RecipesPage = () => {
             setRecipes(data.data);
         } else {
             if (data) {
-                setRecipes((prev) => {
-                    const existingIds = new Set(prev.map((recipe) => recipe._id));
-                    const newRecipes = data.data.filter((recipe) => !existingIds.has(recipe._id));
-                    return [...prev, ...newRecipes];
-                });
+                setRecipes((prev) => [...prev, ...data.data]);
             }
         }
-    }, [data, page]);
+    }, [data]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [category, subcategories]);
 
     const handleLoadMore = () => {
         setPage((prev) => prev + 1);

@@ -17,14 +17,7 @@ import { useLocation, useParams } from 'react-router';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
-import {
-    setAllResult,
-    setListCategory,
-    setListTypeDishes,
-    setListTypeMeats,
-    setResultFilter,
-    setResultSearch,
-} from '~/store/slice/arrayResultFilterSlice';
+import { setResultFilter, setResultSearch } from '~/store/slice/arrayResultFilterSlice';
 import { setZIndex } from '~/store/slice/headerZIndex';
 import { setOverlayPosition } from '~/store/slice/overlayPosition';
 
@@ -46,15 +39,12 @@ export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) =>
     const resultSearch = useSelector(resultSearchSelector);
     const [isSearchRecipes, setIsSearchRecipes] = useState(false);
     const [textSearch, setTextSearch] = useState(resultSearch);
+    const [resetTrigger, setResetTrigger] = useState(false);
 
     const { id } = useParams();
     const pointerEventsSearchIcon = textSearch.length > 2 || listAllergin.length ? 'auto' : 'none';
 
     const resetParamsFilter = () => {
-        dispatch(setListCategory([]));
-        dispatch(setListTypeMeats([]));
-        dispatch(setListTypeDishes([]));
-        dispatch(setAllResult([]));
         dispatch(setResultSearch(''));
         setTextSearch('');
         setIsSearchRecipes(false);
@@ -63,6 +53,7 @@ export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) =>
 
     const handleFilterButton = () => {
         resetParamsFilter();
+        setResetTrigger((prev) => !prev);
         onOpen();
     };
 
@@ -154,7 +145,7 @@ export const SearchFilter = ({ listAllergin, prevPathRef }: SearchFilterType) =>
                     />
                 </InputRightElement>
             </InputGroup>
-            <DrawerFilter isOpen={isOpen} onClose={onClose} />
+            <DrawerFilter isOpen={isOpen} onClose={onClose} resetTrigger={resetTrigger} />
         </Flex>
     );
 };
