@@ -29,6 +29,8 @@ type MultiSelectProps = {
     onSelectionChange: (selected: string[]) => void;
     isBottomInput?: boolean;
     dataTest?: string;
+    isSingleSelect?: boolean;
+    hasError?: boolean;
 };
 
 export const MultiSelect = ({
@@ -40,6 +42,8 @@ export const MultiSelect = ({
     isBottomInput,
     onSelectionChange,
     dataTest,
+    isSingleSelect,
+    hasError,
 }: MultiSelectProps) => {
     const [customAllergen, setCustomAllergen] = useState('');
 
@@ -57,10 +61,14 @@ export const MultiSelect = ({
     }, [isDisable]);
 
     const toggleOption = (option: string) => {
-        if (value.includes(option)) {
-            onSelectionChange(value.filter((item) => item !== option));
+        if (isSingleSelect) {
+            onSelectionChange([option]);
         } else {
-            onSelectionChange([...value, option]);
+            if (value.includes(option)) {
+                onSelectionChange(value.filter((item) => item !== option));
+            } else {
+                onSelectionChange([...value, option]);
+            }
         }
     };
 
@@ -95,6 +103,7 @@ export const MultiSelect = ({
                         maxW={widthMenu}
                         variant='outline'
                         isDisabled={!isDisable}
+                        borderColor={hasError ? 'red.500' : undefined}
                         _hover={{ bg: 'transparent' }}
                         _active={{ bg: 'white' }}
                         data-test-id={dataTest}
@@ -109,13 +118,28 @@ export const MultiSelect = ({
                             flexWrap='wrap'
                             gap={2}
                         >
-                            {Array.isArray(selectedLabel)
-                                ? selectedLabel.map((label) => (
-                                      <Box key={label} className={styles.label_allergen}>
-                                          {label}
-                                      </Box>
-                                  ))
-                                : selectedLabel}
+                            {Array.isArray(selectedLabel) ? (
+                                selectedLabel.length <= 2 ? (
+                                    selectedLabel.map((label) => (
+                                        <Box key={label} className={styles.label_allergen}>
+                                            {label}
+                                        </Box>
+                                    ))
+                                ) : (
+                                    <>
+                                        {selectedLabel.slice(0, 2).map((label) => (
+                                            <Box key={label} className={styles.label_allergen}>
+                                                {label}
+                                            </Box>
+                                        ))}
+                                        <Box key='extra' className={styles.label_allergen}>
+                                            {`+ ${selectedLabel.length - 2}`}
+                                        </Box>
+                                    </>
+                                )
+                            ) : (
+                                selectedLabel
+                            )}
                         </Flex>
                     </MenuButton>
                     <MenuList

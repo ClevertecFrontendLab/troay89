@@ -8,7 +8,7 @@ type TrashButtonType = {
 };
 
 export const TrashButton = ({ title, onClick }: TrashButtonType) => (
-    <Box as='button' boxSize={8} title={title}>
+    <Box as='button' boxSize={8} title={title} flexShrink={0}>
         <Icon as={Garbage} onClick={onClick} boxSize='14px' />
     </Box>
 );

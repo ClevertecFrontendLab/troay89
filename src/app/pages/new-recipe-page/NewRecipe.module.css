@@ -1,3 +1,7 @@
+.button {
+    font: var(--font-inter-button);
+}
+
 .button.border_color {
     border-color: var(--black-alpha-600);
 }
