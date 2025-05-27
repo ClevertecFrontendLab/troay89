@@ -9,7 +9,8 @@ export type AuthErrorContext =
     | 'registration'
     | 'otp'
     | 'password-recovery'
-    | 'reset-password';
+    | 'reset-password'
+    | 'new-recipe';
 
 export const useHandleError =
     (
@@ -64,12 +65,21 @@ export const useHandleError =
                         setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
                 }
                 break;
-
-            case 500:
-                setTitle(ERROR_MESSAGE.ERROR_SERVER);
-                setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
+            case 409:
+                setTitle(ERROR_MESSAGE.NEW_RECIPE_NAME);
+                setNotification(ERROR_MESSAGE.NEW_RECIPE_NAME_NOTIFICATION);
                 break;
-
+            case 500:
+                switch (context) {
+                    case 'new-recipe':
+                        setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
+                        break;
+                    default:
+                        setTitle(ERROR_MESSAGE.ERROR_SERVER_THREE);
+                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_THREE);
+                }
+                break;
             default:
                 setTitle('Произошла ошибка');
                 setNotification('');

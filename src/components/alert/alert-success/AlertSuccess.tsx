@@ -8,9 +8,18 @@ import styles from './AlertSuccess.module.css';
 type AlertSuccessProps = {
     message: string;
     onClose: () => void;
+    position?: 'absolute' | 'fixed';
+    left?: string;
+    transform?: string;
 };
 
-export const AlertSuccess = ({ message, onClose }: AlertSuccessProps) => {
+export const AlertSuccess = ({
+    message,
+    onClose,
+    position = 'absolute',
+    left = 'unset',
+    transform = 'unset',
+}: AlertSuccessProps) => {
     useEffect(() => {
         const timer = setTimeout(() => {
             onClose();
@@ -21,12 +30,14 @@ export const AlertSuccess = ({ message, onClose }: AlertSuccessProps) => {
     return (
         <Alert
             status='success'
-            position='absolute'
+            position={position}
             bottom={20}
             variant='solid'
             w={{ base: '328px', bp115: '400px' }}
             minH={12}
             data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION}
+            left={left}
+            transform={transform}
         >
             <AlertIcon boxSize={6} />
             <Text className={styles.message} color='white'>

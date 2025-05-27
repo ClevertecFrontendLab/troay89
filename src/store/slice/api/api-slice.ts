@@ -6,6 +6,7 @@ import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/category';
 import { LoginDataType } from '~/type/loginDataType';
 import { MeasureUnitsResponse } from '~/type/measureUnitsResponse';
+import { RecipeResponse } from '~/type/RecipeResponse';
 import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
@@ -138,7 +139,7 @@ export const apiSlice = createApi({
             },
         }),
 
-        createRecipe: build.mutation<void, RecipeFormValues>({
+        createRecipe: build.mutation<RecipeResponse, RecipeFormValues>({
             query: (data) => {
                 const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
                 return {

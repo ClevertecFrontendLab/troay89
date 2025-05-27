@@ -20,10 +20,10 @@ import styles from './FileLoadModal.module.css';
 type LoginFailedModuleType = {
     isOpen: boolean;
     onClose: () => void;
-    setloadImageUrl: (value: string) => void;
+    setLoadImageUrl: (value: string) => void;
 };
 
-export const FileLoadModal = ({ isOpen, onClose, setloadImageUrl }: LoginFailedModuleType) => {
+export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedModuleType) => {
     const [uploadFile] = useUploadFileMutation();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -45,8 +45,8 @@ export const FileLoadModal = ({ isOpen, onClose, setloadImageUrl }: LoginFailedM
     const handleFileSave = async () => {
         if (!selectedFile) return;
         try {
-            const responce = await uploadFile({ file: selectedFile }).unwrap();
-            setloadImageUrl(responce.url);
+            const response = await uploadFile({ file: selectedFile }).unwrap();
+            setLoadImageUrl(response.url);
             onClose();
         } catch (error) {
             console.log(error);

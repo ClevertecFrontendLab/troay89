@@ -1,10 +1,12 @@
 import { Box } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import { AuthorBlock } from '~/app/pages/start-page/components/author-block/AuthorBlock';
+import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import { withLoader } from '~/components/with-loader/WithLoader';
+import { SUCCESS_MESSAGE } from '~/constants/successMessage';
 import { idRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
 import { useGetRecipeQuery } from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
@@ -31,10 +33,14 @@ const AboutRecipeContent = ({
     isSwiperError,
     swiperData,
 }: AboutRecipeContentType) => {
+    const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
     const idRecipe = useSelector(idRecipeSelector);
+    const [isShowAlertSuccessModal, setIsShowAlertSuccessModal] = useState<boolean>(
+        (location.state && location.state.showAlert) || false,
+    );
 
     useEffect(() => {
         if (idRecipe && !recipeData) {
@@ -85,6 +91,15 @@ const AboutRecipeContent = ({
                     <CookingSteps steps={recipeData.steps} />
                     <AuthorBlock />
                     {swiperData && <NewBlock swipeData={swiperData.data} />}
+                    {isShowAlertSuccessModal && (
+                        <AlertSuccess
+                            onClose={() => setIsShowAlertSuccessModal(false)}
+                            message={SUCCESS_MESSAGE.SUCCESS_CREATE_RECIPE}
+                            position='fixed'
+                            left='50%'
+                            transform='translateX(-50%)'
+                        />
+                    )}
                 </Box>
             )}
         </>

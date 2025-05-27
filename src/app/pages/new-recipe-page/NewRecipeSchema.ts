@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
 export const recipeValidationSchema = Yup.object().shape({
-    image: Yup.string().optional(),
+    image: Yup.string().required(''),
 
     title: Yup.string().required('').max(50, ''),
 
@@ -46,13 +46,13 @@ export type IngredientType = {
 
 export type StepCook = {
     stepNumber?: number;
-    image: string | undefined;
+    image?: string;
     description: string;
 };
 
 export type RecipeFormValues = {
     title: string;
-    image: string | undefined;
+    image: string;
     categoriesIds: string[];
     description: string;
     portions: number;

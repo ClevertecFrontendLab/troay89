@@ -2,6 +2,8 @@ export const ERROR_MESSAGE = {
     ERROR_SERVER: 'Ошибка сервера',
     ERROR_SERVER_NOTIFICATION: 'Попробуйте немного позже',
     ERROR_SERVER_NOTIFICATION_TWO: 'Попробуйте поискать снова попозже',
+    ERROR_SERVER_THREE: 'Ошибка',
+    ERROR_SERVER_NOTIFICATION_THREE: 'Попробуйте пака сохранить в черновик',
     INCORRECT_LOGIN: 'Неверный логин или пароль',
     INCORRECT_LOGIN_NOTIFICATION: 'Попробуйте снова',
     EMAIL_NOT_VERIFIED: 'E-mail не верифицирован',
@@ -12,4 +14,6 @@ export const ERROR_MESSAGE = {
     EMAIL_NOT_EXITS: 'Такого e-mail нет.',
     EMAIL_NOT_EXITS_NOTIFICATION:
         'Попробуйте другой e-mail или проверьте правильность его написания',
+    NEW_RECIPE_NAME: 'Ошибка',
+    NEW_RECIPE_NAME_NOTIFICATION: 'Рецепт с таким названием уже существует',
 };

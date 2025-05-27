@@ -89,7 +89,7 @@ export const CookStepCard = ({
                 <FileLoadModal
                     isOpen={isShowModal}
                     onClose={() => setIsShowModal(false)}
-                    setloadImageUrl={handleImageLoaded}
+                    setLoadImageUrl={handleImageLoaded}
                 />
             )}
         </Card>

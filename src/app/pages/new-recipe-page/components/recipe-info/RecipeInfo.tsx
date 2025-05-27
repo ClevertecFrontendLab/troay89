@@ -32,27 +32,30 @@ export const RecipeInfo = () => {
     } = useFormContext();
     const [isShowModule, setIsShowModule] = useState(false);
     const handleShowFileLoad = () => setIsShowModule(true);
-    const [loadImageUrl, setloadImageUrl] = useState('');
+    const [loaderImageUrl, setLoaderImageUrl] = useState('');
 
     const handleImageLoaded = (url: string) => {
-        setloadImageUrl(url);
-        setValue('image', url, { shouldValidate: false });
+        setLoaderImageUrl(url);
+        setValue('image', url, { shouldValidate: true });
     };
 
     return (
         <HStack alignItems='flex-start' w='100%' gap={6}>
-            <Image
-                w='553px'
-                h='410px'
-                flexShrink={0}
-                src={loadImageUrl && `${URLS.IMAGE_URL}${loadImageUrl}`}
-                alt='место для загрузки изображения'
-                background='alpha.200'
-                fallbackSrc={fallback}
-                objectFit={loadImageUrl ? 'unset' : 'none'}
-                objectPosition='center'
-                onClick={handleShowFileLoad}
-            />
+            <FormControl isInvalid={!!errors.image}>
+                <Image
+                    w='553px'
+                    h='410px'
+                    flexShrink={0}
+                    src={loaderImageUrl ? `${URLS.IMAGE_URL}${loaderImageUrl}` : undefined}
+                    alt='место для загрузки изображения'
+                    background='alpha.200'
+                    fallbackSrc={fallback}
+                    objectFit={loaderImageUrl ? 'unset' : 'none'}
+                    objectPosition='center'
+                    onClick={handleShowFileLoad}
+                    border={errors.image ? '2px solid red' : 'none'}
+                />
+            </FormControl>
             <VStack w='100%' alignItems='flex-start' gap={6}>
                 <FormControl isInvalid={Boolean(errors.categoriesIds)} display='flex' mb='8px'>
                     <FormLabel
@@ -69,7 +72,6 @@ export const RecipeInfo = () => {
                         control={control}
                         render={({ field }) => {
                             const handleSelectionChange = (selected: string[]) => {
-                                console.log('Выбранные теги:', selected);
                                 field.onChange(selected);
                             };
 
@@ -138,7 +140,7 @@ export const RecipeInfo = () => {
                     <FileLoadModal
                         isOpen={isShowModule}
                         onClose={() => setIsShowModule(false)}
-                        setloadImageUrl={handleImageLoaded}
+                        setLoadImageUrl={handleImageLoaded}
                     />
                 )}
             </VStack>

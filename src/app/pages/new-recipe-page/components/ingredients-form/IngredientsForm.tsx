@@ -80,11 +80,7 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                                         placeholder='100'
                                         value={displayValue}
                                         onChange={(e) => {
-                                            const newValue =
-                                                e.target.value === ''
-                                                    ? 0
-                                                    : parseFloat(e.target.value);
-                                            field.onChange(newValue);
+                                            field.onChange(e.target.value);
                                         }}
                                     />
                                 );
