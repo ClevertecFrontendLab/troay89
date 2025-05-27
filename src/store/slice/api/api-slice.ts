@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { RecipeFormValues } from '~/app/pages/new-recipe-page/NewRecipeSchema';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/category';
@@ -136,6 +137,21 @@ export const apiSlice = createApi({
                 };
             },
         }),
+
+        createRecipe: build.mutation<void, RecipeFormValues>({
+            query: (data) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: PATH.RECIPE,
+                    method: 'POST',
+                    credentials: 'include',
+                    body: data,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
         refresh: build.query<Response, void>({
             query: () => ({
                 url: PATH.AUTH_REFRESH,
@@ -221,4 +237,5 @@ export const {
     useResetPasswordMutation,
     useGetMeasureUnitsQuery,
     useUploadFileMutation,
+    useCreateRecipeMutation,
 } = apiSlice;

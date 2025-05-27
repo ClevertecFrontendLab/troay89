@@ -88,24 +88,24 @@ export const RecipeInfo = () => {
                     />
                 </FormControl>
 
-                <FormControl isInvalid={Boolean(errors.recipeTitle)}>
+                <FormControl isInvalid={Boolean(errors.title)}>
                     <Input
                         className={styles.input}
                         placeholder='Название рецепта'
                         maxW='668px'
                         size='lg'
                         borderColor='lime.150'
-                        {...register('recipeTitle')}
+                        {...register('title')}
                     />
                 </FormControl>
 
-                <FormControl isInvalid={Boolean(errors.recipeDescription)}>
+                <FormControl isInvalid={Boolean(errors.description)}>
                     <Textarea
                         className={styles.text_area}
                         placeholder='Краткое описание рецепта'
                         maxW='668px'
                         px='11px'
-                        {...register('recipeDescription')}
+                        {...register('description')}
                     />
                 </FormControl>
 

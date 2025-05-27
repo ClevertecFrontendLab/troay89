@@ -2,7 +2,8 @@ import { Button, Text, VStack } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { RecipeFormValues } from '../../NewRecipePage';
+import {} from '../../NewRecipePage';
+import { RecipeFormValues } from '../../NewRecipeSchema';
 import { CookStepCard } from '../cook-step-card/CookStepCard';
 import { CustomPlus } from '../custom-plus/CustomPlus';
 import styles from './CookStepsForm.module.css';
@@ -16,7 +17,7 @@ export const CookStepsForm = () => {
     } = useFormContext<RecipeFormValues>();
     const { fields, append, remove } = useFieldArray({
         control,
-        name: 'cookSteps',
+        name: 'steps',
     });
 
     return (
@@ -30,7 +31,7 @@ export const CookStepsForm = () => {
                     index={index}
                     setValue={setValue}
                     register={register}
-                    errors={errors.cookSteps?.[index]?.description}
+                    errors={errors.steps?.[index]?.description}
                     removeStep={() => remove(index)}
                 />
             ))}

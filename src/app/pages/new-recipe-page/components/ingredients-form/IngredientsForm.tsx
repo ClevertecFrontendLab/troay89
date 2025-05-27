@@ -3,7 +3,7 @@ import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
 import { MultiSelect } from '~/components/multi-select/MultiSelect';
 
-import { RecipeFormValues } from '../../NewRecipePage';
+import { RecipeFormValues } from '../../NewRecipeSchema';
 import { CustomPlus } from '../custom-plus/CustomPlus';
 import { TrashButton } from '../trash-button/TrashButton';
 import styles from './IngredientsForm.module.css';

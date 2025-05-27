@@ -7,7 +7,7 @@ import { Garbage } from '~/components/icons/Garbage';
 import { FileLoadModal } from '~/components/modal/file-load/FileLoadModal';
 import { URLS } from '~/constants/url';
 
-import { RecipeFormValues } from '../../NewRecipePage';
+import { RecipeFormValues } from '../../NewRecipeSchema';
 import styles from './CookStepCard.module.css';
 
 type CookStepCardProps = {
@@ -30,7 +30,7 @@ export const CookStepCard = ({
 
     const handleImageLoaded = (url: string) => {
         setImageUrl(url);
-        setValue(`cookSteps.${index}.image`, url, { shouldValidate: false });
+        setValue(`steps.${index}.image`, url, { shouldValidate: false });
         setIsShowModal(false);
     };
 
@@ -74,7 +74,7 @@ export const CookStepCard = ({
                         borderColor='alpha.200'
                         px='11px'
                         h='84px'
-                        {...register(`cookSteps.${index}.description`, {
+                        {...register(`steps.${index}.description`, {
                             required: 'Обязательное поле',
                             maxLength: {
                                 value: 300,
@@ -83,7 +83,7 @@ export const CookStepCard = ({
                         })}
                     />
                 </FormControl>
-                <input type='hidden' {...register(`cookSteps.${index}.image`)} value={imageUrl} />
+                <input type='hidden' {...register(`steps.${index}.image`)} value={imageUrl} />
             </CardBody>
             {isShowModal && (
                 <FileLoadModal
