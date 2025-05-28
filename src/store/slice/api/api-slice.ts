@@ -16,6 +16,7 @@ import { PATH } from './constants';
 import {
     CategoryPath,
     ForgotPasswordData,
+    RecipeId,
     RecipesCategoryQueryParams,
     RecipesQueryParams,
     ResetPasswordData,
@@ -145,7 +146,6 @@ export const apiSlice = createApi({
                 return {
                     url: PATH.RECIPE,
                     method: 'POST',
-                    credentials: 'include',
                     body: data,
                     headers: {
                         Authorization: accessToken ? `Bearer ${accessToken}` : '',
@@ -153,6 +153,34 @@ export const apiSlice = createApi({
                 };
             },
         }),
+
+        updateRecipe: build.mutation<RecipeResponse, { id: string; data: RecipeFormValues }>({
+            query: ({ id, data }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}`,
+                    method: 'PATCH',
+                    body: data,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
+        deleteRecipe: build.mutation<void, RecipeId>({
+            query: ({ id }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}`,
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
         refresh: build.query<Response, void>({
             query: () => ({
                 url: PATH.AUTH_REFRESH,
@@ -239,4 +267,6 @@ export const {
     useGetMeasureUnitsQuery,
     useUploadFileMutation,
     useCreateRecipeMutation,
+    useDeleteRecipeMutation,
+    useUpdateRecipeMutation,
 } = apiSlice;

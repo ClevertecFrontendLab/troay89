@@ -13,6 +13,7 @@ export const CookStepsForm = () => {
         control,
         register,
         setValue,
+        watch,
         formState: { errors },
     } = useFormContext<RecipeFormValues>();
     const { fields, append, remove } = useFieldArray({
@@ -28,6 +29,7 @@ export const CookStepsForm = () => {
             {fields.map((field, index) => (
                 <CookStepCard
                     key={field.id}
+                    watch={watch}
                     index={index}
                     setValue={setValue}
                     register={register}

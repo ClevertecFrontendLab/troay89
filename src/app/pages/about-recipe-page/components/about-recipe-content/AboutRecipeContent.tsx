@@ -8,7 +8,7 @@ import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import { withLoader } from '~/components/with-loader/WithLoader';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
 import { idRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
-import { useGetRecipeQuery } from '~/store/slice/api/api-slice';
+import { useDeleteRecipeMutation, useGetRecipeQuery } from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 
@@ -24,6 +24,8 @@ type AboutRecipeContentType = {
     isSwiperError: boolean;
     swiperData?: RecipeTypeResponse;
     recipeData?: RecipeType;
+    deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
+    IsErrorDeleteRecipe: boolean;
 };
 
 const AboutRecipeContent = ({
@@ -32,6 +34,8 @@ const AboutRecipeContent = ({
     isErrorRecipe,
     isSwiperError,
     swiperData,
+    deleteRecipe,
+    IsErrorDeleteRecipe,
 }: AboutRecipeContentType) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -70,17 +74,13 @@ const AboutRecipeContent = ({
             {recipeData && (
                 <Box px={{ base: 4, bp76: 0 }}>
                     <CardAboutRecipe
-                        title={recipeData.title}
-                        image={recipeData.image}
-                        bookmarks={recipeData.bookmarks}
-                        likes={recipeData.likes}
-                        description={recipeData.description}
-                        time={recipeData.time}
-                        categoriesIds={recipeData.categoriesIds}
+                        recipeData={recipeData}
+                        deleteRecipe={deleteRecipe}
+                        IsErrorDeleteRecipe={IsErrorDeleteRecipe}
                     />
                     <CaloricDish
                         calories={recipeData.nutritionValue.calories}
-                        protein={recipeData.nutritionValue.proteins}
+                        protein={recipeData.nutritionValue.protein}
                         fats={recipeData.nutritionValue.fats}
                         carbohydrates={recipeData.nutritionValue.carbohydrates}
                     />

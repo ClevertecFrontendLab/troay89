@@ -1,11 +1,14 @@
 import { Box, Divider, Heading } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
+import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { LastBlock } from '~/components/last-block/LastBlock';
 import { SwipeSlider } from '~/components/swipe-slider/SwipeSlider';
 import { withLoader } from '~/components/with-loader/WithLoader';
+import { SUCCESS_MESSAGE } from '~/constants/successMessage';
 import { Category } from '~/type/category';
 import { PaginationMeta, RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 
@@ -40,8 +43,12 @@ export const Content = ({
     meta,
     handleLoadMoreFilter,
 }: ContentProps) => {
+    const location = useLocation();
     const [isErrorOpen, setIsErrorOpen] = useState(false);
     const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(hasErrorFilter);
+    const [isShowAlertSuccessModal, setIsShowAlertSuccessModal] = useState<boolean>(
+        (location.state && location.state.showAlertDelete) || false,
+    );
 
     useEffect(() => {
         setIsErrorOpenFilter(hasErrorFilter);
@@ -71,6 +78,15 @@ export const Content = ({
                     </Box>
                     {isErrorOpenFilter && (
                         <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
+                    )}
+                    {isShowAlertSuccessModal && (
+                        <AlertSuccess
+                            onClose={() => setIsShowAlertSuccessModal(false)}
+                            message={SUCCESS_MESSAGE.SUCCESS_DELETE_RECIPE}
+                            position='fixed'
+                            left='50%'
+                            transform='translateX(-50%)'
+                        />
                     )}
                 </>
             );

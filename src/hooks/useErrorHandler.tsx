@@ -10,7 +10,8 @@ export type AuthErrorContext =
     | 'otp'
     | 'password-recovery'
     | 'reset-password'
-    | 'new-recipe';
+    | 'new-recipe'
+    | 'about-recipe';
 
 export const useHandleError =
     (
@@ -78,6 +79,12 @@ export const useHandleError =
                     default:
                         setTitle(ERROR_MESSAGE.ERROR_SERVER_THREE);
                         setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_THREE);
+                }
+                switch (context) {
+                    case 'about-recipe':
+                        setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                        setNotification(ERROR_MESSAGE.DELETE_RECIPE);
+                        break;
                 }
                 break;
             default:

@@ -16,4 +16,5 @@ export const ERROR_MESSAGE = {
         'Попробуйте другой e-mail или проверьте правильность его написания',
     NEW_RECIPE_NAME: 'Ошибка',
     NEW_RECIPE_NAME_NOTIFICATION: 'Рецепт с таким названием уже существует',
+    DELETE_RECIPE: 'Не удалось удалить рецепт',
 };

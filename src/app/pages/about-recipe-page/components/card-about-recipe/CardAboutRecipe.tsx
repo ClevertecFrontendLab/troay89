@@ -1,40 +1,52 @@
 import { Box, Button, Flex, Heading, Icon, Image, Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
 
 import { fallback } from '~/assets/images/header';
+import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import BookMark from '~/components/icons/BookMark';
 import Clock from '~/components/icons/Clock';
 import EmojiHeart from '~/components/icons/EmojiHeart';
+import { GarbageBlak } from '~/components/icons/GarbageBlak';
+import { Pencil } from '~/components/icons/Pencil';
 import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
 import { StatsForCard } from '~/components/stats-card/StatsForCard';
+import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
+import { useHandleError } from '~/hooks/useErrorHandler';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
+import { useDeleteRecipeMutation } from '~/store/slice/api/api-slice';
 import { Category } from '~/type/category';
+import { RecipeType } from '~/type/recipeType';
+import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import styles from './CardAboutRecipe.module.css';
 
 type CardAboutRecipe = {
-    title: string;
-    categoriesIds: string[];
-    image: string;
-    bookmarks: number;
-    likes: number;
-    description: string;
-    time: string;
+    recipeData: RecipeType;
+    deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
+    IsErrorDeleteRecipe: boolean;
 };
 
 export const CardAboutRecipe = ({
-    title,
-    image,
-    bookmarks,
-    likes,
-    description,
-    time,
-    categoriesIds,
+    recipeData,
+    deleteRecipe,
+    IsErrorDeleteRecipe,
 }: CardAboutRecipe) => {
+    const { title, image, bookmarks, likes, description, time, categoriesIds, authorId } =
+        recipeData;
+    const navigate = useNavigate();
+    const { category, subcategories, id } = useParams();
     const categories = useSelector(getArrayCategorySelector);
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
+    const idUser = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD);
+    const isShowEditButton = authorId === idUser;
+    const [titleError, setTitleError] = useState('');
+    const [notification, setNotification] = useState('');
+    const [isOpenError, setIsOpenError] = useState(IsErrorDeleteRecipe);
+    const handleError = useHandleError(setTitleError, setNotification, 'about-recipe');
 
     useEffect(() => {
         const subcategoryFilter = categories.filter((category) =>
@@ -45,6 +57,26 @@ export const CardAboutRecipe = ({
         );
         setCategoriesCard(filteredCategories);
     }, [categories, categoriesIds]);
+
+    const handleDeleteRecipe = async () => {
+        try {
+            if (id) {
+                await deleteRecipe({ id: id });
+                navigate('/', { state: { showAlertDelete: true } });
+            }
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                setIsOpenError(true);
+                handleError(error);
+            }
+        }
+    };
+
+    const linkEditRecipe: string = `/edit-recipe/${category}/${subcategories}/${id}`;
+
+    const handleEditRecipe = () => {
+        navigate(linkEditRecipe);
+    };
 
     return (
         <Flex className={styles.container} mt={{ base: 4, bp95: 14 }} mb={{ base: 6, bp95: 10 }}>
@@ -107,35 +139,72 @@ export const CardAboutRecipe = ({
                         <Icon as={Clock} />
                         <Text className={styles.clock_text}>{time}</Text>
                     </Flex>
+
                     <Flex className={styles.group_button} gap={{ base: '12px', bp160: '16px' }}>
-                        <Button
-                            leftIcon={
-                                <EmojiHeart
-                                    boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }}
-                                />
-                            }
-                            iconSpacing={{ base: '7px', bp76: '8px' }}
-                            className={styles.button}
-                            size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
-                            px='23px'
-                            variant='outline'
-                        >
-                            Оценить рецепт
-                        </Button>
-                        <Button
-                            leftIcon={
-                                <BookMark boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }} />
-                            }
-                            iconSpacing={{ base: '7px', bp76: '8px' }}
-                            className={styles.button}
-                            size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
-                            px='23px'
-                        >
-                            Сохранить в закладки
-                        </Button>
+                        {isShowEditButton ? (
+                            <>
+                                <Flex
+                                    boxSize={12}
+                                    as='button'
+                                    justify='center'
+                                    align='center'
+                                    onClick={handleDeleteRecipe}
+                                >
+                                    <Icon as={GarbageBlak} />
+                                </Flex>
+                                <Button
+                                    className={classNames(styles.button, styles.extra_styles)}
+                                    px='6px'
+                                    variant='outline'
+                                    size='xl'
+                                    bg='white'
+                                    leftIcon={<Pencil />}
+                                    onClick={handleEditRecipe}
+                                >
+                                    Редактировать рецепт
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button
+                                    leftIcon={
+                                        <EmojiHeart
+                                            boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }}
+                                        />
+                                    }
+                                    iconSpacing={{ base: '7px', bp76: '8px' }}
+                                    className={styles.button}
+                                    size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
+                                    px='23px'
+                                    variant='outline'
+                                >
+                                    Оценить рецепт
+                                </Button>
+                                <Button
+                                    leftIcon={
+                                        <BookMark
+                                            boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }}
+                                        />
+                                    }
+                                    iconSpacing={{ base: '7px', bp76: '8px' }}
+                                    className={styles.button}
+                                    size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
+                                    px='23px'
+                                >
+                                    Сохранить в закладки
+                                </Button>
+                            </>
+                        )}
                     </Flex>
                 </Flex>
             </Flex>
+            {isOpenError && (
+                <ErrorModal
+                    onClose={() => setIsOpenError(false)}
+                    title={titleError}
+                    notification={notification}
+                />
+            )}
         </Flex>
     );
 };

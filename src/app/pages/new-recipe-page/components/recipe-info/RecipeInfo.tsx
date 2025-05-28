@@ -12,7 +12,7 @@ import {
     Textarea,
     VStack,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { fallback } from '~/assets/images/header';
@@ -28,11 +28,20 @@ export const RecipeInfo = () => {
         register,
         control,
         setValue,
+        watch,
         formState: { errors },
     } = useFormContext();
     const [isShowModule, setIsShowModule] = useState(false);
     const handleShowFileLoad = () => setIsShowModule(true);
     const [loaderImageUrl, setLoaderImageUrl] = useState('');
+
+    const imageValue = watch('image');
+
+    useEffect(() => {
+        if (imageValue) {
+            setLoaderImageUrl(imageValue);
+        }
+    }, [imageValue]);
 
     const handleImageLoaded = (url: string) => {
         setLoaderImageUrl(url);
@@ -74,7 +83,6 @@ export const RecipeInfo = () => {
                             const handleSelectionChange = (selected: string[]) => {
                                 field.onChange(selected);
                             };
-
                             return (
                                 <MultiSelect
                                     widthMenu='350px'

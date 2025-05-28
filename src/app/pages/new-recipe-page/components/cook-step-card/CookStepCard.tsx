@@ -1,6 +1,6 @@
 import { Box, Card, CardBody, FormControl, HStack, Icon, Image, Textarea } from '@chakra-ui/react';
-import { useState } from 'react';
-import { FieldError, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { FieldError, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form';
 
 import { fallback } from '~/assets/images/header';
 import { Garbage } from '~/components/icons/Garbage';
@@ -16,6 +16,7 @@ type CookStepCardProps = {
     errors?: FieldError;
     setValue: UseFormSetValue<RecipeFormValues>;
     removeStep: () => void;
+    watch: UseFormWatch<RecipeFormValues>;
 };
 
 export const CookStepCard = ({
@@ -24,6 +25,7 @@ export const CookStepCard = ({
     errors,
     setValue,
     removeStep,
+    watch,
 }: CookStepCardProps) => {
     const [isShowModal, setIsShowModal] = useState(false);
     const [imageUrl, setImageUrl] = useState('');
@@ -33,6 +35,14 @@ export const CookStepCard = ({
         setValue(`steps.${index}.image`, url, { shouldValidate: false });
         setIsShowModal(false);
     };
+
+    const imageValue = watch(`steps.${index}.image`);
+
+    useEffect(() => {
+        if (imageValue) {
+            setImageUrl(imageValue);
+        }
+    }, [imageValue]);
 
     return (
         <Card boxShadow='none' flexDirection='row'>

@@ -22,6 +22,10 @@ export type CategoryPath = Partial<{
     id: string;
 }>;
 
+export type RecipeId = {
+    id: string;
+};
+
 export type ForgotPasswordData = {
     email: string;
 };

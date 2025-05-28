@@ -3,13 +3,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { Pencil } from '~/components/icons/Pencil';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { usePathCategoryData } from '~/hooks/usePathCategoryData';
-import { useCreateRecipeMutation, useGetMeasureUnitsQuery } from '~/store/slice/api/api-slice';
+import {
+    useCreateRecipeMutation,
+    useGetMeasureUnitsQuery,
+    useGetRecipeQuery,
+    useUpdateRecipeMutation,
+} from '~/store/slice/api/api-slice';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import { CookStepsForm } from './components/cook-steps-form/CookStepsForm';
@@ -21,11 +26,15 @@ import { RecipeFormValues, recipeValidationSchema } from './NewRecipeSchema';
 export const NewRecipePage = () => {
     const navigate = useNavigate();
     const [createRecipe] = useCreateRecipeMutation();
+    const [updateRecipe] = useUpdateRecipeMutation();
     const { data, isError, error } = useGetMeasureUnitsQuery();
     const [isOpenError, setIsOpenError] = useState(isError);
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
+    const { id } = useParams();
+    const isEditMode = Boolean(id);
 
+    const { data: dataRecipe } = useGetRecipeQuery({ id }, { skip: !id });
     const handleError = useHandleError(setTitle, setNotification, 'login');
 
     const defaultValues: RecipeFormValues = {
@@ -40,6 +49,32 @@ export const NewRecipePage = () => {
     };
 
     const { keysPathCategory } = usePathCategoryData();
+
+    useEffect(() => {
+        if (isEditMode && dataRecipe) {
+            const filteredCategories = keysPathCategory
+                .map((category) => ({
+                    ...category,
+                    subCategories:
+                        category.subCategories?.filter((sub) =>
+                            dataRecipe.categoriesIds.includes(sub._id),
+                        ) || [],
+                }))
+                .filter((category) => category.subCategories.length > 0)
+                .map(({ title }) => title);
+
+            methods.reset({
+                image: dataRecipe.image,
+                categoriesIds: filteredCategories,
+                title: dataRecipe.title,
+                description: dataRecipe.description,
+                portions: dataRecipe.portions,
+                time: Number(dataRecipe.time) || defaultValues.time,
+                ingredients: dataRecipe.ingredients,
+                steps: dataRecipe.steps,
+            });
+        }
+    }, [isEditMode, dataRecipe]);
 
     const onSubmit = async (data: RecipeFormValues) => {
         const category = keysPathCategory.filter(({ title }) => data.categoriesIds.includes(title));
@@ -56,7 +91,12 @@ export const NewRecipePage = () => {
             });
         }
         try {
-            const response = await createRecipe(payload).unwrap();
+            let response;
+            if (isEditMode && id) {
+                response = await updateRecipe({ id: id, data: payload }).unwrap();
+            } else {
+                response = await createRecipe(payload).unwrap();
+            }
             const link = `/recipes/${category[0].category}/${subcategory}/${response._id}`;
             navigate(link, { state: { showAlert: true } });
         } catch (error) {
@@ -76,8 +116,6 @@ export const NewRecipePage = () => {
     const { handleSubmit } = methods;
 
     const [dataMeasurements, setDataMeasurements] = useState<string[]>([]);
-
-    // const idUser = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD);
 
     useEffect(() => {
         if (data) {

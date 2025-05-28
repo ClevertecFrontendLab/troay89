@@ -35,6 +35,13 @@ button.button {
     letter-spacing: 0.15px;
 }
 
+button.button.extra_styles {
+    background-color: white;
+    letter-spacing: 0.2px;
+    color: var(--black-alpha-800);
+    border-color: var(--black-alpha-600);
+}
+
 @media (max-width: 1890px) {
     .container .image {
         width: 353px;

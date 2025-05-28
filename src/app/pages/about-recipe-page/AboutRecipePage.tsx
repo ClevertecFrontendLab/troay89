@@ -1,4 +1,8 @@
-import { useGetRecipesQuery, useLazyGetRecipeQuery } from '~/store/slice/api/api-slice';
+import {
+    useDeleteRecipeMutation,
+    useGetRecipesQuery,
+    useLazyGetRecipeQuery,
+} from '~/store/slice/api/api-slice';
 
 import { AboutRecipeWithLoader } from './components/about-recipe-content/AboutRecipeContent';
 
@@ -10,15 +14,21 @@ export const AboutRecipePage = () => {
     });
     const [getRecipe, { data: recipeData, isLoading, isError: isErrorRecipe }] =
         useLazyGetRecipeQuery();
+    const [deleteRecipe, { isLoading: isLoadngDeleteRecipe, isError: IsErrorDeleteRecipe }] =
+        useDeleteRecipeMutation();
+
+    const isPemding = isLoading || isLoadngDeleteRecipe;
 
     return (
         <AboutRecipeWithLoader
-            isLoading={isLoading}
+            isLoading={isPemding}
             getRecipe={getRecipe}
             isErrorRecipe={isErrorRecipe}
             isSwiperError={isSwiperError}
             swiperData={swiperData}
             recipeData={recipeData}
+            deleteRecipe={deleteRecipe}
+            IsErrorDeleteRecipe={IsErrorDeleteRecipe}
         />
     );
 };

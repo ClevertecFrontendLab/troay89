@@ -33,7 +33,10 @@ const paths = {
     aboutRecipe: {
         path: '/recipes/:category/:subcategories/:id',
     },
-    new_recipe: {
+    editRecipe: {
+        path: '/edit-recipe/:category/:subcategories/:id',
+    },
+    newRecipe: {
         path: '/recipes/new-recipe',
     },
     notFound: {
@@ -77,7 +80,8 @@ const recipeRoutes: RouteObject = {
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
         { path: paths.verification.path, element: <VerificationPage /> },
-        { path: paths.new_recipe.path, element: <NewRecipePage /> },
+        { path: paths.newRecipe.path, element: <NewRecipePage /> },
+        { path: paths.editRecipe.path, element: <NewRecipePage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };

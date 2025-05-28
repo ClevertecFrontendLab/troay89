@@ -1,13 +1,13 @@
 export type NutritionValue = {
     calories: number;
-    proteins: number;
+    protein: number;
     fats: number;
     carbohydrates: number;
 };
 
 export type Ingredient = {
     title: string;
-    count: string;
+    count: number;
     measureUnit: string;
 };
 
