@@ -17,9 +17,13 @@ import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
-import { useDeleteRecipeMutation } from '~/store/slice/api/api-slice';
-import { Category } from '~/type/category';
-import { RecipeType } from '~/type/recipeType';
+import {
+    useBookmarkMutation,
+    useDeleteRecipeMutation,
+    useLikeRecipeMutation,
+} from '~/store/slice/api/api-slice';
+import { Category } from '~/type/Category';
+import { RecipeType } from '~/type/RecipeType';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import styles from './CardAboutRecipe.module.css';
@@ -28,12 +32,16 @@ type CardAboutRecipe = {
     recipeData: RecipeType;
     deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
     IsErrorDeleteRecipe: boolean;
+    putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
+    saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
 };
 
 export const CardAboutRecipe = ({
     recipeData,
     deleteRecipe,
     IsErrorDeleteRecipe,
+    putLikeUnlike,
+    saveRemoveBookmark,
 }: CardAboutRecipe) => {
     const { title, image, bookmarks, likes, description, time, categoriesIds, authorId } =
         recipeData;
@@ -68,6 +76,28 @@ export const CardAboutRecipe = ({
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);
                 handleError(error);
+            }
+        }
+    };
+
+    const handleLikeRecipe = async () => {
+        try {
+            if (!id) return;
+            await putLikeUnlike({ id: id });
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                setIsOpenError(true);
+            }
+        }
+    };
+
+    const handleBookmarkRecipe = async () => {
+        try {
+            if (!id) return;
+            await saveRemoveBookmark({ id: id });
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                setIsOpenError(true);
             }
         }
     };
@@ -177,6 +207,7 @@ export const CardAboutRecipe = ({
                                     size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
                                     px='23px'
                                     variant='outline'
+                                    onClick={handleLikeRecipe}
                                 >
                                     Оценить рецепт
                                 </Button>
@@ -190,6 +221,7 @@ export const CardAboutRecipe = ({
                                     className={styles.button}
                                     size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
                                     px='23px'
+                                    onClick={handleBookmarkRecipe}
                                 >
                                     Сохранить в закладки
                                 </Button>

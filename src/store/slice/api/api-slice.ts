@@ -6,14 +6,16 @@ import {
 } from '~/app/pages/new-recipe-page/NewRecipeSchema';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
-import { CategoriesResponse } from '~/type/category';
-import { LoginDataType } from '~/type/loginDataType';
+import { CategoriesResponse } from '~/type/Category';
+import { DecodedAccessToken } from '~/type/decodedAccessToken';
+import { LoginDataType } from '~/type/LoginDataType';
 import { MeasureUnitsResponse } from '~/type/measureUnitsResponse';
 import { RecipeResponse } from '~/type/RecipeResponse';
-import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
+import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
 import { UploadFileData } from '~/type/UploadFileData';
+import { UploadFileResponse } from '~/type/uploadFileResponse';
 
 import { PATH } from './constants';
 import {
@@ -26,22 +28,13 @@ import {
     VerifyOtpData,
 } from './types';
 
-type DecodedAccessToken = {
-    userId: string;
-    login: string;
-    iat: number;
-    exp: number;
-};
-
-type UploadFileResponse = {
-    _id: string;
-    name: string;
-    url: string;
-};
+const RECIPE = 'recipe' as const;
+const LIST = 'list' as const;
 
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
+    tagTypes: [RECIPE],
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
             query: () => PATH.CATEGORY,
@@ -51,6 +44,7 @@ export const apiSlice = createApi({
         }),
         getRecipe: build.query<RecipeType, CategoryPath>({
             query: ({ id }) => `${PATH.RECIPE}/${id}`,
+            providesTags: (_, __, { id }) => [{ type: RECIPE, id }],
         }),
         getMeasureUnits: build.query<MeasureUnitsResponse, void>({
             query: () => {
@@ -126,6 +120,13 @@ export const apiSlice = createApi({
 
                 return `recipe?${params.toString()}`;
             },
+            providesTags: (result) =>
+                result
+                    ? [
+                          { type: RECIPE, id: LIST },
+                          ...result.data.map((recipe) => ({ type: RECIPE, id: recipe._id })),
+                      ]
+                    : [{ type: RECIPE, id: LIST }],
         }),
         uploadFile: build.mutation<UploadFileResponse, UploadFileData>({
             query: ({ file }) => {
@@ -198,6 +199,34 @@ export const apiSlice = createApi({
             },
         }),
 
+        likeRecipe: build.mutation<void, RecipeId>({
+            query: ({ id }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}/${PATH.LIKE}`,
+                    method: 'POST',
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+            invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
+        }),
+
+        bookmark: build.mutation<void, RecipeId>({
+            query: ({ id }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}/${PATH.BOOKMARK}`,
+                    method: 'POST',
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+            invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
+        }),
+
         refresh: build.query<Response, void>({
             query: () => ({
                 url: PATH.AUTH_REFRESH,
@@ -237,7 +266,6 @@ export const apiSlice = createApi({
                     localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, accessToken);
                     const [_, payload] = accessToken.split('.');
                     const decodedPayload = JSON.parse(atob(payload)) as DecodedAccessToken;
-                    console.log(decodedPayload, 'decodedPayload');
                     localStorage.setItem(STORAGE_KEY.DECODED_PAYLOAD, decodedPayload.userId);
                 }
             },
@@ -287,4 +315,6 @@ export const {
     useDeleteRecipeMutation,
     useUpdateRecipeMutation,
     useSaveDraftMutation,
+    useBookmarkMutation,
+    useLikeRecipeMutation,
 } = apiSlice;

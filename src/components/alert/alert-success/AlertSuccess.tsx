@@ -38,6 +38,7 @@ export const AlertSuccess = ({
             data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION}
             left={left}
             transform={transform}
+            zIndex={200}
         >
             <AlertIcon boxSize={6} />
             <Text className={styles.message} color='white'>

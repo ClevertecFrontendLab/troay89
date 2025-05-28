@@ -1,7 +1,9 @@
 import {
+    useBookmarkMutation,
     useDeleteRecipeMutation,
     useGetRecipesQuery,
     useLazyGetRecipeQuery,
+    useLikeRecipeMutation,
 } from '~/store/slice/api/api-slice';
 
 import { AboutRecipeWithLoader } from './components/about-recipe-content/AboutRecipeContent';
@@ -14,14 +16,16 @@ export const AboutRecipePage = () => {
     });
     const [getRecipe, { data: recipeData, isLoading, isError: isErrorRecipe }] =
         useLazyGetRecipeQuery();
-    const [deleteRecipe, { isLoading: isLoadngDeleteRecipe, isError: IsErrorDeleteRecipe }] =
+    const [deleteRecipe, { isLoading: isLoadingDeleteRecipe, isError: IsErrorDeleteRecipe }] =
         useDeleteRecipeMutation();
+    const [putLikeUnlike] = useLikeRecipeMutation();
+    const [saveRemoveBookmark] = useBookmarkMutation();
 
-    const isPemding = isLoading || isLoadngDeleteRecipe;
+    const isPending = isLoading || isLoadingDeleteRecipe;
 
     return (
         <AboutRecipeWithLoader
-            isLoading={isPemding}
+            isLoading={isPending}
             getRecipe={getRecipe}
             isErrorRecipe={isErrorRecipe}
             isSwiperError={isSwiperError}
@@ -29,6 +33,8 @@ export const AboutRecipePage = () => {
             recipeData={recipeData}
             deleteRecipe={deleteRecipe}
             IsErrorDeleteRecipe={IsErrorDeleteRecipe}
+            putLikeUnlike={putLikeUnlike}
+            saveRemoveBookmark={saveRemoveBookmark}
         />
     );
 };

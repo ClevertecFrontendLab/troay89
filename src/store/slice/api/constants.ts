@@ -11,4 +11,6 @@ export const PATH = {
     MEASURE_INITS: 'measure-units',
     FILE_UPLOAD: 'file/upload',
     DRAFT: 'draft',
+    LIKE: 'like',
+    BOOKMARK: 'bookmark',
 };

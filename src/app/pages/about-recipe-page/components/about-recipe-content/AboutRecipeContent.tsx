@@ -8,7 +8,12 @@ import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import { withLoader } from '~/components/with-loader/WithLoader';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
 import { idRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
-import { useDeleteRecipeMutation, useGetRecipeQuery } from '~/store/slice/api/api-slice';
+import {
+    useBookmarkMutation,
+    useDeleteRecipeMutation,
+    useGetRecipeQuery,
+    useLikeRecipeMutation,
+} from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
 
@@ -26,6 +31,8 @@ type AboutRecipeContentType = {
     recipeData?: RecipeType;
     deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
     IsErrorDeleteRecipe: boolean;
+    putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
+    saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
 };
 
 const AboutRecipeContent = ({
@@ -36,6 +43,8 @@ const AboutRecipeContent = ({
     swiperData,
     deleteRecipe,
     IsErrorDeleteRecipe,
+    putLikeUnlike,
+    saveRemoveBookmark,
 }: AboutRecipeContentType) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -77,6 +86,8 @@ const AboutRecipeContent = ({
                         recipeData={recipeData}
                         deleteRecipe={deleteRecipe}
                         IsErrorDeleteRecipe={IsErrorDeleteRecipe}
+                        putLikeUnlike={putLikeUnlike}
+                        saveRemoveBookmark={saveRemoveBookmark}
                     />
                     <CaloricDish
                         calories={recipeData.nutritionValue.calories}
