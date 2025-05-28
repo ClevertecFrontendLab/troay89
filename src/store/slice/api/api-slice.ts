@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { RecipeFormValues } from '~/app/pages/new-recipe-page/NewRecipeSchema';
+import {
+    DraftRecipeFormValues,
+    RecipeFormValues,
+} from '~/app/pages/new-recipe-page/NewRecipeSchema';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
 import { CategoriesResponse } from '~/type/category';
@@ -168,6 +171,20 @@ export const apiSlice = createApi({
             },
         }),
 
+        saveDraft: build.mutation<void, DraftRecipeFormValues>({
+            query: (data) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${PATH.DRAFT}`,
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
         deleteRecipe: build.mutation<void, RecipeId>({
             query: ({ id }) => {
                 const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
@@ -269,4 +286,5 @@ export const {
     useCreateRecipeMutation,
     useDeleteRecipeMutation,
     useUpdateRecipeMutation,
+    useSaveDraftMutation,
 } = apiSlice;

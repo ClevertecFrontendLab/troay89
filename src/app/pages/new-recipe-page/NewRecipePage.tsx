@@ -13,20 +13,23 @@ import {
     useCreateRecipeMutation,
     useGetMeasureUnitsQuery,
     useGetRecipeQuery,
+    useSaveDraftMutation,
     useUpdateRecipeMutation,
 } from '~/store/slice/api/api-slice';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
+import { transformEmptyToUndefined } from '~/utils/transformEmptyToUndefined';
 
 import { CookStepsForm } from './components/cook-steps-form/CookStepsForm';
 import { IngredientsForm } from './components/ingredients-form/IngredientsForm';
 import { RecipeInfo } from './components/recipe-info/RecipeInfo';
 import styles from './NewRecipe.module.css';
-import { RecipeFormValues, recipeValidationSchema } from './NewRecipeSchema';
+import { DraftRecipeFormValues, RecipeFormValues, recipeValidationSchema } from './NewRecipeSchema';
 
 export const NewRecipePage = () => {
     const navigate = useNavigate();
     const [createRecipe] = useCreateRecipeMutation();
     const [updateRecipe] = useUpdateRecipeMutation();
+    const [saveRecipeDraft] = useSaveDraftMutation();
     const { data, isError, error } = useGetMeasureUnitsQuery();
     const [isOpenError, setIsOpenError] = useState(isError);
     const [title, setTitle] = useState('');
@@ -113,6 +116,26 @@ export const NewRecipePage = () => {
         mode: 'onSubmit',
     });
 
+    const handleSaveDraft = async () => {
+        const isTitleValid = await methods.trigger('title');
+        if (!isTitleValid) {
+            return;
+        }
+        const formData = methods.getValues();
+        const transformedFormData = transformEmptyToUndefined(formData) as DraftRecipeFormValues;
+        console.log(transformedFormData);
+        try {
+            await saveRecipeDraft(transformedFormData).unwrap();
+            navigate('/', { state: { showAlert: true } });
+        } catch (error) {
+            if (isFetchBaseQueryError(error)) {
+                console.log(error);
+                handleError(error);
+                setIsOpenError(true);
+            }
+        }
+    };
+
     const { handleSubmit } = methods;
 
     const [dataMeasurements, setDataMeasurements] = useState<string[]>([]);
@@ -140,6 +163,8 @@ export const NewRecipePage = () => {
                         color='alpha.800'
                         size='lg'
                         variant='outline'
+                        type='button'
+                        onClick={handleSaveDraft}
                         leftIcon={<Pencil boxSize='17px' />}
                     >
                         Сохранить черновик

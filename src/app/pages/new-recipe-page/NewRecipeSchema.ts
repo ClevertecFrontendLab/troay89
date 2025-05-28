@@ -60,3 +60,11 @@ export type RecipeFormValues = {
     ingredients: IngredientType[];
     steps: StepCook[];
 };
+
+type DeepPartial<T> = {
+    [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+type DeepPartialExcept<T, K extends keyof T> = Pick<T, K> & DeepPartial<Omit<T, K>>;
+
+export type DraftRecipeFormValues = DeepPartialExcept<RecipeFormValues, 'title'>;

@@ -10,4 +10,5 @@ export const PATH = {
     AUTH_RESET_PASSWORD: 'auth/reset-password',
     MEASURE_INITS: 'measure-units',
     FILE_UPLOAD: 'file/upload',
+    DRAFT: 'draft',
 };
