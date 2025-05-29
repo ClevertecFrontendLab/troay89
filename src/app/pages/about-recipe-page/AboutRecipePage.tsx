@@ -18,10 +18,13 @@ export const AboutRecipePage = () => {
         useLazyGetRecipeQuery();
     const [deleteRecipe, { isLoading: isLoadingDeleteRecipe, isError: IsErrorDeleteRecipe }] =
         useDeleteRecipeMutation();
-    const [putLikeUnlike] = useLikeRecipeMutation();
-    const [saveRemoveBookmark] = useBookmarkMutation();
+    const [putLikeUnlike, { isLoading: isLoadingLikeUnLike, isError: isErrorLikeUnlike }] =
+        useLikeRecipeMutation();
+    const [saveRemoveBookmark, { isLoading: isLoadingBookmark, isError: isErrorBookmark }] =
+        useBookmarkMutation();
 
-    const isPending = isLoading || isLoadingDeleteRecipe;
+    const isPending =
+        isLoading || isLoadingDeleteRecipe || isLoadingLikeUnLike || isLoadingBookmark;
 
     return (
         <AboutRecipeWithLoader
@@ -34,6 +37,8 @@ export const AboutRecipePage = () => {
             deleteRecipe={deleteRecipe}
             IsErrorDeleteRecipe={IsErrorDeleteRecipe}
             putLikeUnlike={putLikeUnlike}
+            isErrorLikeUnlike={isErrorLikeUnlike}
+            isErrorBookmark={isErrorBookmark}
             saveRemoveBookmark={saveRemoveBookmark}
         />
     );

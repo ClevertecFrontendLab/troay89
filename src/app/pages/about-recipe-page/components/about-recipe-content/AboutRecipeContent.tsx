@@ -15,7 +15,7 @@ import {
     useLikeRecipeMutation,
 } from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
-import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
+import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 
 import CaloricDish from '../caloric-dish/CaloricDish';
 import { CardAboutRecipe } from '../card-about-recipe/CardAboutRecipe';
@@ -33,6 +33,8 @@ type AboutRecipeContentType = {
     IsErrorDeleteRecipe: boolean;
     putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
     saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
+    isErrorLikeUnlike: boolean;
+    isErrorBookmark: boolean;
 };
 
 const AboutRecipeContent = ({
@@ -45,6 +47,8 @@ const AboutRecipeContent = ({
     IsErrorDeleteRecipe,
     putLikeUnlike,
     saveRemoveBookmark,
+    isErrorLikeUnlike,
+    isErrorBookmark,
 }: AboutRecipeContentType) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -88,6 +92,8 @@ const AboutRecipeContent = ({
                         IsErrorDeleteRecipe={IsErrorDeleteRecipe}
                         putLikeUnlike={putLikeUnlike}
                         saveRemoveBookmark={saveRemoveBookmark}
+                        isErrorLikeUnlike={isErrorLikeUnlike}
+                        isErrorBookmark={isErrorBookmark}
                     />
                     <CaloricDish
                         calories={recipeData.nutritionValue.calories}

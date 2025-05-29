@@ -34,6 +34,8 @@ type CardAboutRecipe = {
     IsErrorDeleteRecipe: boolean;
     putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
     saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
+    isErrorLikeUnlike: boolean;
+    isErrorBookmark: boolean;
 };
 
 export const CardAboutRecipe = ({
@@ -42,6 +44,8 @@ export const CardAboutRecipe = ({
     IsErrorDeleteRecipe,
     putLikeUnlike,
     saveRemoveBookmark,
+    isErrorLikeUnlike,
+    isErrorBookmark,
 }: CardAboutRecipe) => {
     const { title, image, bookmarks, likes, description, time, categoriesIds, authorId } =
         recipeData;
@@ -53,8 +57,19 @@ export const CardAboutRecipe = ({
     const isShowEditButton = authorId === idUser;
     const [titleError, setTitleError] = useState('');
     const [notification, setNotification] = useState('');
-    const [isOpenError, setIsOpenError] = useState(IsErrorDeleteRecipe);
-    const handleError = useHandleError(setTitleError, setNotification, 'about-recipe');
+    const [context, setContext] = useState<'delete-recipe' | 'like-bookmark'>('delete-recipe');
+
+    useEffect(() => {
+        if (IsErrorDeleteRecipe) {
+            setContext('delete-recipe');
+        } else {
+            setContext('like-bookmark');
+        }
+    }, [IsErrorDeleteRecipe]);
+    const handleError = useHandleError(setTitleError, setNotification, context);
+
+    const hasError = IsErrorDeleteRecipe || isErrorLikeUnlike || isErrorBookmark;
+    const [isOpenError, setIsOpenError] = useState(hasError);
 
     useEffect(() => {
         const subcategoryFilter = categories.filter((category) =>
@@ -87,6 +102,7 @@ export const CardAboutRecipe = ({
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);
+                handleError(error);
             }
         }
     };
@@ -98,6 +114,7 @@ export const CardAboutRecipe = ({
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);
+                handleError(error);
             }
         }
     };

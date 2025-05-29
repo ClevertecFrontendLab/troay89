@@ -11,7 +11,8 @@ export type AuthErrorContext =
     | 'password-recovery'
     | 'reset-password'
     | 'new-recipe'
-    | 'about-recipe';
+    | 'delete-recipe'
+    | 'like-bookmark';
 
 export const useHandleError =
     (
@@ -81,9 +82,16 @@ export const useHandleError =
                         setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_THREE);
                 }
                 switch (context) {
-                    case 'about-recipe':
+                    case 'delete-recipe':
                         setTitle(ERROR_MESSAGE.ERROR_SERVER);
                         setNotification(ERROR_MESSAGE.DELETE_RECIPE);
+                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
+                        break;
+                }
+                switch (context) {
+                    case 'like-bookmark':
+                        setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
                         break;
                 }
                 break;
