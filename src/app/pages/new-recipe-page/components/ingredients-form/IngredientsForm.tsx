@@ -31,8 +31,8 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
     });
 
     return (
-        <VStack gap={4} minW='668px'>
-            <HStack alignSelf='flex-start' mb={1}>
+        <VStack gap={{ base: 2, bp76: 4 }} w={{ base: 'auto', bp76: '604px', bp115: '668px' }}>
+            <HStack alignSelf='flex-start' mb={1} gap={{ base: '7px', bp76: '11px' }}>
                 <Text className={styles.title} letterSpacing={0}>
                     Добавьте ингредиенты рецепта, нажав на
                 </Text>
@@ -45,7 +45,7 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                     title=''
                 />
             </HStack>
-            <HStack alignSelf='flex-start' mb={1}>
+            <HStack alignSelf='flex-start' mb={1} display={{ base: 'none', bp95: 'flex' }}>
                 <Heading className={styles.heading} pl='24px'>
                     Ингредиент
                 </Heading>
@@ -57,11 +57,19 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                 </Heading>
             </HStack>
             {fields.map((field, index) => (
-                <HStack key={field.id} gap={4} w='100%'>
-                    <FormControl isInvalid={Boolean(errors.ingredients?.[index]?.title)}>
+                <HStack
+                    key={field.id}
+                    gap={{ base: 3, bp115: 4 }}
+                    w='100%'
+                    flexWrap={{ base: 'wrap', bp115: 'nowrap' }}
+                >
+                    <FormControl
+                        isInvalid={Boolean(errors.ingredients?.[index]?.title)}
+                        w='fit-content'
+                    >
                         <Input
                             className={styles.input}
-                            w='293px'
+                            w={{ base: '328px', bp76: '241px', bp115: '293px' }}
                             placeholder='Ингредиент'
                             {...register(`ingredients.${index}.title` as const)}
                         />
@@ -87,7 +95,10 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                             }}
                         />
                     </FormControl>
-                    <FormControl isInvalid={Boolean(errors.ingredients?.[index]?.measureUnit)}>
+                    <FormControl
+                        isInvalid={Boolean(errors.ingredients?.[index]?.measureUnit)}
+                        w='fit-content'
+                    >
                         <Controller
                             name={`ingredients.${index}.measureUnit`}
                             control={control}
@@ -100,6 +111,7 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                                 return (
                                     <MultiSelect
                                         widthMenu='215px'
+                                        widthMenuMobile='192px'
                                         textPlaceHolder='Единица измерен...'
                                         listItem={dataMeasurements}
                                         value={field.value !== '' ? [field.value] : []}

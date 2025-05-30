@@ -12,3 +12,9 @@ h2.heading {
 .input {
     font: var(--font-inter-bread);
 }
+
+@media (max-width: 1150px) {
+    p.title {
+        font: var(--font-inter-button-second);
+    }
+}

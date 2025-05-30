@@ -1,5 +1,4 @@
-import { memo } from 'react';
-import { Navigate, RouteObject, useRoutes } from 'react-router';
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router';
 
 import { AccountTabs } from '~/app/layout/account-layout/account-tabs/AccountTabs';
 import { AccountLayout } from '~/app/layout/account-layout/AccountLayout';
@@ -88,7 +87,4 @@ const recipeRoutes: RouteObject = {
 
 const allRoutes: RouteObject[] = [accountRoutes, recipeRoutes];
 
-export const AppRouter = memo(() => useRoutes(allRoutes));
-AppRouter.displayName = 'AppRouter';
-
-export default AppRouter;
+export const router = createBrowserRouter(allRoutes);

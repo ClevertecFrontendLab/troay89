@@ -45,7 +45,7 @@ export const CookStepCard = ({
     }, [imageValue]);
 
     return (
-        <Card boxShadow='none' flexDirection='row'>
+        <Card boxShadow='none' flexDirection={{ base: 'column', bp76: 'row' }}>
             <Image
                 w='346px'
                 h='160px'
@@ -60,8 +60,9 @@ export const CookStepCard = ({
             <CardBody
                 border='1px solid'
                 borderColor='alpha.200'
-                borderLeft='none'
-                w='322px'
+                borderLeft={{ base: '1px solid alpha.200', bp76: 'none' }}
+                borderTop={{ base: 'none', bp76: '1px solid alpha.200' }}
+                w={{ base: 'auto', bp76: '258px', bp115: '322px' }}
                 py='19px'
             >
                 <HStack mb={4} justify='space-between'>
@@ -83,7 +84,7 @@ export const CookStepCard = ({
                         placeholder='Шаг'
                         borderColor='alpha.200'
                         px='11px'
-                        h='84px'
+                        h={{ base: '116px', bp76: '84px' }}
                         {...register(`steps.${index}.description`, {
                             required: 'Обязательное поле',
                             maxLength: {

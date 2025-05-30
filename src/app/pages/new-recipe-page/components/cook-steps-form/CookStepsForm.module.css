@@ -10,3 +10,9 @@
 .button.border_color {
     border-color: var(--black-alpha-600);
 }
+
+@media (max-width: 1150px) {
+    p.title {
+        font: var(--font-inter-button-second);
+    }
+}

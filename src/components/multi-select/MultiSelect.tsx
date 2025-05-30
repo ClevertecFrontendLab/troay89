@@ -22,6 +22,7 @@ import styles from './MultiSelect.module.css';
 
 type MultiSelectProps = {
     widthMenu: string;
+    widthMenuMobile?: string;
     textPlaceHolder: string;
     value: string[];
     listItem: string[];
@@ -35,6 +36,7 @@ type MultiSelectProps = {
 
 export const MultiSelect = ({
     widthMenu,
+    widthMenuMobile = '308px',
     textPlaceHolder,
     isDisable,
     listItem,
@@ -100,7 +102,7 @@ export const MultiSelect = ({
                         as={Button}
                         className={styles.select}
                         pr={2}
-                        maxW={widthMenu}
+                        maxW={{ base: widthMenuMobile, bp76: widthMenu }}
                         variant='outline'
                         isDisabled={!isDisable}
                         borderColor={hasError ? 'red.500' : undefined}
@@ -146,7 +148,7 @@ export const MultiSelect = ({
                         className={styles.menu_list}
                         zIndex={10}
                         py={0}
-                        width={{ base: '308px', bp95: widthMenu }}
+                        w={{ base: widthMenuMobile, bp76: widthMenu }}
                         data-test-id={DATA_TEST_ID.ALLERGENS_MENU}
                     >
                         {listItem.map((allergen, index) => (

@@ -7,9 +7,11 @@ import { useNavigate, useParams } from 'react-router';
 
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { Pencil } from '~/components/icons/Pencil';
+import { DraftSaveModal } from '~/components/modal/draft-save-modal/DraftSaveModal';
 import { withLoader } from '~/components/with-loader/WithLoader';
 import { useHandleError } from '~/hooks/useErrorHandler';
 import { usePathCategoryData } from '~/hooks/usePathCategoryData';
+import { useUnsavedChangesWarning } from '~/hooks/useUnsavedChangesWarning';
 import {
     useCreateRecipeMutation,
     useSaveDraftMutation,
@@ -69,6 +71,24 @@ export const NewRecipeContent = ({
         steps: [{ stepNumber: 1, image: undefined, description: '' }],
     };
 
+    const methods = useForm<RecipeFormValues>({
+        defaultValues,
+        resolver: yupResolver(recipeValidationSchema),
+        mode: 'onSubmit',
+    });
+
+    const { isDirty } = methods.formState;
+    const { showModal, confirmNavigation, cancelNavigation } = useUnsavedChangesWarning(isDirty);
+
+    const handleSaveDraftModal = async () => {
+        const isTitleValid = await methods.trigger('title');
+        if (!isTitleValid) {
+            cancelNavigation();
+            return;
+        }
+        await handleSaveDraft();
+    };
+
     useEffect(() => {
         if (isEditMode && dataRecipe) {
             const filteredCategories = keysPathCategory
@@ -126,12 +146,6 @@ export const NewRecipeContent = ({
         }
     };
 
-    const methods = useForm<RecipeFormValues>({
-        defaultValues,
-        resolver: yupResolver(recipeValidationSchema),
-        mode: 'onSubmit',
-    });
-
     const handleSaveDraft = async () => {
         const isTitleValid = await methods.trigger('title');
         if (!isTitleValid) {
@@ -139,7 +153,6 @@ export const NewRecipeContent = ({
         }
         const formData = methods.getValues();
         const transformedFormData = transformEmptyToUndefined(formData) as DraftRecipeFormValues;
-        console.log(transformedFormData);
         try {
             await saveRecipeDraft(transformedFormData).unwrap();
             navigate('/', { state: { showAlert: true } });
@@ -164,11 +177,22 @@ export const NewRecipeContent = ({
 
     return (
         <FormProvider {...methods}>
-            <VStack mt={14} gap={10} mb={8} as='form' onSubmit={handleSubmit(onSubmit)}>
+            <VStack
+                mt={{ base: 4, bp115: 14 }}
+                gap={{ base: 8, bp115: 10 }}
+                mb={{ base: '12px', bp76: '44px', bp115: 8 }}
+                as='form'
+                onSubmit={handleSubmit(onSubmit)}
+                mx={{ base: 4, bp76: 0 }}
+            >
                 <RecipeInfo />
                 <IngredientsForm dataMeasurements={dataMeasurements} />
                 <CookStepsForm />
-                <ButtonGroup spacing={5}>
+                <ButtonGroup
+                    spacing={{ base: 0, bp76: 5 }}
+                    flexDir={{ base: 'column', bp76: 'row' }}
+                    w='100%'
+                >
                     <Button
                         className={classNames(styles.button, styles.border_color)}
                         letterSpacing='0.2px'
@@ -179,6 +203,8 @@ export const NewRecipeContent = ({
                         type='button'
                         onClick={handleSaveDraft}
                         leftIcon={<Pencil boxSize='17px' />}
+                        w='100%'
+                        mb={{ base: 5, bp76: 0 }}
                     >
                         Сохранить черновик
                     </Button>
@@ -190,6 +216,7 @@ export const NewRecipeContent = ({
                         color='white'
                         colorScheme='teal'
                         type='submit'
+                        w='100%'
                     >
                         Опубликовать рецепт
                     </Button>
@@ -202,6 +229,12 @@ export const NewRecipeContent = ({
                     notification={notification}
                 />
             )}
+            <DraftSaveModal
+                isOpen={showModal}
+                onClose={cancelNavigation}
+                onSaveDraft={handleSaveDraftModal}
+                onConfirm={confirmNavigation}
+            />
         </FormProvider>
     );
 };
