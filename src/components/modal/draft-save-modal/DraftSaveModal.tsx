@@ -13,6 +13,7 @@ import {
 import { noExit } from '~/assets/images/modal-mage';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
 import { PencilWhite } from '~/components/icons/PencilWhite';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 
 import styles from './DraftSaveModal.module.css';
 
@@ -38,6 +39,7 @@ export const DraftSaveModal = ({
                 alignItems='center'
                 m={0}
                 borderRadius='16px'
+                data-test-id={DATA_TEST_ID.RECIPE_PREVENTIVE_MODAL}
             >
                 <Image src={noExit} boxSize={{ base: '108px', bp115: '206px' }} mt={8} />
                 <Icon
@@ -47,6 +49,7 @@ export const DraftSaveModal = ({
                     right={6}
                     boxSize={6}
                     onClick={onClose}
+                    data-test-id={DATA_TEST_ID.CLOSE_BUTTON}
                 />
                 <ModalBody p={8} w='100%'>
                     <ModalHeader

@@ -1,8 +1,8 @@
 export const transformEmptyToUndefined = (obj: unknown): unknown => {
     if (typeof obj === 'string') {
-        return obj.trim() === '' ? undefined : obj;
+        return obj.trim() === '' ? null : obj;
     } else if ((typeof obj === 'number' && isNaN(obj)) || obj === 0) {
-        return undefined;
+        return null;
     }
     if (Array.isArray(obj)) {
         return obj.map((item) => transformEmptyToUndefined(item));

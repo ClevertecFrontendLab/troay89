@@ -13,6 +13,7 @@ import { GarbageBlak } from '~/components/icons/GarbageBlak';
 import { Pencil } from '~/components/icons/Pencil';
 import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
 import { StatsForCard } from '~/components/stats-card/StatsForCard';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
 import { useHandleError } from '~/hooks/useErrorHandler';
@@ -57,16 +58,9 @@ export const CardAboutRecipe = ({
     const isShowEditButton = authorId === idUser;
     const [titleError, setTitleError] = useState('');
     const [notification, setNotification] = useState('');
-    const [context, setContext] = useState<'delete-recipe' | 'like-bookmark'>('delete-recipe');
 
-    useEffect(() => {
-        if (IsErrorDeleteRecipe) {
-            setContext('delete-recipe');
-        } else {
-            setContext('like-bookmark');
-        }
-    }, [IsErrorDeleteRecipe]);
-    const handleError = useHandleError(setTitleError, setNotification, context);
+    const handleErrorDelete = useHandleError(setTitleError, setNotification, 'delete-recipe');
+    const handleErrorLikeBookmark = useHandleError(setTitleError, setNotification, 'like-bookmark');
 
     const hasError = IsErrorDeleteRecipe || isErrorLikeUnlike || isErrorBookmark;
     const [isOpenError, setIsOpenError] = useState(hasError);
@@ -84,13 +78,13 @@ export const CardAboutRecipe = ({
     const handleDeleteRecipe = async () => {
         try {
             if (id) {
-                await deleteRecipe({ id: id });
+                await deleteRecipe({ id: id }).unwrap();
                 navigate('/', { state: { showAlertDelete: true } });
             }
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);
-                handleError(error);
+                handleErrorDelete(error);
             }
         }
     };
@@ -98,11 +92,11 @@ export const CardAboutRecipe = ({
     const handleLikeRecipe = async () => {
         try {
             if (!id) return;
-            await putLikeUnlike({ id: id });
+            await putLikeUnlike({ id: id }).unwrap();
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);
-                handleError(error);
+                handleErrorLikeBookmark(error);
             }
         }
     };
@@ -110,11 +104,11 @@ export const CardAboutRecipe = ({
     const handleBookmarkRecipe = async () => {
         try {
             if (!id) return;
-            await saveRemoveBookmark({ id: id });
+            await saveRemoveBookmark({ id: id }).unwrap();
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);
-                handleError(error);
+                handleErrorLikeBookmark(error);
             }
         }
     };
@@ -191,11 +185,12 @@ export const CardAboutRecipe = ({
                         {isShowEditButton ? (
                             <>
                                 <Flex
-                                    boxSize={12}
+                                    boxSize={{ base: 6, bp95: 8, bp160: 12 }}
                                     as='button'
                                     justify='center'
                                     align='center'
                                     onClick={handleDeleteRecipe}
+                                    data-test-id={DATA_TEST_ID.RECIPE_DELETE_BUTTON}
                                 >
                                     <Icon as={GarbageBlak} />
                                 </Flex>
@@ -203,9 +198,13 @@ export const CardAboutRecipe = ({
                                     className={classNames(styles.button, styles.extra_styles)}
                                     px='6px'
                                     variant='outline'
-                                    size='xl'
+                                    size={{ base: 'xs', bp95: 'sm', bp160: 'lg' }}
                                     bg='white'
-                                    leftIcon={<Pencil />}
+                                    leftIcon={
+                                        <Pencil
+                                            boxSize={{ base: '12px', bp95: '14px', bp160: '16px' }}
+                                        />
+                                    }
                                     onClick={handleEditRecipe}
                                 >
                                     Редактировать рецепт

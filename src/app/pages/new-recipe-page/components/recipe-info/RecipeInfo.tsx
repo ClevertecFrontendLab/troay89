@@ -18,8 +18,9 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { fallback } from '~/assets/images/header';
 import { FileLoadModal } from '~/components/modal/file-load/FileLoadModal';
 import { MultiSelect } from '~/components/multi-select/MultiSelect';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { URLS } from '~/constants/url';
-import { dataCategory } from '~/data/dataCategory';
+import { usePathCategoryData } from '~/hooks/usePathCategoryData';
 
 import styles from './RecipeInfo.module.css';
 
@@ -34,7 +35,11 @@ export const RecipeInfo = () => {
     const [isShowModule, setIsShowModule] = useState(false);
     const handleShowFileLoad = () => setIsShowModule(true);
     const [loaderImageUrl, setLoaderImageUrl] = useState('');
+    const { keysPathCategory } = usePathCategoryData();
 
+    const allSubcategories = keysPathCategory?.flatMap(
+        (category) => category.subCategories?.map(({ title }) => title) || [],
+    );
     const imageValue = watch('image');
 
     useEffect(() => {
@@ -45,7 +50,7 @@ export const RecipeInfo = () => {
 
     const handleImageLoaded = (url: string) => {
         setLoaderImageUrl(url);
-        setValue('image', url, { shouldValidate: true });
+        setValue('image', url, { shouldValidate: true, shouldDirty: true });
     };
 
     return (
@@ -60,6 +65,7 @@ export const RecipeInfo = () => {
                 isInvalid={!!errors.image}
                 flexShrink={{ base: 0, bp160: 'unset', bp189: 0 }}
                 mx={{ base: 'auto', bp76: 'unset' }}
+                data-test-id={DATA_TEST_ID.RECIPE_IMAGE_BLOCK}
             >
                 <Image
                     w={{ base: '328px', bp76: '232px', bp115: '553px' }}
@@ -72,7 +78,9 @@ export const RecipeInfo = () => {
                     objectFit={loaderImageUrl ? 'unset' : 'none'}
                     objectPosition='center'
                     onClick={handleShowFileLoad}
-                    border={errors.image ? '2px solid red' : 'none'}
+                    border={errors.image ? '2px solid' : 'none'}
+                    borderColor='red.500'
+                    data-test-id={DATA_TEST_ID.RECIPE_IMAGE_BLOCK_PREVIEW_IMAGE}
                 />
             </FormControl>
             <VStack w='100%' alignItems='flex-start' gap={{ base: 4, bp115: 6 }}>
@@ -83,7 +91,7 @@ export const RecipeInfo = () => {
                 >
                     <FormLabel
                         className={styles.title}
-                        // whiteSpace='nowrap'
+                        whiteSpace={{ base: 'wrap', bp76: 'nowrap' }}
                         mb={0}
                         my='auto'
                         mr={{ base: '16px', bp76: '42px', bp115: '84px' }}
@@ -102,11 +110,12 @@ export const RecipeInfo = () => {
                                     widthMenu='350px'
                                     widthMenuMobile='196px'
                                     textPlaceHolder='Выберите из списка...'
-                                    listItem={dataCategory}
+                                    listItem={allSubcategories}
                                     value={field.value}
                                     onSelectionChange={handleSelectionChange}
                                     isDisable={true}
                                     hasError={Boolean(errors.categoriesIds)}
+                                    dataTest={DATA_TEST_ID.RECIPE_CATEGORIES}
                                 />
                             );
                         }}
@@ -119,18 +128,37 @@ export const RecipeInfo = () => {
                         placeholder='Название рецепта'
                         maxW='668px'
                         size='lg'
-                        borderColor='lime.150'
                         {...register('title')}
+                        border={errors.title ? '2px solid' : '1px solid'}
+                        borderColor={errors.title ? 'red.500' : 'alpha.200'}
+                        _focus={{
+                            borderColor: errors.title ? 'red.500' : 'alpha.200',
+                            boxShadow: 'none',
+                        }}
+                        _invalid={{
+                            boxShadow: 'none',
+                        }}
+                        data-test-id={DATA_TEST_ID.RECIPE_TITLE}
                     />
                 </FormControl>
 
-                <FormControl isInvalid={Boolean(errors.description)}>
+                <FormControl isInvalid={Boolean(errors.description)} boxShadow='none'>
                     <Textarea
                         className={styles.text_area}
                         placeholder='Краткое описание рецепта'
                         maxW='668px'
                         px='11px'
                         {...register('description')}
+                        border={errors.description ? '2px solid' : '1px solid'}
+                        borderColor={errors.description ? 'red.500' : 'alpha.200'}
+                        _invalid={{
+                            boxShadow: 'none',
+                        }}
+                        _focus={{
+                            borderColor: errors.description ? 'red.500' : 'alpha.200',
+                            boxShadow: 'none',
+                        }}
+                        data-test-id={DATA_TEST_ID.RECIPE_DESCRIPTION}
                     />
                 </FormControl>
 
@@ -146,8 +174,20 @@ export const RecipeInfo = () => {
                     >
                         На сколько человек ваш рецепт?
                     </FormLabel>
-                    <NumberInput defaultValue={4} className={styles.input} w='90px'>
-                        <NumberInputField {...register('portions', { valueAsNumber: true })} />
+                    <NumberInput defaultValue={undefined} className={styles.input} w='90px'>
+                        <NumberInputField
+                            {...register('portions', { valueAsNumber: true })}
+                            border={errors.portions ? '2px solid' : '1px solid'}
+                            borderColor={errors.portions ? 'red.500' : 'alpha.200'}
+                            _invalid={{
+                                boxShadow: 'none',
+                            }}
+                            _focus={{
+                                borderColor: errors.portions ? 'red.500' : 'alpha.200',
+                                boxShadow: 'none',
+                            }}
+                            data-test-id={DATA_TEST_ID.RECIPE_PORTIONS}
+                        />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -167,8 +207,20 @@ export const RecipeInfo = () => {
                     >
                         Сколько времени готовить в минутах?
                     </FormLabel>
-                    <NumberInput defaultValue={30} className={styles.input} w='90px'>
-                        <NumberInputField {...register('time', { valueAsNumber: true })} />
+                    <NumberInput defaultValue={undefined} className={styles.input} w='90px'>
+                        <NumberInputField
+                            data-test-id={DATA_TEST_ID.RECIPE_TIME}
+                            border={errors.time ? '2px solid' : '1px solid'}
+                            borderColor={errors.time ? 'red.500' : 'alpha.200'}
+                            _invalid={{
+                                boxShadow: 'none',
+                            }}
+                            _focus={{
+                                borderColor: errors.time ? 'red.500' : 'alpha.200',
+                                boxShadow: 'none',
+                            }}
+                            {...register('time', { valueAsNumber: true })}
+                        />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
                             <NumberDecrementStepper />
@@ -180,6 +232,8 @@ export const RecipeInfo = () => {
                         isOpen={isShowModule}
                         onClose={() => setIsShowModule(false)}
                         setLoadImageUrl={handleImageLoaded}
+                        dataTestId={DATA_TEST_ID.RECIPE_IMAGE_BLOCK_INPUT_FILE}
+                        defaultImageUrl={loaderImageUrl}
                     />
                 )}
             </VStack>

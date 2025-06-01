@@ -1,10 +1,11 @@
 import { FormControl, Heading, HStack, Input, Text, VStack } from '@chakra-ui/react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 
-import { MultiSelect } from '~/components/multi-select/MultiSelect';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 
 import { RecipeFormValues } from '../../NewRecipeSchema';
 import { CustomPlus } from '../custom-plus/CustomPlus';
+import { Selector } from '../selector/Selector';
 import { TrashButton } from '../trash-button/TrashButton';
 import styles from './IngredientsForm.module.css';
 
@@ -32,7 +33,7 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
 
     return (
         <VStack gap={{ base: 2, bp76: 4 }} w={{ base: 'auto', bp76: '604px', bp115: '668px' }}>
-            <HStack alignSelf='flex-start' mb={1} gap={{ base: '7px', bp76: '11px' }}>
+            <HStack alignSelf='flex-start' mb={1} gap={{ base: '7px', bp115: '11px' }}>
                 <Text className={styles.title} letterSpacing={0}>
                     Добавьте ингредиенты рецепта, нажав на
                 </Text>
@@ -45,7 +46,7 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                     title=''
                 />
             </HStack>
-            <HStack alignSelf='flex-start' mb={1} display={{ base: 'none', bp95: 'flex' }}>
+            <HStack alignSelf='flex-start' mb={1} display={{ base: 'none', bp76: 'flex' }}>
                 <Heading className={styles.heading} pl='24px'>
                     Ингредиент
                 </Heading>
@@ -71,7 +72,21 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                             className={styles.input}
                             w={{ base: '328px', bp76: '241px', bp115: '293px' }}
                             placeholder='Ингредиент'
+                            border={errors.ingredients?.[index]?.title ? '2px solid' : '1px solid'}
+                            borderColor={
+                                errors.ingredients?.[index]?.title ? 'red.500' : 'alpha.200'
+                            }
+                            _focus={{
+                                borderColor: errors.ingredients?.[index]?.title
+                                    ? 'red.500'
+                                    : 'alpha.200',
+                                boxShadow: 'none',
+                            }}
+                            _invalid={{
+                                boxShadow: 'none',
+                            }}
                             {...register(`ingredients.${index}.title` as const)}
+                            data-test-id={DATA_TEST_ID.getRecipeIngredientTitle(index)}
                         />
                     </FormControl>
                     <FormControl w='80px' isInvalid={Boolean(errors.ingredients?.[index]?.count)}>
@@ -84,12 +99,32 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                                 return (
                                     <Input
                                         className={styles.input}
+                                        border={
+                                            errors.ingredients?.[index]?.count
+                                                ? '2px solid'
+                                                : '1px solid'
+                                        }
+                                        borderColor={
+                                            errors.ingredients?.[index]?.count
+                                                ? 'red.500'
+                                                : 'alpha.200'
+                                        }
+                                        _invalid={{
+                                            boxShadow: 'none',
+                                        }}
+                                        _focus={{
+                                            borderColor: errors.ingredients?.[index]?.count
+                                                ? 'red.500'
+                                                : 'alpha.200',
+                                            boxShadow: 'none',
+                                        }}
                                         w='80px'
                                         placeholder='100'
                                         value={displayValue}
                                         onChange={(e) => {
                                             field.onChange(e.target.value);
                                         }}
+                                        data-test-id={DATA_TEST_ID.getRecipeIngredientCount(index)}
                                     />
                                 );
                             }}
@@ -102,26 +137,14 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                         <Controller
                             name={`ingredients.${index}.measureUnit`}
                             control={control}
-                            render={({ field }) => {
-                                const handleMultiSelectChange = (selectedValue: string[]) => {
-                                    console.log('Выбранное значение:', selectedValue);
-                                    field.onChange(selectedValue[0]);
-                                };
-
-                                return (
-                                    <MultiSelect
-                                        widthMenu='215px'
-                                        widthMenuMobile='192px'
-                                        textPlaceHolder='Единица измерен...'
-                                        listItem={dataMeasurements}
-                                        value={field.value !== '' ? [field.value] : []}
-                                        onSelectionChange={handleMultiSelectChange}
-                                        isDisable={true}
-                                        isSingleSelect={true}
-                                        hasError={Boolean(errors.ingredients?.[index]?.measureUnit)}
-                                    />
-                                );
-                            }}
+                            render={({ field }) => (
+                                <Selector
+                                    dataMeasurements={dataMeasurements}
+                                    value={field.value}
+                                    onChange={(e) => field.onChange(e.target.value)}
+                                    dataTestId={DATA_TEST_ID.getRecipeIngredientMeasureUnit(index)}
+                                />
+                            )}
                         />
                     </FormControl>
                     {index === fields.length - 1 ? (
@@ -135,11 +158,13 @@ export const IngredientsForm = ({ dataMeasurements }: IngredientsFormProps) => {
                             alignSelf='flex-end'
                             mb='4px'
                             title='Добавьте ингредиенты рецепта'
+                            dataTestId={DATA_TEST_ID.RECIPE_INGREDIENTS_ADD_INGREDIENTS}
                         />
                     ) : (
                         <TrashButton
                             onClick={() => remove(index)}
                             title='Удалить ингредиенты рецепта'
+                            dataTestId={DATA_TEST_ID.getRecipeIngredientsRemoveIngredients(index)}
                         />
                     )}
                 </HStack>

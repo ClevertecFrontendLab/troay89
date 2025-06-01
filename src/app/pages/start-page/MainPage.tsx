@@ -34,7 +34,7 @@ export const MainPage = () => {
         data: swiperData,
         isError: isSwiperError,
         isFetching: isSwiperFetching,
-    } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'asc' });
+    } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'desc' });
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
 

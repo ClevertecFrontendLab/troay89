@@ -5,6 +5,7 @@ import { FieldError, UseFormRegister, UseFormSetValue, UseFormWatch } from 'reac
 import { fallback } from '~/assets/images/header';
 import { Garbage } from '~/components/icons/Garbage';
 import { FileLoadModal } from '~/components/modal/file-load/FileLoadModal';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { URLS } from '~/constants/url';
 
 import { RecipeFormValues } from '../../NewRecipeSchema';
@@ -46,17 +47,20 @@ export const CookStepCard = ({
 
     return (
         <Card boxShadow='none' flexDirection={{ base: 'column', bp76: 'row' }}>
-            <Image
-                w='346px'
-                h='160px'
-                alt='место для загрузки изображения'
-                background='alpha.200'
-                fallbackSrc={fallback}
-                objectPosition='center'
-                objectFit={imageUrl ? 'unset' : 'none'}
-                src={imageUrl ? `${URLS.IMAGE_URL}${imageUrl}` : undefined}
-                onClick={() => setIsShowModal(true)}
-            />
+            <Box data-test-id={DATA_TEST_ID.getRecipeStepImageBlock(index)}>
+                <Image
+                    w='346px'
+                    h='160px'
+                    alt='место для загрузки изображения'
+                    background='alpha.200'
+                    fallbackSrc={fallback}
+                    objectPosition='center'
+                    objectFit={imageUrl ? 'unset' : 'none'}
+                    src={imageUrl ? `${URLS.IMAGE_URL}${imageUrl}` : undefined}
+                    onClick={() => setIsShowModal(true)}
+                    data-test-id={DATA_TEST_ID.getRecipeStepsImageBlockPreviewImage(index)}
+                />
+            </Box>
             <CardBody
                 border='1px solid'
                 borderColor='alpha.200'
@@ -76,13 +80,21 @@ export const CookStepCard = ({
                     >
                         Шаг {index + 1}
                     </Box>
-                    <Icon as={Garbage} onClick={removeStep} />
+                    {index !== 0 && (
+                        <Icon
+                            as={Garbage}
+                            onClick={removeStep}
+                            data-test-id={DATA_TEST_ID.getRecipeStepsRemoveButton(index)}
+                            cursor='pointer'
+                        />
+                    )}
                 </HStack>
                 <FormControl isInvalid={Boolean(errors)}>
                     <Textarea
                         className={styles.text_area}
                         placeholder='Шаг'
-                        borderColor='alpha.200'
+                        border={errors ? '2px solid' : '1px solid'}
+                        borderColor={errors ? 'red.500' : 'alpha.200'}
                         px='11px'
                         h={{ base: '116px', bp76: '84px' }}
                         {...register(`steps.${index}.description`, {
@@ -92,6 +104,14 @@ export const CookStepCard = ({
                                 message: 'Описание шага не более 300 символов',
                             },
                         })}
+                        _focus={{
+                            borderColor: errors ? 'red.500' : 'alpha.200',
+                            boxShadow: 'none',
+                        }}
+                        _invalid={{
+                            boxShadow: 'none',
+                        }}
+                        data-test-id={DATA_TEST_ID.getRecipeStepDescription(index)}
                     />
                 </FormControl>
                 <input type='hidden' {...register(`steps.${index}.image`)} value={imageUrl} />
@@ -101,6 +121,8 @@ export const CookStepCard = ({
                     isOpen={isShowModal}
                     onClose={() => setIsShowModal(false)}
                     setLoadImageUrl={handleImageLoaded}
+                    defaultImageUrl={imageUrl}
+                    dataTestId={DATA_TEST_ID.getRecipeStepImageBlockInputFile(index)}
                 />
             )}
         </Card>

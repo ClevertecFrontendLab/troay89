@@ -121,7 +121,7 @@ export const apiSlice = createApi({
                 return `recipe?${params.toString()}`;
             },
             providesTags: (result) =>
-                result
+                result && Array.isArray(result.data)
                     ? [
                           { type: RECIPE, id: LIST },
                           ...result.data.map((recipe) => ({ type: RECIPE, id: recipe._id })),

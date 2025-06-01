@@ -22,7 +22,7 @@ export const CookStepsForm = () => {
     });
 
     return (
-        <VStack gap={4}>
+        <VStack gap={{ base: 3, bp76: 4 }}>
             <Text className={styles.title} letterSpacing={0} alignSelf='flex-start'>
                 Добавьте шаги приготовления
             </Text>

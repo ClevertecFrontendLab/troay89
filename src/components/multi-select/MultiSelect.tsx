@@ -135,7 +135,7 @@ export const MultiSelect = ({
                                             </Box>
                                         ))}
                                         <Box key='extra' className={styles.label_allergen}>
-                                            {`+ ${selectedLabel.length - 2}`}
+                                            {`+${selectedLabel.length - 2}`}
                                         </Box>
                                     </>
                                 )
@@ -150,11 +150,14 @@ export const MultiSelect = ({
                         py={0}
                         w={{ base: widthMenuMobile, bp76: widthMenu }}
                         data-test-id={DATA_TEST_ID.ALLERGENS_MENU}
+                        overflowY='auto'
+                        maxH='400px'
+                        h='auto'
                     >
                         {listItem.map((allergen, index) => (
                             <Stack
                                 className={styles.menu_item}
-                                key={allergen}
+                                key={index}
                                 onClick={() => toggleOption(allergen)}
                                 display='flex'
                                 alignItems='center'

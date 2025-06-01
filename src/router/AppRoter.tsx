@@ -12,6 +12,7 @@ import { MainPage } from '~/app/pages/start-page/MainPage';
 import { VerificationPage } from '~/app/pages/verification-page/VerificationPage';
 
 import { PrivateRoute } from './PrivateRouter';
+import { RedirectToRecipes } from './RedirectToRecipes';
 
 const paths = {
     root: {
@@ -31,6 +32,9 @@ const paths = {
     },
     aboutRecipe: {
         path: '/recipes/:category/:subcategories/:id',
+    },
+    aboutRecipeTwo: {
+        path: '/:category/:subcategories/:id',
     },
     editRecipe: {
         path: '/edit-recipe/:category/:subcategories/:id',
@@ -76,6 +80,7 @@ const recipeRoutes: RouteObject = {
         { path: paths.juicy.path, element: <JuicyPage /> },
         { path: paths.recipes.path, element: <RecipesPage /> },
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
+        { path: '/:category/:subcategories/:id', element: <RedirectToRecipes /> },
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
         { path: paths.verification.path, element: <VerificationPage /> },

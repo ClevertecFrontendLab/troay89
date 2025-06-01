@@ -3,4 +3,5 @@ export const SUCCESS_MESSAGE = {
     SUCCESS_RECOVERY: 'Восстановление данных успешно',
     SUCCESS_CREATE_RECIPE: 'Рецепт успешно опубликован',
     SUCCESS_DELETE_RECIPE: 'Рецепт успешно удален',
+    SUCCESS_SAVE_DRAFT: 'Черновик успешно сохранен',
 };

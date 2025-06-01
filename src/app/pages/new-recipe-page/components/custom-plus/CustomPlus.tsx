@@ -10,6 +10,7 @@ type CustomPlusProps = {
     type: 'div' | 'button';
     alignSelf?: 'flex-end';
     mb?: string;
+    dataTestId?: string;
     onClick?: () => void;
 };
 
@@ -22,6 +23,7 @@ export const CustomPlus = ({
     type,
     alignSelf,
     mb,
+    dataTestId,
     onClick,
 }: CustomPlusProps) => (
     <Flex
@@ -37,6 +39,7 @@ export const CustomPlus = ({
         mb={mb}
         onClick={onClick}
         title={title}
+        data-test-id={dataTestId}
     >
         <AddIcon boxSize={boxSizeIcon} color={colorIcon} />
     </Flex>

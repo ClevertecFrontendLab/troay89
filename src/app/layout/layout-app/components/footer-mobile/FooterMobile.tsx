@@ -12,7 +12,7 @@ import styles from './FooterMobile.module.css';
 
 export const FooterMobile = () => (
     <GridItem className={styles.footer} as='footer' data-test-id='footer'>
-        <Flex className={classNames(styles.container, styles.radial)}>
+        <Flex className={classNames(styles.container, styles.radial)} as={Link} to={URLS_PATH.HOME}>
             <Button className={classNames(styles.footer_item, styles.home_button)}>
                 <Icon as={Home} />
             </Button>
@@ -22,7 +22,7 @@ export const FooterMobile = () => (
             <Icon className={styles.footer_icon} as={SearchIcon} boxSize={6} />
             <Text className={styles.text}>Поиск</Text>
         </Flex>
-        <Flex className={styles.container} as={Link} to={URLS_PATH.NEW_RECIPRE}>
+        <Flex className={styles.container} as={Link} to={URLS_PATH.NEW_RECIPE}>
             <Icon className={styles.footer_icon} as={Write} boxSize={6} />
             <Text className={styles.text}>Записать</Text>
         </Flex>

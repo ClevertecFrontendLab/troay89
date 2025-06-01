@@ -9,8 +9,8 @@ import { LastBlock } from '~/components/last-block/LastBlock';
 import { SwipeSlider } from '~/components/swipe-slider/SwipeSlider';
 import { withLoader } from '~/components/with-loader/WithLoader';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
-import { Category } from '~/type/category';
-import { PaginationMeta, RecipeType, RecipeTypeResponse } from '~/type/recipeType';
+import { Category } from '~/type/Category';
+import { PaginationMeta, RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 
 import { AuthorBlock } from '../author-block/AuthorBlock';
 import { JuicyBlock } from '../juicy-block/JuicyBlock';
@@ -46,8 +46,11 @@ export const Content = ({
     const location = useLocation();
     const [isErrorOpen, setIsErrorOpen] = useState(false);
     const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(hasErrorFilter);
-    const [isShowAlertSuccessModal, setIsShowAlertSuccessModal] = useState<boolean>(
+    const [isShowAlertSuccessDelete, setIsShowAlertSuccessDelete] = useState<boolean>(
         (location.state && location.state.showAlertDelete) || false,
+    );
+    const [isShowAlertSuccessDraft, setIsShowAlertSuccessDraft] = useState<boolean>(
+        (location.state && location.state.showAlertDraft) || false,
     );
 
     useEffect(() => {
@@ -79,10 +82,19 @@ export const Content = ({
                     {isErrorOpenFilter && (
                         <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
                     )}
-                    {isShowAlertSuccessModal && (
+                    {isShowAlertSuccessDelete && (
                         <AlertSuccess
-                            onClose={() => setIsShowAlertSuccessModal(false)}
+                            onClose={() => setIsShowAlertSuccessDelete(false)}
                             message={SUCCESS_MESSAGE.SUCCESS_DELETE_RECIPE}
+                            position='fixed'
+                            left='50%'
+                            transform='translateX(-50%)'
+                        />
+                    )}
+                    {isShowAlertSuccessDraft && (
+                        <AlertSuccess
+                            onClose={() => setIsShowAlertSuccessDraft(false)}
+                            message={SUCCESS_MESSAGE.SUCCESS_SAVE_DRAFT}
                             position='fixed'
                             left='50%'
                             transform='translateX(-50%)'

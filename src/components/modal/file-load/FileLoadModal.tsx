@@ -8,11 +8,14 @@ import {
     ModalBody,
     ModalContent,
     ModalOverlay,
+    VStack,
 } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { fallback } from '~/assets/images/header';
 import { CloseRoundModule } from '~/components/icons/CloseRoundModule';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { URLS } from '~/constants/url';
 import { useUploadFileMutation } from '~/store/slice/api/api-slice';
 
 import styles from './FileLoadModal.module.css';
@@ -21,9 +24,17 @@ type LoginFailedModuleType = {
     isOpen: boolean;
     onClose: () => void;
     setLoadImageUrl: (value: string) => void;
+    dataTestId?: string;
+    defaultImageUrl?: string;
 };
 
-export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedModuleType) => {
+export const FileLoadModal = ({
+    isOpen,
+    onClose,
+    setLoadImageUrl,
+    dataTestId,
+    defaultImageUrl,
+}: LoginFailedModuleType) => {
     const [uploadFile] = useUploadFileMutation();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -32,6 +43,8 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
         fileInputRef.current?.click();
     };
 
+    console.log('defaultImageUrl', defaultImageUrl);
+
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (files && files.length > 0) {
@@ -39,6 +52,7 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
             setSelectedFile(file);
             const previewURL = URL.createObjectURL(file);
             setPreviewSrc(previewURL);
+            console.log('previewURL', previewURL);
         }
     };
 
@@ -52,6 +66,13 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
             console.log(error);
         }
     };
+
+    useEffect(() => {
+        if (isOpen) {
+            setPreviewSrc(defaultImageUrl || '');
+            setSelectedFile(null);
+        }
+    }, [isOpen, defaultImageUrl]);
 
     useEffect(
         () => () => {
@@ -70,6 +91,7 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
                 alignItems='center'
                 m={0}
                 borderRadius='16px'
+                data-test-id={DATA_TEST_ID.RECIPE_IMAGE_MODAL}
             >
                 <Icon
                     as={CloseRoundModule}
@@ -85,7 +107,7 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
                 <ModalBody p={8} w='100%'>
                     <Image
                         boxSize={{ base: '108px', bp115: '206px' }}
-                        src={previewSrc}
+                        src={defaultImageUrl ? `${URLS.IMAGE_URL}${defaultImageUrl}` : previewSrc}
                         alt='место для загрузки изображения'
                         background='alpha.200'
                         fallbackSrc={fallback}
@@ -95,22 +117,39 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
                         mb={previewSrc ? 0 : 2}
                         onClick={handleImageClick}
                         cursor='pointer'
+                        data-test-id={DATA_TEST_ID.RECIPE_IMAGE_MODAL_PREVIEW_IMAGE}
                     />
                     {previewSrc && (
-                        <Button
-                            className={styles.button}
-                            maxW='100%'
-                            width='100%'
-                            mt={8}
-                            px={0}
-                            bg='alpha.900'
-                            color='white'
-                            size='lg'
-                            colorScheme='teal'
-                            onClick={handleFileSave}
-                        >
-                            Сохранить
-                        </Button>
+                        <VStack gap={0}>
+                            <Button
+                                className={styles.button}
+                                maxW='100%'
+                                width='100%'
+                                mt={8}
+                                px={0}
+                                bg='alpha.900'
+                                color='white'
+                                size='lg'
+                                colorScheme='teal'
+                                onClick={handleFileSave}
+                            >
+                                Сохранить
+                            </Button>
+
+                            <Button
+                                variant='ghost'
+                                className={styles.button}
+                                maxW='100%'
+                                width='100%'
+                                mt={3}
+                                px={0}
+                                size='lg'
+                                colorScheme='teal'
+                                onClick={onClose}
+                            >
+                                Удалить
+                            </Button>
+                        </VStack>
                     )}
                     <Input
                         type='file'
@@ -118,6 +157,7 @@ export const FileLoadModal = ({ isOpen, onClose, setLoadImageUrl }: LoginFailedM
                         onChange={handleFileChange}
                         display='none'
                         accept='image/*'
+                        data-test-id={dataTestId}
                     />
                 </ModalBody>
             </ModalContent>

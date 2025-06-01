@@ -3,7 +3,7 @@ export const ERROR_MESSAGE = {
     ERROR_SERVER_NOTIFICATION: 'Попробуйте немного позже',
     ERROR_SERVER_NOTIFICATION_TWO: 'Попробуйте поискать снова попозже',
     ERROR_SERVER_THREE: 'Ошибка',
-    ERROR_SERVER_NOTIFICATION_THREE: 'Попробуйте пака сохранить в черновик',
+    ERROR_SERVER_NOTIFICATION_THREE: 'Попробуйте пока сохранить в черновик',
     INCORRECT_LOGIN: 'Неверный логин или пароль',
     INCORRECT_LOGIN_NOTIFICATION: 'Попробуйте снова',
     EMAIL_NOT_VERIFIED: 'E-mail не верифицирован',
@@ -17,4 +17,5 @@ export const ERROR_MESSAGE = {
     NEW_RECIPE_NAME: 'Ошибка',
     NEW_RECIPE_NAME_NOTIFICATION: 'Рецепт с таким названием уже существует',
     DELETE_RECIPE: 'Не удалось удалить рецепт',
+    DONT_SAVE_DRAFT: 'Не удалось сохранить черновик рецепта',
 };

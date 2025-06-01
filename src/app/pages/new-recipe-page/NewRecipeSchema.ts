@@ -29,7 +29,7 @@ export const recipeValidationSchema = Yup.object().shape({
         .of(
             Yup.object().shape({
                 index: Yup.number().optional(),
-                image: Yup.string().optional(),
+                image: Yup.string().nullable().optional(),
                 description: Yup.string().max(300, '').required(''),
             }),
         )
@@ -46,7 +46,7 @@ export type IngredientType = {
 
 export type StepCook = {
     stepNumber?: number;
-    image?: string;
+    image?: string | null;
     description: string;
 };
 
