@@ -12,7 +12,7 @@ import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
-import { Category } from '~/type/category';
+import { Category } from '~/type/Category';
 
 import styles from './GeneralCard.module.css';
 
@@ -109,7 +109,7 @@ export const GeneraCard = ({
                         {description}
                     </Text>
                     <ButtonGroup className={styles.card_footer}>
-                        <FavoriteButton />
+                        <FavoriteButton id={_id} />
                         <SimpleButton
                             _id={_id}
                             dataTestButton={dataTestButton}
