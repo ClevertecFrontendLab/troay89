@@ -35,11 +35,13 @@ import styles from './DrawerFilter.module.css';
 
 type DrawerFilterProps = {
     isOpen: boolean;
+    resetTrigger: boolean;
     onClose: () => void;
 };
 
-export const DrawerFilter = ({ isOpen, onClose }: DrawerFilterProps) => {
+export const DrawerFilter = ({ isOpen, onClose, resetTrigger }: DrawerFilterProps) => {
     const dispatch = useDispatch();
+
     const [authors, setAuthors] = useState<string[]>([]);
     const [categories, setCategories] = useState<string[]>([]);
     const [typeMeats, setTypeMeats] = useState<string[]>([]);
@@ -59,19 +61,27 @@ export const DrawerFilter = ({ isOpen, onClose }: DrawerFilterProps) => {
         setTypeAll([...typeMeats, ...typeDishes, ...categories, ...typeAllergin]);
     }, [categories, typeAllergin, typeDishes, typeMeats]);
 
-    const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const resetState = () => {
         dispatch(setListCategory([]));
         dispatch(setListTypeMeats([]));
         dispatch(setListTypeDishes([]));
-        dispatch(setResultFilter([]));
         dispatch(setAllResult([]));
         setCategories([]);
         setTypeMeats([]);
         setTypeDishes([]);
-        setTypeAllergin([]);
         setTypeAll([]);
     };
+
+    const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
+        dispatch(setResultFilter([]));
+        setTypeAllergin([]);
+        e.preventDefault();
+        resetState();
+    };
+
+    useEffect(() => {
+        resetState();
+    }, [resetTrigger]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

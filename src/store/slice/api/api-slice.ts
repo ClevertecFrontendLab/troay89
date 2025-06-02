@@ -1,33 +1,62 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import {
+    DraftRecipeFormValues,
+    RecipeFormValues,
+} from '~/app/pages/new-recipe-page/NewRecipeSchema';
+import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
-import { CategoriesResponse } from '~/type/category';
+import { CategoriesResponse } from '~/type/Category';
+import { DecodedAccessToken } from '~/type/decodedAccessToken';
 import { LoginDataType } from '~/type/LoginDataType';
-import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
+import { MeasureUnitsResponse } from '~/type/measureUnitsResponse';
+import { RecipeResponse } from '~/type/RecipeResponse';
+import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
 import { Response } from '~/type/response';
+import { UploadFileData } from '~/type/UploadFileData';
+import { UploadFileResponse } from '~/type/uploadFileResponse';
 
+import { PATH } from './constants';
 import {
     CategoryPath,
     ForgotPasswordData,
+    RecipeId,
     RecipesCategoryQueryParams,
     RecipesQueryParams,
     ResetPasswordData,
     VerifyOtpData,
 } from './types';
 
+const RECIPE = 'recipe' as const;
+const LIST = 'list' as const;
+
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
+    tagTypes: [RECIPE],
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
-            query: () => 'category',
+            query: () => PATH.CATEGORY,
         }),
         getCategory: build.query<CategoriesResponse, CategoryPath>({
-            query: ({ id }) => `category/${id}`,
+            query: ({ id }) => `${PATH.CATEGORY}/${id}`,
         }),
         getRecipe: build.query<RecipeType, CategoryPath>({
-            query: ({ id }) => `recipe/${id}`,
+            query: ({ id }) => `${PATH.RECIPE}/${id}`,
+            providesTags: (_, __, { id }) => [{ type: RECIPE, id }],
+        }),
+        getMeasureUnits: build.query<MeasureUnitsResponse, void>({
+            query: () => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: PATH.MEASURE_INITS,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                        'Content-Type': 'application/json',
+                    },
+                };
+            },
         }),
         getRecipeByCategory: build.query<RecipeTypeResponse, RecipesCategoryQueryParams>({
             query: ({ id, page, limit, allergens, searchString }) => {
@@ -47,7 +76,7 @@ export const apiSlice = createApi({
                 }
 
                 const queryString = params.toString() ? `?${params.toString()}` : '';
-                return `recipe/category/${id}${queryString}`;
+                return `${PATH.RECIPE}/${PATH.CATEGORY}/${id}${queryString}`;
             },
         }),
         getRecipes: build.query<RecipeTypeResponse, RecipesQueryParams>({
@@ -91,24 +120,130 @@ export const apiSlice = createApi({
 
                 return `recipe?${params.toString()}`;
             },
+            providesTags: (result) =>
+                result && Array.isArray(result.data)
+                    ? [
+                          { type: RECIPE, id: LIST },
+                          ...result.data.map((recipe) => ({ type: RECIPE, id: recipe._id })),
+                      ]
+                    : [{ type: RECIPE, id: LIST }],
         }),
+        uploadFile: build.mutation<UploadFileResponse, UploadFileData>({
+            query: ({ file }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                const formData = new FormData();
+                formData.append('file', file);
+                return {
+                    url: PATH.FILE_UPLOAD,
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
+        createRecipe: build.mutation<RecipeResponse, RecipeFormValues>({
+            query: (data) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: PATH.RECIPE,
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
+        updateRecipe: build.mutation<RecipeResponse, { id: string; data: RecipeFormValues }>({
+            query: ({ id, data }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}`,
+                    method: 'PATCH',
+                    body: data,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
+        saveDraft: build.mutation<void, DraftRecipeFormValues>({
+            query: (data) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${PATH.DRAFT}`,
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
+        deleteRecipe: build.mutation<void, RecipeId>({
+            query: ({ id }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}`,
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+
+        likeRecipe: build.mutation<void, RecipeId>({
+            query: ({ id }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}/${PATH.LIKE}`,
+                    method: 'POST',
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+            invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
+        }),
+
+        bookmark: build.mutation<void, RecipeId>({
+            query: ({ id }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.RECIPE}/${id}/${PATH.BOOKMARK}`,
+                    method: 'POST',
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+            invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
+        }),
+
         refresh: build.query<Response, void>({
             query: () => ({
-                url: 'auth/refresh',
+                url: PATH.AUTH_REFRESH,
                 method: 'GET',
                 credentials: 'include',
             }),
         }),
         check: build.query<Response, void>({
             query: () => ({
-                url: 'auth/check-auth',
+                url: PATH.AUTH_CHECK_AUTH,
                 method: 'GET',
                 credentials: 'include',
             }),
         }),
         registration: build.mutation<Response, RegistrationData>({
             query: (data) => ({
-                url: 'auth/signup',
+                url: PATH.AUTH_SIGNUP,
                 method: 'POST',
                 credentials: 'include',
                 body: data,
@@ -116,7 +251,7 @@ export const apiSlice = createApi({
         }),
         login: build.mutation<Response, LoginDataType>({
             query: (data) => ({
-                url: 'auth/login',
+                url: PATH.AUTH_LOGIN,
                 method: 'POST',
                 credentials: 'include',
                 body: data,
@@ -125,30 +260,33 @@ export const apiSlice = createApi({
                 const result = await queryFulfilled;
                 const accessToken = result.meta?.response?.headers.get('Authentication-Access');
 
-                const oldToken = localStorage.getItem('accessToken');
+                const oldToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
 
                 if (accessToken && accessToken !== oldToken) {
-                    localStorage.setItem('accessToken', accessToken);
+                    localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, accessToken);
+                    const [_, payload] = accessToken.split('.');
+                    const decodedPayload = JSON.parse(atob(payload)) as DecodedAccessToken;
+                    localStorage.setItem(STORAGE_KEY.DECODED_PAYLOAD, decodedPayload.userId);
                 }
             },
         }),
         forgotPassword: build.mutation<Response, ForgotPasswordData>({
             query: (data) => ({
-                url: 'auth/forgot-password',
+                url: PATH.AUTH_FORGOT_PASSWORD,
                 method: 'POST',
                 body: data,
             }),
         }),
         verifyOtp: build.mutation<Response, VerifyOtpData>({
             query: (data) => ({
-                url: 'auth/verify-otp',
+                url: PATH.AUTH_VERIFY_OTP,
                 method: 'POST',
                 body: data,
             }),
         }),
         resetPassword: build.mutation<Response, ResetPasswordData>({
             query: (data) => ({
-                url: 'auth/reset-password',
+                url: PATH.AUTH_RESET_PASSWORD,
                 method: 'POST',
                 body: data,
             }),
@@ -171,4 +309,12 @@ export const {
     useForgotPasswordMutation,
     useVerifyOtpMutation,
     useResetPasswordMutation,
+    useGetMeasureUnitsQuery,
+    useUploadFileMutation,
+    useCreateRecipeMutation,
+    useDeleteRecipeMutation,
+    useUpdateRecipeMutation,
+    useSaveDraftMutation,
+    useBookmarkMutation,
+    useLikeRecipeMutation,
 } = apiSlice;

@@ -1,0 +1,7 @@
+div .text_area {
+    font: var(--font-inter-email);
+}
+
+.step {
+    font: var(--font-inter-title-table);
+}

@@ -1,7 +1,7 @@
 import { ChakraProvider, extendTheme, theme as baseTheme } from '@chakra-ui/react';
-import { BrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router';
 
-import AppRouter from '~/router/AppRoter';
+import { router } from '~/router/AppRoter';
 
 const customBreakpoints = {
     ...baseTheme.breakpoints,
@@ -68,8 +68,6 @@ const customTheme = extendTheme({
 
 export const App = () => (
     <ChakraProvider theme={customTheme}>
-        <BrowserRouter>
-            <AppRouter />
-        </BrowserRouter>
+        <RouterProvider router={router} />
     </ChakraProvider>
 );

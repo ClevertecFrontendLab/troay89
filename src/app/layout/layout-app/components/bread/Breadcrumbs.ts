@@ -35,7 +35,15 @@ export function getBreadcrumbs(
                 { title: titleRecipe ?? '' },
             ];
         }
-    } else if (pathname.startsWith(BREADCRUMBS.RECIPES)) {
+    } else if (pathname === `${BREADCRUMBS.RECIPES}/${BREADCRUMBS.NEW_RECIPE_PATH}`) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: BREADCRUMBS.NEW_RECIPE_TITLE },
+        ];
+    } else if (
+        pathname.startsWith(BREADCRUMBS.RECIPES) ||
+        pathname.startsWith(BREADCRUMBS.EDIT_RECIPE)
+    ) {
         const pathParts = pathname.split('/').filter(Boolean);
 
         if (pathParts.length === 3) {

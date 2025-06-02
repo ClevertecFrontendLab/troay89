@@ -22,6 +22,7 @@ import styles from './MultiSelect.module.css';
 
 type MultiSelectProps = {
     widthMenu: string;
+    widthMenuMobile?: string;
     textPlaceHolder: string;
     value: string[];
     listItem: string[];
@@ -29,10 +30,13 @@ type MultiSelectProps = {
     onSelectionChange: (selected: string[]) => void;
     isBottomInput?: boolean;
     dataTest?: string;
+    isSingleSelect?: boolean;
+    hasError?: boolean;
 };
 
 export const MultiSelect = ({
     widthMenu,
+    widthMenuMobile = '308px',
     textPlaceHolder,
     isDisable,
     listItem,
@@ -40,6 +44,8 @@ export const MultiSelect = ({
     isBottomInput,
     onSelectionChange,
     dataTest,
+    isSingleSelect,
+    hasError,
 }: MultiSelectProps) => {
     const [customAllergen, setCustomAllergen] = useState('');
 
@@ -57,10 +63,14 @@ export const MultiSelect = ({
     }, [isDisable]);
 
     const toggleOption = (option: string) => {
-        if (value.includes(option)) {
-            onSelectionChange(value.filter((item) => item !== option));
+        if (isSingleSelect) {
+            onSelectionChange([option]);
         } else {
-            onSelectionChange([...value, option]);
+            if (value.includes(option)) {
+                onSelectionChange(value.filter((item) => item !== option));
+            } else {
+                onSelectionChange([...value, option]);
+            }
         }
     };
 
@@ -92,8 +102,10 @@ export const MultiSelect = ({
                         as={Button}
                         className={styles.select}
                         pr={2}
+                        maxW={{ base: widthMenuMobile, bp76: widthMenu }}
                         variant='outline'
                         isDisabled={!isDisable}
+                        borderColor={hasError ? 'red.500' : undefined}
                         _hover={{ bg: 'transparent' }}
                         _active={{ bg: 'white' }}
                         data-test-id={dataTest}
@@ -108,26 +120,44 @@ export const MultiSelect = ({
                             flexWrap='wrap'
                             gap={2}
                         >
-                            {Array.isArray(selectedLabel)
-                                ? selectedLabel.map((label) => (
-                                      <Box key={label} className={styles.label_allergen}>
-                                          {label}
-                                      </Box>
-                                  ))
-                                : selectedLabel}
+                            {Array.isArray(selectedLabel) ? (
+                                selectedLabel.length <= 2 ? (
+                                    selectedLabel.map((label) => (
+                                        <Box key={label} className={styles.label_allergen}>
+                                            {label}
+                                        </Box>
+                                    ))
+                                ) : (
+                                    <>
+                                        {selectedLabel.slice(0, 2).map((label) => (
+                                            <Box key={label} className={styles.label_allergen}>
+                                                {label}
+                                            </Box>
+                                        ))}
+                                        <Box key='extra' className={styles.label_allergen}>
+                                            {`+${selectedLabel.length - 2}`}
+                                        </Box>
+                                    </>
+                                )
+                            ) : (
+                                selectedLabel
+                            )}
                         </Flex>
                     </MenuButton>
                     <MenuList
                         className={styles.menu_list}
                         zIndex={10}
                         py={0}
-                        width={{ base: '308px', bp95: widthMenu }}
+                        w={{ base: widthMenuMobile, bp76: widthMenu }}
                         data-test-id={DATA_TEST_ID.ALLERGENS_MENU}
+                        overflowY='auto'
+                        maxH='400px'
+                        h='auto'
                     >
                         {listItem.map((allergen, index) => (
                             <Stack
                                 className={styles.menu_item}
-                                key={allergen}
+                                key={index}
                                 onClick={() => toggleOption(allergen)}
                                 display='flex'
                                 alignItems='center'

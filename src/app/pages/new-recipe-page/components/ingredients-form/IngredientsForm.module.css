@@ -1,0 +1,20 @@
+.title {
+    font: var(--font-inter-button-third);
+    letter-spacing: 0.1px;
+}
+
+h2.heading {
+    font: var(--font-inter-title-table);
+    color: var(--lime-color-600);
+    letter-spacing: 0.6px;
+}
+
+.input {
+    font: var(--font-inter-bread);
+}
+
+@media (max-width: 1150px) {
+    p.title {
+        font: var(--font-inter-button-second);
+    }
+}

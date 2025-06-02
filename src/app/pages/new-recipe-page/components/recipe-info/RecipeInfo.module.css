@@ -1,0 +1,19 @@
+.title {
+    font: var(--font-inter-button-third);
+    letter-spacing: 0.1px;
+}
+
+.input {
+    font: var(--font-inter-bread);
+}
+
+div .text_area {
+    font: var(--font-inter-email);
+}
+
+@media (max-width: 1150px) {
+    label.title {
+        font: var(--font-inter-button-second);
+        letter-spacing: 0;
+    }
+}

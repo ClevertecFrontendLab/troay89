@@ -1,17 +1,18 @@
-import { memo } from 'react';
-import { Navigate, RouteObject, useRoutes } from 'react-router';
+import { createBrowserRouter, Navigate, RouteObject } from 'react-router';
 
 import { AccountTabs } from '~/app/layout/account-layout/account-tabs/AccountTabs';
 import { AccountLayout } from '~/app/layout/account-layout/AccountLayout';
 import { Layout } from '~/app/layout/layout-app/Layout';
 import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
+import { NewRecipePage } from '~/app/pages/new-recipe-page/NewRecipePage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
 import { RecipesPage } from '~/app/pages/recipes-page/RecipesPage';
 import { MainPage } from '~/app/pages/start-page/MainPage';
 import { VerificationPage } from '~/app/pages/verification-page/VerificationPage';
 
 import { PrivateRoute } from './PrivateRouter';
+import { RedirectToRecipes } from './RedirectToRecipes';
 
 const paths = {
     root: {
@@ -31,6 +32,15 @@ const paths = {
     },
     aboutRecipe: {
         path: '/recipes/:category/:subcategories/:id',
+    },
+    aboutRecipeTwo: {
+        path: '/:category/:subcategories/:id',
+    },
+    editRecipe: {
+        path: '/edit-recipe/:category/:subcategories/:id',
+    },
+    newRecipe: {
+        path: '/recipes/new-recipe',
     },
     notFound: {
         path: '/not-found',
@@ -70,16 +80,16 @@ const recipeRoutes: RouteObject = {
         { path: paths.juicy.path, element: <JuicyPage /> },
         { path: paths.recipes.path, element: <RecipesPage /> },
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
+        { path: '/:category/:subcategories/:id', element: <RedirectToRecipes /> },
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
         { path: paths.verification.path, element: <VerificationPage /> },
+        { path: paths.newRecipe.path, element: <NewRecipePage /> },
+        { path: paths.editRecipe.path, element: <NewRecipePage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };
 
 const allRoutes: RouteObject[] = [accountRoutes, recipeRoutes];
 
-export const AppRouter = memo(() => useRoutes(allRoutes));
-AppRouter.displayName = 'AppRouter';
-
-export default AppRouter;
+export const router = createBrowserRouter(allRoutes);

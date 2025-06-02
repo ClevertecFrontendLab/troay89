@@ -1,4 +1,5 @@
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay } from '@chakra-ui/react';
+import { memo } from 'react';
 
 import { AccordionMenu } from '~/app/layout/layout-app/components/accordion/AccordionMenu';
 import { Bread } from '~/app/layout/layout-app/components/bread/Bread';
@@ -9,7 +10,7 @@ type BurgerMenuProps = {
     onClose: () => void;
 };
 
-export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => (
+const BurgerMenuComponent = ({ isOpen, onClose }: BurgerMenuProps) => (
     <Drawer isOpen={isOpen} placement='right' onClose={onClose} size='sm'>
         <DrawerOverlay backgroundColor='rgba(0, 0, 0, 0.16)' backdropFilter='blur(4px)' />
         <DrawerContent
@@ -29,3 +30,5 @@ export const BurgerMenu = ({ isOpen, onClose }: BurgerMenuProps) => (
         </DrawerContent>
     </Drawer>
 );
+
+export const BurgerMenu = memo(BurgerMenuComponent);

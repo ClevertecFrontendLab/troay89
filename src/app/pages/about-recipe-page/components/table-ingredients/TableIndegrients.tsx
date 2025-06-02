@@ -41,11 +41,20 @@ export const TableIngredients = ({ portions, ingredients }: TableIngredients) =>
 
     useEffect(() => {
         setArrayIngredients(
-            ingredients.map(({ title, count, measureUnit }) => ({
-                title,
-                count: ((+count / originalPortions) * countPortion).toString(),
-                measureUnit,
-            })),
+            ingredients.map(({ title, count, measureUnit }) => {
+                if (typeof count === 'string' && !/\d/.test(count)) {
+                    return { title, count, measureUnit };
+                }
+
+                const numericCount = Number(count);
+                const computed = (numericCount / originalPortions) * countPortion;
+
+                return {
+                    title,
+                    count: Number.isInteger(computed) ? computed.toString() : computed.toFixed(2),
+                    measureUnit,
+                };
+            }),
         );
     }, [countPortion, ingredients, originalPortions]);
 
