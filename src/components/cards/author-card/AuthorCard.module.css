@@ -5,6 +5,7 @@ div.container {
     border: var(--border-card);
     box-shadow: none;
     transition: box-shadow 0.3s ease;
+    width: 100%;
 }
 
 .container_about {

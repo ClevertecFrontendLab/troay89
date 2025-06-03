@@ -13,4 +13,7 @@ export const PATH = {
     DRAFT: 'draft',
     LIKE: 'like',
     BOOKMARK: 'bookmark',
+    BLOGGERS: 'bloggers',
+    USERS: 'users',
+    TOGGLE_SUBSCRIPTION: 'toggle-subscription',
 };

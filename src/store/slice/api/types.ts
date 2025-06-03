@@ -41,3 +41,8 @@ export type ResetPasswordData = {
     password: string;
     passwordConfirm: string;
 };
+
+export type ToggleSubscriptionRequest = {
+    toUserId: string;
+    fromUserId: string;
+};

@@ -2,6 +2,7 @@ import {
     useBookmarkMutation,
     useDeleteRecipeMutation,
     useGetRecipesQuery,
+    useLazyGetBloggerQuery,
     useLazyGetRecipeQuery,
     useLikeRecipeMutation,
 } from '~/store/slice/api/api-slice';
@@ -22,9 +23,14 @@ export const AboutRecipePage = () => {
         useLikeRecipeMutation();
     const [saveRemoveBookmark, { isLoading: isLoadingBookmark, isError: isErrorBookmark }] =
         useBookmarkMutation();
+    const [getBlogger, { isLoading: isLoadingAuthor }] = useLazyGetBloggerQuery();
 
     const isPending =
-        isLoading || isLoadingDeleteRecipe || isLoadingLikeUnLike || isLoadingBookmark;
+        isLoading ||
+        isLoadingDeleteRecipe ||
+        isLoadingLikeUnLike ||
+        isLoadingBookmark ||
+        isLoadingAuthor;
 
     return (
         <AboutRecipeWithLoader
@@ -40,6 +46,7 @@ export const AboutRecipePage = () => {
             isErrorLikeUnlike={isErrorLikeUnlike}
             isErrorBookmark={isErrorBookmark}
             saveRemoveBookmark={saveRemoveBookmark}
+            getBlogger={getBlogger}
         />
     );
 };

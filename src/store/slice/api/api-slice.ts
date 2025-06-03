@@ -6,6 +6,8 @@ import {
 } from '~/app/pages/new-recipe-page/NewRecipeSchema';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
+import { AuthorData } from '~/type/author';
+import { BloggerData } from '~/type/bloggerData';
 import { CategoriesResponse } from '~/type/Category';
 import { DecodedAccessToken } from '~/type/decodedAccessToken';
 import { LoginDataType } from '~/type/LoginDataType';
@@ -25,6 +27,7 @@ import {
     RecipesCategoryQueryParams,
     RecipesQueryParams,
     ResetPasswordData,
+    ToggleSubscriptionRequest,
     VerifyOtpData,
 } from './types';
 
@@ -291,6 +294,46 @@ export const apiSlice = createApi({
                 body: data,
             }),
         }),
+        getBloggers: build.query<AuthorData, void>({
+            query: () => {
+                const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                const params = new URLSearchParams({ currentUserId: String(userId) });
+                return {
+                    url: `${PATH.BLOGGERS}?${params.toString()}`,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+        getBlogger: build.query<BloggerData, RecipeId>({
+            query: ({ id }) => {
+                const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                const params = new URLSearchParams({ currentUserId: String(userId) });
+                return {
+                    url: `${PATH.BLOGGERS}/${id}?${params.toString()}`,
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                    },
+                };
+            },
+        }),
+        toggleSubscription: build.mutation<BloggerData, ToggleSubscriptionRequest>({
+            query: ({ toUserId, fromUserId }) => {
+                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+                return {
+                    url: `${PATH.USERS}/${PATH.TOGGLE_SUBSCRIPTION}`,
+                    method: 'PATCH',
+                    body: { toUserId: String(toUserId), fromUserId: String(fromUserId) },
+                    headers: {
+                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
+                        'Content-Type': 'application/json',
+                    },
+                };
+            },
+        }),
     }),
 });
 
@@ -317,4 +360,8 @@ export const {
     useSaveDraftMutation,
     useBookmarkMutation,
     useLikeRecipeMutation,
+    useGetBloggersQuery,
+    useLazyGetBloggersQuery,
+    useLazyGetBloggerQuery,
+    useToggleSubscriptionMutation,
 } = apiSlice;

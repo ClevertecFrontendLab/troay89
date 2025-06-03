@@ -4,6 +4,7 @@ import { AccountTabs } from '~/app/layout/account-layout/account-tabs/AccountTab
 import { AccountLayout } from '~/app/layout/account-layout/AccountLayout';
 import { Layout } from '~/app/layout/layout-app/Layout';
 import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
+import { BlogPage } from '~/app/pages/blog-page/BlogPage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
 import { NewRecipePage } from '~/app/pages/new-recipe-page/NewRecipePage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
@@ -60,6 +61,9 @@ const paths = {
     verification: {
         path: '/verification',
     },
+    blogs: {
+        path: '/blogs',
+    },
 };
 
 const accountRoutes: RouteObject = {
@@ -80,12 +84,13 @@ const recipeRoutes: RouteObject = {
         { path: paths.juicy.path, element: <JuicyPage /> },
         { path: paths.recipes.path, element: <RecipesPage /> },
         { path: paths.aboutRecipe.path, element: <AboutRecipePage /> },
-        { path: '/:category/:subcategories/:id', element: <RedirectToRecipes /> },
+        { path: paths.aboutRecipeTwo.path, element: <RedirectToRecipes /> },
         { path: paths.juicyAboutRecipe.path, element: <AboutRecipePage /> },
         { path: paths.notFound.path, element: <NotFoundPage /> },
         { path: paths.verification.path, element: <VerificationPage /> },
         { path: paths.newRecipe.path, element: <NewRecipePage /> },
         { path: paths.editRecipe.path, element: <NewRecipePage /> },
+        { path: paths.blogs.path, element: <BlogPage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };
