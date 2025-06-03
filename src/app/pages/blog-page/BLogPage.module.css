@@ -1,0 +1,7 @@
+.title {
+    font: var(--font-inter-title);
+}
+
+.subtitle {
+    font: var(--font-inter-subtitle-second);
+}

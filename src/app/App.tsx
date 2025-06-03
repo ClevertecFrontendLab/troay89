@@ -10,6 +10,7 @@ const customBreakpoints = {
     bp115: '1151px',
     bp95: '951px',
     bp76: '761px',
+    bp60: '601px',
     bp55: '551px',
 };
 

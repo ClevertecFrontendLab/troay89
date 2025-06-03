@@ -23,6 +23,8 @@ export const AuthorCard = ({ author }: AuthorCardProps) => (
                 <Text className={styles.email}>{`@${author.login}`}</Text>
             </Flex>
         </Flex>
-        <Text className={styles.content}>{author.notes[0]?.text}</Text>
+        <Text className={styles.content} minH='60px'>
+            {author.notes[0]?.text}
+        </Text>
     </Card>
 );
