@@ -10,11 +10,12 @@ import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import styles from './BlogCard.module.css';
 
-type BlogCarddProps = {
+type BlogCardProps = {
     author: Author;
+    isExtraSpaceProfile?: boolean;
 };
 
-export const BlogCard = ({ author }: BlogCarddProps) => {
+export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
     const [toggleSubscription, { isLoading }] = useToggleSubscriptionMutation();
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
 
@@ -31,6 +32,8 @@ export const BlogCard = ({ author }: BlogCarddProps) => {
     };
 
     const textNewRecipe = author.newRecipesCount === 1 ? 'новый рецепт' : 'новых рецептов';
+    const bottomMarginAvatar = isExtraSpaceProfile ? '20px' : '16px';
+    const topMarginAvatar = isExtraSpaceProfile ? '4px' : '0';
 
     return (
         <Card
@@ -39,7 +42,12 @@ export const BlogCard = ({ author }: BlogCarddProps) => {
             pt={{ base: '15px', bp95: '23px' }}
             pb={{ base: '15px', bp95: '19px' }}
         >
-            <Flex className={styles.container_about} mb={{ base: '16px', bp95: '28px' }} gap={3}>
+            <Flex
+                className={styles.container_about}
+                mt={{ base: topMarginAvatar, bp95: 0 }}
+                mb={{ base: bottomMarginAvatar, bp95: '28px' }}
+                gap={3}
+            >
                 <Avatar className={styles.avatar} name={author.lastName} />
                 <Flex className={styles.about} flexDirection='column'>
                     <Text

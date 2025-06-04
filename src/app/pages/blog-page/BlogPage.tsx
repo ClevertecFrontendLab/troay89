@@ -64,7 +64,7 @@ export const BlogPage = () => {
                         gap={{ base: 3, bp95: 4 }}
                     >
                         {authors?.favorites?.map((author: Author) => (
-                            <BlogCard key={author._id} author={author} />
+                            <BlogCard key={author._id} author={author} isExtraSpaceProfile={true} />
                         ))}
                     </Grid>
                 </VStack>
@@ -74,7 +74,7 @@ export const BlogPage = () => {
                 borderRadius='8px'
                 bg='alpha.50'
                 mb={{ base: 8, bp95: 10 }}
-                gap={6}
+                gap={{ base: 4, bp95: 6 }}
             >
                 <Grid
                     w='100%'
