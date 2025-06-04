@@ -60,13 +60,15 @@ export const Content = ({
         (location.state && location.state.showAlertDraft) || false,
     );
 
+    const isErrorGetAuthor: boolean = (location.state && location.state.isErrorGetAuthor) || false;
+
     useEffect(() => {
         setIsErrorOpenFilter(hasErrorFilter);
     }, [hasErrorFilter]);
 
     useEffect(() => {
-        setIsErrorAuthorOpen(isGetAllBloggersError);
-    }, [isGetAllBloggersError]);
+        setIsErrorAuthorOpen(isGetAllBloggersError || isErrorGetAuthor);
+    }, [isGetAllBloggersError, isErrorGetAuthor]);
 
     useEffect(() => {
         setIsErrorOpen(hasError);

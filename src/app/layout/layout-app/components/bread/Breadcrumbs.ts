@@ -25,6 +25,11 @@ export function getBreadcrumbs(
             { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
             { title: BREADCRUMBS.THE_JUICIEST_TITLE },
         ];
+    } else if (pathname === '/blogs') {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: 'Блоги' },
+        ];
     } else if (pathname.startsWith(BREADCRUMBS.THE_JUICIEST_PATH + '/')) {
         const pathParts = pathname.split('/').filter(Boolean);
 

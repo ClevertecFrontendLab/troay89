@@ -32,12 +32,13 @@ import {
 } from './types';
 
 const RECIPE = 'recipe' as const;
+const BLOGGERS = 'blogers' as const;
 const LIST = 'list' as const;
 
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
-    tagTypes: [RECIPE],
+    tagTypes: [RECIPE, BLOGGERS],
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
             query: () => PATH.CATEGORY,
@@ -294,17 +295,28 @@ export const apiSlice = createApi({
                 body: data,
             }),
         }),
-        getBloggers: build.query<AuthorData, void>({
-            query: () => {
+        getBloggers: build.query<AuthorData, { limit: string }>({
+            query: ({ limit }) => {
                 const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
                 const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
                 const params = new URLSearchParams({ currentUserId: String(userId) });
+                params.append('limit', String(limit));
                 return {
-                    url: `${PATH.BLOGGERS}?${params.toString()}`,
+                    url: `${PATH.BLOGGERS}?${params.toString()}? `,
                     headers: {
                         Authorization: accessToken ? `Bearer ${accessToken}` : '',
                     },
                 };
+            },
+            providesTags: (result) => {
+                if (result && (result.others || result.favorites)) {
+                    const allBloggers = [...(result.others || []), ...(result.favorites || [])];
+                    const uniqueTags = Array.from(
+                        new Set(allBloggers.map((blogger) => blogger._id)),
+                    ).map((id) => ({ type: BLOGGERS, id }));
+                    return [...uniqueTags, { type: BLOGGERS, id: LIST }];
+                }
+                return [{ type: BLOGGERS, id: LIST }];
             },
         }),
         getBlogger: build.query<BloggerData, RecipeId>({
@@ -319,7 +331,9 @@ export const apiSlice = createApi({
                     },
                 };
             },
+            providesTags: (_, __, { id }) => [{ type: BLOGGERS, id }],
         }),
+
         toggleSubscription: build.mutation<BloggerData, ToggleSubscriptionRequest>({
             query: ({ toUserId, fromUserId }) => {
                 const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
@@ -333,6 +347,10 @@ export const apiSlice = createApi({
                     },
                 };
             },
+            invalidatesTags: (_, __, { toUserId }) => [
+                { type: BLOGGERS, id: LIST },
+                { type: BLOGGERS, id: toUserId },
+            ],
         }),
     }),
 });

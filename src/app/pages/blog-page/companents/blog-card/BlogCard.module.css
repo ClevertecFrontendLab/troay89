@@ -1,0 +1,39 @@
+div.container {
+    border: var(--border-card);
+    box-shadow: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.name {
+    font: var(--font-inter-500);
+}
+
+.container .email {
+    font: var(--font-inter-email);
+    color: var(--black-alpha);
+}
+
+.container .content {
+    font: var(--font-inter-email);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+}
+
+div.label {
+    font: var(--font-inter-email);
+}
+
+.button {
+    font: var(--font-inter-small);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .container:hover {
+        box-shadow: var(--shadow-hover-cart);
+        transition: box-shadow 0.3s ease;
+    }
+}

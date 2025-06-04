@@ -1,8 +1,9 @@
-import { Avatar, Button, Card, CardBody, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { Avatar, Card, CardBody, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 import { avatar } from '~/assets/images/cooking-step';
+import { SubscriptionButton } from '~/components/buttons/subscription-button/SubscriptionButton';
 import PeopleEmpty from '~/components/icons/PeopleEmpty';
-import Subscribe from '~/components/icons/Subscribe';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { useToggleSubscriptionMutation } from '~/store/slice/api/api-slice';
 import { BloggerData } from '~/type/bloggerData';
@@ -18,7 +19,7 @@ export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
     const [toggleSubscription] = useToggleSubscriptionMutation();
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
 
-    console.log(bloggerData, 'bloggerInfo');
+    const [isFavorite, setIsFavorite] = useState(false);
 
     const handleToggleSubscription = async () => {
         try {
@@ -27,11 +28,17 @@ export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
                 toUserId: bloggerData?.bloggerInfo._id,
                 fromUserId: userId,
             }).unwrap();
+            setIsFavorite((prev) => !prev);
         } catch (error) {
-            console.log(error);
             isFetchBaseQueryError(error);
         }
     };
+
+    useEffect(() => {
+        if (bloggerData) {
+            setIsFavorite(bloggerData?.isFavorite);
+        }
+    }, [bloggerData]);
 
     return (
         <Card className={styles.card} direction='row' shadow='none'>
@@ -64,18 +71,10 @@ export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
                     {`@${bloggerData?.bloggerInfo.login}`}
                 </Text>
                 <Flex justify='space-between'>
-                    <Button
-                        className={styles.button}
-                        leftIcon={<Subscribe />}
-                        colorScheme='teal'
-                        size='xs'
-                        bg={bloggerData?.isFavorite ? 'white' : 'alpha.800'}
-                        color={bloggerData?.isFavorite ? 'alpha.800' : 'white'}
-                        iconSpacing='6px'
-                        onClick={handleToggleSubscription}
-                    >
-                        {bloggerData?.isFavorite ? 'Вы подписаны' : 'Подписаться'}
-                    </Button>
+                    <SubscriptionButton
+                        isFavorite={isFavorite}
+                        handleToggleSubscription={handleToggleSubscription}
+                    />
                     <Flex
                         className={styles.stats}
                         align='center'
