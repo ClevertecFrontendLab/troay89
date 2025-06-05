@@ -1,8 +1,9 @@
-import { Avatar, Box, Button, Card, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
 import { BloggerStats } from '~/components/blogger-stats/BloggerStats';
 import { SubscriptionButton } from '~/components/buttons/subscription-button/SubscriptionButton';
+import { OverlayBlock } from '~/components/overlayBlock/overlayBlock';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { useToggleSubscriptionMutation } from '~/store/slice/api/api-slice';
 import { Author } from '~/type/author';
@@ -110,21 +111,7 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
                     borderRadius={1}
                 >{`${author.newRecipesCount} ${textNewRecipe}`}</Box>
             )}
-            {isLoading && (
-                <Flex
-                    w={{ base: '40px', bp115: '100px' }}
-                    h={{ base: '40px', bp115: '100px' }}
-                    position='absolute'
-                    top='50%'
-                    left='50%'
-                    transform='translate(-50%, -50%)'
-                    background='radial-gradient(50% 50% at 50% 50%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%);'
-                    justifyContent='center'
-                    alignItems='center'
-                >
-                    <Spinner data-test-id='loader-search-block' />
-                </Flex>
-            )}
+            {isLoading && <OverlayBlock />}
         </Card>
     );
 };

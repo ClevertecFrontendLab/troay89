@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
 import ArrowButton from '~/components/icons/ArrowButton';
+import { Overlay } from '~/components/overlay/Overlay';
 import { useGetBloggersQuery, useGetRecipesQuery } from '~/store/slice/api/api-slice';
 import { Author } from '~/type/author';
 
@@ -14,14 +15,20 @@ export const BlogPage = () => {
     const navigate = useNavigate();
     const [isWide] = useMediaQuery('(min-width: 1601px)');
     const collapsedCount = isWide ? 9 : 8;
-    const { data: swiperData } = useGetRecipesQuery({
+    const { data: swiperData, isLoading: isLoadingSwiper } = useGetRecipesQuery({
         limit: 10,
         sortBy: 'createdAt',
         sortOrder: 'asc',
     });
     const [limit, setLimit] = useState('9');
-    const { data: authors, isError: isErrorAuthors } = useGetBloggersQuery({ limit });
+    const {
+        data: authors,
+        isError: isErrorAuthors,
+        isLoading: isLoadingAuthors,
+    } = useGetBloggersQuery({ limit });
     const showAll = limit === '50';
+
+    const isPending = isLoadingSwiper || isLoadingAuthors;
 
     const authorsToShow = showAll ? authors?.others : authors?.others.slice(0, collapsedCount);
     useEffect(() => {
@@ -29,6 +36,10 @@ export const BlogPage = () => {
             navigate('/', { state: { isErrorGetAuthor: true } });
         }
     });
+
+    if (isPending) {
+        return <Overlay />;
+    }
 
     return (
         <Box px={{ base: 4, bp55: 0 }}>

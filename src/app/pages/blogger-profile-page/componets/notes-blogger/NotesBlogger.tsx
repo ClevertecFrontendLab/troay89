@@ -2,13 +2,13 @@ import { Button, Grid, Heading, Text, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { NotesCard } from '../notes-card/NotesCard';
-import styles from './NotesBloger.module.css';
+import styles from './NotesBlogger.module.css';
 
-type NotesBlogerProps = {
+type NotesBloggerProps = {
     notes: number[];
 };
 
-export const NotesBloger = ({ notes }: NotesBlogerProps) => {
+export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
     const [showAll, setShowAll] = useState(false);
     const toggleShowAll = () => setShowAll((prev) => !prev);
 

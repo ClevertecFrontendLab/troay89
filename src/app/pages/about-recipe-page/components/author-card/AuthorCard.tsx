@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { avatar } from '~/assets/images/cooking-step';
 import { SubscriptionButton } from '~/components/buttons/subscription-button/SubscriptionButton';
 import PeopleEmpty from '~/components/icons/PeopleEmpty';
+import { OverlayBlock } from '~/components/overlayBlock/overlayBlock';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { useToggleSubscriptionMutation } from '~/store/slice/api/api-slice';
 import { BloggerData } from '~/type/bloggerData';
@@ -16,7 +17,7 @@ type AuthorCardProps = {
 };
 
 export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
-    const [toggleSubscription] = useToggleSubscriptionMutation();
+    const [toggleSubscription, { isLoading }] = useToggleSubscriptionMutation();
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
 
     const [isFavorite, setIsFavorite] = useState(false);
@@ -85,6 +86,7 @@ export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
                         {bloggerData?.totalSubscribers}
                     </Flex>
                 </Flex>
+                {isLoading && <OverlayBlock />}
             </CardBody>
         </Card>
     );
