@@ -7,7 +7,7 @@ import { useGetBloggersQuery, useGetRecipesQuery } from '~/store/slice/api/api-s
 import { Author } from '~/type/author';
 
 import { NewBlock } from '../about-recipe-page/components/new-block/NewBlock';
-import styles from './BLogPage.module.css';
+import styles from './BlogPage.module.css';
 import { BlogCard } from './companents/blog-card/BlogCard';
 
 export const BlogPage = () => {

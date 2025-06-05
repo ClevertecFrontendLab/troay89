@@ -6,7 +6,7 @@ import styles from './SubscriptionButton.module.css';
 
 type SubscriptionButton = {
     isFavorite: boolean;
-    handleToggleSubscription: () => void;
+    handleToggleSubscription?: () => void;
 };
 
 export const SubscriptionButton = ({
@@ -14,6 +14,7 @@ export const SubscriptionButton = ({
     handleToggleSubscription,
 }: SubscriptionButton) => (
     <Button
+        variant='outline'
         className={styles.button}
         leftIcon={<Subscribe />}
         colorScheme='teal'

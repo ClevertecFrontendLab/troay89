@@ -1,8 +1,8 @@
-import { Avatar, Box, Button, Card, Flex, HStack, Icon, Spinner, Text } from '@chakra-ui/react';
+import { Avatar, Box, Button, Card, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
+import { Link } from 'react-router';
 
+import { BloggerStats } from '~/components/blogger-stats/BloggerStats';
 import { SubscriptionButton } from '~/components/buttons/subscription-button/SubscriptionButton';
-import BookMark from '~/components/icons/BookMark';
-import PeopleEmpty from '~/components/icons/PeopleEmpty';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { useToggleSubscriptionMutation } from '~/store/slice/api/api-slice';
 import { Author } from '~/type/author';
@@ -45,7 +45,7 @@ export const BlogCard = ({ author }: BlogCarddProps) => {
                     <Text
                         className={styles.name}
                         isTruncated
-                        maxW={{ base: '235px', bp76: '165px', bp95: '180px', bp189: '295px' }}
+                        // maxW={{ base: '235px', bp76: '165px', bp95: '180px', bp189: '295px' }}
                     >
                         {`${author.firstName} ${author.lastName}`}
                     </Text>
@@ -63,12 +63,21 @@ export const BlogCard = ({ author }: BlogCarddProps) => {
                             handleToggleSubscription={handleToggleSubscription}
                         />
                     ) : (
-                        <Button className={styles.button} variant='solid' size='xs' bg='lime.400'>
+                        <Button
+                            className={styles.button}
+                            variant='solid'
+                            size='xs'
+                            bg='lime.400'
+                            as={Link}
+                            to={`/blogs/${author._id}`}
+                        >
                             Рецепты
                         </Button>
                     )}
                     <Button
                         className={styles.button}
+                        as={Link}
+                        to={`/blogs/${author._id}#notes`}
                         variant='outline'
                         size='xs'
                         colorScheme='lime'
@@ -76,21 +85,10 @@ export const BlogCard = ({ author }: BlogCarddProps) => {
                         Читать
                     </Button>
                 </HStack>
-                <HStack gap={4}>
-                    <HStack gap={0}>
-                        {' '}
-                        <Icon as={BookMark} boxSize='12px' alignSelf='center' />{' '}
-                        <Text className={styles.button} color='lime.600' p={1}>
-                            {author.bookmarksCount}
-                        </Text>
-                    </HStack>
-                    <HStack gap={0}>
-                        <Icon as={PeopleEmpty} boxSize='12px' alignSelf='center' />{' '}
-                        <Text className={styles.button} color='lime.600' p={1}>
-                            {author.subscribersCount}
-                        </Text>
-                    </HStack>
-                </HStack>
+                <BloggerStats
+                    bookmarksCount={author.bookmarksCount}
+                    subscribersCount={author.subscribersCount}
+                />
             </HStack>
             {author.newRecipesCount !== 0 && (
                 <Box

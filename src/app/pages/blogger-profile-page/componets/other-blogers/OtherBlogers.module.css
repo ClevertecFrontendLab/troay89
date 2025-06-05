@@ -1,0 +1,8 @@
+h2.title {
+    font: var(--font-inter-subtitle);
+}
+
+button.button {
+    font: var(--font-inter-button);
+    color: var(--black-color);
+}

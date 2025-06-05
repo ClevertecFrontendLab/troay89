@@ -15,6 +15,7 @@ import { MeasureUnitsResponse } from '~/type/measureUnitsResponse';
 import { RecipeResponse } from '~/type/RecipeResponse';
 import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
+import { RecipeBloger } from '~/type/responceGetRecipeBlogger';
 import { Response } from '~/type/response';
 import { UploadFileData } from '~/type/UploadFileData';
 import { UploadFileResponse } from '~/type/uploadFileResponse';
@@ -132,6 +133,11 @@ export const apiSlice = createApi({
                       ]
                     : [{ type: RECIPE, id: LIST }],
         }),
+
+        getRecipesByUser: build.query<RecipeBloger, { id: string }>({
+            query: ({ id }) => `${PATH.RECIPE}/${PATH.USER}/${id}`,
+        }),
+
         uploadFile: build.mutation<UploadFileResponse, UploadFileData>({
             query: ({ file }) => {
                 const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
@@ -381,5 +387,7 @@ export const {
     useGetBloggersQuery,
     useLazyGetBloggersQuery,
     useLazyGetBloggerQuery,
+    useGetBloggerQuery,
     useToggleSubscriptionMutation,
+    useGetRecipesByUserQuery,
 } = apiSlice;

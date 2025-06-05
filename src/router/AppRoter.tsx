@@ -5,6 +5,7 @@ import { AccountLayout } from '~/app/layout/account-layout/AccountLayout';
 import { Layout } from '~/app/layout/layout-app/Layout';
 import { AboutRecipePage } from '~/app/pages/about-recipe-page/AboutRecipePage';
 import { BlogPage } from '~/app/pages/blog-page/BlogPage';
+import { BloggerProfilePage } from '~/app/pages/blogger-profile-page/BloggerProfilePage';
 import { JuicyPage } from '~/app/pages/juicy-page/JuicyPage';
 import { NewRecipePage } from '~/app/pages/new-recipe-page/NewRecipePage';
 import { NotFoundPage } from '~/app/pages/not-found-page/NotFoundPage';
@@ -64,6 +65,9 @@ const paths = {
     blogs: {
         path: '/blogs',
     },
+    blogAuthor: {
+        path: '/blogs/:id',
+    },
 };
 
 const accountRoutes: RouteObject = {
@@ -91,6 +95,7 @@ const recipeRoutes: RouteObject = {
         { path: paths.newRecipe.path, element: <NewRecipePage /> },
         { path: paths.editRecipe.path, element: <NewRecipePage /> },
         { path: paths.blogs.path, element: <BlogPage /> },
+        { path: paths.blogAuthor.path, element: <BloggerProfilePage /> },
         { path: '*', element: <Navigate to='/not-found' replace /> },
     ],
 };

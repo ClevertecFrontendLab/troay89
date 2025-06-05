@@ -2,7 +2,7 @@ import { Button, Flex } from '@chakra-ui/react';
 
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
-import RecipeType, { PaginationMeta } from '~/type/recipeType';
+import { PaginationMeta, RecipeType } from '~/type/RecipeType';
 
 import styles from './FilterSortBlock.module.css';
 
@@ -11,6 +11,7 @@ type FilterSearchBlockProps = {
     page: number;
     onLoadMore: () => void;
     meta?: PaginationMeta;
+    paddingTop?: string;
 };
 
 export const FilterSortBlock = ({
@@ -18,8 +19,9 @@ export const FilterSortBlock = ({
     meta,
     page,
     onLoadMore,
+    paddingTop = '0px',
 }: FilterSearchBlockProps) => (
-    <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center'>
+    <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center' mt={paddingTop}>
         <Flex className={styles.card_container} mb={4} gap={4}>
             {filterSearchRecipes.map(
                 ({ _id, image, title, description, categoriesIds, bookmarks, likes }, index) => (

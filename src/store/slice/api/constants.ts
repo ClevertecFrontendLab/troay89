@@ -15,5 +15,6 @@ export const PATH = {
     BOOKMARK: 'bookmark',
     BLOGGERS: 'bloggers',
     USERS: 'users',
+    USER: 'user',
     TOGGLE_SUBSCRIPTION: 'toggle-subscription',
 };

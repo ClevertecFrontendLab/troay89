@@ -1,0 +1,8 @@
+h3.title {
+    font: var(--font-inter-email);
+    color: var(--lime-color-600);
+}
+
+p.note {
+    font: var(--font-inter-email);
+}

@@ -1,0 +1,7 @@
+h1.title {
+    font: var(--font-inter-title);
+}
+
+p.text {
+    font: var(--font-inter-email);
+}
