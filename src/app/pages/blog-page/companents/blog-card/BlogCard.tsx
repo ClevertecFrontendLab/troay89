@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { BloggerStats } from '~/components/blogger-stats/BloggerStats';
 import { SubscriptionButton } from '~/components/buttons/subscription-button/SubscriptionButton';
 import { OverlayBlock } from '~/components/overlayBlock/overlayBlock';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { useToggleSubscriptionMutation } from '~/store/slice/api/api-slice';
 import { Author } from '~/type/author';
@@ -42,6 +43,7 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
             px={{ base: '15px', bp95: '23px' }}
             pt={{ base: '15px', bp95: '23px' }}
             pb={{ base: '15px', bp95: '19px' }}
+            data-test-id={DATA_TEST_ID.BLOGS_CARD}
         >
             <Flex
                 className={styles.container_about}
@@ -54,14 +56,23 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
                     <Text
                         className={styles.name}
                         isTruncated
+                        data-test-id={DATA_TEST_ID.BLOGS_CARD_NAME}
                         // maxW={{ base: '235px', bp76: '165px', bp95: '180px', bp189: '295px' }}
                     >
                         {`${author.firstName} ${author.lastName}`}
                     </Text>
-                    <Text className={styles.email}>{`@${author.login}`}</Text>
+                    <Text
+                        className={styles.email}
+                        data-test-id={DATA_TEST_ID.BLOGS_CARD_LOGIN}
+                    >{`@${author.login}`}</Text>
                 </Flex>
             </Flex>
-            <Text className={styles.content} minH='60px' mb='20px'>
+            <Text
+                className={styles.content}
+                minH='60px'
+                mb='20px'
+                data-test-id={DATA_TEST_ID.BLOGS_CARD_NOTES_TEXT}
+            >
                 {author.notes[0]?.text}
             </Text>
             <HStack justify='space-between'>
@@ -79,6 +90,7 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
                             bg='lime.400'
                             as={Link}
                             to={`/blogs/${author._id}`}
+                            data-test-id={DATA_TEST_ID.BLOGS_CARD_RECIPES_BUTTON}
                         >
                             Рецепты
                         </Button>
@@ -90,6 +102,7 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
                         variant='outline'
                         size='xs'
                         colorScheme='lime'
+                        data-test-id={DATA_TEST_ID.BLOGS_CARD_NOTES_BUTTON}
                     >
                         Читать
                     </Button>
@@ -109,6 +122,7 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
                     top={2}
                     right={2}
                     borderRadius={1}
+                    data-test-id={DATA_TEST_ID.BLOGS_CARD_NEW_RECIPES_BADGE}
                 >{`${author.newRecipesCount} ${textNewRecipe}`}</Box>
             )}
             {isLoading && <OverlayBlock />}

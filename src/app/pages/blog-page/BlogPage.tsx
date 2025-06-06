@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 
 import ArrowButton from '~/components/icons/ArrowButton';
 import { Overlay } from '~/components/overlay/Overlay';
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useGetBloggersQuery, useGetRecipesQuery } from '~/store/slice/api/api-slice';
 import { Author } from '~/type/author';
 
@@ -42,7 +43,7 @@ export const BlogPage = () => {
     }
 
     return (
-        <Box px={{ base: 4, bp55: 0 }}>
+        <Box px={{ base: 4, bp55: 0 }} data-test-id={DATA_TEST_ID.BLOGS_FAVORITES_BOX}>
             <Heading
                 mt={{ base: 4, bp160: 8 }}
                 mb={{ base: 6, bp160: 6 }}
@@ -60,6 +61,7 @@ export const BlogPage = () => {
                     bg='lime.300'
                     mb={{ base: 8, bp95: 10 }}
                     gap={{ base: 3, bp95: 4 }}
+                    data-test-id={DATA_TEST_ID.BLOGS_FAVORITES_GRID}
                 >
                     <Heading
                         className={styles.subtitle}
@@ -86,6 +88,7 @@ export const BlogPage = () => {
                 bg='alpha.50'
                 mb={{ base: 8, bp95: 10 }}
                 gap={{ base: 4, bp95: 6 }}
+                data-test-id={DATA_TEST_ID.BLOGS_OTHERS_BOX}
             >
                 <Grid
                     w='100%'
@@ -96,6 +99,7 @@ export const BlogPage = () => {
                     }}
                     rowGap={{ base: 4, bp95: 6 }}
                     columnGap={4}
+                    data-test-id={DATA_TEST_ID.BLOGS_OTHERS_GRID}
                 >
                     {authorsToShow?.map((author: Author, index) => (
                         <BlogCard key={index} author={author} />
@@ -108,6 +112,7 @@ export const BlogPage = () => {
                         variant='ghost'
                         size='lg'
                         onClick={() => setLimit('50')}
+                        data-test-id={DATA_TEST_ID.BLOGS_OTHERS_BUTTON}
                     >
                         Все авторы
                         <Icon ml='8px' as={ArrowButton} />
@@ -119,6 +124,7 @@ export const BlogPage = () => {
                         variant='ghost'
                         size='lg'
                         onClick={() => setLimit('9')}
+                        data-test-id={DATA_TEST_ID.BLOGS_OTHERS_BUTTON}
                     >
                         <Icon mr='8px' transform='rotate(180deg)' as={ArrowButton} />
                         Свернуть
