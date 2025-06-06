@@ -1,3 +1,5 @@
+import { Note } from './author';
+
 export type BloggerInfo = {
     _id: string;
     email: string;
@@ -7,6 +9,7 @@ export type BloggerInfo = {
     recipesIds: string[];
     subscriptions: string[];
     subscribers: string[];
+    notes: Note[];
 };
 
 export type BloggerData = {

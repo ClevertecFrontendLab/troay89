@@ -11,7 +11,8 @@ type FilterSearchBlockProps = {
     page: number;
     onLoadMore: () => void;
     meta?: PaginationMeta;
-    paddingTop?: string;
+    isExtraSpace?: boolean;
+    mobileGap?: number;
 };
 
 export const FilterSortBlock = ({
@@ -19,10 +20,22 @@ export const FilterSortBlock = ({
     meta,
     page,
     onLoadMore,
-    paddingTop = '0px',
+    isExtraSpace,
+    mobileGap = 4,
 }: FilterSearchBlockProps) => (
-    <Flex mb={{ bp95: 10, base: 8 }} flexDir='column' alignItems='center' mt={paddingTop}>
-        <Flex className={styles.card_container} mb={4} gap={4}>
+    <Flex
+        width='100%'
+        mb={{ bp95: 10, base: 8 }}
+        flexDir='column'
+        alignItems='center'
+        mt={isExtraSpace ? { base: '260px', bp76: '132px', bp95: '184px' } : undefined}
+    >
+        <Flex
+            className={styles.card_container}
+            mb={{ base: mobileGap, bp76: 4 }}
+            gap={{ base: mobileGap, bp76: 4 }}
+            width='100%'
+        >
             {filterSearchRecipes.map(
                 ({ _id, image, title, description, categoriesIds, bookmarks, likes }, index) => (
                     <GeneraCard

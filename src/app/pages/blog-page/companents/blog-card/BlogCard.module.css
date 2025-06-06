@@ -37,3 +37,14 @@ div.label {
         transition: box-shadow 0.3s ease;
     }
 }
+
+@media (max-width: 950px) {
+    .name.other_bloggers {
+        font: var(--font-inter-nav);
+    }
+
+    .container .email.other_bloggers {
+        font: var(--font-inter-text);
+        color: var(--black-alpha);
+    }
+}

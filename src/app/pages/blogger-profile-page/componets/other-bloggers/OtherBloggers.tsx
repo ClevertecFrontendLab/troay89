@@ -12,14 +12,18 @@ type OtherBloggersProps = {
 };
 
 export const OtherBloggers = ({ authors }: OtherBloggersProps) => (
-    <VStack w='100%' gap={6}>
-        <HStack w='100%' justify='space-between' mt={6}>
-            <Heading className={styles.title} as='h2' letterSpacing='1.5px'>
+    <VStack w='100%' gap={{ base: 4, bp95: 6 }}>
+        <HStack w='100%' justify='space-between' mt={{ base: 0, bp95: 6 }}>
+            <Heading
+                className={styles.title}
+                as='h2'
+                letterSpacing={{ base: ' 0.3px', bp95: '1.5px' }}
+            >
                 Другие блоги
             </Heading>
             <Button
                 className={styles.button}
-                size='lg'
+                size={{ base: 'xs', bp95: 'lg' }}
                 variant='ghost'
                 _hover={{}}
                 rightIcon={<ArrowButton />}
@@ -29,9 +33,24 @@ export const OtherBloggers = ({ authors }: OtherBloggersProps) => (
                 Все авторы
             </Button>
         </HStack>
-        <Grid w='100%' templateColumns='repeat(3, 1fr)' gap={4} mb={6}>
+        <Grid
+            w='100%'
+            templateColumns={{ base: 'repeat(1, 1fr)', bp76: 'repeat(3, 1fr)' }}
+            gap={{ base: 3, bp95: 4 }}
+            mb={{ base: 4, bp95: 6 }}
+        >
             {authors.map((authors) => (
-                <BlogCard author={authors} />
+                <BlogCard
+                    key={authors._id}
+                    author={authors}
+                    padding='7px'
+                    avatarSize='sm'
+                    extraClass='other_bloggers'
+                    gapAvatarDescription={2}
+                    flexWrap='column-reverse'
+                    justifyFloor='flex-end'
+                    gapFooter={4}
+                />
             ))}
         </Grid>
     </VStack>

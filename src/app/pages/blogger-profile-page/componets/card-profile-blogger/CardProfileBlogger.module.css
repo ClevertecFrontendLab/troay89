@@ -5,3 +5,9 @@ h1.title {
 p.text {
     font: var(--font-inter-email);
 }
+
+@media (max-width: 950px) {
+    h1.title {
+        font: var(--font-inter-header-mobile);
+    }
+}

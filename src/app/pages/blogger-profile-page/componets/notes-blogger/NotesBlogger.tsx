@@ -1,45 +1,58 @@
-import { Button, Grid, Heading, Text, VStack } from '@chakra-ui/react';
+import { Button, Grid, Heading, Text, useMediaQuery, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
+
+import { Note } from '~/type/author';
 
 import { NotesCard } from '../notes-card/NotesCard';
 import styles from './NotesBlogger.module.css';
 
 type NotesBloggerProps = {
-    notes: number[];
+    notes: Note[];
 };
 
 export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
     const [showAll, setShowAll] = useState(false);
     const toggleShowAll = () => setShowAll((prev) => !prev);
+    const [isWide] = useMediaQuery('(min-width: 761px)');
+
+    if (!notes.length) {
+        return null;
+    }
 
     if (!showAll) {
-        const initialNotes = notes.length > 3 ? notes.slice(0, 3) : notes;
+        const initialNotes = isWide ? notes.slice(0, 3) : notes.slice(0, 2);
         return (
             <VStack
                 gap={0}
                 bg='alpha.50'
                 id='notes'
                 align='flex-start'
-                px={6}
-                pt={6}
+                px={{ base: 4, bp95: 6 }}
+                pt={{ base: 4, bp95: 6 }}
                 pb={4}
-                mb={10}
+                mb={{ base: 8, bp95: 10 }}
+                borderRadius='16px'
             >
-                <Heading as='h2' className={styles.title} pb={4}>
+                <Heading
+                    as='h2'
+                    className={styles.title}
+                    pb={4}
+                    letterSpacing={{ base: '0.5px', bp95: '1.6px' }}
+                >
                     Заметки{' '}
-                    <Text as='span' color='alpha.600'>
+                    <Text className={styles.number} as='span' color='alpha.600'>
                         ({notes.length})
                     </Text>
                 </Heading>
-                <Grid templateColumns='repeat(3, 1fr)' gap={4}>
-                    {initialNotes.map((_, index) => (
-                        <NotesCard key={index} />
+                <Grid templateColumns={{ base: 'repeat(1, 1fr)', bp76: 'repeat(3, 1fr)' }} gap={4}>
+                    {initialNotes.map((note, index) => (
+                        <NotesCard key={index} note={note} />
                     ))}
                 </Grid>
                 {notes.length > 3 && (
                     <Button
                         className={styles.button}
-                        size='sm'
+                        size={{ base: 'xs', bp95: 'sm' }}
                         alignSelf='center'
                         mt={4}
                         variant='ghost'
@@ -58,28 +71,42 @@ export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
     const remainderNotes = notes.slice(fullNotesCount);
 
     return (
-        <VStack gap={0} bg='alpha.50' align='flex-start' px={6} pt={6} pb={4} mb={10}>
-            <Heading as='h2' className={styles.title} pb={4}>
+        <VStack
+            gap={0}
+            bg='alpha.50'
+            align='flex-start'
+            px={{ base: 4, bp95: 6 }}
+            pt={{ base: 4, bp95: 6 }}
+            pb={4}
+            mb={{ base: 8, bp95: 10 }}
+            borderRadius='16px'
+        >
+            <Heading
+                as='h2'
+                className={styles.title}
+                pb={4}
+                letterSpacing={{ base: '0.5px', bp95: '1.6px' }}
+            >
                 Заметки{' '}
-                <Text as='span' color='alpha.600'>
+                <Text as='span' className={styles.number} color='alpha.600'>
                     ({notes.length})
                 </Text>
             </Heading>
             <Grid templateColumns='repeat(3, 1fr)' gap={4}>
-                {fullNotes.map((_, index) => (
-                    <NotesCard key={index} />
+                {fullNotes.map((note, index) => (
+                    <NotesCard key={index} note={note} />
                 ))}
             </Grid>
             {remainderNotes.length > 0 && (
                 <Grid templateColumns='repeat(2, 1fr)' gap={4} mt={4}>
-                    {remainderNotes.map((_, index) => (
-                        <NotesCard key={index} />
+                    {remainderNotes.map((note, index) => (
+                        <NotesCard key={index} note={note} />
                     ))}
                 </Grid>
             )}
             <Button
                 className={styles.button}
-                size='sm'
+                size={{ base: 'xs', bp95: 'sm' }}
                 alignSelf='center'
                 mt={4}
                 variant='ghost'

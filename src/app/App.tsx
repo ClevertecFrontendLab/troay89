@@ -7,6 +7,7 @@ const customBreakpoints = {
     ...baseTheme.breakpoints,
     bp189: '1891px',
     bp160: '1601px',
+    bp144: '1441px',
     bp115: '1151px',
     bp95: '951px',
     bp76: '761px',

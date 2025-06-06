@@ -1,8 +1,15 @@
 import { Card, Heading, Text } from '@chakra-ui/react';
 
+import { Note } from '~/type/author';
+import { formatDate } from '~/utils/formatDate';
+
 import styles from './NotesCard.module.css';
 
-export const NotesCard = () => (
+type NotesCardProps = {
+    note: Note;
+};
+
+export const NotesCard = ({ note }: NotesCardProps) => (
     <Card
         px='23px'
         pt='27px'
@@ -14,11 +21,8 @@ export const NotesCard = () => (
         borderRadius='8px'
     >
         <Heading className={styles.title} as='h3'>
-            15 января 16:02
+            {formatDate(note.date ?? '2025-03-26T15:27:16.066Z')}
         </Heading>
-        <Text className={styles.note}>
-            Паназиатская кухня — это настоящий праздник для вашего здоровья и вкусовых рецепторов.
-            Присоединяйтесь ко мне, и мы создадим новые кулинарные шедевры
-        </Text>
+        <Text className={styles.note}>{note.text}</Text>
     </Card>
 );

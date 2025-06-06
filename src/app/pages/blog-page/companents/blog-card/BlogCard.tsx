@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, Card, Flex, HStack, Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { Link } from 'react-router';
 
 import { BloggerStats } from '~/components/blogger-stats/BloggerStats';
@@ -14,9 +15,26 @@ import styles from './BlogCard.module.css';
 type BlogCardProps = {
     author: Author;
     isExtraSpaceProfile?: boolean;
+    padding?: string;
+    avatarSize?: string;
+    extraClass?: string;
+    gapAvatarDescription?: number;
+    flexWrap?: 'column-reverse' | 'row';
+    justifyFloor?: 'space-between' | 'flex-end';
+    gapFooter?: number;
 };
 
-export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
+export const BlogCard = ({
+    author,
+    isExtraSpaceProfile,
+    padding = '15px',
+    avatarSize = 'md',
+    extraClass = '',
+    gapAvatarDescription = 3,
+    flexWrap = 'row',
+    justifyFloor = 'space-between',
+    gapFooter = 2,
+}: BlogCardProps) => {
     const [toggleSubscription, { isLoading }] = useToggleSubscriptionMutation();
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
 
@@ -33,39 +51,51 @@ export const BlogCard = ({ author, isExtraSpaceProfile }: BlogCardProps) => {
     };
 
     const textNewRecipe = author.newRecipesCount === 1 ? 'новый рецепт' : 'новых рецептов';
-    const bottomMarginAvatar = isExtraSpaceProfile ? '20px' : '16px';
-    const topMarginAvatar = isExtraSpaceProfile ? '4px' : '0';
+    const bottomMarginAvatar = isExtraSpaceProfile ? '16px' : '16px';
+    const topMarginAvatar = isExtraSpaceProfile ? '8px' : '0';
 
     return (
         <Card
             className={styles.container}
-            px={{ base: '15px', bp95: '23px' }}
-            pt={{ base: '15px', bp95: '23px' }}
-            pb={{ base: '15px', bp95: '19px' }}
+            px={{ base: padding, bp95: '23px' }}
+            pt={{ base: padding, bp95: '23px' }}
+            pb={{ base: padding, bp95: '19px' }}
         >
             <Flex
                 className={styles.container_about}
                 mt={{ base: topMarginAvatar, bp95: 0 }}
                 mb={{ base: bottomMarginAvatar, bp95: '28px' }}
-                gap={3}
+                gap={{ base: gapAvatarDescription, bp95: 3 }}
             >
-                <Avatar className={styles.avatar} name={author.lastName} />
+                <Avatar
+                    className={styles.avatar}
+                    name={author.lastName}
+                    size={{ base: avatarSize, bp95: 'md' }}
+                    alignSelf='center'
+                />
                 <Flex className={styles.about} flexDirection='column'>
                     <Text
-                        className={styles.name}
+                        className={classNames(styles.name, styles[extraClass])}
                         isTruncated
                         // maxW={{ base: '235px', bp76: '165px', bp95: '180px', bp189: '295px' }}
                     >
                         {`${author.firstName} ${author.lastName}`}
                     </Text>
-                    <Text className={styles.email}>{`@${author.login}`}</Text>
+                    <Text
+                        className={classNames(styles.email, styles[extraClass])}
+                    >{`@${author.login}`}</Text>
                 </Flex>
             </Flex>
             <Text className={styles.content} minH='60px' mb='20px'>
                 {author.notes[0]?.text}
             </Text>
-            <HStack justify='space-between'>
-                <HStack gap={2}>
+            <HStack
+                justify={{ base: justifyFloor, bp95: 'space-between' }}
+                flexDir={{ base: flexWrap, bp95: 'row' }}
+                gap={{ base: gapFooter, bp95: 2 }}
+                alignItems='flex-end'
+            >
+                <HStack gap='7px'>
                     {!author.isFavorite ? (
                         <SubscriptionButton
                             isFavorite={false}
