@@ -1,92 +1,98 @@
-import { Button, Grid, Heading, Text, VStack } from '@chakra-ui/react';
+import { Button, Grid, Heading, Text, useMediaQuery, VStack } from '@chakra-ui/react';
 import { useState } from 'react';
+
+import { DATA_TEST_ID } from '~/constants/dataTestId';
+import { Note } from '~/type/author';
 
 import { NotesCard } from '../notes-card/NotesCard';
 import styles from './NotesBlogger.module.css';
 
 type NotesBloggerProps = {
-    notes: number[];
+    notes: Note[];
 };
 
 export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
     const [showAll, setShowAll] = useState(false);
     const toggleShowAll = () => setShowAll((prev) => !prev);
+    const [isWide] = useMediaQuery('(min-width: 761px)');
+    const showCountCard = isWide ? 3 : 2;
 
-    if (!showAll) {
-        const initialNotes = notes.length > 3 ? notes.slice(0, 3) : notes;
-        return (
-            <VStack
-                gap={0}
-                bg='alpha.50'
-                id='notes'
-                align='flex-start'
-                px={6}
-                pt={6}
-                pb={4}
-                mb={10}
-            >
-                <Heading as='h2' className={styles.title} pb={4}>
-                    Заметки{' '}
-                    <Text as='span' color='alpha.600'>
-                        ({notes.length})
-                    </Text>
-                </Heading>
-                <Grid templateColumns='repeat(3, 1fr)' gap={4}>
-                    {initialNotes.map((_, index) => (
-                        <NotesCard key={index} />
-                    ))}
-                </Grid>
-                {notes.length > 3 && (
-                    <Button
-                        className={styles.button}
-                        size='sm'
-                        alignSelf='center'
-                        mt={4}
-                        variant='ghost'
-                        _hover={{}}
-                        onClick={toggleShowAll}
-                    >
-                        Показать больше
-                    </Button>
-                )}
-            </VStack>
-        );
+    if (!notes.length) {
+        return null;
     }
 
-    const fullNotesCount = Math.floor(notes.length / 3) * 3;
-    const fullNotes = notes.slice(0, fullNotesCount);
-    const remainderNotes = notes.slice(fullNotesCount);
-
     return (
-        <VStack gap={0} bg='alpha.50' align='flex-start' px={6} pt={6} pb={4} mb={10}>
-            <Heading as='h2' className={styles.title} pb={4}>
+        <VStack
+            gap={0}
+            bg='alpha.50'
+            align='flex-start'
+            id='notes'
+            px={{ base: 4, bp95: 6 }}
+            pt={{ base: 4, bp95: 6 }}
+            pb={4}
+            mb={{ base: 8, bp95: 10 }}
+            borderRadius='16px'
+            data-test-id={DATA_TEST_ID.BLOG_NOTES_BOX}
+        >
+            <Heading
+                as='h2'
+                className={styles.title}
+                pb={4}
+                letterSpacing={{ base: '0.5px', bp95: '1.6px' }}
+            >
                 Заметки{' '}
-                <Text as='span' color='alpha.600'>
+                <Text
+                    as='span'
+                    className={styles.number}
+                    color='alpha.600'
+                    data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_COUNT}
+                >
                     ({notes.length})
                 </Text>
             </Heading>
-            <Grid templateColumns='repeat(3, 1fr)' gap={4}>
-                {fullNotes.map((_, index) => (
-                    <NotesCard key={index} />
-                ))}
+
+            <Grid
+                data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_GRID}
+                templateColumns={{
+                    base: 'repeat(1, 1fr)',
+                    bp76: 'repeat(12, 1fr)',
+                }}
+                gap={4}
+            >
+                {notes.map((note, index) => {
+                    const isLastRow = index >= notes.length - (notes.length % 3 || 3);
+                    let colSpan = { base: 1, bp76: 4 };
+
+                    if (isLastRow && notes.length % 3 !== 0) {
+                        if (notes.length % 3 === 2) {
+                            colSpan = { base: 1, bp76: 6 };
+                        }
+                        if (notes.length % 3 === 1) {
+                            colSpan = { base: 1, bp76: 6 };
+                        }
+                    }
+                    return (
+                        <NotesCard
+                            key={index}
+                            note={note}
+                            showCard={showAll || index < showCountCard ? 'block' : 'none'}
+                            gridColumn={{ bp76: `span ${colSpan.bp76}` }}
+                        />
+                    );
+                })}
             </Grid>
-            {remainderNotes.length > 0 && (
-                <Grid templateColumns='repeat(2, 1fr)' gap={4} mt={4}>
-                    {remainderNotes.map((_, index) => (
-                        <NotesCard key={index} />
-                    ))}
-                </Grid>
-            )}
+
             <Button
                 className={styles.button}
-                size='sm'
+                size={{ base: 'xs', bp95: 'sm' }}
                 alignSelf='center'
                 mt={4}
                 variant='ghost'
                 _hover={{}}
                 onClick={toggleShowAll}
+                data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_BUTTON}
             >
-                Скрыть
+                {showAll ? 'Свернуть' : 'Показать больше'}
             </Button>
         </VStack>
     );

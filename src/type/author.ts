@@ -18,4 +18,5 @@ export type Author = {
 export type Note = {
     date?: string;
     text?: string;
+    id?: string;
 };

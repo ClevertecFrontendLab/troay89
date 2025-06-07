@@ -12,8 +12,8 @@ import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelecto
 import { activeSubcategoryIdSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
 import { useLazyGetRecipeByCategoryQuery } from '~/store/slice/api/api-slice';
 import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
-import { Category } from '~/type/category';
-import { RecipeType } from '~/type/recipeType';
+import { Category } from '~/type/Category';
+import { RecipeType } from '~/type/RecipeType';
 
 import { TabPanelNavigation } from './components/tab-panel-navigation/TabPanelNavigation';
 

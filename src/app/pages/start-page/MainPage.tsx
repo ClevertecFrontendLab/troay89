@@ -42,7 +42,9 @@ export const MainPage = () => {
         data: getAllBloggers,
         isLoading: isGetAllBloggers,
         isError: isGetAllBloggersError,
-    } = useGetBloggersQuery({ limit: '3' });
+    } = useGetBloggersQuery({ limit: '' });
+
+    console.log(getAllBloggers, 'getAllBloggers');
 
     const isPending =
         (isJuiceFetching ||

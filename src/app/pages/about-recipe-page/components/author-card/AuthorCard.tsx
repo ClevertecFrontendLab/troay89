@@ -19,6 +19,11 @@ type AuthorCardProps = {
 export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
     const [toggleSubscription, { isLoading }] = useToggleSubscriptionMutation();
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
+    const username =
+        bloggerData &&
+        bloggerData.bloggerInfo &&
+        `${bloggerData.bloggerInfo.firstName} ${bloggerData.bloggerInfo.lastName}`;
+    const login = bloggerData && bloggerData.bloggerInfo && `@${bloggerData.bloggerInfo.login}`;
 
     const [isFavorite, setIsFavorite] = useState(false);
 
@@ -62,14 +67,14 @@ export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
                     mb={{ base: 0, bp76: 1 }}
                 >
                     <Heading className={styles.name} as='h2'>
-                        {`${bloggerData?.bloggerInfo.firstName} ${bloggerData?.bloggerInfo.lastName}`}
+                        {username}
                     </Heading>
                     <Text className={styles.text} alignSelf={{ base: 'flex-end', bp76: 'unset' }}>
                         Автор рецепта
                     </Text>
                 </Flex>
                 <Text className={styles.email} mb={4}>
-                    {`@${bloggerData?.bloggerInfo.login}`}
+                    {login}
                 </Text>
                 <Flex justify='space-between'>
                     <SubscriptionButton

@@ -308,7 +308,7 @@ export const apiSlice = createApi({
                 const params = new URLSearchParams({ currentUserId: String(userId) });
                 params.append('limit', String(limit));
                 return {
-                    url: `${PATH.BLOGGERS}?${params.toString()}? `,
+                    url: `${PATH.BLOGGERS}?${params.toString()}`,
                     headers: {
                         Authorization: accessToken ? `Bearer ${accessToken}` : '',
                     },

@@ -1,20 +1,5 @@
-div.card_container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-    gap: 16px;
-}
-
 button.button {
     background-color: var(--lime-color-400);
     font: var(--font-inter-button-third);
     color: var(--black-color);
-}
-
-@media (max-width: 1910px) {
-    div.card_container {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
 }

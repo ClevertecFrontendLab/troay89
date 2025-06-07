@@ -12,6 +12,7 @@ export function getBreadcrumbs(
     pathCategory: string,
     handleCrumbLink: () => void,
     titleRecipe: string | null,
+    username: string,
     subcategory?: string,
     pathSubcategory?: string,
     pathFirstSubcategory?: string,
@@ -34,7 +35,7 @@ export function getBreadcrumbs(
         breadcrumbs = [
             { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
             { title: 'Блоги', link: '/blogs' },
-            { title: titleRecipe ?? 'Блогер' },
+            { title: username ?? 'Блогер' },
         ];
     } else if (pathname.startsWith(BREADCRUMBS.THE_JUICIEST_PATH + '/')) {
         const pathParts = pathname.split('/').filter(Boolean);

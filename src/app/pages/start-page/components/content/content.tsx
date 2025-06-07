@@ -99,7 +99,7 @@ export const Content = ({
                     {isErrorAuthorOpen && (
                         <ErrorModal
                             onClose={() => setIsErrorAuthorOpen(false)}
-                            notification={ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION}
+                            notification={ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_FOUR}
                         />
                     )}
                     {isShowAlertSuccessDelete && (

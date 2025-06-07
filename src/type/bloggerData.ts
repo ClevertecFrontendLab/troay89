@@ -10,6 +10,7 @@ export type BloggerInfo = {
     recipesIds: string[];
     subscriptions: string[];
     subscribers: string[];
+    notes: Note[];
 };
 
 export type BloggerData = {

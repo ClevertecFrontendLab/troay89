@@ -1,5 +1,6 @@
 import { Avatar, Card, Flex, Text } from '@chakra-ui/react';
 
+import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { Author } from '~/type/author';
 
 import styles from './AuthorCard.module.css';
@@ -17,13 +18,21 @@ export const AuthorCard = ({ author }: AuthorCardProps) => (
                     className={styles.name}
                     isTruncated
                     maxW={{ base: '235px', bp76: '165px', bp95: '180px', bp189: '295px' }}
+                    data-test-id={DATA_TEST_ID.BLOGS_CARD_NAME}
                 >
                     {`${author.firstName} ${author.lastName}`}
                 </Text>
-                <Text className={styles.email}>{`@${author.login}`}</Text>
+                <Text
+                    className={styles.email}
+                    data-test-id={DATA_TEST_ID.BLOGS_CARD_LOGIN}
+                >{`@${author.login}`}</Text>
             </Flex>
         </Flex>
-        <Text className={styles.content} minH='60px'>
+        <Text
+            className={styles.content}
+            minH='60px'
+            data-test-id={DATA_TEST_ID.BLOGS_CARD_NOTES_TEXT}
+        >
             {author.notes[0]?.text}
         </Text>
     </Card>

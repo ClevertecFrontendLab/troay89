@@ -31,9 +31,24 @@ div.label {
     font: var(--font-inter-small);
 }
 
+.button.specialFontClass {
+    font: var(--font-inter-button-second);
+}
+
 @media (hover: hover) and (pointer: fine) {
     .container:hover {
         box-shadow: var(--shadow-hover-cart);
         transition: box-shadow 0.3s ease;
+    }
+}
+
+@media (max-width: 950px) {
+    .name.other_bloggers {
+        font: var(--font-inter-nav);
+    }
+
+    .container .email.other_bloggers {
+        font: var(--font-inter-text);
+        color: var(--black-alpha);
     }
 }

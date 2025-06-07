@@ -50,4 +50,7 @@
     --font-inter-subtitle-mobile: normal 500 24px/133% 'Inter', sans-serif;
     --font-inter-title-table: normal 700 12px/133% 'Inter', sans-serif;
     --font-inter-title-error: normal 700 16px/150% 'Inter', sans-serif;
+    --font-inter-title-table-author: normal 400 20px/140% 'Inter', sans-serif;
+    --font-inter-title-table-other: normal 600 24px/133% 'Inter', sans-serif;
+    --font-inter-title-digetal: normal 400 30px/120% 'Inter', sans-serif;
 }
