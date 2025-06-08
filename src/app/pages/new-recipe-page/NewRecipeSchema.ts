@@ -45,9 +45,9 @@ export type IngredientType = {
 };
 
 export type StepCook = {
+    description: string;
     stepNumber?: number;
     image?: string | null;
-    description: string;
 };
 
 export type RecipeFormValues = {

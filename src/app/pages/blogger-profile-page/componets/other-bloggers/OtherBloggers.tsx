@@ -1,7 +1,7 @@
 import { Button, Grid, Heading, HStack, VStack } from '@chakra-ui/react';
 import { Link } from 'react-router';
 
-import { BlogCard } from '~/app/pages/blog-page/companents/blog-card/BlogCard';
+import { BlogCard } from '~/app/pages/blog-page/components/blog-card/BlogCard';
 import ArrowButton from '~/components/icons/ArrowButton';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { Author } from '~/type/author';

@@ -7,7 +7,7 @@ import { withLoader } from '~/components/with-loader/WithLoader';
 import { AuthorData } from '~/type/author';
 import { BloggerData } from '~/type/bloggerData';
 import { PaginationMeta } from '~/type/RecipeType';
-import { RecipeBloger } from '~/type/responceGetRecipeBlogger';
+import { RecipeBlogger } from '~/type/responceGetRecipeBlogger';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import { CardProfileBlogger } from '../card-profile-blogger/CardProfileBlogger';
@@ -19,7 +19,7 @@ type BloggerProfileContentProps = {
     hasError: boolean;
     errorBlogger: unknown;
     errorRecipes: unknown;
-    dataRecipes?: RecipeBloger;
+    dataRecipes?: RecipeBlogger;
     dataBlogger?: BloggerData;
     dataBloggers?: AuthorData;
 };

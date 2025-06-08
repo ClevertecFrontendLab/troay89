@@ -44,8 +44,6 @@ export const MainPage = () => {
         isError: isGetAllBloggersError,
     } = useGetBloggersQuery({ limit: '' });
 
-    console.log(getAllBloggers, 'getAllBloggers');
-
     const isPending =
         (isJuiceFetching ||
             isSwiperFetching ||

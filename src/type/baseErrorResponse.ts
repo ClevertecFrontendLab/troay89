@@ -1,4 +1,4 @@
 export type BaseErrorResponse = {
-    message?: string;
     [key: string]: unknown;
+    message?: string;
 };

@@ -14,10 +14,10 @@ import styles from './CookStepCard.module.css';
 type CookStepCardProps = {
     index: number;
     register: UseFormRegister<RecipeFormValues>;
-    errors?: FieldError;
     setValue: UseFormSetValue<RecipeFormValues>;
     removeStep: () => void;
     watch: UseFormWatch<RecipeFormValues>;
+    errors?: FieldError;
 };
 
 export const CookStepCard = ({

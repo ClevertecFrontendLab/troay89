@@ -13,7 +13,7 @@ import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 import styles from './AuthorCard.module.css';
 
 type AuthorCardProps = {
-    bloggerData: BloggerData | undefined;
+    bloggerData?: BloggerData;
 };
 
 export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {

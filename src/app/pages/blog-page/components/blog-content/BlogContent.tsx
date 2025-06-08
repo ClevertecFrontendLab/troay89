@@ -35,7 +35,7 @@ const BlogContent = ({
         if (isErrorAuthors) {
             navigate('/', { state: { isErrorGetAuthor: true } });
         }
-    });
+    }, [isErrorAuthors, navigate]);
 
     return (
         <Box px={{ base: 4, bp55: 0 }}>
@@ -104,8 +104,8 @@ const BlogContent = ({
                     data-test-id={DATA_TEST_ID.BLOGS_OTHERS_GRID}
                 >
                     {Array.isArray(authorsToShow) &&
-                        authorsToShow?.map((author: Author, index) => (
-                            <BlogCard key={index} author={author} />
+                        authorsToShow?.map((author: Author) => (
+                            <BlogCard key={author._id} author={author} />
                         ))}
                 </Grid>
                 {!showAll ? (

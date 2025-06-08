@@ -26,7 +26,6 @@ export const CardProfileBlogger = ({ dataBlogger }: CardProfileBloggerProps) => 
     const [isFavorite, setIsFavorite] = useState(false);
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
     const usernameBread = `${name} (${login})`;
-    dispatch(setSaveUsername(usernameBread));
 
     const handleToggleSubscription = async () => {
         try {
@@ -40,6 +39,10 @@ export const CardProfileBlogger = ({ dataBlogger }: CardProfileBloggerProps) => 
             isFetchBaseQueryError(error);
         }
     };
+
+    useEffect(() => {
+        dispatch(setSaveUsername(usernameBread));
+    }, [dispatch, usernameBread]);
 
     useEffect(() => {
         if (dataBlogger) {

@@ -1,7 +1,7 @@
 import { Note } from './author';
 import { RecipeType } from './RecipeType';
 
-export type RecipeBloger = {
+export type RecipeBlogger = {
     totalBookmarks: number;
     totalSubscribers: number;
     userId: string;

@@ -21,23 +21,23 @@ import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 import { AuthorCard } from '../author-card/AuthorCard';
 import CaloricDish from '../caloric-dish/CaloricDish';
 import { CardAboutRecipe } from '../card-about-recipe/CardAboutRecipe';
-import { CookingSteps } from '../cooking_steps/CookingSteps';
+import { CookingSteps } from '../cooking-steps/CookingSteps';
 import { NewBlock } from '../new-block/NewBlock';
 import { TableIngredients } from '../table-ingredients/TableIndegrients';
 
 type AboutRecipeContentType = {
-    getRecipe: ReturnType<typeof useGetRecipeQuery>[0];
     isErrorRecipe: boolean;
     isSwiperError: boolean;
-    swiperData?: RecipeTypeResponse;
-    recipeData?: RecipeType;
-    deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
     IsErrorDeleteRecipe: boolean;
+    isErrorLikeUnlike: boolean;
+    isErrorBookmark: boolean;
     putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
     saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
     getBlogger: ReturnType<typeof useLazyGetBloggerQuery>[0];
-    isErrorLikeUnlike: boolean;
-    isErrorBookmark: boolean;
+    deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
+    getRecipe: ReturnType<typeof useGetRecipeQuery>[0];
+    swiperData?: RecipeTypeResponse;
+    recipeData?: RecipeType;
 };
 
 const AboutRecipeContent = ({

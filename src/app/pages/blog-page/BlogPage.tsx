@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { useGetBloggersQuery, useGetRecipesQuery } from '~/store/slice/api/api-slice';
 
-import { BlogContentWithLoader } from './companents/blog-content/BlogContent';
+import { BlogContentWithLoader } from './components/blog-content/BlogContent';
 
 export const BlogPage = () => {
     const [isWide] = useMediaQuery('(min-width: 1601px)');

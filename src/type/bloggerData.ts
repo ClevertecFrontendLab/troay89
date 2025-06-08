@@ -6,11 +6,10 @@ export type BloggerInfo = {
     login: string;
     firstName: string;
     lastName: string;
-    notes?: Note[];
     recipesIds: string[];
     subscriptions: string[];
     subscribers: string[];
-    notes: Note[];
+    notes?: Note[];
 };
 
 export type BloggerData = {
