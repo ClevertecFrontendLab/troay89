@@ -9,6 +9,7 @@ import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { useToggleSubscriptionMutation } from '~/store/slice/api/api-slice';
 import { Author } from '~/type/author';
+import { getNewRecipeText } from '~/utils/getNewRecipeText';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import styles from './BlogCard.module.css';
@@ -56,12 +57,7 @@ export const BlogCard = ({
     };
 
     const count = author.newRecipesCount;
-    const textNewRecipe =
-        count % 10 === 1 && count % 100 !== 11
-            ? 'новый рецепт'
-            : count % 10 >= 2 && count % 10 <= 4 && (count % 100 < 12 || count % 100 > 14)
-              ? 'новых рецепта'
-              : 'новых рецептов';
+    const textNewRecipe = getNewRecipeText(count);
     const bottomMarginAvatar = isExtraSpaceProfile ? '16px' : '16px';
     const topMarginAvatar = isExtraSpaceProfile ? '8px' : '0';
 

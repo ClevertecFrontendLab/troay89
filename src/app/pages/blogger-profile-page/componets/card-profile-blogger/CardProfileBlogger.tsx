@@ -22,23 +22,31 @@ export const CardProfileBlogger = ({ dataBlogger }: CardProfileBloggerProps) => 
     const dispatch = useDispatch();
     const name = `${dataBlogger?.bloggerInfo.firstName} ${dataBlogger?.bloggerInfo.lastName}`;
     const login = `@${dataBlogger?.bloggerInfo.login}`;
-    const [toggleSubscription, { isLoading }] = useToggleSubscriptionMutation();
+    const [toggleSubscription, { isLoading, isError, error, isSuccess }] =
+        useToggleSubscriptionMutation();
     const [isFavorite, setIsFavorite] = useState(false);
     const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
     const usernameBread = `${name} (${login})`;
 
-    const handleToggleSubscription = async () => {
-        try {
-            if (!dataBlogger) return;
-            await toggleSubscription({
-                toUserId: dataBlogger.bloggerInfo._id,
-                fromUserId: userId,
-            }).unwrap();
-            setIsFavorite((prev: boolean) => !prev);
-        } catch (error) {
+    const handleToggleSubscription = () => {
+        if (!dataBlogger) return;
+        toggleSubscription({
+            toUserId: dataBlogger.bloggerInfo._id,
+            fromUserId: userId,
+        });
+    };
+
+    useEffect(() => {
+        if (isSuccess) {
+            setIsFavorite((prev) => !prev);
+        }
+    }, [isSuccess]);
+
+    useEffect(() => {
+        if (isError) {
             isFetchBaseQueryError(error);
         }
-    };
+    }, [isError, error]);
 
     useEffect(() => {
         dispatch(setSaveUsername(usernameBread));

@@ -8,7 +8,8 @@ import { BlogContentWithLoader } from './components/blog-content/BlogContent';
 export const BlogPage = () => {
     const [isWide] = useMediaQuery('(min-width: 1601px)');
     const collapsedCount = isWide ? 9 : 8;
-    const [limit, setLimit] = useState('9');
+    const initialnumberAuthors = '9';
+    const [limit, setLimit] = useState(initialnumberAuthors);
     const { data: swiperData, isLoading: isLoadingSwiper } = useGetRecipesQuery({
         limit: 10,
         sortBy: 'createdAt',
@@ -23,11 +24,22 @@ export const BlogPage = () => {
     const showAll = limit === 'all';
 
     const isPending = isLoadingSwiper || isLoadingAuthors;
-    const authorsToShow = showAll
-        ? (authors?.others ?? undefined)
-        : Array.isArray(authors?.others)
-          ? authors.others.slice(0, collapsedCount)
-          : undefined;
+    let authorsToShow;
+
+    if (showAll) {
+        if (authors && authors.others !== undefined) {
+            authorsToShow = authors.others;
+        } else {
+            authorsToShow = undefined;
+        }
+    } else {
+        if (authors && Array.isArray(authors.others)) {
+            authorsToShow = authors.others.slice(0, collapsedCount);
+        } else {
+            authorsToShow = undefined;
+        }
+    }
+
     return (
         <BlogContentWithLoader
             isLoading={isPending}

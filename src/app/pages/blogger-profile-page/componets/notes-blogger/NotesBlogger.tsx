@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { Note } from '~/type/author';
+import { getColSpan } from '~/utils/getColSpan';
 
 import { NotesCard } from '../notes-card/NotesCard';
 import styles from './NotesBlogger.module.css';
@@ -60,17 +61,7 @@ export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
                 gap={4}
             >
                 {notes.map((note, index) => {
-                    const isLastRow = index >= notes.length - (notes.length % 3 || 3);
-                    let colSpan = { base: 1, bp76: 4 };
-
-                    if (isLastRow && notes.length % 3 !== 0) {
-                        if (notes.length % 3 === 2) {
-                            colSpan = { base: 1, bp76: 6 };
-                        }
-                        if (notes.length % 3 === 1) {
-                            colSpan = { base: 1, bp76: 6 };
-                        }
-                    }
+                    const colSpan = getColSpan(index, notes.length);
                     return (
                         <NotesCard
                             key={index}

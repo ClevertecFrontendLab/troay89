@@ -19,13 +19,10 @@ export const SubscriptionButton = ({
         <Tooltip
             className={styles.tooltip}
             label={
-                isFavorite ? (
+                isFavorite && (
                     <Box as='span' whiteSpace='pre-line'>
-                        {' '}
-                        {labelText}{' '}
+                        {`${labelText}`}
                     </Box>
-                ) : (
-                    ''
                 )
             }
             aria-label='Subscription tooltip'

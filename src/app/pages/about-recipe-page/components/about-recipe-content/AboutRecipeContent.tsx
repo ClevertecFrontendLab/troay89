@@ -11,7 +11,6 @@ import {
     useBookmarkMutation,
     useDeleteRecipeMutation,
     useGetRecipeQuery,
-    useLazyGetBloggerQuery,
     useLikeRecipeMutation,
 } from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
@@ -33,9 +32,10 @@ type AboutRecipeContentType = {
     isErrorBookmark: boolean;
     putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
     saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
-    getBlogger: ReturnType<typeof useLazyGetBloggerQuery>[0];
     deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
     getRecipe: ReturnType<typeof useGetRecipeQuery>[0];
+    setAuthorId: (id: string) => void;
+    getBlogger?: BloggerData;
     swiperData?: RecipeTypeResponse;
     recipeData?: RecipeType;
 };
@@ -53,6 +53,7 @@ const AboutRecipeContent = ({
     getBlogger,
     isErrorLikeUnlike,
     isErrorBookmark,
+    setAuthorId,
 }: AboutRecipeContentType) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -67,6 +68,9 @@ const AboutRecipeContent = ({
         if (idRecipe && !recipeData) {
             getRecipe({ id: idRecipe });
         } else {
+            if (recipeData && recipeData.authorId) {
+                setAuthorId(recipeData.authorId);
+            }
             if (id) {
                 dispatch(setIndexRecipe(id));
             }
@@ -74,26 +78,7 @@ const AboutRecipeContent = ({
                 dispatch(setNameRecipe(recipeData?.title));
             }
         }
-    }, [recipeData, dispatch, id, idRecipe, getRecipe]);
-
-    const [bloggerData, setBloggerData] = useState<BloggerData | undefined>(undefined);
-
-    useEffect(() => {
-        const fetchBlogger = async () => {
-            if (recipeData) {
-                try {
-                    const data = await getBlogger({ id: recipeData.authorId }).unwrap();
-                    setBloggerData(data);
-                } catch (error) {
-                    console.error('Ошибка получения данных блогера:', error);
-                }
-            }
-        };
-
-        fetchBlogger();
-    }, [getBlogger, recipeData]);
-
-    console.log(bloggerData, 'bloggerData');
+    }, [recipeData, dispatch, id, idRecipe, getRecipe, setAuthorId]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -129,7 +114,7 @@ const AboutRecipeContent = ({
                         ingredients={recipeData.ingredients}
                     />
                     <CookingSteps steps={recipeData.steps} />
-                    <AuthorCard bloggerData={bloggerData} />
+                    <AuthorCard bloggerData={getBlogger} />
                     {swiperData && <NewBlock swipeData={swiperData.data} />}
                     {isShowAlertSuccessModal && (
                         <AlertSuccess

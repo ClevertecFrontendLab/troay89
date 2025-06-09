@@ -26,7 +26,7 @@ export const NotesCard = ({ note, showCard, gridColumn }: NotesCardProps) => (
         gridColumn={gridColumn}
     >
         <Heading className={styles.title} as='h3' data-test-id={DATA_TEST_ID.NOTES_CARD_DATE}>
-            {formatDate(note.date ?? '2025-03-26T15:27:16.066Z')}
+            {formatDate(note.date ?? '')}
         </Heading>
         <Text className={styles.note} data-test-id={DATA_TEST_ID.NOTES_CARD_TEXT}>
             {note.text}

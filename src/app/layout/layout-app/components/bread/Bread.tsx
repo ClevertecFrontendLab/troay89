@@ -56,6 +56,16 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
         pathFirstSubcategory,
     );
 
+    const getDataTestId = (index: number) => {
+        if (index === 1) {
+            return DATA_TEST_ID.BLOGGER_USER_BREADCRUMB_NAME;
+        } else if (index === 2) {
+            return DATA_TEST_ID.BLOGGER_USER_BREADCRUMB_SECTION;
+        } else {
+            return undefined;
+        }
+    };
+
     return (
         <Breadcrumb
             className={classNames(styles.breadcrumb, { [styles.mobile]: isMobile })}
@@ -67,13 +77,7 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
                     className={styles.breadcrumb_item}
                     key={index}
                     isCurrentPage={index === breadcrumbs.length - 1}
-                    data-test-id={
-                        index === 1
-                            ? DATA_TEST_ID.BLOGGER_USER_BREADCRUMB_NAME
-                            : index === 2
-                              ? DATA_TEST_ID.BLOGGER_USER_BREADCRUMB_SECTION
-                              : undefined
-                    }
+                    data-test-id={getDataTestId(index)}
                 >
                     {index === breadcrumbs.length - 1 ? (
                         <span

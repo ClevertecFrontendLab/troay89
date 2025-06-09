@@ -36,8 +36,6 @@ const RECIPE = 'recipe' as const;
 const BLOGGERS = 'blogers' as const;
 const LIST = 'list' as const;
 
-const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
-
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
     baseQuery: fetchBaseQuery({
@@ -285,6 +283,7 @@ export const apiSlice = createApi({
         }),
         getBlogger: build.query<BloggerData, RecipeId>({
             query: ({ id }) => {
+                const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
                 const params = new URLSearchParams({ currentUserId: String(userId) });
                 return {
                     url: `${PATH.BLOGGERS}/${id}?${params.toString()}`,

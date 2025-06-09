@@ -1,7 +1,6 @@
 import { Avatar, Card, CardBody, Flex, Heading, Icon, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import { avatar } from '~/assets/images/cooking-step';
 import { SubscriptionButton } from '~/components/buttons/subscription-button/SubscriptionButton';
 import PeopleEmpty from '~/components/icons/PeopleEmpty';
 import { OverlayBlock } from '~/components/overlayBlock/overlayBlock';
@@ -49,8 +48,8 @@ export const AuthorCard = ({ bloggerData }: AuthorCardProps) => {
     return (
         <Card className={styles.card} direction='row' shadow='none'>
             <Avatar
-                name={avatar}
-                src={avatar}
+                src={username}
+                name={username}
                 boxSize={24}
                 my={{ base: 3, bp76: 6 }}
                 ml={{ base: 3, bp76: 6 }}
