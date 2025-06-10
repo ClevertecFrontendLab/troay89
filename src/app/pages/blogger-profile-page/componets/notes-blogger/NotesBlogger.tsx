@@ -18,16 +18,13 @@ export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
     const [isWide] = useMediaQuery('(min-width: 761px)');
     const showCountCard = isWide ? 3 : 2;
 
-    if (!notes.length) {
-        return null;
-    }
-
     return (
         <VStack
             gap={0}
             bg='alpha.50'
             align='flex-start'
             id='notes'
+            w='100%'
             px={{ base: 4, bp95: 6 }}
             pt={{ base: 4, bp95: 6 }}
             pb={4}
@@ -73,18 +70,20 @@ export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
                 })}
             </Grid>
 
-            <Button
-                className={styles.button}
-                size={{ base: 'xs', bp95: 'sm' }}
-                alignSelf='center'
-                mt={4}
-                variant='ghost'
-                _hover={{}}
-                onClick={toggleShowAll}
-                data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_BUTTON}
-            >
-                {showAll ? 'Свернуть' : 'Показать больше'}
-            </Button>
+            {notes.length > 3 && (
+                <Button
+                    className={styles.button}
+                    size={{ base: 'xs', bp95: 'sm' }}
+                    alignSelf='center'
+                    mt={4}
+                    variant='ghost'
+                    _hover={{}}
+                    onClick={toggleShowAll}
+                    data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_BUTTON}
+                >
+                    {showAll ? 'Свернуть' : 'Показать больше'}
+                </Button>
+            )}
         </VStack>
     );
 };
