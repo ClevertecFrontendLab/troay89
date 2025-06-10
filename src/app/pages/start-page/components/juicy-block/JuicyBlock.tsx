@@ -5,7 +5,7 @@ import { GreenButton } from '~/components/buttons/green-button/GreenButton';
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { URLS_PATH } from '~/constants/urlsPath';
-import { RecipeType } from '~/type/recipeType';
+import { RecipeType } from '~/type/RecipeType';
 
 import styles from './JuicyBlock.module.css';
 

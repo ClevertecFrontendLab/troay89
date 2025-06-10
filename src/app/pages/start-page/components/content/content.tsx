@@ -8,7 +8,9 @@ import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { LastBlock } from '~/components/last-block/LastBlock';
 import { SwipeSlider } from '~/components/swipe-slider/SwipeSlider';
 import { withLoader } from '~/components/with-loader/WithLoader';
+import { ERROR_MESSAGE } from '~/constants/errorMessage';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
+import { AuthorData } from '~/type/author';
 import { Category } from '~/type/Category';
 import { PaginationMeta, RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 
@@ -23,11 +25,13 @@ type ContentProps = {
     pageFilter: number;
     filterRecipes: RecipeType[];
     handleLoadMoreFilter: () => void;
+    getAllBloggers?: AuthorData;
     swiperData?: RecipeTypeResponse;
     juicyData?: RecipeTypeResponse;
     randomCategory?: Category;
     lastBlockData?: RecipeType[];
     meta?: PaginationMeta;
+    isGetAllBloggersError: boolean;
 };
 
 export const Content = ({
@@ -41,10 +45,13 @@ export const Content = ({
     filterRecipes,
     pageFilter,
     meta,
+    getAllBloggers,
+    isGetAllBloggersError,
     handleLoadMoreFilter,
 }: ContentProps) => {
     const location = useLocation();
     const [isErrorOpen, setIsErrorOpen] = useState(false);
+    const [isErrorAuthorOpen, setIsErrorAuthorOpen] = useState(false);
     const [isErrorOpenFilter, setIsErrorOpenFilter] = useState(hasErrorFilter);
     const [isShowAlertSuccessDelete, setIsShowAlertSuccessDelete] = useState<boolean>(
         (location.state && location.state.showAlertDelete) || false,
@@ -53,9 +60,15 @@ export const Content = ({
         (location.state && location.state.showAlertDraft) || false,
     );
 
+    const isErrorGetAuthor: boolean = (location.state && location.state.isErrorGetAuthor) || false;
+
     useEffect(() => {
         setIsErrorOpenFilter(hasErrorFilter);
     }, [hasErrorFilter]);
+
+    useEffect(() => {
+        setIsErrorAuthorOpen(isGetAllBloggersError || isErrorGetAuthor);
+    }, [isGetAllBloggersError, isErrorGetAuthor]);
 
     useEffect(() => {
         setIsErrorOpen(hasError);
@@ -75,12 +88,19 @@ export const Content = ({
                         </Heading>
                         <SwipeSlider swipeData={swiperData?.data} />
                         <JuicyBlock juicyData={juicyData?.data} />
-                        <AuthorBlock />
+                        {!isGetAllBloggersError && <AuthorBlock getAllBloggers={getAllBloggers} />}
                         <Divider />
                         <LastBlock randomCategory={randomCategory} lastBlockData={lastBlockData} />
                     </Box>
                     {isErrorOpenFilter && (
                         <ErrorModal onClose={() => setIsErrorOpenFilter(false)} />
+                    )}
+
+                    {isErrorAuthorOpen && (
+                        <ErrorModal
+                            onClose={() => setIsErrorAuthorOpen(false)}
+                            notification={ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_FOUR}
+                        />
                     )}
                     {isShowAlertSuccessDelete && (
                         <AlertSuccess

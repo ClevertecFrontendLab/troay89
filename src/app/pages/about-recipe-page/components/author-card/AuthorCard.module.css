@@ -20,10 +20,6 @@ div.card {
     color: var(--black-alpha);
 }
 
-.card .button {
-    font: var(--font-inter-small);
-}
-
 .stats {
     font: var(--font-inter-small);
     color: var(--lime-color-600);

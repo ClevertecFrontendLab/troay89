@@ -4,6 +4,7 @@ export const ERROR_MESSAGE = {
     ERROR_SERVER_NOTIFICATION_TWO: 'Попробуйте поискать снова попозже',
     ERROR_SERVER_THREE: 'Ошибка',
     ERROR_SERVER_NOTIFICATION_THREE: 'Попробуйте пока сохранить в черновик',
+    ERROR_SERVER_NOTIFICATION_FOUR: 'Попробуйте немного позже.',
     INCORRECT_LOGIN: 'Неверный логин или пароль',
     INCORRECT_LOGIN_NOTIFICATION: 'Попробуйте снова',
     EMAIL_NOT_VERIFIED: 'E-mail не верифицирован',

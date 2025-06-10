@@ -7,4 +7,6 @@ export const BREADCRUMBS = {
     EDIT_RECIPE: '/edit-recipe',
     NEW_RECIPE_PATH: 'new-recipe',
     NEW_RECIPE_TITLE: 'Новый рецепт',
+    BLOG_PATH: '/blogs',
+    BLOG_TITLE: 'Блоги',
 };

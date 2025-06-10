@@ -1,6 +1,9 @@
+import { useState } from 'react';
+
 import {
     useBookmarkMutation,
     useDeleteRecipeMutation,
+    useGetBloggerQuery,
     useGetRecipesQuery,
     useLazyGetRecipeQuery,
     useLikeRecipeMutation,
@@ -9,6 +12,7 @@ import {
 import { AboutRecipeWithLoader } from './components/about-recipe-content/AboutRecipeContent';
 
 export const AboutRecipePage = () => {
+    const [authorId, setAuthorId] = useState('');
     const { data: swiperData, isError: isSwiperError } = useGetRecipesQuery({
         limit: 10,
         sortBy: 'createdAt',
@@ -22,9 +26,17 @@ export const AboutRecipePage = () => {
         useLikeRecipeMutation();
     const [saveRemoveBookmark, { isLoading: isLoadingBookmark, isError: isErrorBookmark }] =
         useBookmarkMutation();
+    const { data: getBlogger, isLoading: isLoadingAuthor } = useGetBloggerQuery(
+        { id: authorId ?? '' },
+        { skip: !authorId },
+    );
 
     const isPending =
-        isLoading || isLoadingDeleteRecipe || isLoadingLikeUnLike || isLoadingBookmark;
+        isLoading ||
+        isLoadingDeleteRecipe ||
+        isLoadingLikeUnLike ||
+        isLoadingBookmark ||
+        isLoadingAuthor;
 
     return (
         <AboutRecipeWithLoader
@@ -40,6 +52,8 @@ export const AboutRecipePage = () => {
             isErrorLikeUnlike={isErrorLikeUnlike}
             isErrorBookmark={isErrorBookmark}
             saveRemoveBookmark={saveRemoveBookmark}
+            getBlogger={getBlogger}
+            setAuthorId={setAuthorId}
         />
     );
 };

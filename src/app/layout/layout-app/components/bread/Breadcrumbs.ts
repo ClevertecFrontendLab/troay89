@@ -12,6 +12,7 @@ export function getBreadcrumbs(
     pathCategory: string,
     handleCrumbLink: () => void,
     titleRecipe: string | null,
+    username: string,
     subcategory?: string,
     pathSubcategory?: string,
     pathFirstSubcategory?: string,
@@ -24,6 +25,17 @@ export function getBreadcrumbs(
         breadcrumbs = [
             { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
             { title: BREADCRUMBS.THE_JUICIEST_TITLE },
+        ];
+    } else if (pathname === BREADCRUMBS.BLOG_PATH) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: BREADCRUMBS.BLOG_TITLE },
+        ];
+    } else if (pathname.startsWith('/blogs/')) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: BREADCRUMBS.BLOG_TITLE, link: BREADCRUMBS.BLOG_PATH },
+            { title: username ?? 'Блогер' },
         ];
     } else if (pathname.startsWith(BREADCRUMBS.THE_JUICIEST_PATH + '/')) {
         const pathParts = pathname.split('/').filter(Boolean);

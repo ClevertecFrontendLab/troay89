@@ -1,0 +1,7 @@
+button.button {
+    font: var(--font-inter-small);
+}
+
+div.tooltip {
+    font: var(--font-inter-email);
+}

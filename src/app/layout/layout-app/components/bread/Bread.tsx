@@ -9,6 +9,7 @@ import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { useNavigationIndices } from '~/hooks/useNavigationIndices';
 import { usePathCategoryData } from '~/hooks/usePathCategoryData';
 import { nameRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
+import { getSaveUsername } from '~/store/selectors/saveUsernameSelector';
 import { setIndexTab } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
 import styles from './Bread.module.css';
@@ -32,6 +33,7 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
     const pathCategory = activeCategory.category;
     const pathSubcategory = activeCategory?.subCategories?.[indexSubcategory].category;
     const pathFirstSubcategory = activeCategory?.subCategories?.[0]?.category;
+    const userName = useSelector(getSaveUsername);
 
     const handleCrumbLink = () => {
         dispatch(setIndexTab(0));
@@ -48,10 +50,21 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
         pathCategory,
         handleCrumbLink,
         titleRecipe,
+        userName,
         titleSubcategory,
         pathSubcategory,
         pathFirstSubcategory,
     );
+
+    const getDataTestId = (index: number) => {
+        if (index === 1) {
+            return DATA_TEST_ID.BLOGGER_USER_BREADCRUMB_NAME;
+        } else if (index === 2) {
+            return DATA_TEST_ID.BLOGGER_USER_BREADCRUMB_SECTION;
+        } else {
+            return undefined;
+        }
+    };
 
     return (
         <Breadcrumb
@@ -64,6 +77,7 @@ export const Bread = ({ isMobile, onClose }: BreadProps) => {
                     className={styles.breadcrumb_item}
                     key={index}
                     isCurrentPage={index === breadcrumbs.length - 1}
+                    data-test-id={getDataTestId(index)}
                 >
                     {index === breadcrumbs.length - 1 ? (
                         <span

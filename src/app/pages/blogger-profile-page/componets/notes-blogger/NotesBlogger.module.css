@@ -1,0 +1,26 @@
+h2.title {
+    font: var(--font-inter-subtitle-second);
+}
+
+.button {
+    font: var(--font-inter-button-second);
+    color: var(--black-color);
+}
+
+.number {
+    font: var(--font-inter-title-digetal);
+}
+
+@media (max-width: 950px) {
+    h2.title {
+        font: var(--font-inter-title-table-author);
+    }
+
+    .button {
+        font: var(--font-inter-small);
+    }
+
+    .number {
+        font: var(--font-inter-title-table-author);
+    }
+}

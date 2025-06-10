@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router';
 
-import { AuthorBlock } from '~/app/pages/start-page/components/author-block/AuthorBlock';
 import { AlertSuccess } from '~/components/alert/alert-success/AlertSuccess';
 import { withLoader } from '~/components/with-loader/WithLoader';
 import { SUCCESS_MESSAGE } from '~/constants/successMessage';
@@ -15,26 +14,30 @@ import {
     useLikeRecipeMutation,
 } from '~/store/slice/api/api-slice';
 import { setIndexRecipe, setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
+import { BloggerData } from '~/type/bloggerData';
 import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 
+import { AuthorCard } from '../author-card/AuthorCard';
 import CaloricDish from '../caloric-dish/CaloricDish';
 import { CardAboutRecipe } from '../card-about-recipe/CardAboutRecipe';
-import { CookingSteps } from '../cooking_steps/CookingSteps';
+import { CookingSteps } from '../cooking-steps/CookingSteps';
 import { NewBlock } from '../new-block/NewBlock';
 import { TableIngredients } from '../table-ingredients/TableIndegrients';
 
 type AboutRecipeContentType = {
-    getRecipe: ReturnType<typeof useGetRecipeQuery>[0];
     isErrorRecipe: boolean;
     isSwiperError: boolean;
-    swiperData?: RecipeTypeResponse;
-    recipeData?: RecipeType;
-    deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
     IsErrorDeleteRecipe: boolean;
-    putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
-    saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
     isErrorLikeUnlike: boolean;
     isErrorBookmark: boolean;
+    putLikeUnlike: ReturnType<typeof useLikeRecipeMutation>[0];
+    saveRemoveBookmark: ReturnType<typeof useBookmarkMutation>[0];
+    deleteRecipe: ReturnType<typeof useDeleteRecipeMutation>[0];
+    getRecipe: ReturnType<typeof useGetRecipeQuery>[0];
+    setAuthorId: (id: string) => void;
+    getBlogger?: BloggerData;
+    swiperData?: RecipeTypeResponse;
+    recipeData?: RecipeType;
 };
 
 const AboutRecipeContent = ({
@@ -47,8 +50,10 @@ const AboutRecipeContent = ({
     IsErrorDeleteRecipe,
     putLikeUnlike,
     saveRemoveBookmark,
+    getBlogger,
     isErrorLikeUnlike,
     isErrorBookmark,
+    setAuthorId,
 }: AboutRecipeContentType) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -63,6 +68,9 @@ const AboutRecipeContent = ({
         if (idRecipe && !recipeData) {
             getRecipe({ id: idRecipe });
         } else {
+            if (recipeData && recipeData.authorId) {
+                setAuthorId(recipeData.authorId);
+            }
             if (id) {
                 dispatch(setIndexRecipe(id));
             }
@@ -70,7 +78,7 @@ const AboutRecipeContent = ({
                 dispatch(setNameRecipe(recipeData?.title));
             }
         }
-    }, [recipeData, dispatch, id, idRecipe, getRecipe]);
+    }, [recipeData, dispatch, id, idRecipe, getRecipe, setAuthorId]);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -106,7 +114,7 @@ const AboutRecipeContent = ({
                         ingredients={recipeData.ingredients}
                     />
                     <CookingSteps steps={recipeData.steps} />
-                    <AuthorBlock />
+                    <AuthorCard bloggerData={getBlogger} />
                     {swiperData && <NewBlock swipeData={swiperData.data} />}
                     {isShowAlertSuccessModal && (
                         <AlertSuccess

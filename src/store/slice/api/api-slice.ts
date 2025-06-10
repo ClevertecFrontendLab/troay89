@@ -6,6 +6,8 @@ import {
 } from '~/app/pages/new-recipe-page/NewRecipeSchema';
 import { STORAGE_KEY } from '~/constants/storageKey';
 import { URLS } from '~/constants/url';
+import { AuthorData } from '~/type/author';
+import { BloggerData } from '~/type/bloggerData';
 import { CategoriesResponse } from '~/type/Category';
 import { DecodedAccessToken } from '~/type/decodedAccessToken';
 import { LoginDataType } from '~/type/LoginDataType';
@@ -13,6 +15,7 @@ import { MeasureUnitsResponse } from '~/type/measureUnitsResponse';
 import { RecipeResponse } from '~/type/RecipeResponse';
 import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 import { RegistrationData } from '~/type/registrationData';
+import { RecipeBlogger } from '~/type/responceGetRecipeBlogger';
 import { Response } from '~/type/response';
 import { UploadFileData } from '~/type/UploadFileData';
 import { UploadFileResponse } from '~/type/uploadFileResponse';
@@ -25,16 +28,28 @@ import {
     RecipesCategoryQueryParams,
     RecipesQueryParams,
     ResetPasswordData,
+    ToggleSubscriptionRequest,
     VerifyOtpData,
 } from './types';
 
 const RECIPE = 'recipe' as const;
+const BLOGGERS = 'blogers' as const;
 const LIST = 'list' as const;
 
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
-    baseQuery: fetchBaseQuery({ baseUrl: URLS.BASE_URL }),
-    tagTypes: [RECIPE],
+    baseQuery: fetchBaseQuery({
+        baseUrl: URLS.BASE_URL,
+        prepareHeaders: (headers) => {
+            const token = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+            headers.set('Content-Type', 'application/json');
+            return headers;
+        },
+    }),
+    tagTypes: [RECIPE, BLOGGERS],
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
             query: () => PATH.CATEGORY,
@@ -47,16 +62,7 @@ export const apiSlice = createApi({
             providesTags: (_, __, { id }) => [{ type: RECIPE, id }],
         }),
         getMeasureUnits: build.query<MeasureUnitsResponse, void>({
-            query: () => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: PATH.MEASURE_INITS,
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                        'Content-Type': 'application/json',
-                    },
-                };
-            },
+            query: () => ({ url: PATH.MEASURE_INITS }),
         }),
         getRecipeByCategory: build.query<RecipeTypeResponse, RecipesCategoryQueryParams>({
             query: ({ id, page, limit, allergens, searchString }) => {
@@ -128,102 +134,67 @@ export const apiSlice = createApi({
                       ]
                     : [{ type: RECIPE, id: LIST }],
         }),
+
+        getRecipesByUser: build.query<RecipeBlogger, { id: string }>({
+            query: ({ id }) => `${PATH.RECIPE}/${PATH.USER}/${id}`,
+        }),
+
         uploadFile: build.mutation<UploadFileResponse, UploadFileData>({
             query: ({ file }) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
                 const formData = new FormData();
                 formData.append('file', file);
                 return {
                     url: PATH.FILE_UPLOAD,
                     method: 'POST',
                     body: formData,
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
                 };
             },
         }),
 
         createRecipe: build.mutation<RecipeResponse, RecipeFormValues>({
-            query: (data) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: PATH.RECIPE,
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
-                };
-            },
+            query: (data) => ({
+                url: PATH.RECIPE,
+                method: 'POST',
+                body: data,
+            }),
         }),
 
         updateRecipe: build.mutation<RecipeResponse, { id: string; data: RecipeFormValues }>({
-            query: ({ id, data }) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: `${PATH.RECIPE}/${id}`,
-                    method: 'PATCH',
-                    body: data,
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
-                };
-            },
+            query: ({ id, data }) => ({
+                url: `${PATH.RECIPE}/${id}`,
+                method: 'PATCH',
+                body: data,
+            }),
         }),
 
         saveDraft: build.mutation<void, DraftRecipeFormValues>({
-            query: (data) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: `${PATH.RECIPE}/${PATH.DRAFT}`,
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
-                };
-            },
+            query: (data) => ({
+                url: `${PATH.RECIPE}/${PATH.DRAFT}`,
+                method: 'POST',
+                body: data,
+            }),
         }),
 
         deleteRecipe: build.mutation<void, RecipeId>({
-            query: ({ id }) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: `${PATH.RECIPE}/${id}`,
-                    method: 'DELETE',
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
-                };
-            },
+            query: ({ id }) => ({
+                url: `${PATH.RECIPE}/${id}`,
+                method: 'DELETE',
+            }),
         }),
 
         likeRecipe: build.mutation<void, RecipeId>({
-            query: ({ id }) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: `${PATH.RECIPE}/${id}/${PATH.LIKE}`,
-                    method: 'POST',
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
-                };
-            },
+            query: ({ id }) => ({
+                url: `${PATH.RECIPE}/${id}/${PATH.LIKE}`,
+                method: 'POST',
+            }),
             invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
         }),
 
         bookmark: build.mutation<void, RecipeId>({
-            query: ({ id }) => {
-                const accessToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-                return {
-                    url: `${PATH.RECIPE}/${id}/${PATH.BOOKMARK}`,
-                    method: 'POST',
-                    headers: {
-                        Authorization: accessToken ? `Bearer ${accessToken}` : '',
-                    },
-                };
-            },
+            query: ({ id }) => ({
+                url: `${PATH.RECIPE}/${id}/${PATH.BOOKMARK}`,
+                method: 'POST',
+            }),
             invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
         }),
 
@@ -259,7 +230,6 @@ export const apiSlice = createApi({
             async onQueryStarted(_, { queryFulfilled }) {
                 const result = await queryFulfilled;
                 const accessToken = result.meta?.response?.headers.get('Authentication-Access');
-
                 const oldToken = localStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
 
                 if (accessToken && accessToken !== oldToken) {
@@ -291,6 +261,48 @@ export const apiSlice = createApi({
                 body: data,
             }),
         }),
+        getBloggers: build.query<AuthorData, { limit: string }>({
+            query: ({ limit }) => {
+                const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
+                const params = new URLSearchParams({ currentUserId: String(userId) });
+                params.append('limit', String(limit));
+                return {
+                    url: `${PATH.BLOGGERS}?${params.toString()}`,
+                };
+            },
+            providesTags: (result) => {
+                if (result && (result.others || result.favorites)) {
+                    const allBloggers = [...(result.others || []), ...(result.favorites || [])];
+                    const uniqueTags = Array.from(
+                        new Set(allBloggers.map((blogger) => blogger._id)),
+                    ).map((id) => ({ type: BLOGGERS, id }));
+                    return [...uniqueTags, { type: BLOGGERS, id: LIST }];
+                }
+                return [{ type: BLOGGERS, id: LIST }];
+            },
+        }),
+        getBlogger: build.query<BloggerData, RecipeId>({
+            query: ({ id }) => {
+                const userId = localStorage.getItem(STORAGE_KEY.DECODED_PAYLOAD) ?? '';
+                const params = new URLSearchParams({ currentUserId: String(userId) });
+                return {
+                    url: `${PATH.BLOGGERS}/${id}?${params.toString()}`,
+                };
+            },
+            providesTags: (_, __, { id }) => [{ type: BLOGGERS, id }],
+        }),
+
+        toggleSubscription: build.mutation<BloggerData, ToggleSubscriptionRequest>({
+            query: ({ toUserId, fromUserId }) => ({
+                url: `${PATH.USERS}/${PATH.TOGGLE_SUBSCRIPTION}`,
+                method: 'PATCH',
+                body: { toUserId: String(toUserId), fromUserId: String(fromUserId) },
+            }),
+            invalidatesTags: (_, __, { toUserId }) => [
+                { type: BLOGGERS, id: LIST },
+                { type: BLOGGERS, id: toUserId },
+            ],
+        }),
     }),
 });
 
@@ -317,4 +329,10 @@ export const {
     useSaveDraftMutation,
     useBookmarkMutation,
     useLikeRecipeMutation,
+    useGetBloggersQuery,
+    useLazyGetBloggersQuery,
+    useLazyGetBloggerQuery,
+    useGetBloggerQuery,
+    useToggleSubscriptionMutation,
+    useGetRecipesByUserQuery,
 } = apiSlice;

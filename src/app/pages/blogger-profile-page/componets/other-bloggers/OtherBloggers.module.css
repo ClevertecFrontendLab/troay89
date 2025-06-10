@@ -1,0 +1,18 @@
+h2.title {
+    font: var(--font-inter-subtitle);
+}
+
+a.button {
+    font: var(--font-inter-button);
+    color: var(--black-color);
+}
+
+@media (max-width: 950px) {
+    h2.title {
+        font: var(--font-inter-title-table-other);
+    }
+
+    a.button {
+        font: var(--font-inter-small);
+    }
+}

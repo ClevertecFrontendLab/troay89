@@ -47,8 +47,18 @@ export const ErrorModal = ({
         >
             <AlertIcon color='white' boxSize={6} />
             <Box>
-                <AlertTitle className={styles.title}>{title}</AlertTitle>
-                <AlertDescription className={styles.message}>{notification}</AlertDescription>
+                <AlertTitle
+                    className={styles.title}
+                    data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION_TITLE}
+                >
+                    {title}
+                </AlertTitle>
+                <AlertDescription
+                    className={styles.message}
+                    data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION_DESCRIPTION}
+                >
+                    {notification}
+                </AlertDescription>
             </Box>
             <CloseButton
                 color='white'

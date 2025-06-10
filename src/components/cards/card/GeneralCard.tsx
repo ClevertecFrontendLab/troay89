@@ -56,7 +56,7 @@ export const GeneraCard = ({
     const resultSearch = useSelector(resultSearchSelector);
 
     return (
-        <Card className={styles.card_container} data-test-id={dataTest}>
+        <Card className={styles.card_container} data-test-id={dataTest} w='100%'>
             <Image
                 className={styles.image}
                 src={`${URLS.IMAGE_URL}${image}`}
@@ -69,7 +69,7 @@ export const GeneraCard = ({
                 objectFit='none'
                 objectPosition='center'
             />
-            <Stack className={styles.card_content} gap={0}>
+            <Stack className={styles.card_content} gap={0} w='100%'>
                 <CardHeader className={styles.card_header}>
                     <Flex direction='column' gap='2px' display={{ base: 'none', bp95: 'flex' }}>
                         {categoriesCard.length && (

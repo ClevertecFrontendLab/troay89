@@ -1,6 +1,6 @@
 type CardLongProps = {
-    image: string | undefined;
     title: string;
+    image?: string;
 };
 
 export default CardLongProps;

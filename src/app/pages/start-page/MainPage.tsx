@@ -7,7 +7,7 @@ import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import { overlayPositionSelector } from '~/store/selectors/overlayPositionSelector';
-import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
+import { useGetBloggersQuery, useGetRecipesQuery } from '~/store/slice/api/api-slice';
 
 import { MainContentWithLoader } from './components/content/content';
 
@@ -38,8 +38,18 @@ export const MainPage = () => {
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);
 
+    const {
+        data: getAllBloggers,
+        isLoading: isGetAllBloggers,
+        isError: isGetAllBloggersError,
+    } = useGetBloggersQuery({ limit: '' });
+
     const isPending =
-        (isJuiceFetching || isSwiperFetching || isLastBlockFetching || isFetchingFilterRecipes) &&
+        (isJuiceFetching ||
+            isSwiperFetching ||
+            isLastBlockFetching ||
+            isFetchingFilterRecipes ||
+            isGetAllBloggers) &&
         shouldShowOverlay;
 
     const hasError = isJuiceError || isSwiperError || isErrorLastBlock;
@@ -64,6 +74,8 @@ export const MainPage = () => {
                 shouldShowFilterResults={shouldShowFilterResults}
                 swiperData={swiperData}
                 juicyData={juicyData}
+                getAllBloggers={getAllBloggers}
+                isGetAllBloggersError={isGetAllBloggersError}
                 randomCategory={randomCategory}
                 lastBlockData={lastBlockData?.data}
                 filterRecipes={filterRecipes}

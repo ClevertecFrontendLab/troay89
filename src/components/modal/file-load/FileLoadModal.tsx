@@ -38,12 +38,10 @@ export const FileLoadModal = ({
     const [uploadFile] = useUploadFileMutation();
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [previewSrc, setPreviewSrc] = useState<string>('');
+    const [previewSrc, setPreviewSrc] = useState('');
     const handleImageClick = () => {
         fileInputRef.current?.click();
     };
-
-    console.log('defaultImageUrl', defaultImageUrl);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -52,7 +50,6 @@ export const FileLoadModal = ({
             setSelectedFile(file);
             const previewURL = URL.createObjectURL(file);
             setPreviewSrc(previewURL);
-            console.log('previewURL', previewURL);
         }
     };
 

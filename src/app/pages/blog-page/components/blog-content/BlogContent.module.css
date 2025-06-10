@@ -1,0 +1,21 @@
+h1.title {
+    font: var(--font-inter-title);
+}
+
+h2.subtitle {
+    font: var(--font-inter-subtitle-second);
+}
+
+button.show_all {
+    font: var(--font-inter-button);
+}
+
+@media (max-width: 950px) {
+    h1.title {
+        font: var(--font-inter-header-mobile);
+    }
+
+    h2.subtitle {
+        font: var(--font-inter-subtitle-mobile);
+    }
+}
