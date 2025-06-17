@@ -17,4 +17,5 @@ export const PATH = {
     USERS: 'users',
     USER: 'user',
     TOGGLE_SUBSCRIPTION: 'toggle-subscription',
+    ME: 'me',
 };

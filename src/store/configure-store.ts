@@ -5,9 +5,10 @@ import getArrayCategoryReducer from './slice/arrayCategory';
 import arrayResultFilterReducer from './slice/arrayResultFilterSlice';
 import authErrorReducer from './slice/authErrorSlice';
 import firstPartDataCreateUserReducer from './slice/firstPartDataCreateUser';
+import userProfileReducer from './slice/getInfoMe';
 import headerZIndexReducer from './slice/headerZIndex';
 import indexTabsReducer from './slice/indexCategoriesSubcategoriesSlice';
-import overlayPositionReducer from './slice/overlayPosition';
+import overlayPositionReducer from './slice/overlayPositionSlice';
 import saveEmailReducer from './slice/saveEmailSlice';
 import saveUsernameReducer from './slice/saveUsernameSlice';
 import stateSwitchAllergenReducer from './slice/stateSwitchAllergenSlice';
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
     getSaveEmail: saveEmailReducer,
     authError: authErrorReducer,
     saveUsername: saveUsernameReducer,
+    saveUserProfile: userProfileReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

@@ -19,6 +19,7 @@ import { RecipeBlogger } from '~/type/responceGetRecipeBlogger';
 import { Response } from '~/type/response';
 import { UploadFileData } from '~/type/UploadFileData';
 import { UploadFileResponse } from '~/type/uploadFileResponse';
+import { userProfile } from '~/type/userProfile';
 
 import { PATH } from './constants';
 import {
@@ -303,6 +304,11 @@ export const apiSlice = createApi({
                 { type: BLOGGERS, id: toUserId },
             ],
         }),
+        getMe: build.query<userProfile, void>({
+            query: () => ({
+                url: `${PATH.USERS}/${PATH.ME}`,
+            }),
+        }),
     }),
 });
 
@@ -335,4 +341,5 @@ export const {
     useGetBloggerQuery,
     useToggleSubscriptionMutation,
     useGetRecipesByUserQuery,
+    useGetMeQuery,
 } = apiSlice;

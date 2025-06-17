@@ -15,7 +15,7 @@ import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
 import {
     setFetchingFilterRecipes,
     setShouldShowFilterResults,
-} from '~/store/slice/overlayPosition';
+} from '~/store/slice/overlayPositionSlice';
 import RecipeType from '~/type/recipeType';
 
 export const useShouldShowFilterResults = (limit: number = 8) => {

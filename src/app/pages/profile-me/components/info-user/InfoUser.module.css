@@ -1,0 +1,9 @@
+h1.title {
+    font: var(--font-inter-title);
+    letter-spacing: 0.9px;
+}
+
+p.email {
+    font: var(--font-inter-email);
+    color: var(--black-alpha-700);
+}

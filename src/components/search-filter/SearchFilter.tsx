@@ -19,7 +19,7 @@ import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelecto
 import { shouldShowFilterResultsSelector } from '~/store/selectors/overlayPositionSelector';
 import { setResultFilter, setResultSearch } from '~/store/slice/arrayResultFilterSlice';
 import { setZIndex } from '~/store/slice/headerZIndex';
-import { setOverlayPosition } from '~/store/slice/overlayPosition';
+import { setOverlayPosition } from '~/store/slice/overlayPositionSlice';
 
 import { DrawerFilter } from '../drawer-filter/DrawerFilter';
 import FilterIcon from '../icons/FilterIcon';

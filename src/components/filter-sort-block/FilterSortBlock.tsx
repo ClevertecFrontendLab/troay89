@@ -3,13 +3,14 @@ import { Button, Flex, Grid } from '@chakra-ui/react';
 import GeneraCard from '~/components/cards/card/GeneralCard';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { PaginationMeta, RecipeType } from '~/type/RecipeType';
+import { DraftRecipe } from '~/type/userProfile';
 
 import styles from './FilterSortBlock.module.css';
 
 type FilterSearchBlockProps = {
-    filterSearchRecipes: RecipeType[];
+    filterSearchRecipes: RecipeType[] | DraftRecipe[];
     page: number;
-    onLoadMore: () => void;
+    onLoadMore?: () => void;
     meta?: PaginationMeta;
     isExtraSpace?: boolean;
     mobileGap?: number;
@@ -48,12 +49,12 @@ export const FilterSortBlock = ({
                     <GeneraCard
                         key={_id}
                         _id={_id}
-                        image={image}
+                        image={image ?? ''}
                         title={title}
-                        description={description}
-                        categoriesIds={categoriesIds}
-                        favorites={bookmarks}
-                        like={likes}
+                        description={description ?? ''}
+                        categoriesIds={categoriesIds ?? []}
+                        favorites={bookmarks ?? 0}
+                        like={likes ?? 0}
                         dataTest={`${DATA_TEST_ID.FOOD_CARD}-${index}`}
                         dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${index}`}
                     />

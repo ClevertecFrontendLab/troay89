@@ -13,6 +13,7 @@ import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
 import { resultSearchSelector } from '~/store/selectors/arrayResultFilterSelector';
 import { Category } from '~/type/Category';
+import { isNumberMoreZero } from '~/utils/isNumberMoreZero';
 
 import styles from './GeneralCard.module.css';
 
@@ -72,7 +73,7 @@ export const GeneraCard = ({
             <Stack className={styles.card_content} gap={0} w='100%'>
                 <CardHeader className={styles.card_header}>
                     <Flex direction='column' gap='2px' display={{ base: 'none', bp95: 'flex' }}>
-                        {categoriesCard.length && (
+                        {isNumberMoreZero(categoriesCard.length) && (
                             <CardStats
                                 title={categoriesCard[0].title}
                                 icon={categoriesCard[0].icon}
@@ -105,7 +106,7 @@ export const GeneraCard = ({
                     >
                         <HighlightText text={title} query={resultSearch} />
                     </Heading>
-                    <Text as='span' className={styles.description} noOfLines={3}>
+                    <Text as='span' className={styles.description} noOfLines={3} minH='60px'>
                         {description}
                     </Text>
                     <ButtonGroup className={styles.card_footer}>

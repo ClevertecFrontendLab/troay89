@@ -7,4 +7,5 @@ export type RecipeBlogger = {
     userId: string;
     notes: Note[];
     recipes: RecipeType[];
+    myBookmarks?: RecipeType[];
 };
