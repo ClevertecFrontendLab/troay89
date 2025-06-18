@@ -1,32 +1,36 @@
-import { Button, Icon, Text } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
-import BookMark from '~/components/icons/BookMark';
+import { DeleteBookMark } from '~/components/icons/DeleteBookMark';
 import { useBookmarkHandler } from '~/hooks/useBookmarkHandler';
 
-import styles from './FavoriteButton.module.css';
+import styles from './RemoveBookmarkButton.module.css';
 
-type FavoriteButtonProps = {
+type RemoveBookmarkButtonProps = {
     id: string;
 };
 
-export const FavoriteButton = ({ id }: FavoriteButtonProps) => {
+export const RemoveBookmarkButton = ({ id }: RemoveBookmarkButtonProps) => {
     const { isLoading, isOpenError, titleError, notification, onCloseError, onClickBookmark } =
         useBookmarkHandler(id);
+
     return (
         <>
             <Button
                 className={styles.button}
-                color='blackAlpha.800'
+                px='11px'
+                variant='outline'
+                size='sm'
+                mt='10px'
+                mb='9px'
+                leftIcon={<DeleteBookMark />}
+                alignSelf='flex-end'
                 bg='white'
-                h={{ bp95: 8, base: 6 }}
-                pl={{ bp95: 2.5, base: 0 }}
-                pr={{ bp95: 3, base: 0 }}
+                borderColor='alpha.600'
                 onClick={onClickBookmark}
                 isLoading={isLoading}
             >
-                <Icon as={BookMark} boxSize={{ bp95: 4, base: 3 }} mr={{ bp95: '9px', base: 0 }} />
-                <Text display={{ bp95: 'inline', base: 'none' }}>Сохранить</Text>
+                Убрать из сохраненных
             </Button>
             {isOpenError && (
                 <ErrorModal onClose={onCloseError} title={titleError} notification={notification} />

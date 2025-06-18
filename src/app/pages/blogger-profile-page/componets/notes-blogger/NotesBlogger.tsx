@@ -1,6 +1,8 @@
-import { Button, Grid, Heading, Text, useMediaQuery, VStack } from '@chakra-ui/react';
+import { Button, Grid, Heading, HStack, Text, useMediaQuery, VStack } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useState } from 'react';
 
+import { PencilTwo } from '~/components/icons/PencilTwo';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { Note } from '~/type/author';
 import { getColSpan } from '~/utils/getColSpan';
@@ -10,9 +12,10 @@ import styles from './NotesBlogger.module.css';
 
 type NotesBloggerProps = {
     notes: Note[];
+    isMyNotes?: boolean;
 };
 
-export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
+export const NotesBlogger = ({ notes, isMyNotes }: NotesBloggerProps) => {
     const [showAll, setShowAll] = useState(false);
     const toggleShowAll = () => setShowAll((prev) => !prev);
     const [isWide] = useMediaQuery('(min-width: 761px)');
@@ -26,28 +29,40 @@ export const NotesBlogger = ({ notes }: NotesBloggerProps) => {
             id='notes'
             w='100%'
             px={{ base: 4, bp95: 6 }}
-            pt={{ base: 4, bp95: 6 }}
+            pt={{ base: 4, bp95: isMyNotes ? 4 : 6 }}
             pb={4}
             mb={{ base: 8, bp95: 10 }}
             borderRadius='16px'
             data-test-id={DATA_TEST_ID.BLOG_NOTES_BOX}
         >
-            <Heading
-                as='h2'
-                className={styles.title}
-                pb={4}
-                letterSpacing={{ base: '0.5px', bp95: '1.6px' }}
-            >
-                Заметки{' '}
-                <Text
-                    as='span'
-                    className={styles.number}
-                    color='alpha.600'
-                    data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_COUNT}
+            <HStack justify='space-between' w='100%'>
+                <Heading
+                    as='h2'
+                    className={classNames(styles.title, { [styles.my_notes]: isMyNotes })}
+                    pb={notes.length ? 4 : 0}
+                    letterSpacing={!isMyNotes ? { base: '0.5px', bp95: '1.6px' } : undefined}
                 >
-                    ({notes.length})
-                </Text>
-            </Heading>
+                    Заметки{' '}
+                    <Text
+                        as='span'
+                        className={classNames(styles.number, { [styles.my_notes]: isMyNotes })}
+                        color='alpha.600'
+                        data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_COUNT}
+                    >
+                        ({notes.length})
+                    </Text>
+                </Heading>
+                <Button
+                    size='sm'
+                    className={styles.button}
+                    leftIcon={<PencilTwo />}
+                    bg='alpha.500'
+                    variant='outline'
+                    borderColor='alpha.600'
+                >
+                    Новая заметка
+                </Button>
+            </HStack>
 
             <Grid
                 data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_GRID}

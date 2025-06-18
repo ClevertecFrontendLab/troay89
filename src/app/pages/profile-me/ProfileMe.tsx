@@ -7,6 +7,7 @@ import { PaginationMeta } from '~/type/RecipeType';
 
 import { NotesBlogger } from '../blogger-profile-page/componets/notes-blogger/NotesBlogger';
 import { InfoUser } from './components/info-user/InfoUser';
+import styles from './ProfileMe.module.css';
 
 export const ProfileMe = () => {
     const { data: user } = useGetMeQuery();
@@ -17,6 +18,8 @@ export const ProfileMe = () => {
 
     const recipesUser = dataRecipes?.recipes ?? [];
     const draftsUser = user?.drafts ?? [];
+
+    const draftCount = draftsUser.length;
 
     const [page, setPage] = useState<number>(1);
     const limit = 8;
@@ -36,21 +39,47 @@ export const ProfileMe = () => {
         setPage((prev) => prev + 1);
     };
 
+    console.log(draftsUser, 'draftsUser');
+    console.log(recipesUser, 'recipesUser');
+
     return (
-        <VStack gap={6}>
+        <VStack gap={0}>
             <InfoUser />
-            <HStack mt={{ base: '260px', bp76: '132px', bp95: '184px' }}>
-                <Text>{`Мои рецепты (${recipesUser.length})`}</Text>
-                <Text>{`Черновики (${draftsUser.length})`}</Text>
+            <HStack
+                mt={{ base: '260px', bp76: '132px', bp95: '184px' }}
+                alignSelf='flex-start'
+                gap={8}
+                mb={4}
+            >
+                <Text className={styles.stats} letterSpacing='0.2px'>
+                    Мои рецепты<Text as='span' color='alpha.600'>{` (${recipesUser.length})`}</Text>
+                </Text>
+                {draftCount && (
+                    <Text className={styles.stats} letterSpacing='0.2px'>
+                        Черновики<Text as='span' color='alpha.600'>{` (${draftCount})`}</Text>
+                    </Text>
+                )}
             </HStack>
             <FilterSortBlock
                 filterSearchRecipes={slicedRecipes}
                 page={page}
                 meta={simulatedMeta}
                 onLoadMore={handleLoadMoreFilter}
+                isMyRecipe
             />
-            <NotesBlogger notes={[]} />
-            <FilterSortBlock filterSearchRecipes={dataRecipes?.myBookmarks ?? []} page={1} />
+            <NotesBlogger notes={[]} isMyNotes={true} />
+            <Text className={styles.stats} letterSpacing='0.2px' mb={4} alignSelf='flex-start'>
+                Мои закладки
+                <Text
+                    as='span'
+                    color='alpha.600'
+                >{` (${dataRecipes?.myBookmarks?.length ?? 0})`}</Text>
+            </Text>
+            <FilterSortBlock
+                filterSearchRecipes={dataRecipes?.myBookmarks ?? []}
+                page={1}
+                isMyBookmarks={true}
+            />
         </VStack>
     );
 };

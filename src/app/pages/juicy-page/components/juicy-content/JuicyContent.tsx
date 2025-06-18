@@ -5,8 +5,8 @@ import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { LastBlock } from '~/components/last-block/LastBlock';
 import { withLoader } from '~/components/with-loader/WithLoader';
-import { Category } from '~/type/category';
-import { RecipeType, RecipeTypeResponse } from '~/type/recipeType';
+import { Category } from '~/type/Category';
+import { RecipeType, RecipeTypeResponse } from '~/type/RecipeType';
 
 import { MainBlock } from '../main-block/MainBlock';
 

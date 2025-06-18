@@ -1,13 +1,12 @@
-import { ButtonGroup, Card, CardHeader, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { Box, Card, CardHeader, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { fallback } from '~/assets/images/header';
-import { FavoriteButton } from '~/components/buttons/favorite-button/FavoriteButton';
-import { SimpleButton } from '~/components/buttons/simple-button/SimpleButton';
 import { CardStats } from '~/components/card-stats/CardStats';
 import { HighlightText } from '~/components/highlight-text/HighlightText';
 import { LabelTypeFood } from '~/components/label-type-food/LabelTypeFood';
+import { RecipeActionButton } from '~/components/recipe-action-button/RecipeActionButton';
 import { StatsForCard } from '~/components/stats-card/StatsForCard';
 import { URLS } from '~/constants/url';
 import { getArrayCategorySelector } from '~/store/selectors/arrayCategorySelector';
@@ -27,6 +26,9 @@ type GeneraCardProps = {
     like: number;
     dataTestButton: string;
     dataTest?: string;
+    isMyRecipe?: boolean;
+    isMyBookmarks?: boolean;
+    authorId?: string;
 };
 
 export const GeneraCard = ({
@@ -39,10 +41,13 @@ export const GeneraCard = ({
     like,
     dataTest,
     dataTestButton,
+    isMyRecipe,
+    isMyBookmarks,
+    authorId,
 }: GeneraCardProps) => {
     const categories = useSelector(getArrayCategorySelector);
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
-
+    const isDraft = authorId ? false : true;
     useEffect(() => {
         if (categoriesIds) {
             const subcategoryFilter = categories.filter((category) =>
@@ -95,7 +100,13 @@ export const GeneraCard = ({
                         )}
                     </Flex>
 
-                    <StatsForCard favorites={favorites} like={like} isMobile />
+                    {isMyRecipe && isDraft ? (
+                        <Box className={styles.label} bg='alpha.100'>
+                            Черновик
+                        </Box>
+                    ) : (
+                        <StatsForCard favorites={favorites} like={like} isMobile />
+                    )}
                 </CardHeader>
                 <Flex className={styles.card_body} direction='column' justify='end'>
                     <Heading
@@ -109,14 +120,15 @@ export const GeneraCard = ({
                     <Text as='span' className={styles.description} noOfLines={3} minH='60px'>
                         {description}
                     </Text>
-                    <ButtonGroup className={styles.card_footer}>
-                        <FavoriteButton id={_id} />
-                        <SimpleButton
-                            _id={_id}
-                            dataTestButton={dataTestButton}
-                            titleRecipe={title}
-                        />
-                    </ButtonGroup>
+                    <RecipeActionButton
+                        isMyRecipe={isMyRecipe}
+                        isDraft={isDraft}
+                        isMyBookmarks={isMyBookmarks}
+                        id={_id}
+                        titleRecipe={title}
+                        dataTestButton={dataTestButton}
+                        categoriesIds={categoriesIds}
+                    />
                 </Flex>
             </Stack>
             <Flex

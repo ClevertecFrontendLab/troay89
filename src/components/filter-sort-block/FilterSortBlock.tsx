@@ -14,6 +14,8 @@ type FilterSearchBlockProps = {
     meta?: PaginationMeta;
     isExtraSpace?: boolean;
     mobileGap?: number;
+    isMyRecipe?: boolean;
+    isMyBookmarks?: boolean;
 };
 
 export const FilterSortBlock = ({
@@ -23,6 +25,8 @@ export const FilterSortBlock = ({
     onLoadMore,
     isExtraSpace,
     mobileGap = 4,
+    isMyRecipe,
+    isMyBookmarks,
 }: FilterSearchBlockProps) => (
     <Flex
         width='100%'
@@ -45,7 +49,10 @@ export const FilterSortBlock = ({
             data-test-id={DATA_TEST_ID.RECIPE_CARD_LIST}
         >
             {filterSearchRecipes.map(
-                ({ _id, image, title, description, categoriesIds, bookmarks, likes }, index) => (
+                (
+                    { _id, image, title, description, categoriesIds, bookmarks, likes, authorId },
+                    index,
+                ) => (
                     <GeneraCard
                         key={_id}
                         _id={_id}
@@ -57,6 +64,9 @@ export const FilterSortBlock = ({
                         like={likes ?? 0}
                         dataTest={`${DATA_TEST_ID.FOOD_CARD}-${index}`}
                         dataTestButton={`${DATA_TEST_ID.CARD_LINK}-${index}`}
+                        isMyRecipe={isMyRecipe}
+                        authorId={authorId}
+                        isMyBookmarks={isMyBookmarks}
                     />
                 ),
             )}

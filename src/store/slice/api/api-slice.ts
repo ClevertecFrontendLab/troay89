@@ -36,6 +36,7 @@ import {
 const RECIPE = 'recipe' as const;
 const BLOGGERS = 'blogers' as const;
 const LIST = 'list' as const;
+const USER_RECIPES = 'UserRecipes' as const;
 
 export const apiSlice = createApi({
     reducerPath: 'apiSlice',
@@ -50,7 +51,7 @@ export const apiSlice = createApi({
             return headers;
         },
     }),
-    tagTypes: [RECIPE, BLOGGERS],
+    tagTypes: [RECIPE, BLOGGERS, USER_RECIPES],
     endpoints: (build) => ({
         getCategories: build.query<CategoriesResponse, void>({
             query: () => PATH.CATEGORY,
@@ -138,6 +139,7 @@ export const apiSlice = createApi({
 
         getRecipesByUser: build.query<RecipeBlogger, { id: string }>({
             query: ({ id }) => `${PATH.RECIPE}/${PATH.USER}/${id}`,
+            providesTags: (_, __, { id }) => [{ type: USER_RECIPES, id }],
         }),
 
         uploadFile: build.mutation<UploadFileResponse, UploadFileData>({
@@ -196,7 +198,10 @@ export const apiSlice = createApi({
                 url: `${PATH.RECIPE}/${id}/${PATH.BOOKMARK}`,
                 method: 'POST',
             }),
-            invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
+            invalidatesTags: (_res, _err, { id }) => [
+                { type: RECIPE, id },
+                { type: USER_RECIPES, id },
+            ],
         }),
 
         refresh: build.query<Response, void>({

@@ -39,10 +39,12 @@ div.card_body {
     padding: 0;
 }
 
-.card_container .card_footer {
-    position: relative;
-    justify-content: flex-end;
-    padding: 10px 0 9px;
+.label {
+    font: var(--font-inter-email);
+    padding: 2px 8px;
+    width: fit-content;
+    margin-left: auto;
+    border-radius: 4px;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -84,10 +86,6 @@ div.card_body {
     .image {
         width: 158px;
         height: 128px;
-    }
-
-    .card_container .card_footer {
-        padding: 0;
     }
 
     .card_container .card_body {

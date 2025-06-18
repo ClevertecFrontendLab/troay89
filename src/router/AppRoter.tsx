@@ -42,6 +42,9 @@ const paths = {
     editRecipe: {
         path: '/edit-recipe/:category/:subcategories/:id',
     },
+    editDraft: {
+        path: '/edit-draft/:id',
+    },
     newRecipe: {
         path: '/recipes/new-recipe',
     },
@@ -98,6 +101,7 @@ const recipeRoutes: RouteObject = {
         { path: paths.verification.path, element: <VerificationPage /> },
         { path: paths.newRecipe.path, element: <NewRecipePage /> },
         { path: paths.editRecipe.path, element: <NewRecipePage /> },
+        { path: paths.editDraft.path, element: <NewRecipePage /> },
         { path: paths.blogs.path, element: <BlogPage /> },
         { path: paths.blogAuthor.path, element: <BloggerProfilePage /> },
         { path: paths.profile.path, element: <ProfileMe /> },

@@ -40,7 +40,6 @@ export const CardSlider = ({
 }: CardSliderProps) => {
     const dispatch = useDispatch();
     const [categoriesCard, setCategoriesCard] = useState<Category[]>([]);
-    const categories = useSelector(getArrayCategorySelector);
     const allCategoriesSubcategories = useSelector(getArrayCategorySelector);
 
     const allCategory = allCategoriesSubcategories.filter((category) => category.subCategories);
@@ -61,14 +60,14 @@ export const CardSlider = ({
     );
 
     useEffect(() => {
-        const subcategoryFilter = categories.filter((category) =>
+        const subcategoryFilter = allCategoriesSubcategories.filter((category) =>
             categoriesIds.includes(category._id),
         );
-        const filteredCategories = categories.filter((category) =>
+        const filteredCategories = allCategoriesSubcategories.filter((category) =>
             subcategoryFilter.some((item) => item.rootCategoryId === category._id),
         );
         setCategoriesCard(filteredCategories);
-    }, [categories, categoriesIds]);
+    }, [allCategoriesSubcategories, categoriesIds]);
 
     function handleCardClick() {
         dispatch(setIndexRecipe(_id));
