@@ -12,7 +12,6 @@ export const InfoUser = () => (
         pt={4}
         pb={10}
         pos='fixed'
-        w='100%'
         zIndex={100}
         left={{ base: 0, bp144: 256 }}
         right={{ base: 0, bp144: 256 }}

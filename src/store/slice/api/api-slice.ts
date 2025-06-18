@@ -132,7 +132,7 @@ export const apiSlice = createApi({
                 result && Array.isArray(result.data)
                     ? [
                           { type: RECIPE, id: LIST },
-                          ...result.data.map((recipe) => ({ type: RECIPE, id: recipe._id })),
+                          //   ...result.data.map((recipe) => ({ type: RECIPE, id: recipe._id })),
                       ]
                     : [{ type: RECIPE, id: LIST }],
         }),
@@ -193,14 +193,14 @@ export const apiSlice = createApi({
             invalidatesTags: (_, __, { id }) => [{ type: RECIPE, id }],
         }),
 
-        bookmark: build.mutation<void, RecipeId>({
-            query: ({ id }) => ({
-                url: `${PATH.RECIPE}/${id}/${PATH.BOOKMARK}`,
+        bookmark: build.mutation<void, { recipeId: string; userId: string }>({
+            query: ({ recipeId }) => ({
+                url: `${PATH.RECIPE}/${recipeId}/${PATH.BOOKMARK}`,
                 method: 'POST',
             }),
-            invalidatesTags: (_res, _err, { id }) => [
-                { type: RECIPE, id },
-                { type: USER_RECIPES, id },
+            invalidatesTags: (_res, _err, { userId, recipeId }) => [
+                { type: RECIPE, recipeId },
+                { type: USER_RECIPES, userId },
             ],
         }),
 

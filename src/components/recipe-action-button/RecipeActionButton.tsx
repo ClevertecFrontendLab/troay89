@@ -14,6 +14,7 @@ export type RecipeActionButtonProps = {
     titleRecipe: string;
     dataTestButton: string;
     categoriesIds: string[];
+    authorId: string;
     isMyRecipe?: boolean;
     isMyBookmarks?: boolean;
 };
@@ -26,6 +27,7 @@ export const RecipeActionButton = ({
     categoriesIds,
     dataTestButton,
     titleRecipe,
+    authorId,
 }: RecipeActionButtonProps) => {
     const navigate = useNavigate();
 
@@ -66,12 +68,12 @@ export const RecipeActionButton = ({
     }
 
     if (isMyBookmarks) {
-        return <RemoveBookmarkButton id={id} />;
+        return <RemoveBookmarkButton recipeId={id} authorId={authorId} />;
     }
 
     return (
         <ButtonGroup className={styles.card_footer}>
-            <FavoriteButton id={id} />
+            <FavoriteButton recipeId={id} authorId={authorId} />
             <SimpleButton _id={id} dataTestButton={dataTestButton} titleRecipe={titleRecipe} />
         </ButtonGroup>
     );

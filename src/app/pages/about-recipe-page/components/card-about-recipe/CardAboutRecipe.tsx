@@ -104,7 +104,7 @@ export const CardAboutRecipe = ({
     const handleBookmarkRecipe = async () => {
         try {
             if (!id) return;
-            await saveRemoveBookmark({ id: id }).unwrap();
+            await saveRemoveBookmark({ recipeId: id, userId: recipeData.authorId }).unwrap();
         } catch (error) {
             if (isFetchBaseQueryError(error)) {
                 setIsOpenError(true);

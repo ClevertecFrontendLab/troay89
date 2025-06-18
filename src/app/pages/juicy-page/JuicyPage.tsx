@@ -5,7 +5,7 @@ import { useGetCountSubcategory } from '~/hooks/useGetCountSubcategory';
 import { useGetRandomDataCategory } from '~/hooks/useGetRandomDataCategory';
 import { useShouldShowFilterResults } from '~/hooks/useShouldShowFilterResults';
 import { useGetRecipesQuery } from '~/store/slice/api/api-slice';
-import { RecipeType } from '~/type/recipeType';
+import { RecipeType } from '~/type/RecipeType';
 
 import { JuicyContentWithLoader } from './components/juicy-content/JuicyContent';
 

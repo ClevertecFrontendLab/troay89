@@ -128,6 +128,7 @@ export const GeneraCard = ({
                         titleRecipe={title}
                         dataTestButton={dataTestButton}
                         categoriesIds={categoriesIds}
+                        authorId={authorId ?? ''}
                     />
                 </Flex>
             </Stack>

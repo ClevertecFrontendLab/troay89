@@ -28,12 +28,12 @@ export const MainPage = () => {
     const {
         data: juicyData,
         isError: isJuiceError,
-        isFetching: isJuiceFetching,
+        isLoading: isJuiceFetching,
     } = useGetRecipesQuery({ limit: 4, sortBy: 'likes', sortOrder: 'desc' });
     const {
         data: swiperData,
         isError: isSwiperError,
-        isFetching: isSwiperFetching,
+        isLoading: isSwiperFetching,
     } = useGetRecipesQuery({ limit: 10, sortBy: 'createdAt', sortOrder: 'desc' });
     const { randomCategory, lastBlockData, isLastBlockFetching, isErrorLastBlock } =
         useGetRandomDataCategory(randomNumber);

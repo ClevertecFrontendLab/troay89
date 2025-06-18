@@ -7,12 +7,13 @@ import { useBookmarkHandler } from '~/hooks/useBookmarkHandler';
 import styles from './FavoriteButton.module.css';
 
 type FavoriteButtonProps = {
-    id: string;
+    recipeId: string;
+    authorId: string;
 };
 
-export const FavoriteButton = ({ id }: FavoriteButtonProps) => {
+export const FavoriteButton = ({ recipeId, authorId }: FavoriteButtonProps) => {
     const { isLoading, isOpenError, titleError, notification, onCloseError, onClickBookmark } =
-        useBookmarkHandler(id);
+        useBookmarkHandler(recipeId, authorId);
     return (
         <>
             <Button

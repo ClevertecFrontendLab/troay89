@@ -5,7 +5,7 @@ import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import { useHandleError } from './useErrorHandler';
 
-export function useBookmarkHandler(id: string) {
+export function useBookmarkHandler(recipeId: string, authorId: string) {
     const [mutate, { isLoading }] = useBookmarkMutation();
     const [isOpenError, setIsOpenError] = useState(false);
     const [titleError, setTitleError] = useState('');
@@ -17,16 +17,16 @@ export function useBookmarkHandler(id: string) {
     }, []);
 
     const onClickBookmark = useCallback(async () => {
-        if (!id) return;
+        if (!recipeId) return;
         try {
-            await mutate({ id }).unwrap();
+            await mutate({ recipeId: recipeId, userId: authorId }).unwrap();
         } catch (err) {
             if (isFetchBaseQueryError(err)) {
                 setIsOpenError(true);
                 handleError(err);
             }
         }
-    }, [id, mutate, handleError]);
+    }, [recipeId, mutate, authorId, handleError]);
 
     return {
         isLoading,

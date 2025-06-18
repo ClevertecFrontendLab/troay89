@@ -7,12 +7,13 @@ import { useBookmarkHandler } from '~/hooks/useBookmarkHandler';
 import styles from './RemoveBookmarkButton.module.css';
 
 type RemoveBookmarkButtonProps = {
-    id: string;
+    recipeId: string;
+    authorId: string;
 };
 
-export const RemoveBookmarkButton = ({ id }: RemoveBookmarkButtonProps) => {
+export const RemoveBookmarkButton = ({ recipeId, authorId }: RemoveBookmarkButtonProps) => {
     const { isLoading, isOpenError, titleError, notification, onCloseError, onClickBookmark } =
-        useBookmarkHandler(id);
+        useBookmarkHandler(recipeId, authorId);
 
     return (
         <>
