@@ -9,10 +9,11 @@ import styles from './BloggerStats.module.css';
 type BloggerStatsProps = {
     bookmarksCount?: number;
     subscribersCount?: number;
+    ml?: string;
 };
 
-export const BloggerStats = ({ bookmarksCount, subscribersCount }: BloggerStatsProps) => (
-    <HStack gap={4}>
+export const BloggerStats = ({ bookmarksCount, subscribersCount, ml }: BloggerStatsProps) => (
+    <HStack gap={4} ml={ml}>
         <HStack gap={0} data-test-id={DATA_TEST_ID.BLOGGER_FOLLOWERS_BOOKMARKS}>
             <Icon as={BookMark} boxSize='12px' alignSelf='center' />{' '}
             <Text className={styles.number_stat} color='lime.600' p={1}>

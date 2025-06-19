@@ -18,4 +18,5 @@ export const PATH = {
     USER: 'user',
     TOGGLE_SUBSCRIPTION: 'toggle-subscription',
     ME: 'me',
+    NOTE: 'note',
 };

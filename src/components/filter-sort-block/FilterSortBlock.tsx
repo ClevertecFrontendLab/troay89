@@ -44,7 +44,8 @@ export const FilterSortBlock = ({
                 bp189: 'repeat(2, 1fr)',
             }}
             mb={{ base: mobileGap, bp76: 4 }}
-            gap={{ base: mobileGap, bp76: 4 }}
+            rowGap={{ base: mobileGap, bp76: 4 }}
+            columnGap={{ base: mobileGap, bp76: 4, bp144: 6 }}
             width='100%'
             data-test-id={DATA_TEST_ID.RECIPE_CARD_LIST}
         >

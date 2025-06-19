@@ -1,8 +1,11 @@
-import { HStack, Text, VStack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { HStack, Text, useDisclosure, VStack } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
+import { DrawerCreateNotes } from '~/components/drawer-notes/DrawerCreateNotes';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
 import { useGetMeQuery, useGetRecipesByUserQuery } from '~/store/slice/api/api-slice';
+import { setZIndex } from '~/store/slice/headerZIndex';
 import { PaginationMeta } from '~/type/RecipeType';
 
 import { NotesBlogger } from '../blogger-profile-page/componets/notes-blogger/NotesBlogger';
@@ -11,6 +14,8 @@ import styles from './ProfileMe.module.css';
 
 export const ProfileMe = () => {
     const { data: user } = useGetMeQuery();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const dispatch = useDispatch();
 
     const userId = user?._id;
 
@@ -39,8 +44,9 @@ export const ProfileMe = () => {
         setPage((prev) => prev + 1);
     };
 
-    console.log(draftsUser, 'draftsUser');
-    console.log(recipesUser, 'recipesUser');
+    useEffect(() => {
+        dispatch(setZIndex(isOpen));
+    }, [dispatch, isOpen]);
 
     return (
         <VStack gap={0}>
@@ -48,15 +54,15 @@ export const ProfileMe = () => {
             <HStack
                 mt={{ base: '260px', bp76: '132px', bp95: '184px' }}
                 alignSelf='flex-start'
-                gap={8}
-                mb={4}
+                gap={9}
+                mb={{ base: 3, bp95: 4 }}
             >
                 <Text className={styles.stats} letterSpacing='0.2px'>
-                    Мои рецепты<Text as='span' color='alpha.600'>{` (${recipesUser.length})`}</Text>
+                    Мои рецепты<Text as='span' color='alpha.600' fontWeight={400}>{` (15)`}</Text>
                 </Text>
                 {draftCount && (
                     <Text className={styles.stats} letterSpacing='0.2px'>
-                        Черновики<Text as='span' color='alpha.600'>{` (${draftCount})`}</Text>
+                        Черновики<Text as='span' color='alpha.600' fontWeight={400}>{` (2)`}</Text>
                     </Text>
                 )}
             </HStack>
@@ -67,12 +73,18 @@ export const ProfileMe = () => {
                 onLoadMore={handleLoadMoreFilter}
                 isMyRecipe
             />
-            <NotesBlogger notes={[]} isMyNotes={true} />
+            <NotesBlogger
+                notes={dataRecipes?.notes ?? []}
+                isMyNotes={true}
+                onOpen={onOpen}
+                userId={userId}
+            />
             <Text className={styles.stats} letterSpacing='0.2px' mb={4} alignSelf='flex-start'>
                 Мои закладки
                 <Text
                     as='span'
                     color='alpha.600'
+                    fontWeight={400}
                 >{` (${dataRecipes?.myBookmarks?.length ?? 0})`}</Text>
             </Text>
             <FilterSortBlock
@@ -80,6 +92,7 @@ export const ProfileMe = () => {
                 page={1}
                 isMyBookmarks={true}
             />
+            <DrawerCreateNotes isOpen={isOpen} onClose={onClose} userId={userId} />
         </VStack>
     );
 };

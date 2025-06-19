@@ -1,9 +1,16 @@
 h1.title {
     font: var(--font-inter-title);
-    letter-spacing: 0.9px;
+    letter-spacing: 1px;
 }
 
 p.email {
     font: var(--font-inter-email);
     color: var(--black-alpha-700);
+}
+
+@media (max-width: 950px) {
+    h1.title {
+        font: var(--font-inter-header-mobile);
+        letter-spacing: 0.25px;
+    }
 }

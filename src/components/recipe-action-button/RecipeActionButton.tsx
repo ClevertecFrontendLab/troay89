@@ -51,9 +51,9 @@ export const RecipeActionButton = ({
         return (
             <Button
                 className={styles.button}
-                mt='10px'
-                mb='9px'
-                size='sm'
+                mt={{ base: 0, bp95: '10px' }}
+                mb={{ base: 0, bp95: '9px' }}
+                size={{ base: 'xs', bp95: 'sm' }}
                 maxW='132px'
                 alignSelf='flex-end'
                 variant='outline'

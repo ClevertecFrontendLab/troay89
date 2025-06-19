@@ -12,10 +12,12 @@ import styles from './NotesBlogger.module.css';
 
 type NotesBloggerProps = {
     notes: Note[];
+    userId?: string;
     isMyNotes?: boolean;
+    onOpen?: () => void;
 };
 
-export const NotesBlogger = ({ notes, isMyNotes }: NotesBloggerProps) => {
+export const NotesBlogger = ({ notes, isMyNotes, onOpen, userId }: NotesBloggerProps) => {
     const [showAll, setShowAll] = useState(false);
     const toggleShowAll = () => setShowAll((prev) => !prev);
     const [isWide] = useMediaQuery('(min-width: 761px)');
@@ -35,11 +37,10 @@ export const NotesBlogger = ({ notes, isMyNotes }: NotesBloggerProps) => {
             borderRadius='16px'
             data-test-id={DATA_TEST_ID.BLOG_NOTES_BOX}
         >
-            <HStack justify='space-between' w='100%'>
+            <HStack justify='space-between' w='100%' pb={notes.length ? 4 : 0}>
                 <Heading
                     as='h2'
                     className={classNames(styles.title, { [styles.my_notes]: isMyNotes })}
-                    pb={notes.length ? 4 : 0}
                     letterSpacing={!isMyNotes ? { base: '0.5px', bp95: '1.6px' } : undefined}
                 >
                     Заметки{' '}
@@ -59,6 +60,7 @@ export const NotesBlogger = ({ notes, isMyNotes }: NotesBloggerProps) => {
                     bg='alpha.500'
                     variant='outline'
                     borderColor='alpha.600'
+                    onClick={onOpen}
                 >
                     Новая заметка
                 </Button>
@@ -66,6 +68,7 @@ export const NotesBlogger = ({ notes, isMyNotes }: NotesBloggerProps) => {
 
             <Grid
                 data-test-id={DATA_TEST_ID.BLOGGER_USER_NOTES_GRID}
+                w='100%'
                 templateColumns={{
                     base: 'repeat(1, 1fr)',
                     bp76: 'repeat(12, 1fr)',
@@ -80,6 +83,7 @@ export const NotesBlogger = ({ notes, isMyNotes }: NotesBloggerProps) => {
                             note={note}
                             showCard={showAll || index < showCountCard ? 'block' : 'none'}
                             gridColumn={{ bp76: `span ${colSpan.bp76}` }}
+                            userId={userId}
                         />
                     );
                 })}

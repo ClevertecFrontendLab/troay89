@@ -1,3 +1,9 @@
 p.stats {
     font: var(--font-inter-title-stat);
 }
+
+@media (max-width: 950px) {
+    p.stats {
+        font: var(--font-inter-title-stat-mobule);
+    }
+}

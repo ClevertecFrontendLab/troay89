@@ -130,10 +130,7 @@ export const apiSlice = createApi({
             },
             providesTags: (result) =>
                 result && Array.isArray(result.data)
-                    ? [
-                          { type: RECIPE, id: LIST },
-                          //   ...result.data.map((recipe) => ({ type: RECIPE, id: recipe._id })),
-                      ]
+                    ? [{ type: RECIPE, id: LIST }]
                     : [{ type: RECIPE, id: LIST }],
         }),
 
@@ -314,6 +311,21 @@ export const apiSlice = createApi({
                 url: `${PATH.USERS}/${PATH.ME}`,
             }),
         }),
+        createNote: build.mutation<void, { text: string; userId: string }>({
+            query: (data) => ({
+                url: `${PATH.USERS}/${PATH.ME}/${PATH.NOTE}`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: (_res, _err, { userId }) => [{ type: USER_RECIPES, userId }],
+        }),
+        deleteNote: build.mutation<void, { noteId: string; userId: string }>({
+            query: ({ noteId }) => ({
+                url: `${PATH.USERS}/${PATH.ME}/${PATH.NOTE}/${noteId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: (_res, _err, { userId }) => [{ type: USER_RECIPES, userId }],
+        }),
     }),
 });
 
@@ -347,4 +359,6 @@ export const {
     useToggleSubscriptionMutation,
     useGetRecipesByUserQuery,
     useGetMeQuery,
+    useCreateNoteMutation,
+    useDeleteNoteMutation,
 } = apiSlice;

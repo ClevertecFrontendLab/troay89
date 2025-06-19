@@ -31,4 +31,12 @@ h2.title {
     .number {
         font: var(--font-inter-title-table-author);
     }
+
+    .title.my_notes {
+        font: var(--font-inter-title-stat-mobule);
+    }
+
+    .number.my_notes {
+        font: var(--font-inter-search);
+    }
 }

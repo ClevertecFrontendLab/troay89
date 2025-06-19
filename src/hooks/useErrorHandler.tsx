@@ -13,6 +13,7 @@ export type AuthErrorContext =
     | 'new-recipe'
     | 'delete-recipe'
     | 'like-bookmark'
+    | 'create-new-notes'
     | 'draft';
 
 export const useHandleError =
@@ -89,6 +90,10 @@ export const useHandleError =
                     case 'like-bookmark':
                         setTitle(ERROR_MESSAGE.ERROR_SERVER);
                         setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION);
+                        break;
+                    case 'create-new-notes':
+                        setTitle(ERROR_MESSAGE.ERROR_SERVER);
+                        setNotification(ERROR_MESSAGE.ERROR_SERVER_NOTIFICATION_FIVE);
                         break;
                     default:
                         setTitle(ERROR_MESSAGE.ERROR_SERVER);
