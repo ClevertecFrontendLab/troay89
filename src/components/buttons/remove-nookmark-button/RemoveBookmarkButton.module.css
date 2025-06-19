@@ -1,3 +1,9 @@
 button.button {
     font: var(--font-inter-button-second);
 }
+
+@media (max-width: 950px) {
+    button.button {
+        font: var(--font-inter-small);
+    }
+}

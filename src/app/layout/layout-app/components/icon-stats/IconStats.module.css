@@ -18,6 +18,7 @@ div.container_user_stats {
 
 @media (max-width: 1439px) {
     .container_user_stats.stats_header {
+        align-items: center;
         flex-direction: row;
         margin: 0;
         gap: 15px;

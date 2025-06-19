@@ -30,7 +30,7 @@ export const FilterSortBlock = ({
 }: FilterSearchBlockProps) => (
     <Flex
         width='100%'
-        mb={{ bp95: 10, base: 8 }}
+        mb={{ bp95: 10, base: isMyBookmarks ? 0 : 8 }}
         flexDir='column'
         alignItems='center'
         mt={isExtraSpace ? { base: '260px', bp76: '132px', bp95: '184px' } : undefined}

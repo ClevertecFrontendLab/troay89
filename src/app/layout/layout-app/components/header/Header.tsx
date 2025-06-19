@@ -36,7 +36,7 @@ export const Header = () => {
             zIndex={zIndex}
         >
             <Box className={styles.header_container}>
-                <Flex as={Link} to='/' data-test-id={DATA_TEST_ID.HEADER_LOGO}>
+                <Flex as={Link} to='/' data-test-id={DATA_TEST_ID.HEADER_LOGO} align='center'>
                     <Icon as={FirstPart} boxSize={8} />
                     <Icon className={styles.second_part} as={SecondPart} />
                 </Flex>

@@ -1,4 +1,5 @@
 import { Box, Card, CardHeader, Flex, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -101,7 +102,13 @@ export const GeneraCard = ({
                     </Flex>
 
                     {isMyRecipe && isDraft ? (
-                        <Box className={styles.label} bg='alpha.100'>
+                        <Box
+                            className={styles.label}
+                            bg='alpha.100'
+                            pos='absolute'
+                            top={{ base: '8px', bp95: '19px' }}
+                            right={{ base: '8px', bp95: '23px' }}
+                        >
                             Черновик
                         </Box>
                     ) : (
@@ -110,7 +117,7 @@ export const GeneraCard = ({
                 </CardHeader>
                 <Flex className={styles.card_body} direction='column' justify='end'>
                     <Heading
-                        className={styles.subtitle}
+                        className={classNames(styles.subtitle, { [styles.draft]: isDraft })}
                         title={title}
                         as='h3'
                         noOfLines={{ base: 2, bp95: 1 }}

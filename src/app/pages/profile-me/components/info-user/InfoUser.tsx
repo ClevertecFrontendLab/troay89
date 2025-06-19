@@ -17,7 +17,7 @@ export const InfoUser = () => (
         right={{ base: 0, bp144: 256 }}
         bg='white'
     >
-        <Avatar size={{ base: 'xl', bp95: '2xl' }} ml={6} />
+        <Avatar size={{ base: 'xl', bp95: '2xl' }} ml={{ base: 5, bp95: 6 }} />
         <VStack alignItems='flex-start' gap={3}>
             <Heading className={styles.title} as='h1' my={0}>
                 Екатерина Константинопольская
@@ -42,7 +42,7 @@ export const InfoUser = () => (
             top={4}
             right={0}
         >
-            <Icon as={Gear} boxSize={6} mr='20px' />
+            <Icon as={Gear} boxSize={6} mr={{ base: '82px', bp95: '20px' }} />
         </Flex>
     </HStack>
 );

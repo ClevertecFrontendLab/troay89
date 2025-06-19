@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/react';
+import { Button, useBreakpointValue } from '@chakra-ui/react';
 
 import { ErrorModal } from '~/components/alert/alert-failed/AlertFailed';
 import { DeleteBookMark } from '~/components/icons/DeleteBookMark';
@@ -14,22 +14,24 @@ type RemoveBookmarkButtonProps = {
 export const RemoveBookmarkButton = ({ recipeId, authorId }: RemoveBookmarkButtonProps) => {
     const { isLoading, isOpenError, titleError, notification, onCloseError, onClickBookmark } =
         useBookmarkHandler(recipeId, authorId);
+    const showIcon = useBreakpointValue({ base: false, bp95: true });
 
     return (
         <>
             <Button
                 className={styles.button}
-                px='11px'
+                px={{ base: '2px', bp95: '11px' }}
                 variant='outline'
-                size='sm'
-                mt='10px'
-                mb='9px'
-                leftIcon={<DeleteBookMark />}
+                mt={{ base: 0, bp95: '10px' }}
+                mb={{ base: 0, bp95: '9px' }}
+                size={{ base: 'xs', bp95: 'sm' }}
+                leftIcon={showIcon ? <DeleteBookMark /> : undefined}
                 alignSelf='flex-end'
                 bg='white'
                 borderColor='alpha.600'
                 onClick={onClickBookmark}
                 isLoading={isLoading}
+                w={{ base: '158px', bp95: '212px' }}
             >
                 Убрать из сохраненных
             </Button>

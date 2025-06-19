@@ -79,6 +79,10 @@ div.card_body {
         min-height: 52px;
     }
 
+    .subtitle.draft {
+        padding-block: 20px 0;
+    }
+
     .card_body .description {
         display: none;
     }

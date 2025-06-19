@@ -54,7 +54,7 @@ export const ProfileMe = () => {
             <HStack
                 mt={{ base: '260px', bp76: '132px', bp95: '184px' }}
                 alignSelf='flex-start'
-                gap={9}
+                gap={{ base: 4, bp95: 9 }}
                 mb={{ base: 3, bp95: 4 }}
             >
                 <Text className={styles.stats} letterSpacing='0.2px'>
