@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { DrawerCreateNotes } from '~/components/drawer-notes/DrawerCreateNotes';
 import FilterSortBlock from '~/components/filter-sort-block/FilterSortBlock';
+import { Overlay } from '~/components/overlay/Overlay';
 import { useGetMeQuery, useGetRecipesByUserQuery } from '~/store/slice/api/api-slice';
 import { setZIndex } from '~/store/slice/headerZIndex';
 import { PaginationMeta } from '~/type/RecipeType';
@@ -13,17 +14,19 @@ import { InfoUser } from './components/info-user/InfoUser';
 import styles from './ProfileMe.module.css';
 
 export const ProfileMe = () => {
-    const { data: user } = useGetMeQuery();
+    const { data: user, isFetching: isLoadingUser } = useGetMeQuery();
+    const userId = user?._id;
+    const { data: dataRecipes, isFetching: isLoadingRecipe } = useGetRecipesByUserQuery(
+        { id: userId ?? '' },
+        { skip: !userId },
+    );
     const { isOpen, onOpen, onClose } = useDisclosure();
     const dispatch = useDispatch();
 
-    const userId = user?._id;
-
-    const { data: dataRecipes } = useGetRecipesByUserQuery({ id: userId ?? '' }, { skip: !userId });
+    const isPending = isLoadingUser || isLoadingRecipe;
 
     const recipesUser = dataRecipes?.recipes ?? [];
     const draftsUser = user?.drafts ?? [];
-
     const draftCount = draftsUser.length;
 
     const [page, setPage] = useState<number>(1);
@@ -49,10 +52,16 @@ export const ProfileMe = () => {
     }, [dispatch, isOpen]);
 
     return (
-        <VStack gap={0}>
-            <InfoUser />
+        <VStack gap={0} px={{ base: 4, bp76: 0 }}>
+            <InfoUser
+                firstName={user?.firstName ?? ''}
+                secondName={user?.lastName ?? ''}
+                email={user?.email ?? ''}
+                totalBookmarks={dataRecipes?.totalBookmarks ?? 0}
+                totalSubscribers={dataRecipes?.totalSubscribers ?? 0}
+            />
             <HStack
-                mt={{ base: '260px', bp76: '132px', bp95: '184px' }}
+                mt={{ base: '292', bp76: '132px', bp95: '184px' }}
                 alignSelf='flex-start'
                 gap={{ base: 4, bp95: 9 }}
                 mb={{ base: 3, bp95: 4 }}
@@ -72,6 +81,7 @@ export const ProfileMe = () => {
                 meta={simulatedMeta}
                 onLoadMore={handleLoadMoreFilter}
                 isMyRecipe
+                mobileGap={3}
             />
             <NotesBlogger
                 notes={dataRecipes?.notes ?? []}
@@ -93,6 +103,7 @@ export const ProfileMe = () => {
                 isMyBookmarks={true}
             />
             <DrawerCreateNotes isOpen={isOpen} onClose={onClose} userId={userId} />
+            {isPending && <Overlay />}
         </VStack>
     );
 };

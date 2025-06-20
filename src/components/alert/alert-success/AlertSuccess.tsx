@@ -37,7 +37,7 @@ export const AlertSuccess = ({
             minH={12}
             data-test-id={DATA_TEST_ID.ERROR_NOTIFICATION}
             left={left}
-            transform={transform}
+            transform={`translateX(${transform})`}
             zIndex={200}
         >
             <AlertIcon boxSize={6} />

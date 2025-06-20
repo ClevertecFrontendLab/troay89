@@ -37,6 +37,16 @@ export function getBreadcrumbs(
             { title: BREADCRUMBS.BLOG_TITLE, link: BREADCRUMBS.BLOG_PATH },
             { title: username ?? 'Блогер' },
         ];
+    } else if (pathname.startsWith('/edit-draft')) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: titleRecipe ?? '' },
+        ];
+    } else if (pathname.startsWith('/profile')) {
+        breadcrumbs = [
+            { title: BREADCRUMBS.HOME_PAGE_TITLE, link: BREADCRUMBS.HOME_PAGE_PATH },
+            { title: BREADCRUMBS.MY_PROFILE },
+        ];
     } else if (pathname.startsWith(BREADCRUMBS.THE_JUICIEST_PATH + '/')) {
         const pathParts = pathname.split('/').filter(Boolean);
 

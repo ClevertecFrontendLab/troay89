@@ -32,6 +32,7 @@ export const RemoveBookmarkButton = ({ recipeId, authorId }: RemoveBookmarkButto
                 onClick={onClickBookmark}
                 isLoading={isLoading}
                 w={{ base: '158px', bp95: '212px' }}
+                ml={{ base: '-4px', bp95: 0 }}
             >
                 Убрать из сохраненных
             </Button>

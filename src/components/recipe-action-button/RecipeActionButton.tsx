@@ -1,7 +1,9 @@
 import { Button, ButtonGroup } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { useBuildLinkRecipe } from '~/hooks/useBuildLinkRecipe';
+import { setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
 import { FavoriteButton } from '../buttons/favorite-button/FavoriteButton';
 import { RemoveBookmarkButton } from '../buttons/remove-nookmark-button/RemoveBookmarkButton';
@@ -30,13 +32,14 @@ export const RecipeActionButton = ({
     authorId,
 }: RecipeActionButtonProps) => {
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
     const { currentSubcategory, currentCategory } = useBuildLinkRecipe(categoriesIds);
     const linkEditRecipe = `/edit-recipe/${currentCategory?.category}/${currentSubcategory?.category}/${id}`;
     const linkDraftRecipe = `/edit-draft/${id}`;
     const link = isDraft ? linkDraftRecipe : linkEditRecipe;
 
     const handleEditRecipe = () => {
+        dispatch(setNameRecipe(titleRecipe));
         if (isDraft) {
             navigate(link, {
                 state: {

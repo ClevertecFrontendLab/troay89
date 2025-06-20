@@ -20,6 +20,7 @@ import { useCreateNoteMutation } from '~/store/slice/api/api-slice';
 import { isFetchBaseQueryError } from '~/utils/isFetchBaseQueryError';
 
 import { ErrorModal } from '../alert/alert-failed/AlertFailed';
+import { AlertSuccess } from '../alert/alert-success/AlertSuccess';
 import CloseDrawer from '../icons/CloseDrawer';
 import { Overlay } from '../overlay/Overlay';
 import styles from './DrawerCreateNotes.module.css';
@@ -44,6 +45,7 @@ const schema = yup.object({
 export const DrawerCreateNotes = ({ isOpen, onClose, userId }: DrawerCreateNotesProps) => {
     const [createNote, { isLoading }] = useCreateNoteMutation();
     const [isOpenError, setIsOpenError] = useState(false);
+    const [isOpenSuccecc, setIsOpenSuccecc] = useState(false);
     const [title, setTitle] = useState('');
     const [notification, setNotification] = useState('');
     const handleError = useHandleError(setTitle, setNotification, 'create-new-notes');
@@ -61,9 +63,10 @@ export const DrawerCreateNotes = ({ isOpen, onClose, userId }: DrawerCreateNotes
 
     const onSubmit = handleSubmit(async ({ text }) => {
         if (!userId) return;
-
         try {
             await createNote({ text, userId }).unwrap();
+            setIsOpenSuccecc(true);
+            console.log('I am here');
             reset();
             onClose();
         } catch (err) {
@@ -75,56 +78,75 @@ export const DrawerCreateNotes = ({ isOpen, onClose, userId }: DrawerCreateNotes
     });
 
     return (
-        <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
-            <DrawerOverlay />
-            <DrawerContent maxW={{ base: '344px', bp95: '463px' }} h='100vh' p='36px'>
-                <DrawerHeader
-                    p={0}
-                    mb={8}
-                    display='flex'
-                    justifyContent='space-between'
-                    alignItems='center'
+        <>
+            <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
+                <DrawerOverlay bg='alpha.300' backdropFilter=' blur(4px)' />
+                <DrawerContent
+                    maxW={{ base: '344px', bp95: '463px' }}
+                    h='100vh'
+                    py={{ base: '16px', bp95: '32px' }}
                 >
-                    <Heading as='h2' className={styles.drawer_header}>
-                        Новая заметка
-                    </Heading>
-                    <Icon
-                        as={CloseDrawer}
-                        onClick={onClose}
-                        boxSize={6}
-                        mr={{ base: 3, bp95: 0 }}
-                    />
-                </DrawerHeader>
-                <DrawerBody
-                    as='form'
-                    display='flex'
-                    flexDirection='column'
-                    justifyContent='space-between'
-                    onSubmit={onSubmit}
-                    p={0}
-                >
-                    <FormControl isInvalid={!!errors.text}>
-                        <Textarea
-                            placeholder='максимально 160 символов'
-                            minH='96px'
-                            {...register('text')}
-                            errorBorderColor='red.500'
-                        />
-                    </FormControl>
-                    <Button
-                        className={styles.button}
-                        size='lg'
-                        bg='alpha.900'
-                        color='white'
-                        maxW='177px'
-                        ml='auto'
-                        type='submit'
+                    <DrawerHeader
+                        p={0}
+                        mb={{ base: 8, bp95: 10 }}
+                        display='flex'
+                        justifyContent='space-between'
+                        alignItems='center'
+                        px={{ base: '16px', bp95: '32px' }}
                     >
-                        Опубликовать
-                    </Button>
-                </DrawerBody>
-            </DrawerContent>
+                        <Heading as='h2' className={styles.drawer_header} letterSpacing='0.25px'>
+                            Новая заметка
+                        </Heading>
+                        <Icon
+                            as={CloseDrawer}
+                            onClick={onClose}
+                            boxSize={6}
+                            mr={{ base: 3, bp95: 0 }}
+                        />
+                    </DrawerHeader>
+                    <DrawerBody
+                        as='form'
+                        display='flex'
+                        flexDirection='column'
+                        justifyContent='space-between'
+                        mr={{ base: '20px', bp95: '32px' }}
+                        ml={{ base: '16px', bp95: '32px' }}
+                        onSubmit={onSubmit}
+                        p={0}
+                    >
+                        <FormControl isInvalid={!!errors.text}>
+                            <Textarea
+                                className={styles.text_area}
+                                px='11px'
+                                py='7px'
+                                placeholder='максимально 160 символов'
+                                minH={{ base: '116px', bp95: '96px' }}
+                                {...register('text')}
+                                errorBorderColor='red.500'
+                            />
+                        </FormControl>
+                        <Button
+                            className={styles.button}
+                            size={{ base: 'sm', bp95: 'lg' }}
+                            bg='alpha.900'
+                            color='white'
+                            maxW='177px'
+                            ml='auto'
+                            type='submit'
+                        >
+                            Опубликовать
+                        </Button>
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer>
             {isLoading && <Overlay />}
+            {isOpenSuccecc && (
+                <AlertSuccess
+                    message='Заметка опубликована'
+                    onClose={() => setIsOpenSuccecc(false)}
+                    position='fixed'
+                />
+            )}
             {isOpenError && (
                 <ErrorModal
                     onClose={() => setIsOpenError(false)}
@@ -132,6 +154,6 @@ export const DrawerCreateNotes = ({ isOpen, onClose, userId }: DrawerCreateNotes
                     notification={notification}
                 />
             )}
-        </Drawer>
+        </>
     );
 };

@@ -14,6 +14,8 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
 
 import { fallback } from '~/assets/images/header';
 import { FileLoadModal } from '~/components/modal/file-load/FileLoadModal';
@@ -21,6 +23,8 @@ import { MultiSelect } from '~/components/multi-select/MultiSelect';
 import { DATA_TEST_ID } from '~/constants/dataTestId';
 import { URLS } from '~/constants/url';
 import { usePathCategoryData } from '~/hooks/usePathCategoryData';
+import { nameRecipeSelector } from '~/store/selectors/indexCategoriesSubcategoriesSliceSelector';
+import { setNameRecipe } from '~/store/slice/indexCategoriesSubcategoriesSlice';
 
 import styles from './RecipeInfo.module.css';
 
@@ -36,6 +40,10 @@ export const RecipeInfo = () => {
     const handleShowFileLoad = () => setIsShowModule(true);
     const [loaderImageUrl, setLoaderImageUrl] = useState('');
     const { keysPathCategory } = usePathCategoryData();
+    const { pathname } = useLocation();
+    const dispatch = useDispatch();
+    const recipeName = useSelector(nameRecipeSelector);
+    const currentTitle: string | undefined = watch('title');
 
     const allSubcategories = keysPathCategory?.flatMap(
         (category) => category.subCategories?.map(({ title }) => title) || [],
@@ -47,6 +55,16 @@ export const RecipeInfo = () => {
             setLoaderImageUrl(imageValue);
         }
     }, [imageValue]);
+
+    useEffect(() => {
+        if (
+            !recipeName &&
+            currentTitle &&
+            (pathname.startsWith('/edit-recipe') || pathname.startsWith('/edit-draft'))
+        ) {
+            dispatch(setNameRecipe(currentTitle));
+        }
+    });
 
     const handleImageLoaded = (url: string) => {
         setLoaderImageUrl(url);

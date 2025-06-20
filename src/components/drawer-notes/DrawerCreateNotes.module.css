@@ -5,3 +5,13 @@ h2.drawer_header {
 button.button {
     font: var(--font-inter-button);
 }
+
+.text_area {
+    font: var(--font-inter-email);
+}
+
+@media (max-width: 950px) {
+    button.button {
+        font: var(--font-inter-button-second);
+    }
+}

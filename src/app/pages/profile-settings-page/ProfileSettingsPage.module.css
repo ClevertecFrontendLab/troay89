@@ -1,0 +1,19 @@
+h1.title {
+    font: var(--font-inter-title-stat);
+}
+
+label.label {
+    font: var(--font-inter-bread);
+}
+
+.button {
+    font: var(--font-inter-button);
+}
+
+div.hint {
+    font: var(--font-inter-title-table);
+}
+
+.input {
+    font: var(--font-inter-search);
+}

@@ -9,4 +9,5 @@ export const BREADCRUMBS = {
     NEW_RECIPE_TITLE: 'Новый рецепт',
     BLOG_PATH: '/blogs',
     BLOG_TITLE: 'Блоги',
+    MY_PROFILE: 'Мой профиль',
 };
